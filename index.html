@@ -264,6 +264,339 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/12/数据结构和排序算法/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Cao Shuyue">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Alpaca's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/12/数据结构和排序算法/" itemprop="url">数据结构和排序算法</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-01-12T11:15:02+08:00">
+                2019-01-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/数据结构/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="基本排序算法"><a href="#基本排序算法" class="headerlink" title="基本排序算法"></a>基本排序算法</h1><h2 id="插入排序："><a href="#插入排序：" class="headerlink" title="插入排序："></a>插入排序：</h2><ul>
+<li>直接插入排序</li>
+<li>折半插入排序（二分法插入）</li>
+<li>希尔排序：不稳定</li>
+</ul>
+<h3 id="直接插入排序"><a href="#直接插入排序" class="headerlink" title="直接插入排序"></a>直接插入排序</h3><p><strong>稳定，算法复杂度：O(n²)</strong></p>
+<pre><code>public void insertionSort(int[] a) {
+    for (int i = 1; i &lt; a.length; i++) {
+        int temp = a[i];
+        int j = i - 1;
+        while (j &gt;= 0 &amp;&amp; a[j] &gt; temp) {
+            a[j + 1] = a[j];
+            j--;
+        }
+        a[j + 1] = temp;
+    }
+}
+</code></pre><h3 id="折半插入排序（此处描述的是二分法查找算法）"><a href="#折半插入排序（此处描述的是二分法查找算法）" class="headerlink" title="折半插入排序（此处描述的是二分法查找算法）"></a>折半插入排序（此处描述的是二分法查找算法）</h3><p><strong>稳定，查找算法复杂度：O(logN)；排序算法复杂度：O(NlogN)</strong></p>
+<p><strong>要求：1.存储在数组中（链表中不适合） 2.有序排列</strong></p>
+<p>在算法中属于<code>分治算法</code></p>
+<pre><code> //递归实现
+ public int binarySearchRecursion(int[] array, int low, int high, int target) {
+    if (low &gt; high)
+        return -1;
+    int mid = (low + high) / 2;
+    if (target &lt; array[mid])
+        return binarySearchRecursion(array, low, mid - 1, target);
+    if (target &gt; array[mid])
+        return binarySearchRecursion(array, mid + 1, high, target);
+    return array[mid];
+}
+
+//非递归实现
+public int binarySearch(int[] array, int low, int high, int target) {
+    while (low &lt;= high) {
+        int mid = (low + high) / 2;
+        if (target &lt; array[mid])
+            high = mid - 1;
+        else if (target &gt; array[mid])
+            low = mid + 1;
+        else
+            return mid;
+    }
+    return -1;
+}
+</code></pre><h2 id="交换排序："><a href="#交换排序：" class="headerlink" title="交换排序："></a>交换排序：</h2><ul>
+<li>冒泡排序</li>
+<li>快速排序(不稳定)</li>
+</ul>
+<h3 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h3><p><strong>稳定，算法复杂度：O(n²)；最好情况下O(n)</strong></p>
+<pre><code>public void bubbleSort(int[] a) {
+    for (int i = 0; i &lt; a.length; i++) {
+        for (int j = 1; j &lt; a.length - i; j++) {
+            if (a[j] &lt; a[j - 1]) {
+                int temp = a[j];
+                a[j] = a[j - 1];
+                a[j - 1] = temp;
+            }
+        }
+    }
+}
+//算法还可以改进，从两头向中间逼近，可以加快速度
+</code></pre><h3 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h3><p><strong>不稳定，算法复杂度：O(NlogN)</strong></p>
+<p>在所有同数量级的排序方法中，平均性能最好</p>
+<pre><code>//递归实现
+public void quickSortRecursion(int[] arr, int low, int high) {
+    if (low &lt; high) {
+        int pivot = partition(arr, low, high);
+        partition(arr, low, pivot - 1);
+        partition(arr, pivot + 1, high);
+    }
+}
+
+
+private int partition(int[] arr, int low, int high) {
+    int pivot = arr[low];
+    while (low &lt; high) {
+        while (low &lt; high &amp;&amp; arr[high] &gt; pivot) high--;
+        arr[low] = arr[high];
+        while (low &lt; high &amp;&amp; arr[low] &lt; pivot) low++;
+        arr[high] = arr[low];
+
+    }
+    arr[low] = pivot;
+    return low;
+}
+
+//非递归实现
+public void quickSort(int[] arr, int low, int high) {
+    Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();
+    if (low &lt; high) {
+        stack.push(high);
+        stack.push(low);
+        while (!stack.empty()) {
+            int l = stack.pop();
+            int r = stack.pop();
+            int pivot = partition(arr, l, r);
+            if (l &lt; pivot - 1) {
+                stack.push(pivot - 1);
+                stack.push(l);
+            }
+            if (r &gt; pivot + 1) {
+                stack.push(r);
+                stack.push(pivot + 1);
+            }
+        }
+    }
+}
+</code></pre><h2 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h2><ul>
+<li>直接选择排序：不稳定<ul>
+<li>直接选择最小(最大)的记录与第一个记录交换位置，再对余下的n-1个进行同样操作</li>
+<li>算法复杂度：O(n²)</li>
+<li>存在重复做比较的情况</li>
+</ul>
+</li>
+<li>锦标赛排序（树形）：稳定<ul>
+<li>N个关键码两两比较，得到 n/2 个比较的优胜者(关键码小者)保留下来, 再对这 n/2个对象再进行关键码的两两比较, ……直至选出一个最小的关键码为止。</li>
+<li>算法复杂度：O(NlogN)</li>
+</ul>
+</li>
+<li>堆排序：不稳定<ul>
+<li>算法复杂度：O(NlogN)</li>
+</ul>
+</li>
+</ul>
+<h2 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h2><p><strong>稳定，算法复杂度：O(NlogN)</strong></p>
+<p>在算法中属于<code>分治算法</code></p>
+<pre><code>//递归
+public void MergeSort(int[] arr, int left, int right) {
+    int mid = (left + right) / 2;
+    if (left &lt; right){
+        MergeSort(arr, left, mid);
+        MergeSort(arr, mid + 1, right);
+        merge(arr, left, mid, right);
+    }
+}
+
+
+//merge函数实际上是将两个有序数组合并成一个有序数组
+//因为数组有序，合并很简单，只要维护几个指针就可以了
+private void merge(int[] arr, int left, int mid, int right) {
+    //temp数组用于暂存合并的结果
+    int[] temp = new int[right - left + 1];
+    //左半边的指针
+    int head1 = left;
+    //右半边的指针
+    int head2 = mid+1;
+    //合并后数组的指针
+    int index = 0;
+
+    //将记录由小到大地放进temp数组
+    for(; head1 &lt;= mid &amp;&amp; head2 &lt;= right; index++) {
+        if(arr[head1] &lt; arr[head2])
+            temp[index] = arr[head1++];
+        else
+            temp[index] = arr[head2++];
+    }
+
+    //接下来两个while循环是为了将剩余的（比另一边多出来的个数）放到temp数组中
+    while(head1 &lt;= mid)
+        temp[index++] = arr[head1++];
+
+    while(head2 &lt;= right)
+        temp[index++] = arr[head2++];
+
+    //将temp数组中的元素写入到待排数组中
+    for(int i = 0; i &lt; temp.length; i++)
+        arr[left + i] = temp[i];
+}
+
+//非递归
+private void MergeSort(int[] arr) {
+    int len = arr.length;
+    int step = 1; //每一个区间的长度，1,2,4,8...
+    while (step &lt;= len) {
+        int offset = 2 * step;
+        for (int i = 0; i &lt; len; i += offset)
+            merge(arr, i, Math.min(i + step - 1, len - 1), Math.min(i + offset - 1, len - 1));
+        step = offset;
+    }
+}
+</code></pre>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/24/算法整理/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -787,7 +1120,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -798,7 +1131,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
@@ -846,7 +1179,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
