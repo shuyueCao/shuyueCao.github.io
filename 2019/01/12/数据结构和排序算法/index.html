@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Alpaca&#39;s Blog">
 <meta property="og:description" content="基本排序算法插入排序 直接插入排序 折半插入排序（二分法插入） 希尔排序：不稳定  直接插入排序稳定，算法复杂度：O(n²) public void insertionSort(int[] a) {     for (int i = 1; i &amp;lt; a.length; i++) {         int temp = a[i];         int j = i - 1;">
 <meta property="og:locale" content="Java">
-<meta property="og:updated_time" content="2019-01-13T08:10:38.207Z">
+<meta property="og:updated_time" content="2019-01-19T02:20:08.514Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据结构和排序算法">
 <meta name="twitter:description" content="基本排序算法插入排序 直接插入排序 折半插入排序（二分法插入） 希尔排序：不稳定  直接插入排序稳定，算法复杂度：O(n²) public void insertionSort(int[] a) {     for (int i = 1; i &amp;lt; a.length; i++) {         int temp = a[i];         int j = i - 1;">
@@ -490,7 +490,48 @@ public void quickSort(int[] arr, int low, int high) {
 </ul>
 </li>
 </ul>
-<h2 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h2><p><strong>稳定，算法复杂度：O(NlogN)</strong></p>
+<h3 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h3><pre><code>//堆排序
+public void heapsort(int[] arr) {
+    for (int i = arr.length / 2; i &gt;= 0; i--)
+        adjustHeap(arr, i, arr.length);
+    for (int i = arr.length - 1; i &gt; 0; i--) {
+        swap(arr, 0, i);
+        adjustHeap(arr, 0, i);
+    }
+}
+
+/** 构建最大堆的过程
+ * @param arr 数组
+ * @param i   需要构建堆的根节点的序号
+ * @param n   数组长度
+ ** /
+public void adjustHeap(int[] arr, int i, int n) {
+    int father;
+    int child;
+    for (father = arr[i]; leftChild(i) &lt; n; i = child) {
+        child = leftChild(i);
+        // 如果左子树小于右子树，则需要比较右子树和父节点
+        if (child != n - 1 &amp;&amp; arr[child] &lt; arr[child + 1])
+            child++;//序号+1，指向右子树
+        // 如果父节点小于孩子结点，则需要交换
+        if (father &lt; arr[child]) {
+            arr[i] = arr[child];
+        } else
+            break;//是最大堆，无需破坏
+    }
+    arr[i] = father;
+}
+
+private int leftChild(int i) {
+    return 2 * i + 1;
+}
+
+private void swap(int[] arr, int index1, int index2) {
+    int tmp = arr[index1];
+    arr[index1] = arr[index2];
+    arr[index2] = tmp;
+}  
+</code></pre><h2 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h2><p><strong>稳定，算法复杂度：O(NlogN)</strong></p>
 <p>在算法中属于<code>分治算法</code></p>
 <pre><code>//递归
 public void MergeSort(int[] arr, int left, int right) {
@@ -546,7 +587,10 @@ private void MergeSort(int[] arr) {
         step = offset;
     }
 }
-</code></pre>
+</code></pre><h2 id="基数排序"><a href="#基数排序" class="headerlink" title="基数排序"></a>基数排序</h2><ul>
+<li>桶排序：稳定</li>
+</ul>
+
       
     </div>
     
@@ -585,6 +629,10 @@ private void MergeSort(int[] arr) {
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/01/19/JVM整理/" rel="prev" title="JVM整理">
+                JVM整理 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -716,7 +764,7 @@ private void MergeSort(int[] arr) {
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基本排序算法"><span class="nav-number">1.</span> <span class="nav-text">基本排序算法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#插入排序"><span class="nav-number">1.1.</span> <span class="nav-text">插入排序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#直接插入排序"><span class="nav-number">1.1.1.</span> <span class="nav-text">直接插入排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#折半插入排序（此处描述的是二分法查找算法）"><span class="nav-number">1.1.2.</span> <span class="nav-text">折半插入排序（此处描述的是二分法查找算法）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#交换排序"><span class="nav-number">1.2.</span> <span class="nav-text">交换排序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#冒泡排序"><span class="nav-number">1.2.1.</span> <span class="nav-text">冒泡排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#快速排序"><span class="nav-number">1.2.2.</span> <span class="nav-text">快速排序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#选择排序"><span class="nav-number">1.3.</span> <span class="nav-text">选择排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#归并排序"><span class="nav-number">1.4.</span> <span class="nav-text">归并排序</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基本排序算法"><span class="nav-number">1.</span> <span class="nav-text">基本排序算法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#插入排序"><span class="nav-number">1.1.</span> <span class="nav-text">插入排序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#直接插入排序"><span class="nav-number">1.1.1.</span> <span class="nav-text">直接插入排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#折半插入排序（此处描述的是二分法查找算法）"><span class="nav-number">1.1.2.</span> <span class="nav-text">折半插入排序（此处描述的是二分法查找算法）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#交换排序"><span class="nav-number">1.2.</span> <span class="nav-text">交换排序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#冒泡排序"><span class="nav-number">1.2.1.</span> <span class="nav-text">冒泡排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#快速排序"><span class="nav-number">1.2.2.</span> <span class="nav-text">快速排序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#选择排序"><span class="nav-number">1.3.</span> <span class="nav-text">选择排序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#堆排序"><span class="nav-number">1.3.1.</span> <span class="nav-text">堆排序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#归并排序"><span class="nav-number">1.4.</span> <span class="nav-text">归并排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基数排序"><span class="nav-number">1.5.</span> <span class="nav-text">基数排序</span></a></li></ol></li></ol></div>
             
 
           </div>

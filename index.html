@@ -264,6 +264,305 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/19/JVM整理/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Cao Shuyue">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Alpaca's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/19/JVM整理/" itemprop="url">JVM整理</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-01-19T10:41:03+08:00">
+                2019-01-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="JVM运行内存的分类"><a href="#JVM运行内存的分类" class="headerlink" title="JVM运行内存的分类"></a>JVM运行内存的分类</h3><ul>
+<li><strong>程序计数器</strong><ul>
+<li>线程私有</li>
+<li>当前线程所执行的字节码的行号指示器，用于记录正在执行的虚拟机字节指令地址</li>
+<li>如果正在执行的是native方法，则为空</li>
+</ul>
+</li>
+<li><strong>虚拟机栈</strong><ul>
+<li>线程私有</li>
+<li>每个方法被执行的时候都会同时创建一个<strong>栈帧</strong>用于存放<strong>局部变量表、操作栈、动态链接、方法出口</strong>等信息。每一个方法被调用直至执行完成的过程就对应着一个栈帧在虚拟机栈中从入栈到出栈的过程</li>
+<li>生命周期与线程相同</li>
+<li>为java方法服务</li>
+</ul>
+</li>
+<li><strong>native方法栈</strong><ul>
+<li>与java虚拟机栈相似</li>
+<li>区别：为native方法服务</li>
+</ul>
+</li>
+<li><strong>java堆</strong><ul>
+<li>线程共享</li>
+<li>JVM所管理的内存中最大的一块，在虚拟机启动时创建</li>
+<li>唯一目的：<strong>存放对象实例、数组</strong></li>
+<li>GC回收的主要区域</li>
+</ul>
+</li>
+<li><strong>方法区</strong><ul>
+<li>线程共享</li>
+<li>存储<strong>已被虚拟机加载的类信息、常量、静态变量、即时编译器编译后的代码等数据</strong></li>
+<li>回收目标：主要是常量池的回收和类型的卸载</li>
+</ul>
+</li>
+</ul>
+<h3 id="Java四大引用"><a href="#Java四大引用" class="headerlink" title="Java四大引用"></a>Java四大引用</h3><ul>
+<li><strong>强引用</strong><ul>
+<li>如果一个对象具有强引用，那垃圾回收器绝不会回收它。当内存空间不足，Java虚拟机宁愿抛出OutOfMemoryError错误，使程序异常终止，也不会靠随意回收具有强引用的对象来解决内存不足的问题</li>
+<li>例子：Object obj = new Object();<ul>
+<li>这里obj 就是引用，new Object() 对象实例存储在堆内存，obj引用的是对象实例的<strong>内存地址</strong>。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>软引用</strong><ul>
+<li>可以和一个<strong>引用队列（ReferenceQueue)</strong> 联合使用，如果软引用所引用的对象被垃圾回收器回收，Java虚拟机就会把这个软引用加入到与之关联的引用队列中</li>
+<li>用来描述可用但不是必须存活的对象；在内存溢出之前，虚拟机尝试对这些对象进行回收。如果回收之后内存还是不够才会出现内存溢出情况。</li>
+</ul>
+</li>
+<li><strong>弱引用</strong><ul>
+<li>与软引用的区别：只具有弱引用的对象拥有更短暂的生命周期</li>
+<li>被弱引用关联的对象只能生存到下一次垃圾回收发生之前。</li>
+<li>只要垃圾回收机制在工作，无论内存是否足够，都会回收掉这部分对象。</li>
+</ul>
+</li>
+<li><strong>虚引用</strong><ul>
+<li>虚引用在任何时候都可能被垃圾回收器回收。一个对象是否被虚引用关联，完全不对其生存周期构成影响。</li>
+<li><strong>主要用来跟踪对象被垃圾回收器回收的活动，被回收时会收到一个系统通知。</strong></li>
+<li><strong>必须</strong> 和引用队列 （ReferenceQueue）联合使用。</li>
+<li>当垃圾回收器准备回收一个对象时，如果发现它还有虚引用，就会在回收对象的内存之前，把这个虚引用加入到与之关联的引用队列中。</li>
+<li>不能通过一个虚引用获取到一个对象实例</li>
+</ul>
+</li>
+</ul>
+<h2 id="GC回收机制"><a href="#GC回收机制" class="headerlink" title="GC回收机制"></a>GC回收机制</h2><p>Java中对象是采用new或者反射的方法创建的，这些对象的创建都是在堆（Heap）中分配的，所有对象的回收都是由Java虚拟机通过垃圾回收机制完成的。</p>
+<p>GC为了能够正确释放对象，会监控每个对象的运行状况，对他们的申请、引用、被引用、赋值等状况进行监控。</p>
+<p>程序员不用担心内存管理，GC会自动进行管理。</p>
+<h3 id="GC标记对象的方法"><a href="#GC标记对象的方法" class="headerlink" title="GC标记对象的方法"></a>GC标记对象的方法</h3><ol>
+<li><strong>引用计数法</strong><ul>
+<li>给对象添加一个引用计数器,没当被引用的时候,计数器的值就加一。引用失效的时候减一,当计数器的值为 0 的时候就表示该对象可以被 GC 回收了，</li>
+<li><strong>弊端：</strong> A-&gt;B,B-&gt;A,那么 AB 将永远不会被回收了。也就是<strong>引用有环</strong>的情况</li>
+</ul>
+</li>
+<li><strong>根搜索算法(可达性算法) GC Roots Tracing</strong><ul>
+<li>通过一个叫 GC Roots 的对象作为起点,从这些结点开始向下搜索,搜索所走过的路径称为<strong>引用链</strong>,当一个对象没有与任何的引用链相连的时候则该对象就可以被回收。</li>
+<li>根搜索算法中不可达的对象并非“非死不可”,真正宣告一个对象死亡需要<strong>两次</strong>标记过程。</li>
+<li>finalize()方法只会被调用一次</li>
+<li><strong>GC回收的Roots包括：</strong><ul>
+<li>java虚拟机栈中引用的对象<ul>
+<li>eg: 方法里面定义这种局部变量 User user= new User();</li>
+</ul>
+</li>
+<li>native方法栈中引用的对象</li>
+<li>方法区中常量引用的对象<ul>
+<li>eg: private static final  User user = new User();</li>
+</ul>
+</li>
+<li>方法区中静态属性引用的对象<ul>
+<li>eg: private static User user = new User();</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="回收算法"><a href="#回收算法" class="headerlink" title="回收算法"></a>回收算法</h3><ol>
+<li><strong>标记-清除</strong><ul>
+<li>缺点：产生内存碎片</li>
+</ul>
+</li>
+<li><strong>复制算法</strong><ul>
+<li>按照容量划分二个大小相等的内存区域，当一块用完的时候将活着的对象复制到另一块上，然后再把已使用的内存空间一次清理掉</li>
+<li>缺点：内存缩小为原来的一半</li>
+</ul>
+</li>
+<li><strong>标记-整理</strong><ul>
+<li>标记出没有用的对象，让所有存活的对象都向一端移动，然后直接清除掉端边界以外的内存</li>
+<li>优点：解决了清除算法的内存碎片问题和复制算法的效率低下问题</li>
+</ul>
+</li>
+<li><strong>分代收集算法</strong><ul>
+<li>根据对象存活周期的不同将内存划分为几块，一般是新生代和老年代。</li>
+<li>新生代采用复制算法，老年代采用标记-整理算法</li>
+</ul>
+</li>
+</ol>
+<h3 id="Minor-GC-amp-Full-GC"><a href="#Minor-GC-amp-Full-GC" class="headerlink" title="Minor GC &amp; Full GC"></a>Minor GC &amp; Full GC</h3><ul>
+<li>Minor GC通常发生在新生代的Eden区，在这个区的对象生存期短，往往发生GC的频率较高，回收速度比较快，一般采用复制回收算法</li>
+<li>Full GC/Major GC 发生在老年代，一般情况下，触发老年代GC的时候不会触发Minor GC，所采用的是标记-清除算法/标记-整理算法</li>
+</ul>
+<h3 id="内存分配与回收策略"><a href="#内存分配与回收策略" class="headerlink" title="内存分配与回收策略"></a>内存分配与回收策略</h3><ul>
+<li><strong>结构</strong>（堆大小 = 新生代 + 老年代）<ul>
+<li>新生代(1/3)(初始对象，生命周期短)：Eden 区、survivior 0、survivior 1（8 : 1 : 1）</li>
+<li>老年代(2/3)(长时间存在的对象)</li>
+</ul>
+</li>
+<li>一般小型的对象都会在 Eden 区上分配，如果Eden区无法分配，那么尝试把活着的对象放到survivor0中去（Minor GC）<ul>
+<li>如果survivor0可以放入，那么放入之后清除Eden区</li>
+<li>如果survivor0不可以放入，那么尝试把Eden和survivor0的存活对象放到survivor1中<ul>
+<li>如果survivor1可以放入，那么放入survivor1之后清除Eden和survivor0，之后再把survivor1中的对象复制到survivor0中，保持survivor1一直为空。</li>
+<li>如果survivor1不可以放入，那么直接把它们放入到老年代中，并清除Eden和survivor0，这个过程也称为<strong>分配担保（Full GC）</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>大对象、长期存活的对象则直接进入老年代</li>
+<li>动态对象年龄判定</li>
+</ul>
+<h3 id="GC垃圾收集器"><a href="#GC垃圾收集器" class="headerlink" title="GC垃圾收集器"></a>GC垃圾收集器</h3><ul>
+<li>Serial New收集器：单线程，针对新生代的收集器，采用的是复制算法</li>
+<li>Parallel New（并行）收集器：多线程，新生代采用复制算法，老年代采用标记整理</li>
+<li>Parallel Scavenge（并行）收集器：多线程，针对新生代，采用复制算法</li>
+<li>Serial Old（串行）收集器：单线程，新生代采用复制，老年代采用标记整理</li>
+<li>Parallel Old（并行）收集器：多线程，针对老年代，标记整理</li>
+<li>CMS收集器：基于标记-清除</li>
+<li>G1收集器(JDK)：整体上是基于标记整理，局部采用复制</li>
+<li>综上：新生代基本采用复制算法，老年代采用标记整理算法。cms采用标记清理</li>
+</ul>
+<h2 id="Java类加载机制"><a href="#Java类加载机制" class="headerlink" title="Java类加载机制"></a>Java类加载机制</h2><p>  虚拟机把描述类的数据文件（字节码）加载到内存，并对数据进行验证、准备、解析以及类初始化，最终形成可以被虚拟机直接使用的java类型</p>
+<h3 id="类的生命周期"><a href="#类的生命周期" class="headerlink" title="类的生命周期"></a>类的生命周期</h3><ol>
+<li><strong>加载过程</strong><ul>
+<li>通过一个类的全限定名来获取其定义的二进制字节流。</li>
+<li>将这个字节流所代表的静态存储结构转化为方法区的运行时数据结构。</li>
+<li>在Java堆中生成一个代表这个类的java.lang.Class对象，作为对方法区中这些数据的访问入口。</li>
+</ul>
+</li>
+<li><strong>验证过程</strong><ul>
+<li>确保Class文件的字节流中包含的信息符合当前虚拟机的要求</li>
+</ul>
+</li>
+<li><strong>准备过程</strong><ul>
+<li>正式为类属性分配内存并设置类属性初始值的阶段，这些内存都将在<strong>方法区中</strong>进行分配</li>
+</ul>
+</li>
+<li><strong>解析阶段</strong><ul>
+<li>虚拟机将常量池内的符号引用替换为直接引用的过程</li>
+</ul>
+</li>
+<li><strong>初始化阶段</strong><ul>
+<li>类初始化阶段是类加载过程的最后一步。初始化阶段就是执行类构造器方法的过程</li>
+</ul>
+</li>
+<li><strong>使用阶段</strong></li>
+<li><strong>卸载阶段</strong></li>
+</ol>
+<h3 id="Java类加载器"><a href="#Java类加载器" class="headerlink" title="Java类加载器"></a>Java类加载器</h3><ul>
+<li>负责加载所有的类，同一个类(一个类用其全限定类名(包名加类名)标志)只会被加载一次</li>
+<li><strong>Bootstrap ClassLoader:</strong> 根类加载器，负责加载java的核心类，它不是java.lang.ClassLoader的子类，而是由JVM自身实现</li>
+<li><strong>Extension ClassLoader:</strong> 扩展类加载器，扩展类加载器的加载路径是JDK目录下jre/lib/ext,实际上扩展类加载器的父类加载器是根加载器，只是根加载器并不是Java实现的</li>
+<li><strong>System ClassLoader:系统(应用)类加载器：</strong> 它负责在JVM启动时加载来自java命令的-classpath选项、java.class.path系统属性或CLASSPATH环境变量所指定的jar包和类路径。</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/12/数据结构和排序算法/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -493,7 +792,48 @@ public void quickSort(int[] arr, int low, int high) {
 </ul>
 </li>
 </ul>
-<h2 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h2><p><strong>稳定，算法复杂度：O(NlogN)</strong></p>
+<h3 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h3><pre><code>//堆排序
+public void heapsort(int[] arr) {
+    for (int i = arr.length / 2; i &gt;= 0; i--)
+        adjustHeap(arr, i, arr.length);
+    for (int i = arr.length - 1; i &gt; 0; i--) {
+        swap(arr, 0, i);
+        adjustHeap(arr, 0, i);
+    }
+}
+
+/** 构建最大堆的过程
+ * @param arr 数组
+ * @param i   需要构建堆的根节点的序号
+ * @param n   数组长度
+ ** /
+public void adjustHeap(int[] arr, int i, int n) {
+    int father;
+    int child;
+    for (father = arr[i]; leftChild(i) &lt; n; i = child) {
+        child = leftChild(i);
+        // 如果左子树小于右子树，则需要比较右子树和父节点
+        if (child != n - 1 &amp;&amp; arr[child] &lt; arr[child + 1])
+            child++;//序号+1，指向右子树
+        // 如果父节点小于孩子结点，则需要交换
+        if (father &lt; arr[child]) {
+            arr[i] = arr[child];
+        } else
+            break;//是最大堆，无需破坏
+    }
+    arr[i] = father;
+}
+
+private int leftChild(int i) {
+    return 2 * i + 1;
+}
+
+private void swap(int[] arr, int index1, int index2) {
+    int tmp = arr[index1];
+    arr[index1] = arr[index2];
+    arr[index2] = tmp;
+}  
+</code></pre><h2 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h2><p><strong>稳定，算法复杂度：O(NlogN)</strong></p>
 <p>在算法中属于<code>分治算法</code></p>
 <pre><code>//递归
 public void MergeSort(int[] arr, int left, int right) {
@@ -549,7 +889,10 @@ private void MergeSort(int[] arr) {
         step = offset;
     }
 }
-</code></pre>
+</code></pre><h2 id="基数排序"><a href="#基数排序" class="headerlink" title="基数排序"></a>基数排序</h2><ul>
+<li>桶排序：稳定</li>
+</ul>
+
           
         
       
@@ -897,148 +1240,6 @@ private void MergeSort(int[] arr) {
             <h1 id="微服务架构"><a href="#微服务架构" class="headerlink" title="微服务架构"></a>微服务架构</h1><p><a href="http://dockone.io/article/3687" target="_blank" rel="noopener">http://dockone.io/article/3687</a></p>
 <p><a href="https://www.kancloud.cn/good-rain/micro-services/248952" target="_blank" rel="noopener">https://www.kancloud.cn/good-rain/micro-services/248952</a></p>
 <h2 id="API网关比较"><a href="#API网关比较" class="headerlink" title="API网关比较"></a>API网关比较</h2><h4 id="NGINX-vs-ZUUL-vs-Spring-Cloud-Gateway-vs-Linkerd"><a href="#NGINX-vs-ZUUL-vs-Spring-Cloud-Gateway-vs-Linkerd" class="headerlink" title="NGINX vs. ZUUL vs. Spring Cloud Gateway vs. Linkerd"></a>NGINX vs. ZUUL vs. Spring Cloud Gateway vs. Linkerd</h4><p><a href="https://juejin.im/entry/5ad408de6fb9a028cc61af94" target="_blank" rel="noopener">https://juejin.im/entry/5ad408de6fb9a028cc61af94</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/18/微软算法100题/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Cao Shuyue">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Alpaca's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/18/微软算法100题/" itemprop="url">微软算法100题</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-18T14:33:36+08:00">
-                2018-12-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="前40题"><a href="#前40题" class="headerlink" title="前40题"></a>前40题</h3><p><a href="https://bbs.csdn.net/topics/350118968" target="_blank" rel="noopener">https://bbs.csdn.net/topics/350118968</a></p>
 
           
         
