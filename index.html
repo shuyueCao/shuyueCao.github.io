@@ -735,8 +735,8 @@ public int binarySearch(int[] array, int low, int high, int target) {
 public void quickSortRecursion(int[] arr, int low, int high) {
     if (low &lt; high) {
         int pivot = partition(arr, low, high);
-        partition(arr, low, pivot - 1);
-        partition(arr, pivot + 1, high);
+        quickSortRecursion(arr, low, pivot - 1);
+        quickSortRecursion(arr, pivot + 1, high);
     }
 }
 
