@@ -264,6 +264,265 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/23/网络/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Cao Shuyue">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Alpaca's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/02/23/网络/" itemprop="url">网络</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-23T11:54:52+08:00">
+                2019-02-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="HTTP-HTTPS"><a href="#HTTP-HTTPS" class="headerlink" title="HTTP/HTTPS"></a>HTTP/HTTPS</h3><p><strong>1. 两者区别？</strong></p>
+<ol>
+<li>HTTP是不安全的，HTTPS是安全的</li>
+<li>OSI模型中，HTTP在应用层，HTTPS的安全传输机制在传输层</li>
+<li>HTTP无法加密，HTTPS对传输的数据进行加密</li>
+<li>HTTP不用证书，而HTTPS需要CA机构颁发的SSL证书</li>
+</ol>
+<p>HTTPS就是HTTP加上加密处理（一般是SSL安全通信线路）+认证+消息完整性保护</p>
+<p><strong>2. HTTPS工作原理</strong></p>
+<p><em>双向认证 SSL 协议的具体通讯过程，服务器和用户双方必须都有证书</em></p>
+<ol>
+<li>客户端发起HTTPS请求，服务器返回自己的证书、对称加密算法种类等信息</li>
+<li>客户端判断服务器的CA证书是否由信任的CA中心签发，是则验证证书中的信息，不是则询问是否继续访问</li>
+<li>客户端发送客户端证书，服务器进行相同的身份认证</li>
+<li>服务器选择一种加密方案，使用<strong>客户端公钥</strong>加密后通知客户端</li>
+<li>客户端通过<strong>私钥</strong>解密后得知服务器选择的加密方案，选择一个<strong>通话秘钥key</strong>，用<strong>服务器公钥</strong>加密后发给服务器</li>
+<li>服务器收到后用<strong>私钥</strong>解密，获得通话秘钥key</li>
+<li>接下来的数据传输都用该<strong>对称秘钥key</strong>进行加密</li>
+</ol>
+<p><em>通过非对称秘钥机制保证双方身份认证，完成建立连接，在实际数据通信中通过对称秘钥机制保障数据安全性</em></p>
+<p><strong>3. GET与POST方法的区别？</strong></p>
+<ol>
+<li>GET重点在从服务器获取资源，POST重点在向服务器发送数据</li>
+<li>get传输数据是通过URL请求，以field（字段）= value的形式，置于URL后，并用”?”连接，多个请求数据间用”&amp;”连接，如<a href="http://127.0.0.1/Test/login.action?name=admin&amp;password=admin" target="_blank" rel="noopener">http://127.0.0.1/Test/login.action?name=admin&amp;password=admin</a> 这个过程用户是可见的；<br>post传输数据通过Http的post机制，将字段与对应值封存在请求实体中发送给服务器，这个过程对用户是不可见的；</li>
+<li>POST比GET更安全</li>
+</ol>
+<h3 id="TCP-UDP（传输层）"><a href="#TCP-UDP（传输层）" class="headerlink" title="TCP / UDP（传输层）"></a>TCP / UDP（传输层）</h3><p><strong>1. TCP三次握手过程</strong></p>
+<ol>
+<li>主机A发送SYN包(同步序列号)到服务器 <em>(SYN_SENT)</em>，等待B确认</li>
+<li>B收到后确认A的SYN <em>(SYN_RCVD)</em>，同时自己也发送一个SYN+ACK包 <em>(ESTABLISHED)</em></li>
+<li>A收到SYN+ACK包后，向B发送ACK包 <em>(ESTABLISHED)</em>。完成三次握手，开始传输数据</li>
+<li>三次握手特点：没有应用层的数据</li>
+</ol>
+<p><strong>2. TCP关闭：四次握手</strong></p>
+<ol>
+<li>A将FIN控制位置为1 <em>(FIN_WAIT_1)</em>，提出停止TCP的请求 <em>(CLOSE_WAIT)</em></li>
+<li>B收到后对其作出响应，将ACK置为1 <em>(FIN_WAIT_2)</em></li>
+<li>B将FIN置为1 <em>(LAST_ACK)</em>，提出反方向的关闭请求</li>
+<li>A对B的请求进行确认 <em>(TIME_WAIT)</em>，将ACK置为1  <em>(CLOSED)</em></li>
+</ol>
+<p><strong><code>TIME_WAIT 状态是在服务端发送FIN，客户回复ACK后,为什么需要2MSL时间(报文最大生存时间)？</code></strong></p>
+<ul>
+<li>为了保证最后一个ACK因丢失，而等待重发的时间</li>
+<li>保证残留网络报不会被新连接接收而产生数据错乱。保证所有残留的网络报在自己关闭前都已经超时</li>
+</ul>
+<hr>
+<p><strong>3. TCP头部</strong></p>
+<ol>
+<li>16位 源端口</li>
+<li>16位 目标端口</li>
+<li>32位 序列号</li>
+<li>32位 确认号</li>
+<li>4位 头部长度：指示何处数据开始</li>
+<li>16位 窗口大小</li>
+<li>16位 校验和</li>
+<li>16位 紧急指针</li>
+</ol>
+<p><strong>4. TCP如何保证可靠性传输</strong></p>
+<ol>
+<li>将数据截成合理长度</li>
+<li>超时重发</li>
+<li>推迟验证(对于收到的请求会给出确认响应，响应前会进行完整校验)<ul>
+<li>如果收到的检验和有差错，TCP将丢弃这个报文，并且不确认收到此报文段。然后发送数据端会超时重发</li>
+</ul>
+</li>
+<li>对失序数据进行重排序</li>
+<li>丢弃重复数据</li>
+<li>流量控制<ul>
+<li>TCP连接的每一方都有固定大小的缓冲空间。TCP的接收端只允许另一端发送接收端缓冲区所能接纳的数据。</li>
+</ul>
+</li>
+</ol>
+<p><strong>5.TCP粘包问题</strong></p>
+<ol>
+<li>粘包问题：发送方发送的若干包数据到接收方接收时粘成一包，从缓冲区来看，后一包的头紧接着前一包数据的尾<ul>
+<li>可能发生的场景：需要在连接后一段时间内发送不同结构数据</li>
+<li>出现原因<ul>
+<li>发送端需要等缓冲区满才发送出去，造成粘包</li>
+<li>接收方不及时接收缓冲区的包，造成多个包接收</li>
+</ul>
+</li>
+<li><strong>不是所有的粘包现象都需要处理，若传输的数据为不带结构的连续流数据（如文件传输），则不必把粘连的包分开（简称分包）。</strong></li>
+</ul>
+</li>
+<li>解决措施：<ul>
+<li>对于发送方引起的粘包：编程设置，使用TCP强制数据立即传送的指令（但是关闭了优化算法）</li>
+<li>对于接收方引起的粘包：优化程序设计，提高接收进程优先级等（但是无法完全避免粘包现象）</li>
+<li>由接收方控制，将一包数据按结构字段，人为控制分多次接收然后合并（效率极低）</li>
+</ul>
+</li>
+<li><strong>nagle算法</strong><ul>
+<li>为了尽可能发送大块数据,避免网络中充斥着许多小数据块。</li>
+<li>将多次间隔较小、数据量小的数据，合并成一个大的数据块，然后进行封包</li>
+</ul>
+</li>
+</ol>
+<p><strong>6. TCP流量控制/拥塞控制</strong></p>
+<ul>
+<li>流量控制：滑动窗口<ul>
+<li>让发送方的发送速率不要太快，要让接收方来得及接收</li>
+</ul>
+</li>
+<li>拥塞控制<ul>
+<li>拥塞：对资源的需求超过了可用资源</li>
+<li>慢开始：由小到大逐渐增大拥塞窗口数值(发送方的发送窗口=拥塞窗口)</li>
+<li>拥塞避免算法：比慢开始算法的拥塞窗口增长速率缓慢<ul>
+<li>一旦出现拥塞，将窗口大小立即置为1，执行慢开始算法</li>
+</ul>
+</li>
+<li>快重传和快恢复<ul>
+<li>接收方每收到一个失序的报文段后就立即发出重复确认</li>
+<li>发送方只要一连收到三个重复确认就应当立即重传对方尚未收到的报文段，而不必等重传计时器到期</li>
+<li>当发送方连续收到三个重复确认，就执行“乘法减小”算法，把慢开始门限减半，把拥塞窗口设置为慢开始门限减半后的数值，并执行拥塞避免算法</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>7. TCP和UDP区别</strong></p>
+<ol>
+<li>面向连接与无连接</li>
+<li>对系统资源的要求(TCP较多，UDP少)</li>
+<li>面向字节流和面向报文</li>
+<li>TCP提供流量控制/拥塞控制，UDP无拥塞控制</li>
+<li>TCP仅支持一对一</li>
+<li>TCP保证数据正确性，UDP可能丢包，TCP保证数据顺序，UDP不保证</li>
+</ol>
+<p><code>UDP适应于对实时要求较高、不允许有较大时延的情况，如航空信息应用。</code></p>
+<h3 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h3><p><strong>1. 从输入URL到页面加载发生了什么？</strong></p>
+<ol>
+<li>DNS解析：<ul>
+<li>浏览器缓存 → 系统缓存 → 路由器缓存 → ISP DNS缓存 → 递归搜索( . -&gt; .com -&gt; google.com. -&gt; <a href="http://www.google.com.。" target="_blank" rel="noopener">www.google.com.。</a>)</li>
+</ul>
+</li>
+<li>TCP连接</li>
+<li>发送http请求，服务器返回一个重定向地址</li>
+<li>浏览器跟踪重定向地址</li>
+<li>服务器处理http请求并返回http报文</li>
+<li>浏览器解析、渲染页面</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/19/JVM整理/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1321,7 +1580,7 @@ private void MergeSort(int[] arr) {
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
