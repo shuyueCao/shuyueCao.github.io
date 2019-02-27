@@ -264,6 +264,164 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/27/操作系统/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Cao Shuyue">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Alpaca's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/02/27/操作系统/" itemprop="url">操作系统</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-27T10:51:12+08:00">
+                2019-02-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="进程-线程"><a href="#进程-线程" class="headerlink" title="进程/线程"></a>进程/线程</h3><p><strong>1. 进程线程区别与联系</strong></p>
+<ul>
+<li>区别：<ul>
+<li>进程是资源分配的最小单位；线程是CPU调度的最小单位</li>
+<li>进程切换消耗资源更大</li>
+<li>线程的划分尺度小于进程，导致多线程并发性更高</li>
+<li>线程拥有自己独立的栈和栈指针等信息</li>
+</ul>
+</li>
+<li>联系：<ul>
+<li>一个程序至少有一个进程，一个进程至少有一个线程</li>
+<li>进程在执行过程中拥有独立的内存单元，而多个线程共享所在进程的内存</li>
+</ul>
+</li>
+</ul>
+<p><strong>2. 进程间通信方式</strong></p>
+<ul>
+<li>管道：半双工，是数据只能单向流动<ul>
+<li>无名管道：只能在具有亲缘关系的进程间使用，一般指父子</li>
+<li>有名管道：允许无亲缘关系进程间的通信。</li>
+<li>缓冲区有限</li>
+<li>只能承载无格式字节流</li>
+</ul>
+</li>
+<li>信号量</li>
+<li>消息队列<ul>
+<li>可以实现任意进程间的通信，通过<em>系统调用函数</em> 来实现消息发送和接收之间的同步，无需考虑同步问题，方便</li>
+<li>信息的复制需要额外消耗CPU的时间，不适宜于信息量大或操作频繁的场合</li>
+</ul>
+</li>
+<li>共享内存</li>
+<li>套接字：可用于不同机器间的进程通信，用socket实现</li>
+</ul>
+<p><strong>3. 线程间通信方式</strong></p>
+<ul>
+<li>锁</li>
+<li>信号量semaphore</li>
+<li>信号signal</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/23/网络/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -335,7 +493,7 @@
       
         
           
-            <h3 id="HTTP-HTTPS"><a href="#HTTP-HTTPS" class="headerlink" title="HTTP/HTTPS"></a>HTTP/HTTPS</h3><p><strong>1. 两者区别？</strong></p>
+            <h3 id="HTTP-无状态的协议-HTTPS"><a href="#HTTP-无状态的协议-HTTPS" class="headerlink" title="HTTP(无状态的协议)/HTTPS"></a>HTTP(无状态的协议)/HTTPS</h3><p><strong>1. 两者区别？</strong></p>
 <ol>
 <li>HTTP是不安全的，HTTPS是安全的</li>
 <li>OSI模型中，HTTP在应用层，HTTPS的安全传输机制在传输层</li>
@@ -371,8 +529,8 @@
 <p><strong>2. TCP关闭：四次握手</strong></p>
 <ol>
 <li>A将FIN控制位置为1 <em>(FIN_WAIT_1)</em>，提出停止TCP的请求 <em>(CLOSE_WAIT)</em></li>
-<li>B收到后对其作出响应，将ACK置为1 <em>(FIN_WAIT_2)</em></li>
-<li>B将FIN置为1 <em>(LAST_ACK)</em>，提出反方向的关闭请求</li>
+<li>B收到后对其作出响应，将ACK置为1</li>
+<li>B将FIN置为1 <em>(FIN_WAIT_2)</em>，提出反方向的关闭请求  <em>(LAST_ACK)</em></li>
 <li>A对B的请求进行确认 <em>(TIME_WAIT)</em>，将ACK置为1  <em>(CLOSED)</em></li>
 </ol>
 <p><strong><code>TIME_WAIT 状态是在服务端发送FIN，客户回复ACK后,为什么需要2MSL时间(报文最大生存时间)？</code></strong></p>
@@ -475,6 +633,13 @@
 <li>服务器处理http请求并返回http报文</li>
 <li>浏览器解析、渲染页面</li>
 </ol>
+<h3 id="Session-Cookie"><a href="#Session-Cookie" class="headerlink" title="Session / Cookie"></a>Session / Cookie</h3><ul>
+<li>Session是在服务端保存的一个数据结构，用来跟踪用户的状态，这个数据可以保存在集群、数据库、文件中</li>
+<li>Cookie是客户端保存用户信息的一种机制，用来记录用户的一些信息，也是实现Session的一种方式<ul>
+<li>常见应用场景：自动登录</li>
+</ul>
+</li>
+</ul>
 
           
         
@@ -1580,7 +1745,7 @@ private void MergeSort(int[] arr) {
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

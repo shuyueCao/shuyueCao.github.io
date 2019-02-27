@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="面试,">
 
 
 
@@ -79,16 +79,18 @@
 
 
 
-<meta name="description" content="用来记录一些知识~">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Alpaca&#39;s Blog">
-<meta property="og:url" content="http://yoursite.com/categories/算法/index.html">
+<meta name="description" content="进程/线程1. 进程线程区别与联系  区别： 进程是资源分配的最小单位；线程是CPU调度的最小单位 进程切换消耗资源更大 线程的划分尺度小于进程，导致多线程并发性更高 线程拥有自己独立的栈和栈指针等信息   联系： 一个程序至少有一个进程，一个进程至少有一个线程 进程在执行过程中拥有独立的内存单元，而多个线程共享所在进程的内存    2. 进程间通信方式  管道：半双工，是数据只能单向流动 无名管">
+<meta name="keywords" content="面试">
+<meta property="og:type" content="article">
+<meta property="og:title" content="操作系统">
+<meta property="og:url" content="http://yoursite.com/2019/02/27/操作系统/index.html">
 <meta property="og:site_name" content="Alpaca&#39;s Blog">
-<meta property="og:description" content="用来记录一些知识~">
+<meta property="og:description" content="进程/线程1. 进程线程区别与联系  区别： 进程是资源分配的最小单位；线程是CPU调度的最小单位 进程切换消耗资源更大 线程的划分尺度小于进程，导致多线程并发性更高 线程拥有自己独立的栈和栈指针等信息   联系： 一个程序至少有一个进程，一个进程至少有一个线程 进程在执行过程中拥有独立的内存单元，而多个线程共享所在进程的内存    2. 进程间通信方式  管道：半双工，是数据只能单向流动 无名管">
 <meta property="og:locale" content="Java">
+<meta property="og:updated_time" content="2019-02-27T05:33:32.846Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Alpaca&#39;s Blog">
-<meta name="twitter:description" content="用来记录一些知识~">
+<meta name="twitter:title" content="操作系统">
+<meta name="twitter:description" content="进程/线程1. 进程线程区别与联系  区别： 进程是资源分配的最小单位；线程是CPU调度的最小单位 进程切换消耗资源更大 线程的划分尺度小于进程，导致多线程并发性更高 线程拥有自己独立的栈和栈指针等信息   联系： 一个程序至少有一个进程，一个进程至少有一个线程 进程在执行过程中拥有独立的内存单元，而多个线程共享所在进程的内存    2. 进程间通信方式  管道：半双工，是数据只能单向流动 无名管">
 
 
 
@@ -118,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/categories/算法/">
+  <link rel="canonical" href="http://yoursite.com/2019/02/27/操作系统/">
 
 
 
 
 
-  <title>Category: 算法 | Alpaca's Blog</title>
+  <title>操作系统 | Alpaca's Blog</title>
   
 
 
@@ -143,7 +145,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
@@ -249,79 +251,185 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block category">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>算法<small>Category</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/27/操作系统/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Cao Shuyue">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Alpaca's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2019/01/12/数据结构和排序算法/" itemprop="url">
-              
-                <span itemprop="name">数据结构和排序算法</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">操作系统</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-01-12T11:15:02+08:00" content="2019-01-12">
-          01-12
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-27T10:51:12+08:00">
+                2019-02-27
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
+      
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/12/24/算法整理/" itemprop="url">
-              
-                <span itemprop="name">算法整理</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-12-24T14:15:04+08:00" content="2018-12-24">
-          12-24
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+      
+        <h3 id="进程-线程"><a href="#进程-线程" class="headerlink" title="进程/线程"></a>进程/线程</h3><p><strong>1. 进程线程区别与联系</strong></p>
+<ul>
+<li>区别：<ul>
+<li>进程是资源分配的最小单位；线程是CPU调度的最小单位</li>
+<li>进程切换消耗资源更大</li>
+<li>线程的划分尺度小于进程，导致多线程并发性更高</li>
+<li>线程拥有自己独立的栈和栈指针等信息</li>
+</ul>
+</li>
+<li>联系：<ul>
+<li>一个程序至少有一个进程，一个进程至少有一个线程</li>
+<li>进程在执行过程中拥有独立的内存单元，而多个线程共享所在进程的内存</li>
+</ul>
+</li>
+</ul>
+<p><strong>2. 进程间通信方式</strong></p>
+<ul>
+<li>管道：半双工，是数据只能单向流动<ul>
+<li>无名管道：只能在具有亲缘关系的进程间使用，一般指父子</li>
+<li>有名管道：允许无亲缘关系进程间的通信。</li>
+<li>缓冲区有限</li>
+<li>只能承载无格式字节流</li>
+</ul>
+</li>
+<li>信号量</li>
+<li>消息队列<ul>
+<li>可以实现任意进程间的通信，通过<em>系统调用函数</em> 来实现消息发送和接收之间的同步，无需考虑同步问题，方便</li>
+<li>信息的复制需要额外消耗CPU的时间，不适宜于信息量大或操作频繁的场合</li>
+</ul>
+</li>
+<li>共享内存</li>
+<li>套接字：可用于不同机器间的进程通信，用socket实现</li>
+</ul>
+<p><strong>3. 线程间通信方式</strong></p>
+<ul>
+<li>锁</li>
+<li>信号量semaphore</li>
+<li>信号signal</li>
+</ul>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/面试/" rel="tag"># 面试</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/23/网络/" rel="next" title="网络">
+                <i class="fa fa-chevron-left"></i> 网络
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -329,6 +437,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -349,8 +461,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -410,6 +531,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#进程-线程"><span class="nav-number">1.</span> <span class="nav-text">进程/线程</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -550,6 +687,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 

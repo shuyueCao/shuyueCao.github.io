@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="HTTP/HTTPS1. 两者区别？  HTTP是不安全的，HTTPS是安全的 OSI模型中，HTTP在应用层，HTTPS的安全传输机制在传输层 HTTP无法加密，HTTPS对传输的数据进行加密 HTTP不用证书，而HTTPS需要CA机构颁发的SSL证书  HTTPS就是HTTP加上加密处理（一般是SSL安全通信线路）+认证+消息完整性保护 2. HTTPS工作原理 双向认证 SSL 协议的具体通">
+<meta name="description" content="HTTP(无状态的协议)/HTTPS1. 两者区别？  HTTP是不安全的，HTTPS是安全的 OSI模型中，HTTP在应用层，HTTPS的安全传输机制在传输层 HTTP无法加密，HTTPS对传输的数据进行加密 HTTP不用证书，而HTTPS需要CA机构颁发的SSL证书  HTTPS就是HTTP加上加密处理（一般是SSL安全通信线路）+认证+消息完整性保护 2. HTTPS工作原理 双向认证 SS">
 <meta name="keywords" content="面试">
 <meta property="og:type" content="article">
 <meta property="og:title" content="网络">
 <meta property="og:url" content="http://yoursite.com/2019/02/23/网络/index.html">
 <meta property="og:site_name" content="Alpaca&#39;s Blog">
-<meta property="og:description" content="HTTP/HTTPS1. 两者区别？  HTTP是不安全的，HTTPS是安全的 OSI模型中，HTTP在应用层，HTTPS的安全传输机制在传输层 HTTP无法加密，HTTPS对传输的数据进行加密 HTTP不用证书，而HTTPS需要CA机构颁发的SSL证书  HTTPS就是HTTP加上加密处理（一般是SSL安全通信线路）+认证+消息完整性保护 2. HTTPS工作原理 双向认证 SSL 协议的具体通">
+<meta property="og:description" content="HTTP(无状态的协议)/HTTPS1. 两者区别？  HTTP是不安全的，HTTPS是安全的 OSI模型中，HTTP在应用层，HTTPS的安全传输机制在传输层 HTTP无法加密，HTTPS对传输的数据进行加密 HTTP不用证书，而HTTPS需要CA机构颁发的SSL证书  HTTPS就是HTTP加上加密处理（一般是SSL安全通信线路）+认证+消息完整性保护 2. HTTPS工作原理 双向认证 SS">
 <meta property="og:locale" content="Java">
-<meta property="og:updated_time" content="2019-02-26T14:36:05.706Z">
+<meta property="og:updated_time" content="2019-02-27T05:23:42.008Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="网络">
-<meta name="twitter:description" content="HTTP/HTTPS1. 两者区别？  HTTP是不安全的，HTTPS是安全的 OSI模型中，HTTP在应用层，HTTPS的安全传输机制在传输层 HTTP无法加密，HTTPS对传输的数据进行加密 HTTP不用证书，而HTTPS需要CA机构颁发的SSL证书  HTTPS就是HTTP加上加密处理（一般是SSL安全通信线路）+认证+消息完整性保护 2. HTTPS工作原理 双向认证 SSL 协议的具体通">
+<meta name="twitter:description" content="HTTP(无状态的协议)/HTTPS1. 两者区别？  HTTP是不安全的，HTTPS是安全的 OSI模型中，HTTP在应用层，HTTPS的安全传输机制在传输层 HTTP无法加密，HTTPS对传输的数据进行加密 HTTP不用证书，而HTTPS需要CA机构颁发的SSL证书  HTTPS就是HTTP加上加密处理（一般是SSL安全通信线路）+认证+消息完整性保护 2. HTTPS工作原理 双向认证 SS">
 
 
 
@@ -332,7 +332,7 @@
       
 
       
-        <h3 id="HTTP-HTTPS"><a href="#HTTP-HTTPS" class="headerlink" title="HTTP/HTTPS"></a>HTTP/HTTPS</h3><p><strong>1. 两者区别？</strong></p>
+        <h3 id="HTTP-无状态的协议-HTTPS"><a href="#HTTP-无状态的协议-HTTPS" class="headerlink" title="HTTP(无状态的协议)/HTTPS"></a>HTTP(无状态的协议)/HTTPS</h3><p><strong>1. 两者区别？</strong></p>
 <ol>
 <li>HTTP是不安全的，HTTPS是安全的</li>
 <li>OSI模型中，HTTP在应用层，HTTPS的安全传输机制在传输层</li>
@@ -368,8 +368,8 @@
 <p><strong>2. TCP关闭：四次握手</strong></p>
 <ol>
 <li>A将FIN控制位置为1 <em>(FIN_WAIT_1)</em>，提出停止TCP的请求 <em>(CLOSE_WAIT)</em></li>
-<li>B收到后对其作出响应，将ACK置为1 <em>(FIN_WAIT_2)</em></li>
-<li>B将FIN置为1 <em>(LAST_ACK)</em>，提出反方向的关闭请求</li>
+<li>B收到后对其作出响应，将ACK置为1</li>
+<li>B将FIN置为1 <em>(FIN_WAIT_2)</em>，提出反方向的关闭请求  <em>(LAST_ACK)</em></li>
 <li>A对B的请求进行确认 <em>(TIME_WAIT)</em>，将ACK置为1  <em>(CLOSED)</em></li>
 </ol>
 <p><strong><code>TIME_WAIT 状态是在服务端发送FIN，客户回复ACK后,为什么需要2MSL时间(报文最大生存时间)？</code></strong></p>
@@ -472,6 +472,13 @@
 <li>服务器处理http请求并返回http报文</li>
 <li>浏览器解析、渲染页面</li>
 </ol>
+<h3 id="Session-Cookie"><a href="#Session-Cookie" class="headerlink" title="Session / Cookie"></a>Session / Cookie</h3><ul>
+<li>Session是在服务端保存的一个数据结构，用来跟踪用户的状态，这个数据可以保存在集群、数据库、文件中</li>
+<li>Cookie是客户端保存用户信息的一种机制，用来记录用户的一些信息，也是实现Session的一种方式<ul>
+<li>常见应用场景：自动登录</li>
+</ul>
+</li>
+</ul>
 
       
     </div>
@@ -511,6 +518,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/02/27/操作系统/" rel="prev" title="操作系统">
+                操作系统 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -587,7 +598,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -642,7 +653,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP-HTTPS"><span class="nav-number">1.</span> <span class="nav-text">HTTP/HTTPS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP-UDP（传输层）"><span class="nav-number">2.</span> <span class="nav-text">TCP / UDP（传输层）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DNS"><span class="nav-number">3.</span> <span class="nav-text">DNS</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP-无状态的协议-HTTPS"><span class="nav-number">1.</span> <span class="nav-text">HTTP(无状态的协议)/HTTPS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP-UDP（传输层）"><span class="nav-number">2.</span> <span class="nav-text">TCP / UDP（传输层）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DNS"><span class="nav-number">3.</span> <span class="nav-text">DNS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Session-Cookie"><span class="nav-number">4.</span> <span class="nav-text">Session / Cookie</span></a></li></ol></div>
             
 
           </div>
