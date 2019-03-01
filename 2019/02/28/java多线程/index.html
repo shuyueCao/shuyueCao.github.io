@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="面试,">
 
 
 
@@ -79,17 +79,18 @@
 
 
 
-<meta name="description" content="微服务架构http://dockone.io/article/3687 https://www.kancloud.cn/good-rain/micro-services/248952 API网关比较NGINX vs. ZUUL vs. Spring Cloud Gateway vs. Linkerdhttps://juejin.im/entry/5ad408de6fb9a028cc61af94">
+<meta name="description" content="线程创建线程 继Thread类 实现Runnable接口 实现Callable接口(比runnable多一个返回值)  Java不支持多继承，但可以实现多个接口。  start()方法会启动一个新线程，并包含run()方法。而run()只会执行run方法，不会启动新线程  线程池 为什么要用线程池？ 降低消耗。降低创建和销毁线程造成的消耗 提高响应速度。任务到达时，任务可以不需要等到线程创建就能立">
+<meta name="keywords" content="面试">
 <meta property="og:type" content="article">
-<meta property="og:title" content="微服务">
-<meta property="og:url" content="http://yoursite.com/2018/12/20/微服务/index.html">
+<meta property="og:title" content="java多线程">
+<meta property="og:url" content="http://yoursite.com/2019/02/28/java多线程/index.html">
 <meta property="og:site_name" content="Alpaca&#39;s Blog">
-<meta property="og:description" content="微服务架构http://dockone.io/article/3687 https://www.kancloud.cn/good-rain/micro-services/248952 API网关比较NGINX vs. ZUUL vs. Spring Cloud Gateway vs. Linkerdhttps://juejin.im/entry/5ad408de6fb9a028cc61af94">
+<meta property="og:description" content="线程创建线程 继Thread类 实现Runnable接口 实现Callable接口(比runnable多一个返回值)  Java不支持多继承，但可以实现多个接口。  start()方法会启动一个新线程，并包含run()方法。而run()只会执行run方法，不会启动新线程  线程池 为什么要用线程池？ 降低消耗。降低创建和销毁线程造成的消耗 提高响应速度。任务到达时，任务可以不需要等到线程创建就能立">
 <meta property="og:locale" content="Java">
-<meta property="og:updated_time" content="2018-12-20T08:19:31.187Z">
+<meta property="og:updated_time" content="2019-02-28T07:44:13.775Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="微服务">
-<meta name="twitter:description" content="微服务架构http://dockone.io/article/3687 https://www.kancloud.cn/good-rain/micro-services/248952 API网关比较NGINX vs. ZUUL vs. Spring Cloud Gateway vs. Linkerdhttps://juejin.im/entry/5ad408de6fb9a028cc61af94">
+<meta name="twitter:title" content="java多线程">
+<meta name="twitter:description" content="线程创建线程 继Thread类 实现Runnable接口 实现Callable接口(比runnable多一个返回值)  Java不支持多继承，但可以实现多个接口。  start()方法会启动一个新线程，并包含run()方法。而run()只会执行run方法，不会启动新线程  线程池 为什么要用线程池？ 降低消耗。降低创建和销毁线程造成的消耗 提高响应速度。任务到达时，任务可以不需要等到线程创建就能立">
 
 
 
@@ -119,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/12/20/微服务/">
+  <link rel="canonical" href="http://yoursite.com/2019/02/28/java多线程/">
 
 
 
 
 
-  <title>微服务 | Alpaca's Blog</title>
+  <title>java多线程 | Alpaca's Blog</title>
   
 
 
@@ -264,7 +265,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/20/微服务/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/28/java多线程/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Cao Shuyue">
@@ -281,7 +282,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">微服务</h1>
+          <h1 class="post-title" itemprop="name headline">java多线程</h1>
         
 
         <div class="post-meta">
@@ -293,8 +294,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-20T15:49:58+08:00">
-                2018-12-20
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-28T11:58:53+08:00">
+                2019-02-28
               </time>
             
 
@@ -303,28 +304,6 @@
             
           </span>
 
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/架构/" itemprop="url" rel="index">
-                    <span itemprop="name">架构</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -353,9 +332,80 @@
       
 
       
-        <h1 id="微服务架构"><a href="#微服务架构" class="headerlink" title="微服务架构"></a>微服务架构</h1><p><a href="http://dockone.io/article/3687" target="_blank" rel="noopener">http://dockone.io/article/3687</a></p>
-<p><a href="https://www.kancloud.cn/good-rain/micro-services/248952" target="_blank" rel="noopener">https://www.kancloud.cn/good-rain/micro-services/248952</a></p>
-<h2 id="API网关比较"><a href="#API网关比较" class="headerlink" title="API网关比较"></a>API网关比较</h2><h4 id="NGINX-vs-ZUUL-vs-Spring-Cloud-Gateway-vs-Linkerd"><a href="#NGINX-vs-ZUUL-vs-Spring-Cloud-Gateway-vs-Linkerd" class="headerlink" title="NGINX vs. ZUUL vs. Spring Cloud Gateway vs. Linkerd"></a>NGINX vs. ZUUL vs. Spring Cloud Gateway vs. Linkerd</h4><p><a href="https://juejin.im/entry/5ad408de6fb9a028cc61af94" target="_blank" rel="noopener">https://juejin.im/entry/5ad408de6fb9a028cc61af94</a></p>
+        <h3 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h3><h6 id="创建线程"><a href="#创建线程" class="headerlink" title="创建线程"></a>创建线程</h6><ul>
+<li>继Thread类</li>
+<li>实现Runnable接口</li>
+<li>实现Callable接口(比runnable多一个返回值)</li>
+</ul>
+<p>Java不支持多继承，但可以实现多个接口。</p>
+<ul>
+<li>start()方法会启动一个新线程，并包含run()方法。而run()只会执行run方法，不会启动新线程</li>
+</ul>
+<h6 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h6><ul>
+<li>为什么要用线程池？<ul>
+<li>降低消耗。降低创建和销毁线程造成的消耗</li>
+<li>提高响应速度。任务到达时，任务可以不需要等到线程创建就能立即执行</li>
+<li>提高线程的可管理性</li>
+</ul>
+</li>
+<li><strong>参数</strong><ul>
+<li><strong>corePoolSize：线程池核心线程数量</strong><ul>
+<li>如果池中线程数量少于核心线程池数量，则直接新建线程处理当前任务</li>
+<li>当池中无空闲线程时，新任务将被添加到阻塞队列</li>
+<li>核心线程池空闲不会被回收。</li>
+</ul>
+</li>
+<li><strong>maximumPoolSize：线程池最大线程数量</strong><ul>
+<li>当阻塞队列已满，并且有新任务还在入队时，创建新的线程处理，直到线程数大于maximumPoolSize</li>
+<li>超出corePoolSize部分的线程超过空闲时间后会被回收</li>
+<li>当线程已经超出maximumPoolSize，并且阻塞队列已满，则通过handler所指定的策略来处理任务。</li>
+</ul>
+</li>
+<li><strong>keepAliveTime：线程存活时间</strong><ul>
+<li>当线程超出corePoolSize时生效</li>
+</ul>
+</li>
+<li><strong>workQueue：阻塞队列（存储等待执行的任务）</strong></li>
+<li><strong>threadFactory：线程工厂，用来创建线程</strong></li>
+</ul>
+</li>
+</ul>
+<h6 id="ThreadLocal"><a href="#ThreadLocal" class="headerlink" title="ThreadLocal"></a>ThreadLocal</h6><ul>
+<li>用于线程间的数据隔离</li>
+<li>使用ThreadLocal维护变量时，ThreadLocal为每个使用该变量的线程提供独立的变量副本，所以每一个线程都可以独立地改变自己的副本，而不会影响其它线程所对应的副本</li>
+</ul>
+<h3 id="Wait-Notify-NotifyAll"><a href="#Wait-Notify-NotifyAll" class="headerlink" title="Wait/Notify/NotifyAll"></a>Wait/Notify/NotifyAll</h3><ul>
+<li>wait( )，notify( )，notifyAll( )都不属于Thread类，而是属于Object基础类<ul>
+<li>why？</li>
+</ul>
+</li>
+<li>wait():线程执行wait()时，会把当前的锁释放，然后让出CPU，进入等待状态。</li>
+<li>notify():唤醒一个正在等待该锁的对象</li>
+<li>notifyAll():唤醒所有等待该锁的对象，但这些对象会竞争，只有一个获得该锁</li>
+</ul>
+<h3 id="synchronized关键字"><a href="#synchronized关键字" class="headerlink" title="synchronized关键字"></a>synchronized关键字</h3><h6 id="使用方式："><a href="#使用方式：" class="headerlink" title="使用方式："></a>使用方式：</h6><ul>
+<li>修饰实例方法，对当前实例加锁，进入同步代码之前需要获得当前实例的锁</li>
+<li>修饰静态方法，对当前类对象加锁，进入同步代码之前需要获得当前类对象的锁。</li>
+<li>修饰代码块，对指定对象加锁，进入同步代码之前需要获得指定对象的锁。<h6 id="与LOCK的区别"><a href="#与LOCK的区别" class="headerlink" title="与LOCK的区别"></a>与LOCK的区别</h6></li>
+<li>对于synchronized,如果多个线程都只是进行读操作，所以当一个线程在进行读操作时，其他线程只能等待无法进行读操作。Lock可以提高多个线程进行读操作的效率</li>
+<li>Lock可以知道线程有没有成功获取到锁。synchronized不行</li>
+<li>采用synchronized不需要用户去手动释放锁，而Lock则必须要用户去手动释放锁，如果没有主动释放锁，就有可能导致出现死锁现象。</li>
+<li>Lock是一个接口，而synchronized是Java中的关键字，synchronized是内置的语言实现；</li>
+<li>Lock可以让等待锁的线程响应中断，而synchronized却不行</li>
+<li>synchronized是同步阻塞，使用的是悲观并发策略，lock是同步非阻塞，采用的是乐观并发策略</li>
+</ul>
+<h6 id="ReenTrantLock"><a href="#ReenTrantLock" class="headerlink" title="ReenTrantLock"></a>ReenTrantLock</h6><ul>
+<li>与synchronized一样都可重入，同一线程可以多次获得同一个锁</li>
+<li>实现了Lock接口</li>
+<li>ReenTrantLock可以指定是公平锁还是非公平锁。而synchronized只能是非公平锁。所谓的公平锁就是先等待的线程先获得锁。</li>
+<li>ReenTrantLock提供了一个Condition（条件）类，用来实现分组唤醒需要唤醒的线程们，而不是像synchronized要么随机唤醒一个线程要么唤醒全部线程。</li>
+</ul>
+<h6 id="volatile"><a href="#volatile" class="headerlink" title="volatile"></a>volatile</h6><ul>
+<li>synchronized关键字解决的是执行控制的问题，volatile关键字解决的是内存可见性的问题</li>
+<li>volatile仅能使用在变量级别；synchronized则可以使用在变量、方法、和类级别</li>
+<li>volatile仅能实现变量的修改可见性，不能保证原子性；而synchronized则可以保证变量的修改可见性和原子性</li>
+<li>volatile不会造成线程的阻塞；synchronized可能会造成线程的阻塞。</li>
+</ul>
 
       
     </div>
@@ -371,6 +421,12 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/面试/" rel="tag"># 面试</a>
+          
+        </div>
+      
 
       
       
@@ -380,15 +436,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2019/02/27/操作系统/" rel="next" title="操作系统">
+                <i class="fa fa-chevron-left"></i> 操作系统
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/12/24/算法整理/" rel="prev" title="算法整理">
-                算法整理 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -520,7 +576,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#微服务架构"><span class="nav-number">1.</span> <span class="nav-text">微服务架构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#API网关比较"><span class="nav-number">1.1.</span> <span class="nav-text">API网关比较</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#NGINX-vs-ZUUL-vs-Spring-Cloud-Gateway-vs-Linkerd"><span class="nav-number">1.1.0.1.</span> <span class="nav-text">NGINX vs. ZUUL vs. Spring Cloud Gateway vs. Linkerd</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#线程"><span class="nav-number">1.</span> <span class="nav-text">线程</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#创建线程"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">创建线程</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#线程池"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">线程池</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#ThreadLocal"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">ThreadLocal</span></a></li></ol></li></ol><li class="nav-item nav-level-3"><a class="nav-link" href="#Wait-Notify-NotifyAll"><span class="nav-number">2.</span> <span class="nav-text">Wait/Notify/NotifyAll</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#synchronized关键字"><span class="nav-number">3.</span> <span class="nav-text">synchronized关键字</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#使用方式："><span class="nav-number">3.0.0.1.</span> <span class="nav-text">使用方式：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#与LOCK的区别"><span class="nav-number">3.0.0.2.</span> <span class="nav-text">与LOCK的区别</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#ReenTrantLock"><span class="nav-number">3.0.0.3.</span> <span class="nav-text">ReenTrantLock</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#volatile"><span class="nav-number">3.0.0.4.</span> <span class="nav-text">volatile</span></a></li></ol></li></div>
             
 
           </div>

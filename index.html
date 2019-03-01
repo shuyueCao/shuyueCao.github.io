@@ -264,6 +264,199 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/28/java多线程/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Cao Shuyue">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Alpaca's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/02/28/java多线程/" itemprop="url">java多线程</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-28T11:58:53+08:00">
+                2019-02-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h3><h6 id="创建线程"><a href="#创建线程" class="headerlink" title="创建线程"></a>创建线程</h6><ul>
+<li>继Thread类</li>
+<li>实现Runnable接口</li>
+<li>实现Callable接口(比runnable多一个返回值)</li>
+</ul>
+<p>Java不支持多继承，但可以实现多个接口。</p>
+<ul>
+<li>start()方法会启动一个新线程，并包含run()方法。而run()只会执行run方法，不会启动新线程</li>
+</ul>
+<h6 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h6><ul>
+<li>为什么要用线程池？<ul>
+<li>降低消耗。降低创建和销毁线程造成的消耗</li>
+<li>提高响应速度。任务到达时，任务可以不需要等到线程创建就能立即执行</li>
+<li>提高线程的可管理性</li>
+</ul>
+</li>
+<li><strong>参数</strong><ul>
+<li><strong>corePoolSize：线程池核心线程数量</strong><ul>
+<li>如果池中线程数量少于核心线程池数量，则直接新建线程处理当前任务</li>
+<li>当池中无空闲线程时，新任务将被添加到阻塞队列</li>
+<li>核心线程池空闲不会被回收。</li>
+</ul>
+</li>
+<li><strong>maximumPoolSize：线程池最大线程数量</strong><ul>
+<li>当阻塞队列已满，并且有新任务还在入队时，创建新的线程处理，直到线程数大于maximumPoolSize</li>
+<li>超出corePoolSize部分的线程超过空闲时间后会被回收</li>
+<li>当线程已经超出maximumPoolSize，并且阻塞队列已满，则通过handler所指定的策略来处理任务。</li>
+</ul>
+</li>
+<li><strong>keepAliveTime：线程存活时间</strong><ul>
+<li>当线程超出corePoolSize时生效</li>
+</ul>
+</li>
+<li><strong>workQueue：阻塞队列（存储等待执行的任务）</strong></li>
+<li><strong>threadFactory：线程工厂，用来创建线程</strong></li>
+</ul>
+</li>
+</ul>
+<h6 id="ThreadLocal"><a href="#ThreadLocal" class="headerlink" title="ThreadLocal"></a>ThreadLocal</h6><ul>
+<li>用于线程间的数据隔离</li>
+<li>使用ThreadLocal维护变量时，ThreadLocal为每个使用该变量的线程提供独立的变量副本，所以每一个线程都可以独立地改变自己的副本，而不会影响其它线程所对应的副本</li>
+</ul>
+<h3 id="Wait-Notify-NotifyAll"><a href="#Wait-Notify-NotifyAll" class="headerlink" title="Wait/Notify/NotifyAll"></a>Wait/Notify/NotifyAll</h3><ul>
+<li>wait( )，notify( )，notifyAll( )都不属于Thread类，而是属于Object基础类<ul>
+<li>why？</li>
+</ul>
+</li>
+<li>wait():线程执行wait()时，会把当前的锁释放，然后让出CPU，进入等待状态。</li>
+<li>notify():唤醒一个正在等待该锁的对象</li>
+<li>notifyAll():唤醒所有等待该锁的对象，但这些对象会竞争，只有一个获得该锁</li>
+</ul>
+<h3 id="synchronized关键字"><a href="#synchronized关键字" class="headerlink" title="synchronized关键字"></a>synchronized关键字</h3><h6 id="使用方式："><a href="#使用方式：" class="headerlink" title="使用方式："></a>使用方式：</h6><ul>
+<li>修饰实例方法，对当前实例加锁，进入同步代码之前需要获得当前实例的锁</li>
+<li>修饰静态方法，对当前类对象加锁，进入同步代码之前需要获得当前类对象的锁。</li>
+<li>修饰代码块，对指定对象加锁，进入同步代码之前需要获得指定对象的锁。<h6 id="与LOCK的区别"><a href="#与LOCK的区别" class="headerlink" title="与LOCK的区别"></a>与LOCK的区别</h6></li>
+<li>对于synchronized,如果多个线程都只是进行读操作，所以当一个线程在进行读操作时，其他线程只能等待无法进行读操作。Lock可以提高多个线程进行读操作的效率</li>
+<li>Lock可以知道线程有没有成功获取到锁。synchronized不行</li>
+<li>采用synchronized不需要用户去手动释放锁，而Lock则必须要用户去手动释放锁，如果没有主动释放锁，就有可能导致出现死锁现象。</li>
+<li>Lock是一个接口，而synchronized是Java中的关键字，synchronized是内置的语言实现；</li>
+<li>Lock可以让等待锁的线程响应中断，而synchronized却不行</li>
+<li>synchronized是同步阻塞，使用的是悲观并发策略，lock是同步非阻塞，采用的是乐观并发策略</li>
+</ul>
+<h6 id="ReenTrantLock"><a href="#ReenTrantLock" class="headerlink" title="ReenTrantLock"></a>ReenTrantLock</h6><ul>
+<li>与synchronized一样都可重入，同一线程可以多次获得同一个锁</li>
+<li>实现了Lock接口</li>
+<li>ReenTrantLock可以指定是公平锁还是非公平锁。而synchronized只能是非公平锁。所谓的公平锁就是先等待的线程先获得锁。</li>
+<li>ReenTrantLock提供了一个Condition（条件）类，用来实现分组唤醒需要唤醒的线程们，而不是像synchronized要么随机唤醒一个线程要么唤醒全部线程。</li>
+</ul>
+<h6 id="volatile"><a href="#volatile" class="headerlink" title="volatile"></a>volatile</h6><ul>
+<li>synchronized关键字解决的是执行控制的问题，volatile关键字解决的是内存可见性的问题</li>
+<li>volatile仅能使用在变量级别；synchronized则可以使用在变量、方法、和类级别</li>
+<li>volatile仅能实现变量的修改可见性，不能保证原子性；而synchronized则可以保证变量的修改可见性和原子性</li>
+<li>volatile不会造成线程的阻塞；synchronized可能会造成线程的阻塞。</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/27/操作系统/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -906,6 +1099,13 @@
 <li>G1收集器(JDK)：整体上是基于标记整理，局部采用复制</li>
 <li>综上：新生代基本采用复制算法，老年代采用标记整理算法。cms采用标记清理</li>
 </ul>
+<h3 id="如何减少GC次数？"><a href="#如何减少GC次数？" class="headerlink" title="如何减少GC次数？"></a>如何减少GC次数？</h3><ul>
+<li>对象尽量不要显式设置为null</li>
+<li>少用system.gc</li>
+<li>少用静态变量</li>
+<li>尽量使用 StringBuffer,而不用 String 来累加字符串</li>
+<li>使用软引用类型</li>
+</ul>
 <h2 id="Java类加载机制"><a href="#Java类加载机制" class="headerlink" title="Java类加载机制"></a>Java类加载机制</h2><p>  虚拟机把描述类的数据文件（字节码）加载到内存，并对数据进行验证、准备、解析以及类初始化，最终形成可以被虚拟机直接使用的java类型</p>
 <h3 id="类的生命周期"><a href="#类的生命周期" class="headerlink" title="类的生命周期"></a>类的生命周期</h3><ol>
 <li><strong>加载过程</strong><ul>
@@ -935,9 +1135,37 @@
 </ol>
 <h3 id="Java类加载器"><a href="#Java类加载器" class="headerlink" title="Java类加载器"></a>Java类加载器</h3><ul>
 <li>负责加载所有的类，同一个类(一个类用其全限定类名(包名加类名)标志)只会被加载一次</li>
-<li><strong>Bootstrap ClassLoader:</strong> 根类加载器，负责加载java的核心类，它不是java.lang.ClassLoader的子类，而是由JVM自身实现</li>
+<li><strong>Bootstrap ClassLoader:</strong> 启动类加载器，负责加载java的核心类，它不是java.lang.ClassLoader的子类，而是由JVM自身实现</li>
 <li><strong>Extension ClassLoader:</strong> 扩展类加载器，扩展类加载器的加载路径是JDK目录下jre/lib/ext,实际上扩展类加载器的父类加载器是根加载器，只是根加载器并不是Java实现的</li>
 <li><strong>System ClassLoader:系统(应用)类加载器：</strong> 它负责在JVM启动时加载来自java命令的-classpath选项、java.class.path系统属性或CLASSPATH环境变量所指定的jar包和类路径。</li>
+</ul>
+<h4 id="双亲委派模型"><a href="#双亲委派模型" class="headerlink" title="双亲委派模型"></a>双亲委派模型</h4><ul>
+<li><strong>工作原理</strong><ul>
+<li>如果一个类加载器收到了类加载请求，它并不会自己先去加载，而是把这个请求委托给父类的加载器去执行。如果父类加载器还存在其父类加载器，则进一步向上委托，依次递归，请求最终将到达顶层的启动类加载器。</li>
+<li>如果父类加载器可以完成类加载任务，就成功返回，倘若父类加载器无法完成此加载任务，子加载器才会尝试自己去加载。</li>
+<li>除了顶层的启动类加载器外，其余的类加载器都应当有自己的父类加载器</li>
+</ul>
+</li>
+<li><strong>优点</strong><ul>
+<li>Java类随着它的类加载器一起具备了一种带有优先级的层次关系，通过这种层级关可以 <em>避免类的重复加载</em></li>
+<li>考虑到安全因素，java核心api中定义类型不会被随意替换<ul>
+<li>eg:假设通过网络传递一个名为java.lang.Integer的类，通过双亲委托模式传递到启动类加载器，而启动类加载器在核心Java API发现这个名字的类，发现该类已被加载，并不会重新加载网络传递的过来的java.lang.Integer，而直接返回已加载过的Integer.class</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="JAVA内存模型-JMM"><a href="#JAVA内存模型-JMM" class="headerlink" title="JAVA内存模型(JMM)"></a>JAVA内存模型(JMM)</h2><ul>
+<li><p><strong>主要目标</strong></p>
+<ul>
+<li>定义程序中各个变量的访问规则</li>
+</ul>
+<p>线程对变量的所有操作（读取、 赋值等）都必须在工作内存中进行，而不能直接读写主内存中的变量</p>
+</li>
+<li><strong>先行发生原则happens-before</strong><ul>
+<li>如果说操作A先行发生于操作B，其实就是说在发生操作B之前，操作A产生的影响能被操作B观察到，“影响”包括修改了内存中共享变量的值、 发送了消息、 调用了方法等。</li>
+</ul>
+</li>
 </ul>
 
           
@@ -1745,7 +1973,7 @@ private void MergeSort(int[] arr) {
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

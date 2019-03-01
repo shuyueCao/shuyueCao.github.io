@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Alpaca&#39;s Blog">
 <meta property="og:description" content="JVM运行内存的分类 程序计数器 线程私有 当前线程所执行的字节码的行号指示器，用于记录正在执行的虚拟机字节指令地址 如果正在执行的是native方法，则为空   虚拟机栈 线程私有 每个方法被执行的时候都会同时创建一个栈帧用于存放局部变量表、操作栈、动态链接、方法出口等信息。每一个方法被调用直至执行完成的过程就对应着一个栈帧在虚拟机栈中从入栈到出栈的过程 生命周期与线程相同 为java方法服务">
 <meta property="og:locale" content="Java">
-<meta property="og:updated_time" content="2019-01-19T08:25:13.430Z">
+<meta property="og:updated_time" content="2019-03-01T09:40:00.169Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JVM整理">
 <meta name="twitter:description" content="JVM运行内存的分类 程序计数器 线程私有 当前线程所执行的字节码的行号指示器，用于记录正在执行的虚拟机字节指令地址 如果正在执行的是native方法，则为空   虚拟机栈 线程私有 每个方法被执行的时候都会同时创建一个栈帧用于存放局部变量表、操作栈、动态链接、方法出口等信息。每一个方法被调用直至执行完成的过程就对应着一个栈帧在虚拟机栈中从入栈到出栈的过程 生命周期与线程相同 为java方法服务">
@@ -479,6 +479,13 @@
 <li>G1收集器(JDK)：整体上是基于标记整理，局部采用复制</li>
 <li>综上：新生代基本采用复制算法，老年代采用标记整理算法。cms采用标记清理</li>
 </ul>
+<h3 id="如何减少GC次数？"><a href="#如何减少GC次数？" class="headerlink" title="如何减少GC次数？"></a>如何减少GC次数？</h3><ul>
+<li>对象尽量不要显式设置为null</li>
+<li>少用system.gc</li>
+<li>少用静态变量</li>
+<li>尽量使用 StringBuffer,而不用 String 来累加字符串</li>
+<li>使用软引用类型</li>
+</ul>
 <h2 id="Java类加载机制"><a href="#Java类加载机制" class="headerlink" title="Java类加载机制"></a>Java类加载机制</h2><p>  虚拟机把描述类的数据文件（字节码）加载到内存，并对数据进行验证、准备、解析以及类初始化，最终形成可以被虚拟机直接使用的java类型</p>
 <h3 id="类的生命周期"><a href="#类的生命周期" class="headerlink" title="类的生命周期"></a>类的生命周期</h3><ol>
 <li><strong>加载过程</strong><ul>
@@ -508,9 +515,37 @@
 </ol>
 <h3 id="Java类加载器"><a href="#Java类加载器" class="headerlink" title="Java类加载器"></a>Java类加载器</h3><ul>
 <li>负责加载所有的类，同一个类(一个类用其全限定类名(包名加类名)标志)只会被加载一次</li>
-<li><strong>Bootstrap ClassLoader:</strong> 根类加载器，负责加载java的核心类，它不是java.lang.ClassLoader的子类，而是由JVM自身实现</li>
+<li><strong>Bootstrap ClassLoader:</strong> 启动类加载器，负责加载java的核心类，它不是java.lang.ClassLoader的子类，而是由JVM自身实现</li>
 <li><strong>Extension ClassLoader:</strong> 扩展类加载器，扩展类加载器的加载路径是JDK目录下jre/lib/ext,实际上扩展类加载器的父类加载器是根加载器，只是根加载器并不是Java实现的</li>
 <li><strong>System ClassLoader:系统(应用)类加载器：</strong> 它负责在JVM启动时加载来自java命令的-classpath选项、java.class.path系统属性或CLASSPATH环境变量所指定的jar包和类路径。</li>
+</ul>
+<h4 id="双亲委派模型"><a href="#双亲委派模型" class="headerlink" title="双亲委派模型"></a>双亲委派模型</h4><ul>
+<li><strong>工作原理</strong><ul>
+<li>如果一个类加载器收到了类加载请求，它并不会自己先去加载，而是把这个请求委托给父类的加载器去执行。如果父类加载器还存在其父类加载器，则进一步向上委托，依次递归，请求最终将到达顶层的启动类加载器。</li>
+<li>如果父类加载器可以完成类加载任务，就成功返回，倘若父类加载器无法完成此加载任务，子加载器才会尝试自己去加载。</li>
+<li>除了顶层的启动类加载器外，其余的类加载器都应当有自己的父类加载器</li>
+</ul>
+</li>
+<li><strong>优点</strong><ul>
+<li>Java类随着它的类加载器一起具备了一种带有优先级的层次关系，通过这种层级关可以 <em>避免类的重复加载</em></li>
+<li>考虑到安全因素，java核心api中定义类型不会被随意替换<ul>
+<li>eg:假设通过网络传递一个名为java.lang.Integer的类，通过双亲委托模式传递到启动类加载器，而启动类加载器在核心Java API发现这个名字的类，发现该类已被加载，并不会重新加载网络传递的过来的java.lang.Integer，而直接返回已加载过的Integer.class</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="JAVA内存模型-JMM"><a href="#JAVA内存模型-JMM" class="headerlink" title="JAVA内存模型(JMM)"></a>JAVA内存模型(JMM)</h2><ul>
+<li><p><strong>主要目标</strong></p>
+<ul>
+<li>定义程序中各个变量的访问规则</li>
+</ul>
+<p>线程对变量的所有操作（读取、 赋值等）都必须在工作内存中进行，而不能直接读写主内存中的变量</p>
+</li>
+<li><strong>先行发生原则happens-before</strong><ul>
+<li>如果说操作A先行发生于操作B，其实就是说在发生操作B之前，操作A产生的影响能被操作B观察到，“影响”包括修改了内存中共享变量的值、 发送了消息、 调用了方法等。</li>
+</ul>
+</li>
 </ul>
 
       
@@ -631,7 +666,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -686,7 +721,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#JVM运行内存的分类"><span class="nav-number">1.</span> <span class="nav-text">JVM运行内存的分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java四大引用"><span class="nav-number">2.</span> <span class="nav-text">Java四大引用</span></a></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#GC回收机制"><span class="nav-number"></span> <span class="nav-text">GC回收机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#GC标记对象的方法"><span class="nav-number">1.</span> <span class="nav-text">GC标记对象的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#回收算法"><span class="nav-number">2.</span> <span class="nav-text">回收算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Minor-GC-amp-Full-GC"><span class="nav-number">3.</span> <span class="nav-text">Minor GC &amp; Full GC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存分配与回收策略"><span class="nav-number">4.</span> <span class="nav-text">内存分配与回收策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GC垃圾收集器"><span class="nav-number">5.</span> <span class="nav-text">GC垃圾收集器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java类加载机制"><span class="nav-number"></span> <span class="nav-text">Java类加载机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#类的生命周期"><span class="nav-number">1.</span> <span class="nav-text">类的生命周期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java类加载器"><span class="nav-number">2.</span> <span class="nav-text">Java类加载器</span></a></li></ol></li></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#JVM运行内存的分类"><span class="nav-number">1.</span> <span class="nav-text">JVM运行内存的分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java四大引用"><span class="nav-number">2.</span> <span class="nav-text">Java四大引用</span></a></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#GC回收机制"><span class="nav-number"></span> <span class="nav-text">GC回收机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#GC标记对象的方法"><span class="nav-number">1.</span> <span class="nav-text">GC标记对象的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#回收算法"><span class="nav-number">2.</span> <span class="nav-text">回收算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Minor-GC-amp-Full-GC"><span class="nav-number">3.</span> <span class="nav-text">Minor GC &amp; Full GC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存分配与回收策略"><span class="nav-number">4.</span> <span class="nav-text">内存分配与回收策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GC垃圾收集器"><span class="nav-number">5.</span> <span class="nav-text">GC垃圾收集器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何减少GC次数？"><span class="nav-number">6.</span> <span class="nav-text">如何减少GC次数？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java类加载机制"><span class="nav-number"></span> <span class="nav-text">Java类加载机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#类的生命周期"><span class="nav-number">1.</span> <span class="nav-text">类的生命周期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java类加载器"><span class="nav-number">2.</span> <span class="nav-text">Java类加载器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#双亲委派模型"><span class="nav-number">2.1.</span> <span class="nav-text">双亲委派模型</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JAVA内存模型-JMM"><span class="nav-number"></span> <span class="nav-text">JAVA内存模型(JMM)</span></a></li></div>
             
 
           </div>
