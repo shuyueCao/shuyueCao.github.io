@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Alpaca&#39;s Blog">
 <meta property="og:description" content="HTTP(无状态的协议)/HTTPS1. 两者区别？  HTTP是不安全的，HTTPS是安全的 OSI模型中，HTTP在应用层，HTTPS的安全传输机制在传输层 HTTP无法加密，HTTPS对传输的数据进行加密 HTTP不用证书，而HTTPS需要CA机构颁发的SSL证书  HTTPS就是HTTP加上加密处理（一般是SSL安全通信线路）+认证+消息完整性保护 2. HTTPS工作原理 双向认证 SS">
 <meta property="og:locale" content="Java">
-<meta property="og:updated_time" content="2019-02-27T05:23:42.008Z">
+<meta property="og:updated_time" content="2019-03-04T05:46:22.720Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="网络">
 <meta name="twitter:description" content="HTTP(无状态的协议)/HTTPS1. 两者区别？  HTTP是不安全的，HTTPS是安全的 OSI模型中，HTTP在应用层，HTTPS的安全传输机制在传输层 HTTP无法加密，HTTPS对传输的数据进行加密 HTTP不用证书，而HTTPS需要CA机构颁发的SSL证书  HTTPS就是HTTP加上加密处理（一般是SSL安全通信线路）+认证+消息完整性保护 2. HTTPS工作原理 双向认证 SS">
@@ -473,9 +473,20 @@
 <li>浏览器解析、渲染页面</li>
 </ol>
 <h3 id="Session-Cookie"><a href="#Session-Cookie" class="headerlink" title="Session / Cookie"></a>Session / Cookie</h3><ul>
-<li>Session是在服务端保存的一个数据结构，用来跟踪用户的状态，这个数据可以保存在集群、数据库、文件中</li>
+<li>Session是在服务端保存的一个数据结构，用来跟踪用户的状态，这个数据可以保存在集群、数据库、文件中<ul>
+<li>服务器在创建了Session的同时，会为该Session生成唯一的Session id，而这个Session id在随后的请求中会被用来重新获得已经创建的Session；在Session被创建之后，就可以调用Session相关的方法往Session中增加内容了，而这些内容只会保存在服务器中，发到客户端的只有Session id；当客户端再次发送请求的时候，会将这个Session id带上，服务器接受到请求之后就会依据Session id找到相应的Session，从而再次使用之。正式这样一个过程，用户的状态也就得以保持了。</li>
+</ul>
+</li>
 <li>Cookie是客户端保存用户信息的一种机制，用来记录用户的一些信息，也是实现Session的一种方式<ul>
+<li>第一次创建Session的时候，服务端会在HTTP协议中告诉客户端，需要在 Cookie 里面记录一个Session ID，以后每次请求把这个会话ID发送到服务器</li>
 <li>常见应用场景：自动登录</li>
+<li>安全性较低，以明文形式存放在浏览器中</li>
+</ul>
+</li>
+<li>cookie增多会增加网络带宽，session增多会占用服务器性能</li>
+<li><strong>cookie被禁用？</strong><ul>
+<li>URL重写</li>
+<li>每次HTTP交互，URL后面都会被附加上一个诸如 sid=xxxxx 这样的参数</li>
 </ul>
 </li>
 </ul>
@@ -598,7 +609,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

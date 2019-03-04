@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Alpaca&#39;s Blog">
 <meta property="og:description" content="线程创建线程 继Thread类 实现Runnable接口 实现Callable接口(比runnable多一个返回值)  Java不支持多继承，但可以实现多个接口。  start()方法会启动一个新线程，并包含run()方法。而run()只会执行run方法，不会启动新线程  线程池 为什么要用线程池？ 降低消耗。降低创建和销毁线程造成的消耗 提高响应速度。任务到达时，任务可以不需要等到线程创建就能立">
 <meta property="og:locale" content="Java">
-<meta property="og:updated_time" content="2019-02-28T07:44:13.775Z">
+<meta property="og:updated_time" content="2019-03-03T02:35:15.106Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java多线程">
 <meta name="twitter:description" content="线程创建线程 继Thread类 实现Runnable接口 实现Callable接口(比runnable多一个返回值)  Java不支持多继承，但可以实现多个接口。  start()方法会启动一个新线程，并包含run()方法。而run()只会执行run方法，不会启动新线程  线程池 为什么要用线程池？ 降低消耗。降低创建和销毁线程造成的消耗 提高响应速度。任务到达时，任务可以不需要等到线程创建就能立">
@@ -400,7 +400,55 @@
 <li>ReenTrantLock可以指定是公平锁还是非公平锁。而synchronized只能是非公平锁。所谓的公平锁就是先等待的线程先获得锁。</li>
 <li>ReenTrantLock提供了一个Condition（条件）类，用来实现分组唤醒需要唤醒的线程们，而不是像synchronized要么随机唤醒一个线程要么唤醒全部线程。</li>
 </ul>
-<h6 id="volatile"><a href="#volatile" class="headerlink" title="volatile"></a>volatile</h6><ul>
+<h6 id="volatile"><a href="#volatile" class="headerlink" title="volatile"></a>volatile</h6><p><strong>作用：</strong></p>
+<ul>
+<li>JVM提供的最轻量级的同步机制</li>
+<li>一个变量使用volatile之后，具备两种特性：<ul>
+<li>保证此变量对所有线程的可见性<ul>
+<li>符合以下两条规则才能保证原子性：<ul>
+<li>对变量的写操作不依赖于当前值</li>
+<li>该变量没有包含在具有其他变量的不变式中。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>禁止指令重排序优化</li>
+</ul>
+</li>
+<li><p>eg:</p>
+<pre><code>//1
+volatile boolean shutdownRequested;
+
+public void shutdown() {
+    shutdownRequested = true;
+}
+
+public void doWork() {
+  while (!shutdownRequested) {
+  //do stuff
+  }
+}
+
+//2
+public class ChessyCounter{
+  @GuardedBy(&quot;this&quot;) private volatile int value;
+
+  //读操作，没有synchronized，提高性能
+  public int getValue(){
+    return value
+  }
+
+  //写操作，必须synchronized。因为x++不是原子操作
+  public synchronized int increment() {
+    return value++;
+  }
+}
+//锁一次只允许一个线程访问值，volatile 允许多个线程执行读操作
+//使用锁进行所有变化的操作，使用 volatile 进行只读操作。
+</code></pre></li>
+</ul>
+<p><strong>与synchronized区别：</strong></p>
+<ul>
 <li>synchronized关键字解决的是执行控制的问题，volatile关键字解决的是内存可见性的问题</li>
 <li>volatile仅能使用在变量级别；synchronized则可以使用在变量、方法、和类级别</li>
 <li>volatile仅能实现变量的修改可见性，不能保证原子性；而synchronized则可以保证变量的修改可见性和原子性</li>
@@ -445,6 +493,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/03/数据库/" rel="prev" title="数据库">
+                数据库 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -521,7 +573,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
