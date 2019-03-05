@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Alpaca&#39;s Blog">
 <meta property="og:description" content="HTTP(无状态的协议)/HTTPS1. 两者区别？  HTTP是不安全的，HTTPS是安全的 OSI模型中，HTTP在应用层，HTTPS的安全传输机制在传输层 HTTP无法加密，HTTPS对传输的数据进行加密 HTTP不用证书，而HTTPS需要CA机构颁发的SSL证书  HTTPS就是HTTP加上加密处理（一般是SSL安全通信线路）+认证+消息完整性保护 2. HTTPS工作原理 双向认证 SS">
 <meta property="og:locale" content="Java">
-<meta property="og:updated_time" content="2019-03-04T05:46:22.720Z">
+<meta property="og:updated_time" content="2019-03-05T03:12:55.591Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="网络">
 <meta name="twitter:description" content="HTTP(无状态的协议)/HTTPS1. 两者区别？  HTTP是不安全的，HTTPS是安全的 OSI模型中，HTTP在应用层，HTTPS的安全传输机制在传输层 HTTP无法加密，HTTPS对传输的数据进行加密 HTTP不用证书，而HTTPS需要CA机构颁发的SSL证书  HTTPS就是HTTP加上加密处理（一般是SSL安全通信线路）+认证+消息完整性保护 2. HTTPS工作原理 双向认证 SS">
@@ -434,8 +434,8 @@
 <li>让发送方的发送速率不要太快，要让接收方来得及接收</li>
 </ul>
 </li>
-<li>拥塞控制<ul>
-<li>拥塞：对资源的需求超过了可用资源</li>
+<li>拥塞控制：防止过多的数据注入到网络中，这样可以使网络中的路由器或链路不致过载<ul>
+<li>拥塞：对资源的需求超过了可用资源，造成网络性能降低</li>
 <li>慢开始：由小到大逐渐增大拥塞窗口数值(发送方的发送窗口=拥塞窗口)</li>
 <li>拥塞避免算法：比慢开始算法的拥塞窗口增长速率缓慢<ul>
 <li>一旦出现拥塞，将窗口大小立即置为1，执行慢开始算法</li>
