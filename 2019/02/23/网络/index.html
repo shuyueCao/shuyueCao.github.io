@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Alpaca&#39;s Blog">
 <meta property="og:description" content="HTTP(无状态的协议)/HTTPS1. 两者区别？  HTTP是不安全的，HTTPS是安全的 OSI模型中，HTTP在应用层，HTTPS的安全传输机制在传输层 HTTP无法加密，HTTPS对传输的数据进行加密 HTTP不用证书，而HTTPS需要CA机构颁发的SSL证书  HTTPS就是HTTP加上加密处理（一般是SSL安全通信线路）+认证+消息完整性保护 2. HTTPS工作原理 双向认证 SS">
 <meta property="og:locale" content="Java">
-<meta property="og:updated_time" content="2019-03-05T03:12:55.591Z">
+<meta property="og:updated_time" content="2019-03-09T12:48:49.340Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="网络">
 <meta name="twitter:description" content="HTTP(无状态的协议)/HTTPS1. 两者区别？  HTTP是不安全的，HTTPS是安全的 OSI模型中，HTTP在应用层，HTTPS的安全传输机制在传输层 HTTP无法加密，HTTPS对传输的数据进行加密 HTTP不用证书，而HTTPS需要CA机构颁发的SSL证书  HTTPS就是HTTP加上加密处理（一般是SSL安全通信线路）+认证+消息完整性保护 2. HTTPS工作原理 双向认证 SS">
@@ -358,6 +358,16 @@
 <li>get传输数据是通过URL请求，以field（字段）= value的形式，置于URL后，并用”?”连接，多个请求数据间用”&amp;”连接，如<a href="http://127.0.0.1/Test/login.action?name=admin&amp;password=admin" target="_blank" rel="noopener">http://127.0.0.1/Test/login.action?name=admin&amp;password=admin</a> 这个过程用户是可见的；<br>post传输数据通过Http的post机制，将字段与对应值封存在请求实体中发送给服务器，这个过程对用户是不可见的；</li>
 <li>POST比GET更安全</li>
 </ol>
+<h4 id="RESTful架构"><a href="#RESTful架构" class="headerlink" title="RESTful架构"></a>RESTful架构</h4><ul>
+<li><strong>特点</strong><ul>
+<li>用URL描述资源</li>
+<li>使用HTTP方法描述行为。使用HTTP状态码来表示不同的结果</li>
+<li>使用json交互数据</li>
+<li>是一种风格</li>
+<li>面向资源</li>
+</ul>
+</li>
+</ul>
 <h3 id="TCP-UDP（传输层）"><a href="#TCP-UDP（传输层）" class="headerlink" title="TCP / UDP（传输层）"></a>TCP / UDP（传输层）</h3><p><strong>1. TCP三次握手过程</strong></p>
 <ol>
 <li>主机A发送SYN包(同步序列号)到服务器 <em>(SYN_SENT)</em>，等待B确认</li>
@@ -460,6 +470,10 @@
 <li>TCP保证数据正确性，UDP可能丢包，TCP保证数据顺序，UDP不保证</li>
 </ol>
 <p><code>UDP适应于对实时要求较高、不允许有较大时延的情况，如航空信息应用。</code></p>
+<h4 id="RPC框架（dubbo）"><a href="#RPC框架（dubbo）" class="headerlink" title="RPC框架（dubbo）"></a>RPC框架（dubbo）</h4><ul>
+<li>像调用本地的函数一样去调远程函数，基于TCP</li>
+<li>面向过程</li>
+</ul>
 <h3 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h3><p><strong>1. 从输入URL到页面加载发生了什么？</strong></p>
 <ol>
 <li>DNS解析：<ul>
@@ -664,7 +678,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP-无状态的协议-HTTPS"><span class="nav-number">1.</span> <span class="nav-text">HTTP(无状态的协议)/HTTPS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP-UDP（传输层）"><span class="nav-number">2.</span> <span class="nav-text">TCP / UDP（传输层）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DNS"><span class="nav-number">3.</span> <span class="nav-text">DNS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Session-Cookie"><span class="nav-number">4.</span> <span class="nav-text">Session / Cookie</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP-无状态的协议-HTTPS"><span class="nav-number">1.</span> <span class="nav-text">HTTP(无状态的协议)/HTTPS</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#RESTful架构"><span class="nav-number">1.1.</span> <span class="nav-text">RESTful架构</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP-UDP（传输层）"><span class="nav-number">2.</span> <span class="nav-text">TCP / UDP（传输层）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#RPC框架（dubbo）"><span class="nav-number">2.1.</span> <span class="nav-text">RPC框架（dubbo）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DNS"><span class="nav-number">3.</span> <span class="nav-text">DNS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Session-Cookie"><span class="nav-number">4.</span> <span class="nav-text">Session / Cookie</span></a></li></ol></div>
             
 
           </div>
