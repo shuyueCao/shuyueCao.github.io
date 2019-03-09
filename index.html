@@ -510,6 +510,16 @@
 </li>
 </ul>
 </li>
+<li><strong>核心注解</strong><ul>
+<li>@SpringBootConfiguration：组合了 @Configuration 注解，实现配置文件的功能。</li>
+<li>@EnableAutoConfiguration：打开自动配置的功能，也可以关闭某个自动配置的选项</li>
+<li>@ComponentScan：Spring组件扫描</li>
+</ul>
+</li>
+<li><strong>如何理解 Spring Boot 中的 Starters</strong><ul>
+<li>Starters可以理解为启动器，它包含了一系列可以集成到应用里面的依赖包，你可以一站式集成 Spring 及其他技术，而不需要到处找示例代码和依赖包。</li>
+</ul>
+</li>
 </ul>
 <h4 id="hibernate"><a href="#hibernate" class="headerlink" title="hibernate"></a>hibernate</h4><ul>
 <li>Hibernate是开源的一个ORM（对象关系映射）框架，是对JDBC的进一步封装<br><img src="https://img-blog.csdn.net/20141120210203542?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaml1cWl5dWxpYW5n/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="icon"></li>
@@ -544,6 +554,27 @@
 <h5 id="JPA"><a href="#JPA" class="headerlink" title="JPA"></a>JPA</h5><ul>
 <li>Spring Data JPA是Spring Data的子模块。使用Spring Data，使得基于”repositories”概念的JPA实现更简单和容易。</li>
 <li>JPA默认使用hibernate作为ORM实现，所以，一般使用Spring Data JPA即会使用hibernate。</li>
+</ul>
+<h4 id="题库系统"><a href="#题库系统" class="headerlink" title="题库系统"></a>题库系统</h4><ul>
+<li>判题程序在docker中进行，启动容器安装java环境，将容器保存为镜像</li>
+<li>限制程序的运行资源，如内存、时间用量，进程、线程数量</li>
+<li><strong>对于每组测试数据，将输入数据写为工作目录的文本文件后，在子进程中限制资源，用freopen重定向输入输出，并使用execl运行程序，在父进程中使用ptrace监听控制子进程。这里有个坑，就是Docker默认是不能使用ptrace的，因此要在启动容器的时候加上启动选项 –cap-add=SYS_PTRACE。</strong></li>
+</ul>
+<p><a href="https://zhuanlan.zhihu.com/p/27807692" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/27807692</a></p>
+<h4 id="dubbo-zookeeper"><a href="#dubbo-zookeeper" class="headerlink" title="dubbo/zookeeper"></a>dubbo/zookeeper</h4><h5 id="dubbo"><a href="#dubbo" class="headerlink" title="dubbo"></a>dubbo</h5><ul>
+<li>分布式服务框架，使用RPC调用</li>
+</ul>
+<h5 id="zookeeper"><a href="#zookeeper" class="headerlink" title="zookeeper"></a>zookeeper</h5><ul>
+<li>高可用的分布式管理与协调框架</li>
+<li>树型的目录服务的数据存储</li>
+<li>应用场景<ul>
+<li>配置管理</li>
+<li>集群管理：leader选举，集群容错</li>
+<li>发布与订阅</li>
+<li>数据库切换</li>
+<li>分布式日志的收集</li>
+</ul>
+</li>
 </ul>
 
           
@@ -1409,16 +1440,15 @@ public class ChessyCounter{
 <li>进程切换消耗资源更大</li>
 <li>线程的划分尺度小于进程，导致多线程并发性更高</li>
 <li>线程拥有自己独立的栈和栈指针等信息</li>
+<li>多线程程序的并发性高</li>
 </ul>
 </li>
 <li>联系：<ul>
 <li>一个程序至少有一个进程，一个进程至少有一个线程</li>
 <li>进程在执行过程中拥有独立的内存单元，而多个线程共享所在进程的内存</li>
+<li>进程有独立的地址空间，一个进程崩溃后，在保护模式下不会对其它进程产生影响，而线程只是一个进程中的不同执行路径。<br><strong>2. 进程间通信方式</strong></li>
 </ul>
 </li>
-</ul>
-<p><strong>2. 进程间通信方式</strong></p>
-<ul>
 <li>管道：半双工，是数据只能单向流动<ul>
 <li>无名管道：只能在具有亲缘关系的进程间使用，一般指父子</li>
 <li>有名管道：允许无亲缘关系进程间的通信。</li>
@@ -1438,8 +1468,39 @@ public class ChessyCounter{
 <p><strong>3. 线程间通信方式</strong></p>
 <ul>
 <li>锁</li>
-<li>信号量semaphore</li>
-<li>信号signal</li>
+<li>信号量semaphore：同一时刻访问此资源的最大线程数量</li>
+<li>信号signal：通过通知操作的方式来保持多线程同步</li>
+</ul>
+<p><strong>4. 进程的几种状态</strong></p>
+<ul>
+<li>就绪状态：进程已获得除处理机以外的所需资源，等待分配处理机资源</li>
+<li>运行状态：占用处理机资源运行，处于此状态的进程数小于等于CPU数</li>
+<li>阻塞状态： 进程等待某种条件，在条件满足之前无法执</li>
+<li>就绪→执行；执行→就绪；执行→阻塞；阻塞→就绪</li>
+</ul>
+<p><strong>5. 进程调度策略</strong></p>
+<ul>
+<li>FCFS先来先服务：没有考虑优先级</li>
+<li>短作业优先：不利于长作业</li>
+<li>高响应比优先：响应比计算系统开销，增加系统开销</li>
+<li>时间片轮转</li>
+<li>多级反馈队列</li>
+</ul>
+<p><strong>6. 进程同步机制</strong></p>
+<ul>
+<li>信号量</li>
+<li>管程</li>
+</ul>
+<h3 id="内存"><a href="#内存" class="headerlink" title="内存"></a>内存</h3><p><strong>1. 段页区别</strong></p>
+<ul>
+<li>段是信息的<strong>逻辑单位</strong>，它是根据用户的需要划分的，因此段对用户是<strong>可见</strong>的</li>
+<li>页是信息的<strong>物理单位</strong>，是为了管理主存的方便而划分的，对用户是<strong>透明</strong>的。</li>
+<li>段的大小不固定，有它所完成的功能决定</li>
+<li>页的大小固定，由系统决定.</li>
+<li>段向用户提供二维地址空间，在标识一个地址时，即需给出段名，又需给出段内地址</li>
+<li>页向用户提供的是一维地址空间</li>
+<li>段是信息的逻辑单位，便于存储保护和信息的共享，页的保护和共享受到限制</li>
+<li><strong>页式虚拟存储系统存在内部碎片；段式虚拟存储系统，存在外部碎片</strong></li>
 </ul>
 
           
@@ -2204,10 +2265,14 @@ public class ChessyCounter{
       
         
           
-            <h1 id="基本排序算法"><a href="#基本排序算法" class="headerlink" title="基本排序算法"></a>基本排序算法</h1><h2 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h2><ul>
+            <h1 id="基本排序算法"><a href="#基本排序算法" class="headerlink" title="基本排序算法"></a>基本排序算法</h1><ul>
+<li><strong>稳定性</strong><ul>
+<li>排序前后两个相等的数相对位置不变，则算法稳定。<h2 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h2></li>
 <li>直接插入排序</li>
 <li>折半插入排序（二分法插入）</li>
 <li>希尔排序：不稳定</li>
+</ul>
+</li>
 </ul>
 <h3 id="直接插入排序"><a href="#直接插入排序" class="headerlink" title="直接插入排序"></a>直接插入排序</h3><p><strong>稳定，算法复杂度：O(n²)</strong></p>
 <pre><code>public void insertionSort(int[] a) {
@@ -2418,6 +2483,7 @@ private void merge(int[] arr, int left, int mid, int right) {
 //非递归
 private void MergeSort(int[] arr) {
     int len = arr.length;
+
     int step = 1; //每一个区间的长度，1,2,4,8...
     while (step &lt;= len) {
         int offset = 2 * step;
@@ -2427,7 +2493,25 @@ private void MergeSort(int[] arr) {
     }
 }
 </code></pre><h2 id="基数排序"><a href="#基数排序" class="headerlink" title="基数排序"></a>基数排序</h2><ul>
-<li>桶排序：稳定</li>
+<li>桶排序：稳定<ul>
+<li>算法复杂度：O(n+radix)</li>
+<li>空间复杂度：O(n+2radix)</li>
+</ul>
+</li>
+</ul>
+<h1 id="解决Hash冲突"><a href="#解决Hash冲突" class="headerlink" title="解决Hash冲突"></a>解决Hash冲突</h1><ul>
+<li>线性探测</li>
+<li>二次探测</li>
+<li>双散列<ul>
+<li>d = hash1(k) = k % len(tableSize)</li>
+<li>c = hash2(k) = R - (k % R) ;R为&lt;tableSize的质数</li>
+<li>d+c,d+2c,d+3c…..</li>
+</ul>
+</li>
+<li>再散列<ul>
+<li>当表项数 &gt; 表的70% 时,可再散列.  即, 取比(2*原表长=14)大的质数17再散列</li>
+</ul>
+</li>
 </ul>
 
           

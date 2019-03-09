@@ -89,7 +89,7 @@
 <meta property="og:locale" content="Java">
 <meta property="og:image" content="https://img-blog.csdn.net/20150427151555111?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaml1cWl5dWxpYW5n/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
 <meta property="og:image" content="https://img-blog.csdn.net/20141120210203542?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaml1cWl5dWxpYW5n/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
-<meta property="og:updated_time" content="2019-03-08T03:01:52.952Z">
+<meta property="og:updated_time" content="2019-03-08T14:23:47.014Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="项目">
 <meta name="twitter:description" content="DevOps工具链DevOps 通过高度自动化工具与流程来使得软件构建、测试、发布更加快捷、频繁和可靠 将开发、运维一体化  可以把 DevOps 看作开发（软件工程）、技术运营和质量保障（QA）三者的交集。 传统的软件组织将开发、IT 运营和质量保障设为各自分离的部门， 按照从前的工作方式，开发和部署，不需要 IT 支持或者 QA 深入的跨部门的支持；而现在却需要极其紧密的多部门协作。 而 De">
@@ -510,6 +510,16 @@
 </li>
 </ul>
 </li>
+<li><strong>核心注解</strong><ul>
+<li>@SpringBootConfiguration：组合了 @Configuration 注解，实现配置文件的功能。</li>
+<li>@EnableAutoConfiguration：打开自动配置的功能，也可以关闭某个自动配置的选项</li>
+<li>@ComponentScan：Spring组件扫描</li>
+</ul>
+</li>
+<li><strong>如何理解 Spring Boot 中的 Starters</strong><ul>
+<li>Starters可以理解为启动器，它包含了一系列可以集成到应用里面的依赖包，你可以一站式集成 Spring 及其他技术，而不需要到处找示例代码和依赖包。</li>
+</ul>
+</li>
 </ul>
 <h4 id="hibernate"><a href="#hibernate" class="headerlink" title="hibernate"></a>hibernate</h4><ul>
 <li>Hibernate是开源的一个ORM（对象关系映射）框架，是对JDBC的进一步封装<br><img src="https://img-blog.csdn.net/20141120210203542?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaml1cWl5dWxpYW5n/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="icon"></li>
@@ -544,6 +554,27 @@
 <h5 id="JPA"><a href="#JPA" class="headerlink" title="JPA"></a>JPA</h5><ul>
 <li>Spring Data JPA是Spring Data的子模块。使用Spring Data，使得基于”repositories”概念的JPA实现更简单和容易。</li>
 <li>JPA默认使用hibernate作为ORM实现，所以，一般使用Spring Data JPA即会使用hibernate。</li>
+</ul>
+<h4 id="题库系统"><a href="#题库系统" class="headerlink" title="题库系统"></a>题库系统</h4><ul>
+<li>判题程序在docker中进行，启动容器安装java环境，将容器保存为镜像</li>
+<li>限制程序的运行资源，如内存、时间用量，进程、线程数量</li>
+<li><strong>对于每组测试数据，将输入数据写为工作目录的文本文件后，在子进程中限制资源，用freopen重定向输入输出，并使用execl运行程序，在父进程中使用ptrace监听控制子进程。这里有个坑，就是Docker默认是不能使用ptrace的，因此要在启动容器的时候加上启动选项 –cap-add=SYS_PTRACE。</strong></li>
+</ul>
+<p><a href="https://zhuanlan.zhihu.com/p/27807692" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/27807692</a></p>
+<h4 id="dubbo-zookeeper"><a href="#dubbo-zookeeper" class="headerlink" title="dubbo/zookeeper"></a>dubbo/zookeeper</h4><h5 id="dubbo"><a href="#dubbo" class="headerlink" title="dubbo"></a>dubbo</h5><ul>
+<li>分布式服务框架，使用RPC调用</li>
+</ul>
+<h5 id="zookeeper"><a href="#zookeeper" class="headerlink" title="zookeeper"></a>zookeeper</h5><ul>
+<li>高可用的分布式管理与协调框架</li>
+<li>树型的目录服务的数据存储</li>
+<li>应用场景<ul>
+<li>配置管理</li>
+<li>集群管理：leader选举，集群容错</li>
+<li>发布与订阅</li>
+<li>数据库切换</li>
+<li>分布式日志的收集</li>
+</ul>
+</li>
 </ul>
 
       
@@ -715,7 +746,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#DevOps工具链"><span class="nav-number">1.</span> <span class="nav-text">DevOps工具链</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#DevOps"><span class="nav-number">1.1.</span> <span class="nav-text">DevOps</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#工具链"><span class="nav-number">1.2.</span> <span class="nav-text">工具链</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MyBatis"><span class="nav-number">1.3.</span> <span class="nav-text">MyBatis</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#教育平台"><span class="nav-number">2.</span> <span class="nav-text">教育平台</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Spring"><span class="nav-number">2.1.</span> <span class="nav-text">Spring</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#IoC"><span class="nav-number">2.1.1.</span> <span class="nav-text">IoC</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#AOP"><span class="nav-number">2.1.2.</span> <span class="nav-text">AOP</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Spring-MVC工作原理"><span class="nav-number">2.1.3.</span> <span class="nav-text">Spring MVC工作原理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Spring-Boot"><span class="nav-number">2.1.4.</span> <span class="nav-text">Spring Boot</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hibernate"><span class="nav-number">2.2.</span> <span class="nav-text">hibernate</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hibernate与mybatis的对比"><span class="nav-number">2.3.</span> <span class="nav-text">hibernate与mybatis的对比</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#JPA"><span class="nav-number">2.3.1.</span> <span class="nav-text">JPA</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#DevOps工具链"><span class="nav-number">1.</span> <span class="nav-text">DevOps工具链</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#DevOps"><span class="nav-number">1.1.</span> <span class="nav-text">DevOps</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#工具链"><span class="nav-number">1.2.</span> <span class="nav-text">工具链</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MyBatis"><span class="nav-number">1.3.</span> <span class="nav-text">MyBatis</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#教育平台"><span class="nav-number">2.</span> <span class="nav-text">教育平台</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Spring"><span class="nav-number">2.1.</span> <span class="nav-text">Spring</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#IoC"><span class="nav-number">2.1.1.</span> <span class="nav-text">IoC</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#AOP"><span class="nav-number">2.1.2.</span> <span class="nav-text">AOP</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Spring-MVC工作原理"><span class="nav-number">2.1.3.</span> <span class="nav-text">Spring MVC工作原理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Spring-Boot"><span class="nav-number">2.1.4.</span> <span class="nav-text">Spring Boot</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hibernate"><span class="nav-number">2.2.</span> <span class="nav-text">hibernate</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hibernate与mybatis的对比"><span class="nav-number">2.3.</span> <span class="nav-text">hibernate与mybatis的对比</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#JPA"><span class="nav-number">2.3.1.</span> <span class="nav-text">JPA</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#题库系统"><span class="nav-number">2.4.</span> <span class="nav-text">题库系统</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dubbo-zookeeper"><span class="nav-number">2.5.</span> <span class="nav-text">dubbo/zookeeper</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#dubbo"><span class="nav-number">2.5.1.</span> <span class="nav-text">dubbo</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#zookeeper"><span class="nav-number">2.5.2.</span> <span class="nav-text">zookeeper</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>

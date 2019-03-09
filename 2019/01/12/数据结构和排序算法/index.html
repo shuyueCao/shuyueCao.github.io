@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="基本排序算法插入排序 直接插入排序 折半插入排序（二分法插入） 希尔排序：不稳定  直接插入排序稳定，算法复杂度：O(n²) public void insertionSort(int[] a) {     for (int i = 1; i &amp;lt; a.length; i++) {         int temp = a[i];         int j = i - 1;">
+<meta name="description" content="基本排序算法 稳定性 排序前后两个相等的数相对位置不变，则算法稳定。插入排序 直接插入排序 折半插入排序（二分法插入） 希尔排序：不稳定    直接插入排序稳定，算法复杂度：O(n²) public void insertionSort(int[] a) {     for (int i = 1; i &amp;lt; a.length; i++) {         int temp = a[i];">
 <meta name="keywords" content="面试">
 <meta property="og:type" content="article">
 <meta property="og:title" content="数据结构和排序算法">
 <meta property="og:url" content="http://yoursite.com/2019/01/12/数据结构和排序算法/index.html">
 <meta property="og:site_name" content="Alpaca&#39;s Blog">
-<meta property="og:description" content="基本排序算法插入排序 直接插入排序 折半插入排序（二分法插入） 希尔排序：不稳定  直接插入排序稳定，算法复杂度：O(n²) public void insertionSort(int[] a) {     for (int i = 1; i &amp;lt; a.length; i++) {         int temp = a[i];         int j = i - 1;">
+<meta property="og:description" content="基本排序算法 稳定性 排序前后两个相等的数相对位置不变，则算法稳定。插入排序 直接插入排序 折半插入排序（二分法插入） 希尔排序：不稳定    直接插入排序稳定，算法复杂度：O(n²) public void insertionSort(int[] a) {     for (int i = 1; i &amp;lt; a.length; i++) {         int temp = a[i];">
 <meta property="og:locale" content="Java">
-<meta property="og:updated_time" content="2019-02-10T13:57:37.165Z">
+<meta property="og:updated_time" content="2019-03-09T02:05:30.070Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据结构和排序算法">
-<meta name="twitter:description" content="基本排序算法插入排序 直接插入排序 折半插入排序（二分法插入） 希尔排序：不稳定  直接插入排序稳定，算法复杂度：O(n²) public void insertionSort(int[] a) {     for (int i = 1; i &amp;lt; a.length; i++) {         int temp = a[i];         int j = i - 1;">
+<meta name="twitter:description" content="基本排序算法 稳定性 排序前后两个相等的数相对位置不变，则算法稳定。插入排序 直接插入排序 折半插入排序（二分法插入） 希尔排序：不稳定    直接插入排序稳定，算法复杂度：O(n²) public void insertionSort(int[] a) {     for (int i = 1; i &amp;lt; a.length; i++) {         int temp = a[i];">
 
 
 
@@ -365,10 +365,14 @@
       
 
       
-        <h1 id="基本排序算法"><a href="#基本排序算法" class="headerlink" title="基本排序算法"></a>基本排序算法</h1><h2 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h2><ul>
+        <h1 id="基本排序算法"><a href="#基本排序算法" class="headerlink" title="基本排序算法"></a>基本排序算法</h1><ul>
+<li><strong>稳定性</strong><ul>
+<li>排序前后两个相等的数相对位置不变，则算法稳定。<h2 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h2></li>
 <li>直接插入排序</li>
 <li>折半插入排序（二分法插入）</li>
 <li>希尔排序：不稳定</li>
+</ul>
+</li>
 </ul>
 <h3 id="直接插入排序"><a href="#直接插入排序" class="headerlink" title="直接插入排序"></a>直接插入排序</h3><p><strong>稳定，算法复杂度：O(n²)</strong></p>
 <pre><code>public void insertionSort(int[] a) {
@@ -579,6 +583,7 @@ private void merge(int[] arr, int left, int mid, int right) {
 //非递归
 private void MergeSort(int[] arr) {
     int len = arr.length;
+
     int step = 1; //每一个区间的长度，1,2,4,8...
     while (step &lt;= len) {
         int offset = 2 * step;
@@ -588,7 +593,25 @@ private void MergeSort(int[] arr) {
     }
 }
 </code></pre><h2 id="基数排序"><a href="#基数排序" class="headerlink" title="基数排序"></a>基数排序</h2><ul>
-<li>桶排序：稳定</li>
+<li>桶排序：稳定<ul>
+<li>算法复杂度：O(n+radix)</li>
+<li>空间复杂度：O(n+2radix)</li>
+</ul>
+</li>
+</ul>
+<h1 id="解决Hash冲突"><a href="#解决Hash冲突" class="headerlink" title="解决Hash冲突"></a>解决Hash冲突</h1><ul>
+<li>线性探测</li>
+<li>二次探测</li>
+<li>双散列<ul>
+<li>d = hash1(k) = k % len(tableSize)</li>
+<li>c = hash2(k) = R - (k % R) ;R为&lt;tableSize的质数</li>
+<li>d+c,d+2c,d+3c…..</li>
+</ul>
+</li>
+<li>再散列<ul>
+<li>当表项数 &gt; 表的70% 时,可再散列.  即, 取比(2*原表长=14)大的质数17再散列</li>
+</ul>
+</li>
 </ul>
 
       
@@ -764,7 +787,7 @@ private void MergeSort(int[] arr) {
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基本排序算法"><span class="nav-number">1.</span> <span class="nav-text">基本排序算法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#插入排序"><span class="nav-number">1.1.</span> <span class="nav-text">插入排序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#直接插入排序"><span class="nav-number">1.1.1.</span> <span class="nav-text">直接插入排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#折半插入排序（此处描述的是二分法查找算法）"><span class="nav-number">1.1.2.</span> <span class="nav-text">折半插入排序（此处描述的是二分法查找算法）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#交换排序"><span class="nav-number">1.2.</span> <span class="nav-text">交换排序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#冒泡排序"><span class="nav-number">1.2.1.</span> <span class="nav-text">冒泡排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#快速排序"><span class="nav-number">1.2.2.</span> <span class="nav-text">快速排序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#选择排序"><span class="nav-number">1.3.</span> <span class="nav-text">选择排序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#堆排序"><span class="nav-number">1.3.1.</span> <span class="nav-text">堆排序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#归并排序"><span class="nav-number">1.4.</span> <span class="nav-text">归并排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基数排序"><span class="nav-number">1.5.</span> <span class="nav-text">基数排序</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基本排序算法"><span class="nav-number">1.</span> <span class="nav-text">基本排序算法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#插入排序"><span class="nav-number">1.1.</span> <span class="nav-text">插入排序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#直接插入排序"><span class="nav-number">1.1.1.</span> <span class="nav-text">直接插入排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#折半插入排序（此处描述的是二分法查找算法）"><span class="nav-number">1.1.2.</span> <span class="nav-text">折半插入排序（此处描述的是二分法查找算法）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#交换排序"><span class="nav-number">1.2.</span> <span class="nav-text">交换排序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#冒泡排序"><span class="nav-number">1.2.1.</span> <span class="nav-text">冒泡排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#快速排序"><span class="nav-number">1.2.2.</span> <span class="nav-text">快速排序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#选择排序"><span class="nav-number">1.3.</span> <span class="nav-text">选择排序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#堆排序"><span class="nav-number">1.3.1.</span> <span class="nav-text">堆排序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#归并排序"><span class="nav-number">1.4.</span> <span class="nav-text">归并排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基数排序"><span class="nav-number">1.5.</span> <span class="nav-text">基数排序</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#解决Hash冲突"><span class="nav-number">2.</span> <span class="nav-text">解决Hash冲突</span></a></li></ol></div>
             
 
           </div>

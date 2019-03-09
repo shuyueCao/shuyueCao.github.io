@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="进程/线程1. 进程线程区别与联系  区别： 进程是资源分配的最小单位；线程是CPU调度的最小单位 进程切换消耗资源更大 线程的划分尺度小于进程，导致多线程并发性更高 线程拥有自己独立的栈和栈指针等信息   联系： 一个程序至少有一个进程，一个进程至少有一个线程 进程在执行过程中拥有独立的内存单元，而多个线程共享所在进程的内存    2. 进程间通信方式  管道：半双工，是数据只能单向流动 无名管">
+<meta name="description" content="进程/线程1. 进程线程区别与联系  区别： 进程是资源分配的最小单位；线程是CPU调度的最小单位 进程切换消耗资源更大 线程的划分尺度小于进程，导致多线程并发性更高 线程拥有自己独立的栈和栈指针等信息 多线程程序的并发性高   联系： 一个程序至少有一个进程，一个进程至少有一个线程 进程在执行过程中拥有独立的内存单元，而多个线程共享所在进程的内存 进程有独立的地址空间，一个进程崩溃后，在保护模式">
 <meta name="keywords" content="面试">
 <meta property="og:type" content="article">
 <meta property="og:title" content="操作系统">
 <meta property="og:url" content="http://yoursite.com/2019/02/27/操作系统/index.html">
 <meta property="og:site_name" content="Alpaca&#39;s Blog">
-<meta property="og:description" content="进程/线程1. 进程线程区别与联系  区别： 进程是资源分配的最小单位；线程是CPU调度的最小单位 进程切换消耗资源更大 线程的划分尺度小于进程，导致多线程并发性更高 线程拥有自己独立的栈和栈指针等信息   联系： 一个程序至少有一个进程，一个进程至少有一个线程 进程在执行过程中拥有独立的内存单元，而多个线程共享所在进程的内存    2. 进程间通信方式  管道：半双工，是数据只能单向流动 无名管">
+<meta property="og:description" content="进程/线程1. 进程线程区别与联系  区别： 进程是资源分配的最小单位；线程是CPU调度的最小单位 进程切换消耗资源更大 线程的划分尺度小于进程，导致多线程并发性更高 线程拥有自己独立的栈和栈指针等信息 多线程程序的并发性高   联系： 一个程序至少有一个进程，一个进程至少有一个线程 进程在执行过程中拥有独立的内存单元，而多个线程共享所在进程的内存 进程有独立的地址空间，一个进程崩溃后，在保护模式">
 <meta property="og:locale" content="Java">
-<meta property="og:updated_time" content="2019-02-27T05:33:32.846Z">
+<meta property="og:updated_time" content="2019-03-09T08:58:09.108Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="操作系统">
-<meta name="twitter:description" content="进程/线程1. 进程线程区别与联系  区别： 进程是资源分配的最小单位；线程是CPU调度的最小单位 进程切换消耗资源更大 线程的划分尺度小于进程，导致多线程并发性更高 线程拥有自己独立的栈和栈指针等信息   联系： 一个程序至少有一个进程，一个进程至少有一个线程 进程在执行过程中拥有独立的内存单元，而多个线程共享所在进程的内存    2. 进程间通信方式  管道：半双工，是数据只能单向流动 无名管">
+<meta name="twitter:description" content="进程/线程1. 进程线程区别与联系  区别： 进程是资源分配的最小单位；线程是CPU调度的最小单位 进程切换消耗资源更大 线程的划分尺度小于进程，导致多线程并发性更高 线程拥有自己独立的栈和栈指针等信息 多线程程序的并发性高   联系： 一个程序至少有一个进程，一个进程至少有一个线程 进程在执行过程中拥有独立的内存单元，而多个线程共享所在进程的内存 进程有独立的地址空间，一个进程崩溃后，在保护模式">
 
 
 
@@ -339,16 +339,15 @@
 <li>进程切换消耗资源更大</li>
 <li>线程的划分尺度小于进程，导致多线程并发性更高</li>
 <li>线程拥有自己独立的栈和栈指针等信息</li>
+<li>多线程程序的并发性高</li>
 </ul>
 </li>
 <li>联系：<ul>
 <li>一个程序至少有一个进程，一个进程至少有一个线程</li>
 <li>进程在执行过程中拥有独立的内存单元，而多个线程共享所在进程的内存</li>
+<li>进程有独立的地址空间，一个进程崩溃后，在保护模式下不会对其它进程产生影响，而线程只是一个进程中的不同执行路径。<br><strong>2. 进程间通信方式</strong></li>
 </ul>
 </li>
-</ul>
-<p><strong>2. 进程间通信方式</strong></p>
-<ul>
 <li>管道：半双工，是数据只能单向流动<ul>
 <li>无名管道：只能在具有亲缘关系的进程间使用，一般指父子</li>
 <li>有名管道：允许无亲缘关系进程间的通信。</li>
@@ -368,8 +367,39 @@
 <p><strong>3. 线程间通信方式</strong></p>
 <ul>
 <li>锁</li>
-<li>信号量semaphore</li>
-<li>信号signal</li>
+<li>信号量semaphore：同一时刻访问此资源的最大线程数量</li>
+<li>信号signal：通过通知操作的方式来保持多线程同步</li>
+</ul>
+<p><strong>4. 进程的几种状态</strong></p>
+<ul>
+<li>就绪状态：进程已获得除处理机以外的所需资源，等待分配处理机资源</li>
+<li>运行状态：占用处理机资源运行，处于此状态的进程数小于等于CPU数</li>
+<li>阻塞状态： 进程等待某种条件，在条件满足之前无法执</li>
+<li>就绪→执行；执行→就绪；执行→阻塞；阻塞→就绪</li>
+</ul>
+<p><strong>5. 进程调度策略</strong></p>
+<ul>
+<li>FCFS先来先服务：没有考虑优先级</li>
+<li>短作业优先：不利于长作业</li>
+<li>高响应比优先：响应比计算系统开销，增加系统开销</li>
+<li>时间片轮转</li>
+<li>多级反馈队列</li>
+</ul>
+<p><strong>6. 进程同步机制</strong></p>
+<ul>
+<li>信号量</li>
+<li>管程</li>
+</ul>
+<h3 id="内存"><a href="#内存" class="headerlink" title="内存"></a>内存</h3><p><strong>1. 段页区别</strong></p>
+<ul>
+<li>段是信息的<strong>逻辑单位</strong>，它是根据用户的需要划分的，因此段对用户是<strong>可见</strong>的</li>
+<li>页是信息的<strong>物理单位</strong>，是为了管理主存的方便而划分的，对用户是<strong>透明</strong>的。</li>
+<li>段的大小不固定，有它所完成的功能决定</li>
+<li>页的大小固定，由系统决定.</li>
+<li>段向用户提供二维地址空间，在标识一个地址时，即需给出段名，又需给出段内地址</li>
+<li>页向用户提供的是一维地址空间</li>
+<li>段是信息的逻辑单位，便于存储保护和信息的共享，页的保护和共享受到限制</li>
+<li><strong>页式虚拟存储系统存在内部碎片；段式虚拟存储系统，存在外部碎片</strong></li>
 </ul>
 
       
@@ -545,7 +575,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#进程-线程"><span class="nav-number">1.</span> <span class="nav-text">进程/线程</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#进程-线程"><span class="nav-number">1.</span> <span class="nav-text">进程/线程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存"><span class="nav-number">2.</span> <span class="nav-text">内存</span></a></li></ol></div>
             
 
           </div>
