@@ -2053,7 +2053,7 @@ public class ChessyCounter{
 <li>老年代(2/3)(长时间存在的对象)</li>
 </ul>
 </li>
-<li>一般小型的对象都会在 Eden 区上分配，如果Eden区无法分配，则触发一次<strong>Minor GC</strong>,把Eden和survivor from区活着的对象放到survivor to中<ul>
+<li>一般小型的对象都会在 Eden 区上分配，如果Eden区无法分配，则触发一次<strong>Minor GC</strong>,把Eden和survivor from区活着的对象放到survivor to中，然后把from和to交换位置，保证to的区域一直为空<ul>
 <li>如果survivor to不可以放入，那么直接把它们放入到老年代中，并清除Eden和survivor from，这个过程也称为<strong>分配担保（Full GC）</strong></li>
 </ul>
 </li>
