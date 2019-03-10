@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Alpaca&#39;s Blog">
 <meta property="og:description" content="JVM运行内存的分类 程序计数器 线程私有 当前线程所执行的字节码的行号指示器，用于记录正在执行的虚拟机字节指令地址 如果正在执行的是native方法，则为空   虚拟机栈 线程私有 每个方法被执行的时候都会同时创建一个栈帧用于存放局部变量表、操作栈、动态链接、方法出口等信息。每一个方法被调用直至执行完成的过程就对应着一个栈帧在虚拟机栈中从入栈到出栈的过程 生命周期与线程相同 为java方法服务">
 <meta property="og:locale" content="Java">
-<meta property="og:updated_time" content="2019-03-01T09:40:00.169Z">
+<meta property="og:updated_time" content="2019-03-10T06:29:04.945Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JVM整理">
 <meta name="twitter:description" content="JVM运行内存的分类 程序计数器 线程私有 当前线程所执行的字节码的行号指示器，用于记录正在执行的虚拟机字节指令地址 如果正在执行的是native方法，则为空   虚拟机栈 线程私有 每个方法被执行的时候都会同时创建一个栈帧用于存放局部变量表、操作栈、动态链接、方法出口等信息。每一个方法被调用直至执行完成的过程就对应着一个栈帧在虚拟机栈中从入栈到出栈的过程 生命周期与线程相同 为java方法服务">
@@ -403,11 +403,17 @@
 <li><strong>弊端：</strong> A-&gt;B,B-&gt;A,那么 AB 将永远不会被回收了。也就是<strong>引用有环</strong>的情况</li>
 </ul>
 </li>
-<li><strong>根搜索算法(可达性算法) GC Roots Tracing</strong><ul>
+<li><p><strong>根搜索算法(可达性算法) GC Roots Tracing</strong></p>
+<ul>
 <li>通过一个叫 GC Roots 的对象作为起点,从这些结点开始向下搜索,搜索所走过的路径称为<strong>引用链</strong>,当一个对象没有与任何的引用链相连的时候则该对象就可以被回收。</li>
-<li>根搜索算法中不可达的对象并非“非死不可”,真正宣告一个对象死亡需要<strong>两次</strong>标记过程。</li>
-<li>finalize()方法只会被调用一次</li>
-<li><strong>GC回收的Roots包括：</strong><ul>
+<li><p>根搜索算法中不可达的对象并非“非死不可”,真正宣告一个对象死亡需要<strong>两次</strong>标记过程。</p>
+<ul>
+<li>第一次标记：判断是否有必要执行finalize方法</li>
+<li>第二次标记：第一次标记过且有必要执行finalize()方法的对象，此时是对象唯一逃出去（不被回收）的机会，通过与任意对象建立关联即可，这时对象将会被移出“将被回收”的队列</li>
+</ul>
+</li>
+<li><p><strong>GC回收的Roots包括：</strong></p>
+<ul>
 <li>java虚拟机栈中引用的对象<ul>
 <li>eg: 方法里面定义这种局部变量 User user= new User();</li>
 </ul>
@@ -423,6 +429,13 @@
 </li>
 </ul>
 </li>
+</ul>
+</li>
+<li><strong>finalize方法</strong><ul>
+<li>gc只能清除在堆上分配的内存，而不能清除栈上分配的内存，对这类对象回收需要使用finalize方法</li>
+<li>finalize()方法只会被调用一次，GC在回收对象之前调用该方法。</li>
+<li>finalize方法中，可将待回收对象赋值给GC Roots可达的对象引用，从而达到对象再生的目的</li>
+<li>finalize()是由JVM自动调用的，你可以用System.gc()，但JVM不一定会立刻执行，每个虚拟机会根据自己的策略执行。JVM感觉内存空间有限时，才会开始执行finalize()</li>
 </ul>
 </li>
 </ol>
@@ -453,17 +466,12 @@
 </ul>
 <h3 id="内存分配与回收策略"><a href="#内存分配与回收策略" class="headerlink" title="内存分配与回收策略"></a>内存分配与回收策略</h3><ul>
 <li><strong>结构</strong>（堆大小 = 新生代 + 老年代）<ul>
-<li>新生代(1/3)(初始对象，生命周期短)：Eden 区、survivior 0、survivior 1（8 : 1 : 1）</li>
+<li>新生代(1/3)(初始对象，生命周期短)：Eden 区、survivior from、survivior to（8 : 1 : 1）</li>
 <li>老年代(2/3)(长时间存在的对象)</li>
 </ul>
 </li>
-<li>一般小型的对象都会在 Eden 区上分配，如果Eden区无法分配，那么尝试把活着的对象放到survivor0中去（Minor GC）<ul>
-<li>如果survivor0可以放入，那么放入之后清除Eden区</li>
-<li>如果survivor0不可以放入，那么尝试把Eden和survivor0的存活对象放到survivor1中<ul>
-<li>如果survivor1可以放入，那么放入survivor1之后清除Eden和survivor0，之后再把survivor1中的对象复制到survivor0中，保持survivor1一直为空。</li>
-<li>如果survivor1不可以放入，那么直接把它们放入到老年代中，并清除Eden和survivor0，这个过程也称为<strong>分配担保（Full GC）</strong></li>
-</ul>
-</li>
+<li>一般小型的对象都会在 Eden 区上分配，如果Eden区无法分配，则触发一次<strong>Minor GC</strong>,把Eden和survivor from区活着的对象放到survivor to中<ul>
+<li>如果survivor to不可以放入，那么直接把它们放入到老年代中，并清除Eden和survivor from，这个过程也称为<strong>分配担保（Full GC）</strong></li>
 </ul>
 </li>
 <li>大对象、长期存活的对象则直接进入老年代</li>
@@ -480,10 +488,10 @@
 <li>综上：新生代基本采用复制算法，老年代采用标记整理算法。cms采用标记清理</li>
 </ul>
 <h3 id="如何减少GC次数？"><a href="#如何减少GC次数？" class="headerlink" title="如何减少GC次数？"></a>如何减少GC次数？</h3><ul>
-<li>对象尽量不要显式设置为null</li>
+<li>对象尽量不要显式设置为null：有利于 GC 收集器判定垃圾,从而提高了 GC 的效率</li>
 <li>少用system.gc</li>
-<li>少用静态变量</li>
-<li>尽量使用 StringBuffer,而不用 String 来累加字符串</li>
+<li>少用静态变量：静态变量是全局变量，不会被GC回收，但一直占用内存</li>
+<li>尽量使用 StringBuffer,而不用 String 来累加字符串：StringBuffer是可变长的,它在原有基础上进行扩增,不会产生中间对象</li>
 <li>使用软引用类型</li>
 </ul>
 <h2 id="Java类加载机制"><a href="#Java类加载机制" class="headerlink" title="Java类加载机制"></a>Java类加载机制</h2><p>  虚拟机把描述类的数据文件（字节码）加载到内存，并对数据进行验证、准备、解析以及类初始化，最终形成可以被虚拟机直接使用的java类型</p>
