@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Alpaca&#39;s Blog">
 <meta property="og:description" content="HTTP(无状态的协议)/HTTPS1. 两者区别？  HTTP是不安全的，HTTPS是安全的 OSI模型中，HTTP在应用层，HTTPS的安全传输机制在传输层 HTTP无法加密，HTTPS对传输的数据进行加密 HTTP不用证书，而HTTPS需要CA机构颁发的SSL证书  HTTPS就是HTTP加上加密处理（一般是SSL安全通信线路）+认证+消息完整性保护 2. HTTPS工作原理 双向认证 SS">
 <meta property="og:locale" content="Java">
-<meta property="og:updated_time" content="2019-03-09T12:48:49.340Z">
+<meta property="og:updated_time" content="2019-03-12T12:55:24.768Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="网络">
 <meta name="twitter:description" content="HTTP(无状态的协议)/HTTPS1. 两者区别？  HTTP是不安全的，HTTPS是安全的 OSI模型中，HTTP在应用层，HTTPS的安全传输机制在传输层 HTTP无法加密，HTTPS对传输的数据进行加密 HTTP不用证书，而HTTPS需要CA机构颁发的SSL证书  HTTPS就是HTTP加上加密处理（一般是SSL安全通信线路）+认证+消息完整性保护 2. HTTPS工作原理 双向认证 SS">
@@ -373,7 +373,21 @@
 <li>主机A发送SYN包(同步序列号)到服务器 <em>(SYN_SENT)</em>，等待B确认</li>
 <li>B收到后确认A的SYN <em>(SYN_RCVD)</em>，同时自己也发送一个SYN+ACK包 <em>(ESTABLISHED)</em></li>
 <li>A收到SYN+ACK包后，向B发送ACK包 <em>(ESTABLISHED)</em>。完成三次握手，开始传输数据</li>
+</ol>
+<ol start="4">
 <li>三次握手特点：没有应用层的数据</li>
+<li>三次握手漏洞：<ul>
+<li>SYN FLOOD攻击：DDoS攻击，数据报特征是大量syn包，并且缺少最后一步的ACK回复。<ul>
+<li>解决办法：<ul>
+<li>无效连接监控：半开连接数和不活动连接数到达一定值时候，就释放系统资源</li>
+<li>延缓TCB方法</li>
+<li>Syn Cookie：用一种特殊的算法生成sequence number，算法考虑到对方的信息和己方信息，收到对方的ACK报文后，验证之后才决定是否生成TCB</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
 </ol>
 <p><strong>2. TCP关闭：四次握手</strong></p>
 <ol>
