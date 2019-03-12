@@ -700,10 +700,15 @@
 <li>整个数据库加载到内存中操作，定期flush到硬盘上进行保存</li>
 <li>单线程</li>
 <li><p>集群是master/slave模式</p>
+<ul>
+<li>为了使在部分节点失败或者大部分节点无法通信的情况下集群仍然可用，所以集群使用了主从复制模型,每个节点都会有N-1个复制品</li>
+<li>异步复制</li>
+<li>Redis并不能保证数据的强一致性，这意味这在实际中集群在特定的条件下可能会丢失写操作。</li>
+</ul>
 </li>
 <li><p><strong>与memchached的区别</strong></p>
 <ul>
-<li>memchached仅支持string类型，Redis支持更丰富的数据类型</li>
+<li>memchached仅支持string类型，Redis支持更丰富的数据类型且能提供对他们的原子操作</li>
 <li>Redis速度更快</li>
 <li>Redis可以持久化</li>
 </ul>
@@ -717,6 +722,7 @@
 </li>
 <li>String<ul>
 <li>能存为整数则存为整数，不能则存为原始字符串</li>
+<li>一个字符串类型的值能存储的最大容量是512M</li>
 </ul>
 </li>
 <li>List<ul>
@@ -745,12 +751,72 @@
 <li>排行榜/计数器</li>
 </ul>
 </li>
-<li>如何做内存优化？<ul>
-<li>使用hashes(散列表)</li>
+<li><strong>如何做内存优化？</strong><ul>
+<li>使用hashes(散列表)，散列表（是说散列表里面存储的数少）使用的内存非常小</li>
+<li>比如你的web系统中有一个用户对象，不要为这个用户的名称，姓氏，邮箱，密码设置单独的key,而是应该把这个用户的所有信息存储到一张散列表里面.</li>
 </ul>
 </li>
-<li>Redis是单线程，如何提高CPU利用率？<ul>
+<li><strong>Redis是单线程，如何提高CPU利用率？</strong><ul>
 <li>可以在同一个服务器部署多个Redis的实例，并把他们当作不同的服务器来使用</li>
+</ul>
+</li>
+<li><strong>持久化</strong><ul>
+<li>如何进行？<ul>
+<li>bgsave 做镜像全量持久化<ul>
+<li>fork 和 cow，创建子进程进行bgsave操作，子进程创建后，父子进程共享数据段，父进程继续提供读写服务，写脏的页面数据会逐渐和子进程分离开来</li>
+<li>耗费较长时间，不够实时，在停机的时候会导致大量丢失数据</li>
+</ul>
+</li>
+<li>aof 做增量持久化</li>
+<li>在 redis 实例重启时，会使用 bgsave 持久化文件重新构建内存，再使用 aof 重放近期的操作指令来实现完整恢复重启之前的状态。</li>
+</ul>
+</li>
+<li>方式<ul>
+<li>RDB持久化方式能够在指定的时间间隔能对数据进行快照存储</li>
+<li>AOF持久化方式记录每次对服务器写的操作,当服务器重启的时候会重新执行这些命令来恢复原始的数据<ul>
+<li>AOF命令以redis协议追加保存每次写的操作到文件末尾</li>
+<li>Redis还能对AOF文件进行后台重写,使得AOF文件的体积不至于过大</li>
+</ul>
+</li>
+<li>定时生成RDB快照（snapshot）非常便于进行数据库备份， 并且 RDB 恢复数据集的速度也要比AOF恢复的速度要快，除此之外， 使用RDB还可以避免之前提到的AOF程序的bug。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>如何扩容？</strong><ul>
+<li>被当做缓存：一致性哈希实现动态扩容</li>
+</ul>
+</li>
+<li><strong>集群方案</strong><ul>
+<li>twemproxy，类似代理。设置好它下属的多个redis实例后，使用时在本需要连接redis的地方改为连接twemproxy，它会以一个代理的身份接收请求并使用一致性hash算法(对2^32取模)，将请求转接到具体redis<ul>
+<li>使用方式简便(相对redis只需修改连接端口)，对旧项目扩展的首选</li>
+<li>twemproxy自身单端口实例的压力，使用一致性hash后，对redis节点数量改变时候的计算值的改变，数据无法自动移动到新的节点。</li>
+</ul>
+</li>
+<li>codis，基本和twemproxy一致的效果，但它支持在 节点数量改变情况下，旧节点数据可恢复到新hash节点</li>
+<li>redis cluster3.0自带的集群，分布式算法不是一致性hash，而是hash槽的概念，以及自身支持节点设置从节点</li>
+</ul>
+</li>
+<li><strong>分区</strong><ul>
+<li>实现方案<ul>
+<li>客户端分区：在客户端就已经决定数据会被存储到哪个redis节点或者从哪个redis节点读取。大多数客户端已经实现了客户端分区。</li>
+<li>代理分区：客户端将请求发送给代理，然后代理决定去哪个节点写数据或者读数据</li>
+<li>查询路由(Query routing) ：客户端随机地请求任意一个redis实例，然后由Redis将请求转发给正确的Redis节点。</li>
+</ul>
+</li>
+<li>缺点：<ul>
+<li>涉及多个key的操作通常不会被支持，同时操作多个key,则不能使用Redis事务</li>
+<li>数据处理会变复杂：备份必须从不同的Redis实例和主机同时收集RDB / AOF文件</li>
+<li>分区时动态扩容或缩容可能非常复杂，Redis集群在运行时增加或者删除Redis节点，能做到最大程度对用户透明地数据再平衡，但其他一些客户端分区或者代理分区方法则不支持这种特性</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>常见性能问题和解决方案</strong><ul>
+<li>Master最好不要做任何持久化工作，如RDB内存快照和AOF日志文件</li>
+<li>如果数据比较重要，某个Slave开启AOF备份数据，策略设置为每秒同步一次</li>
+<li>为了主从复制的速度和连接的稳定性，Master和Slave最好在同一个局域网内</li>
+<li>主从复制不要用图状结构，用单向链表结构更为稳定，即：Master &lt;- Slave1 &lt;- Slave2 &lt;- Slave3…这样的结构方便解决单点故障问题，实现Slave对Master的替换。如果Master挂了，可以立刻启用Slave1做Master，其他不变。</li>
 </ul>
 </li>
 </ul>
@@ -1192,7 +1258,7 @@
       
         
           
-            <h3 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h3><h6 id="创建线程"><a href="#创建线程" class="headerlink" title="创建线程"></a>创建线程</h6><ul>
+            <h3 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h3><h4 id="创建线程"><a href="#创建线程" class="headerlink" title="创建线程"></a>创建线程</h4><ul>
 <li>继Thread类</li>
 <li>实现Runnable接口</li>
 <li>实现Callable接口(比runnable多一个返回值)</li>
@@ -1201,7 +1267,7 @@
 <ul>
 <li>start()方法会启动一个新线程，并包含run()方法。而run()只会执行run方法，不会启动新线程</li>
 </ul>
-<h6 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h6><ul>
+<h4 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h4><ul>
 <li>为什么要用线程池？<ul>
 <li>降低消耗。降低创建和销毁线程造成的消耗</li>
 <li>提高响应速度。任务到达时，任务可以不需要等到线程创建就能立即执行</li>
@@ -1230,7 +1296,7 @@
 </ul>
 </li>
 </ul>
-<h6 id="ThreadLocal"><a href="#ThreadLocal" class="headerlink" title="ThreadLocal"></a>ThreadLocal</h6><ul>
+<h4 id="ThreadLocal"><a href="#ThreadLocal" class="headerlink" title="ThreadLocal"></a>ThreadLocal</h4><ul>
 <li>用于线程间的数据隔离</li>
 <li>使用ThreadLocal维护变量时，ThreadLocal为每个使用该变量的线程提供独立的变量副本，所以每一个线程都可以独立地改变自己的副本，而不会影响其它线程所对应的副本</li>
 </ul>
@@ -1243,10 +1309,118 @@
 <li>notify():唤醒一个正在等待该锁的对象</li>
 <li>notifyAll():唤醒所有等待该锁的对象，但这些对象会竞争，只有一个获得该锁</li>
 </ul>
-<h3 id="synchronized关键字"><a href="#synchronized关键字" class="headerlink" title="synchronized关键字"></a>synchronized关键字</h3><h6 id="使用方式："><a href="#使用方式：" class="headerlink" title="使用方式："></a>使用方式：</h6><ul>
+<h3 id="锁的类型"><a href="#锁的类型" class="headerlink" title="锁的类型"></a>锁的类型</h3><h4 id="乐观锁-悲观锁"><a href="#乐观锁-悲观锁" class="headerlink" title="乐观锁/悲观锁"></a>乐观锁/悲观锁</h4><ul>
+<li>乐观锁：认为对于同一个数据的并发操作，是不会发生修改的<ul>
+<li>更新数据的时候，会采用<strong>尝试更新，不断重试</strong>的方式更新数据</li>
+<li><strong>CAS算法</strong>，典型例子为<strong>原子类</strong></li>
+<li>适合读操作非常多的场景</li>
+</ul>
+</li>
+<li>悲观锁：认为对于同一个数据的并发操作，一定是会发生修改的<ul>
+<li><strong>采取加锁的形式</strong></li>
+<li>适合写操作非常多的场景</li>
+</ul>
+</li>
+</ul>
+<h5 id="CAS-CompareAndSwap-算法"><a href="#CAS-CompareAndSwap-算法" class="headerlink" title="CAS(CompareAndSwap)算法"></a>CAS(CompareAndSwap)算法</h5><ul>
+<li>CAS指令执行时，当且仅当内存地址V的值与预期值A相等时，将内存地址V的值修改为B，否则就什么都不做。整个比较并替换的操作是一个原子操作。</li>
+<li>优点：<ul>
+<li>比加锁效率更高：因为对Atomic 变量进行操作时没有阻塞线程，而使用同步代码块时会阻塞线程，并且会造成程序的复杂性增高</li>
+</ul>
+</li>
+<li>缺点：<ul>
+<li>循环时间长开销大</li>
+<li>只能保证一个共享变量的原子操作</li>
+<li>ABA问题<ul>
+<li>如果内存地址V初次读取的值是A，并且在准备赋值的时候检查到它的值仍然为A；但是在这个过程中它的值曾经被改成了B，后来又被改回为A，那CAS操作就会误认为它从来没有被改变过。</li>
+<li><strong>解决方式：</strong> 带有标记的原子引用类“AtomicStampedReference”，它可以通过控制变量值的版本来保证CAS的正确性。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="公平锁-非公平锁"><a href="#公平锁-非公平锁" class="headerlink" title="公平锁/非公平锁"></a>公平锁/非公平锁</h4><ul>
+<li>公平锁：多个线程在等待同一个锁时，必须按照申请锁的先后顺序来一次获得锁</li>
+<li>非公平锁<ul>
+<li>可能导致饿死</li>
+</ul>
+</li>
+</ul>
+<h4 id="可重入锁-不可重入锁"><a href="#可重入锁-不可重入锁" class="headerlink" title="可重入锁/不可重入锁"></a>可重入锁/不可重入锁</h4><ul>
+<li><p>可重入锁：同一个线程在外层方法获取锁的时候，在进入内层方法会自动获取锁。</p>
+<ul>
+<li><p>eg:</p>
+<pre><code>synchronized void setA() throws Exception{
+  Thread.sleep(1000);
+  setB();
+}
+synchronized void setB() throws Exception{
+  Thread.sleep(1000);
+}
+</code></pre></li>
+</ul>
+</li>
+<li>不可重入锁：对于上面的例子可能造成死锁</li>
+</ul>
+<h4 id="分段锁"><a href="#分段锁" class="headerlink" title="分段锁"></a>分段锁</h4><ul>
+<li>是一种设计,目的是<strong>细化锁的粒度</strong></li>
+<li>ConcurrentHashMap就是通过分段锁来实现高效的并发操作<ul>
+<li>ConcurrentHashMap中的分段锁称为<code>Segment</code>，它即类似于<code>HashMap</code>的结构，即内部拥有一个<code>Entry</code>数组，数组中的每个元素又是一个<strong>链表</strong>；同时又是一个<code>ReentrantLock</code><strong>（Segment继承了ReentrantLock)</strong>。</li>
+<li>需要put元素的时候，并不是对整个hashmap进行加锁，而是先通过<code>hashcode</code>来知道放在哪个分段中，然后对这个<strong>分段进行加锁</strong>，所以当多线程put的时候，只要不是放在一个分段中，就实现了真正的并行的插入</li>
+<li><strong>统计size的时候，即获取hashmap全局信息的时候，需要获取所有的分段锁才能统计</strong></li>
+</ul>
+</li>
+</ul>
+<h4 id="偏向锁-轻量级锁-重量级锁"><a href="#偏向锁-轻量级锁-重量级锁" class="headerlink" title="偏向锁/轻量级锁/重量级锁"></a>偏向锁/轻量级锁/重量级锁</h4><ul>
+<li>指的是锁的状态，并且是针对synchronized</li>
+<li>偏向锁：指一段同步代码一直被一个线程所访问，那么该线程会自动获取锁。<ul>
+<li>降低获取锁的代价。</li>
+</ul>
+</li>
+<li>轻量级锁：指当锁是偏向锁的时候，被另一个线程所访问，偏向锁就会升级为轻量级锁，其他线程会通过自旋的形式尝试获取锁<ul>
+<li>不会阻塞，提高性能。</li>
+</ul>
+</li>
+<li>重量级锁：当锁为轻量级锁的时候，另一个线程虽然是自旋，但自旋不会一直持续下去，当自旋一定次数的时候，还没有获取到锁，就会进入阻塞，该锁膨胀为重量级锁<ul>
+<li>重量级锁会让其他申请的线程进入阻塞，性能降低。</li>
+</ul>
+</li>
+</ul>
+<h4 id="自旋锁"><a href="#自旋锁" class="headerlink" title="自旋锁"></a>自旋锁</h4><ul>
+<li>指尝试获取锁的线程不会立即阻塞，而是采用<strong>循环</strong>的方式去尝试获取锁</li>
+<li>优点：减少线程上下文切换的消耗</li>
+<li>缺点<ul>
+<li>循环会消耗CPU。</li>
+<li>饥饿问题</li>
+</ul>
+</li>
+<li><p>如何实现自旋锁?</p>
+<pre><code>public class SpinLock {
+  private AtomicReference&lt;Thread&gt; cas = new AtomicReference&lt;Thread&gt;();
+
+  public void lock() {
+    Thread current = Thread.currentThread();
+    // 利用CAS
+    while (!cas.compareAndSet(null, current)) {
+      // DO nothing
+    }
+  }
+  public void unlock() {
+    Thread current = Thread.currentThread();
+    cas.compareAndSet(current, null);
+  }
+}
+</code></pre></li>
+</ul>
+<h3 id="synchronized关键字"><a href="#synchronized关键字" class="headerlink" title="synchronized关键字"></a>synchronized关键字</h3><ul>
+<li><strong>非公平锁、可重入锁、互斥锁</strong></li>
+</ul>
+<h4 id="使用方式"><a href="#使用方式" class="headerlink" title="使用方式"></a>使用方式</h4><ul>
 <li>修饰实例方法，对当前实例加锁，进入同步代码之前需要获得当前实例的锁</li>
 <li>修饰静态方法，对当前类对象加锁，进入同步代码之前需要获得当前类对象的锁。</li>
-<li>修饰代码块，对指定对象加锁，进入同步代码之前需要获得指定对象的锁。<h6 id="与LOCK的区别"><a href="#与LOCK的区别" class="headerlink" title="与LOCK的区别"></a>与LOCK的区别</h6></li>
+<li>修饰代码块，对指定对象加锁，进入同步代码之前需要获得指定对象的锁。</li>
+</ul>
+<h4 id="与LOCK的区别"><a href="#与LOCK的区别" class="headerlink" title="与LOCK的区别"></a>与LOCK的区别</h4><ul>
 <li>对于synchronized,如果多个线程都只是进行读操作，所以当一个线程在进行读操作时，其他线程只能等待无法进行读操作。Lock可以提高多个线程进行读操作的效率</li>
 <li>Lock可以知道线程有没有成功获取到锁。synchronized不行</li>
 <li>采用synchronized不需要用户去手动释放锁，而Lock则必须要用户去手动释放锁，如果没有主动释放锁，就有可能导致出现死锁现象。</li>
@@ -1254,14 +1428,14 @@
 <li>Lock可以让等待锁的线程响应中断，而synchronized却不行</li>
 <li>synchronized是同步阻塞，使用的是悲观并发策略，lock是同步非阻塞，采用的是乐观并发策略</li>
 </ul>
-<h6 id="ReenTrantLock"><a href="#ReenTrantLock" class="headerlink" title="ReenTrantLock"></a>ReenTrantLock</h6><ul>
+<h4 id="ReenTrantLock"><a href="#ReenTrantLock" class="headerlink" title="ReenTrantLock"></a>ReenTrantLock</h4><ul>
 <li>与synchronized一样都可重入，同一线程可以多次获得同一个锁</li>
 <li>实现了Lock接口</li>
 <li>ReenTrantLock可以指定是公平锁还是非公平锁。而synchronized只能是非公平锁。所谓的公平锁就是先等待的线程先获得锁。</li>
 <li>ReenTrantLock提供了一个Condition（条件）类，用来实现分组唤醒需要唤醒的线程们，而不是像synchronized要么随机唤醒一个线程要么唤醒全部线程。</li>
 </ul>
-<h6 id="volatile"><a href="#volatile" class="headerlink" title="volatile"></a>volatile</h6><p><strong>作用：</strong></p>
-<ul>
+<p><img src="https://img-blog.csdn.net/2018031320183899?watermark/2/text/Ly9ibG9nLmNzZG4ubmV0L3JlbndlaTI4OTQ0Mw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="icon"></p>
+<h3 id="volatile"><a href="#volatile" class="headerlink" title="volatile"></a>volatile</h3><h4 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h4><ul>
 <li>JVM提供的最轻量级的同步机制</li>
 <li>一个变量使用volatile之后，具备两种特性：<ul>
 <li>保证此变量对所有线程的可见性<ul>
@@ -1307,8 +1481,7 @@ public class ChessyCounter{
 //使用锁进行所有变化的操作，使用 volatile 进行只读操作。
 </code></pre></li>
 </ul>
-<p><strong>与synchronized区别：</strong></p>
-<ul>
+<h4 id="与synchronized区别"><a href="#与synchronized区别" class="headerlink" title="与synchronized区别"></a>与synchronized区别</h4><ul>
 <li>synchronized关键字解决的是执行控制的问题，volatile关键字解决的是内存可见性的问题</li>
 <li>volatile仅能使用在变量级别；synchronized则可以使用在变量、方法、和类级别</li>
 <li>volatile仅能实现变量的修改可见性，不能保证原子性；而synchronized则可以保证变量的修改可见性和原子性</li>
@@ -2130,6 +2303,7 @@ public class ChessyCounter{
 <li><p><strong>主要目标</strong></p>
 <ul>
 <li>定义程序中各个变量的访问规则</li>
+<li>保证了有序性</li>
 </ul>
 <p>线程对变量的所有操作（读取、 赋值等）都必须在工作内存中进行，而不能直接读写主内存中的变量</p>
 </li>

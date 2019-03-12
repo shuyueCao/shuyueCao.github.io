@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Alpaca&#39;s Blog">
 <meta property="og:description" content="JVM运行内存的分类 程序计数器 线程私有 当前线程所执行的字节码的行号指示器，用于记录正在执行的虚拟机字节指令地址 如果正在执行的是native方法，则为空   虚拟机栈 线程私有 每个方法被执行的时候都会同时创建一个栈帧用于存放局部变量表、操作栈、动态链接、方法出口等信息。每一个方法被调用直至执行完成的过程就对应着一个栈帧在虚拟机栈中从入栈到出栈的过程 生命周期与线程相同 为java方法服务">
 <meta property="og:locale" content="Java">
-<meta property="og:updated_time" content="2019-03-10T06:34:56.050Z">
+<meta property="og:updated_time" content="2019-03-11T13:22:39.342Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JVM整理">
 <meta name="twitter:description" content="JVM运行内存的分类 程序计数器 线程私有 当前线程所执行的字节码的行号指示器，用于记录正在执行的虚拟机字节指令地址 如果正在执行的是native方法，则为空   虚拟机栈 线程私有 每个方法被执行的时候都会同时创建一个栈帧用于存放局部变量表、操作栈、动态链接、方法出口等信息。每一个方法被调用直至执行完成的过程就对应着一个栈帧在虚拟机栈中从入栈到出栈的过程 生命周期与线程相同 为java方法服务">
@@ -547,6 +547,7 @@
 <li><p><strong>主要目标</strong></p>
 <ul>
 <li>定义程序中各个变量的访问规则</li>
+<li>保证了有序性</li>
 </ul>
 <p>线程对变量的所有操作（读取、 赋值等）都必须在工作内存中进行，而不能直接读写主内存中的变量</p>
 </li>

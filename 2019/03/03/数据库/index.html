@@ -79,22 +79,22 @@
 
 
 
-<meta name="description" content="Redis key-value类型的内存(缓存)数据库 整个数据库加载到内存中操作，定期flush到硬盘上进行保存 单线程 集群是master/slave模式  与memchached的区别  memchached仅支持string类型，Redis支持更丰富的数据类型 Redis速度更快 Redis可以持久化   支持的数据类型和底层实现  在Redis中，所有key-value对都存储在一个ha">
+<meta name="description" content="Redis key-value类型的内存(缓存)数据库 整个数据库加载到内存中操作，定期flush到硬盘上进行保存 单线程 集群是master/slave模式  为了使在部分节点失败或者大部分节点无法通信的情况下集群仍然可用，所以集群使用了主从复制模型,每个节点都会有N-1个复制品 异步复制 Redis并不能保证数据的强一致性，这意味这在实际中集群在特定的条件下可能会丢失写操作。   与memch">
 <meta name="keywords" content="面试">
 <meta property="og:type" content="article">
 <meta property="og:title" content="数据库">
 <meta property="og:url" content="http://yoursite.com/2019/03/03/数据库/index.html">
 <meta property="og:site_name" content="Alpaca&#39;s Blog">
-<meta property="og:description" content="Redis key-value类型的内存(缓存)数据库 整个数据库加载到内存中操作，定期flush到硬盘上进行保存 单线程 集群是master/slave模式  与memchached的区别  memchached仅支持string类型，Redis支持更丰富的数据类型 Redis速度更快 Redis可以持久化   支持的数据类型和底层实现  在Redis中，所有key-value对都存储在一个ha">
+<meta property="og:description" content="Redis key-value类型的内存(缓存)数据库 整个数据库加载到内存中操作，定期flush到硬盘上进行保存 单线程 集群是master/slave模式  为了使在部分节点失败或者大部分节点无法通信的情况下集群仍然可用，所以集群使用了主从复制模型,每个节点都会有N-1个复制品 异步复制 Redis并不能保证数据的强一致性，这意味这在实际中集群在特定的条件下可能会丢失写操作。   与memch">
 <meta property="og:locale" content="Java">
 <meta property="og:image" content="https://raw.githubusercontent.com/Draveness/Analyze/master/contents/Database/images/mysql/Tablespace-segment-extent-page-row.jpg">
 <meta property="og:image" content="https://image-static.segmentfault.com/200/005/2000054899-5b232c8cb2ea5_articlex">
 <meta property="og:image" content="https://image-static.segmentfault.com/122/280/1222804749-5b232ded5a2ef_articlex">
 <meta property="og:image" content="http://www.jasongj.com/img/kafka/KafkaColumn1/KafkaArchitecture.png">
-<meta property="og:updated_time" content="2019-03-07T06:19:55.725Z">
+<meta property="og:updated_time" content="2019-03-12T05:24:29.655Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据库">
-<meta name="twitter:description" content="Redis key-value类型的内存(缓存)数据库 整个数据库加载到内存中操作，定期flush到硬盘上进行保存 单线程 集群是master/slave模式  与memchached的区别  memchached仅支持string类型，Redis支持更丰富的数据类型 Redis速度更快 Redis可以持久化   支持的数据类型和底层实现  在Redis中，所有key-value对都存储在一个ha">
+<meta name="twitter:description" content="Redis key-value类型的内存(缓存)数据库 整个数据库加载到内存中操作，定期flush到硬盘上进行保存 单线程 集群是master/slave模式  为了使在部分节点失败或者大部分节点无法通信的情况下集群仍然可用，所以集群使用了主从复制模型,每个节点都会有N-1个复制品 异步复制 Redis并不能保证数据的强一致性，这意味这在实际中集群在特定的条件下可能会丢失写操作。   与memch">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/Draveness/Analyze/master/contents/Database/images/mysql/Tablespace-segment-extent-page-row.jpg">
 
 
@@ -342,10 +342,15 @@
 <li>整个数据库加载到内存中操作，定期flush到硬盘上进行保存</li>
 <li>单线程</li>
 <li><p>集群是master/slave模式</p>
+<ul>
+<li>为了使在部分节点失败或者大部分节点无法通信的情况下集群仍然可用，所以集群使用了主从复制模型,每个节点都会有N-1个复制品</li>
+<li>异步复制</li>
+<li>Redis并不能保证数据的强一致性，这意味这在实际中集群在特定的条件下可能会丢失写操作。</li>
+</ul>
 </li>
 <li><p><strong>与memchached的区别</strong></p>
 <ul>
-<li>memchached仅支持string类型，Redis支持更丰富的数据类型</li>
+<li>memchached仅支持string类型，Redis支持更丰富的数据类型且能提供对他们的原子操作</li>
 <li>Redis速度更快</li>
 <li>Redis可以持久化</li>
 </ul>
@@ -359,6 +364,7 @@
 </li>
 <li>String<ul>
 <li>能存为整数则存为整数，不能则存为原始字符串</li>
+<li>一个字符串类型的值能存储的最大容量是512M</li>
 </ul>
 </li>
 <li>List<ul>
@@ -387,12 +393,72 @@
 <li>排行榜/计数器</li>
 </ul>
 </li>
-<li>如何做内存优化？<ul>
-<li>使用hashes(散列表)</li>
+<li><strong>如何做内存优化？</strong><ul>
+<li>使用hashes(散列表)，散列表（是说散列表里面存储的数少）使用的内存非常小</li>
+<li>比如你的web系统中有一个用户对象，不要为这个用户的名称，姓氏，邮箱，密码设置单独的key,而是应该把这个用户的所有信息存储到一张散列表里面.</li>
 </ul>
 </li>
-<li>Redis是单线程，如何提高CPU利用率？<ul>
+<li><strong>Redis是单线程，如何提高CPU利用率？</strong><ul>
 <li>可以在同一个服务器部署多个Redis的实例，并把他们当作不同的服务器来使用</li>
+</ul>
+</li>
+<li><strong>持久化</strong><ul>
+<li>如何进行？<ul>
+<li>bgsave 做镜像全量持久化<ul>
+<li>fork 和 cow，创建子进程进行bgsave操作，子进程创建后，父子进程共享数据段，父进程继续提供读写服务，写脏的页面数据会逐渐和子进程分离开来</li>
+<li>耗费较长时间，不够实时，在停机的时候会导致大量丢失数据</li>
+</ul>
+</li>
+<li>aof 做增量持久化</li>
+<li>在 redis 实例重启时，会使用 bgsave 持久化文件重新构建内存，再使用 aof 重放近期的操作指令来实现完整恢复重启之前的状态。</li>
+</ul>
+</li>
+<li>方式<ul>
+<li>RDB持久化方式能够在指定的时间间隔能对数据进行快照存储</li>
+<li>AOF持久化方式记录每次对服务器写的操作,当服务器重启的时候会重新执行这些命令来恢复原始的数据<ul>
+<li>AOF命令以redis协议追加保存每次写的操作到文件末尾</li>
+<li>Redis还能对AOF文件进行后台重写,使得AOF文件的体积不至于过大</li>
+</ul>
+</li>
+<li>定时生成RDB快照（snapshot）非常便于进行数据库备份， 并且 RDB 恢复数据集的速度也要比AOF恢复的速度要快，除此之外， 使用RDB还可以避免之前提到的AOF程序的bug。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>如何扩容？</strong><ul>
+<li>被当做缓存：一致性哈希实现动态扩容</li>
+</ul>
+</li>
+<li><strong>集群方案</strong><ul>
+<li>twemproxy，类似代理。设置好它下属的多个redis实例后，使用时在本需要连接redis的地方改为连接twemproxy，它会以一个代理的身份接收请求并使用一致性hash算法(对2^32取模)，将请求转接到具体redis<ul>
+<li>使用方式简便(相对redis只需修改连接端口)，对旧项目扩展的首选</li>
+<li>twemproxy自身单端口实例的压力，使用一致性hash后，对redis节点数量改变时候的计算值的改变，数据无法自动移动到新的节点。</li>
+</ul>
+</li>
+<li>codis，基本和twemproxy一致的效果，但它支持在 节点数量改变情况下，旧节点数据可恢复到新hash节点</li>
+<li>redis cluster3.0自带的集群，分布式算法不是一致性hash，而是hash槽的概念，以及自身支持节点设置从节点</li>
+</ul>
+</li>
+<li><strong>分区</strong><ul>
+<li>实现方案<ul>
+<li>客户端分区：在客户端就已经决定数据会被存储到哪个redis节点或者从哪个redis节点读取。大多数客户端已经实现了客户端分区。</li>
+<li>代理分区：客户端将请求发送给代理，然后代理决定去哪个节点写数据或者读数据</li>
+<li>查询路由(Query routing) ：客户端随机地请求任意一个redis实例，然后由Redis将请求转发给正确的Redis节点。</li>
+</ul>
+</li>
+<li>缺点：<ul>
+<li>涉及多个key的操作通常不会被支持，同时操作多个key,则不能使用Redis事务</li>
+<li>数据处理会变复杂：备份必须从不同的Redis实例和主机同时收集RDB / AOF文件</li>
+<li>分区时动态扩容或缩容可能非常复杂，Redis集群在运行时增加或者删除Redis节点，能做到最大程度对用户透明地数据再平衡，但其他一些客户端分区或者代理分区方法则不支持这种特性</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>常见性能问题和解决方案</strong><ul>
+<li>Master最好不要做任何持久化工作，如RDB内存快照和AOF日志文件</li>
+<li>如果数据比较重要，某个Slave开启AOF备份数据，策略设置为每秒同步一次</li>
+<li>为了主从复制的速度和连接的稳定性，Master和Slave最好在同一个局域网内</li>
+<li>主从复制不要用图状结构，用单向链表结构更为稳定，即：Master &lt;- Slave1 &lt;- Slave2 &lt;- Slave3…这样的结构方便解决单点故障问题，实现Slave对Master的替换。如果Master挂了，可以立刻启用Slave1做Master，其他不变。</li>
 </ul>
 </li>
 </ul>
