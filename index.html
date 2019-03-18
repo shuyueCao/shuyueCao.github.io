@@ -561,12 +561,76 @@
 <li><strong>对于每组测试数据，将输入数据写为工作目录的文本文件后，在子进程中限制资源，用freopen重定向输入输出，并使用execl运行程序，在父进程中使用ptrace监听控制子进程。这里有个坑，就是Docker默认是不能使用ptrace的，因此要在启动容器的时候加上启动选项 –cap-add=SYS_PTRACE。</strong></li>
 </ul>
 <p><a href="https://zhuanlan.zhihu.com/p/27807692" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/27807692</a></p>
-<h4 id="dubbo-zookeeper"><a href="#dubbo-zookeeper" class="headerlink" title="dubbo/zookeeper"></a>dubbo/zookeeper</h4><h5 id="dubbo"><a href="#dubbo" class="headerlink" title="dubbo"></a>dubbo</h5><ul>
+<h4 id="dubbo-zookeeper"><a href="#dubbo-zookeeper" class="headerlink" title="dubbo/zookeeper"></a>dubbo/zookeeper</h4><h5 id="dubbo"><a href="#dubbo" class="headerlink" title="dubbo"></a>dubbo</h5><p><a href="https://github.com/Snailclimb/JavaGuide/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1/dubbo.md" target="_blank" rel="noopener">https://github.com/Snailclimb/JavaGuide/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1/dubbo.md</a></p>
+<ul>
 <li>分布式服务框架，使用RPC调用</li>
+<li>SOA</li>
+<li><p>Dubbo中，先通过路由，从多个 Provider 中按照路由规则，选出一个子集。再根据负载均衡从子集中选出一个 Provider 进行本次调用。如果调用失败了，根据集群容错策略，进行重试或定时重发或快速失败等。</p>
+</li>
+<li><p><strong>为什么使用dubbo？</strong></p>
+<ul>
+<li>远程接口是基于Java Interface，并且依托于spring框架方便开发。可以方便的打包成单一文件，独立进程运行，和现在的微服务概念一致。</li>
+<li>可以为我们解决服务之间互相是如何调用的</li>
+<li>负载均衡</li>
+<li>服务访问压力以及时长统计、资源调度和治理：实时管理集群容量，提高集群利用率</li>
+<li>服务降级：某个服务挂掉之后调用备用服务</li>
 </ul>
-<h5 id="zookeeper"><a href="#zookeeper" class="headerlink" title="zookeeper"></a>zookeeper</h5><ul>
-<li>高可用的分布式管理与协调框架</li>
-<li>树型的目录服务的数据存储</li>
+</li>
+</ul>
+<h6 id="负载均衡策略"><a href="#负载均衡策略" class="headerlink" title="负载均衡策略"></a>负载均衡策略</h6><ul>
+<li>随机：默认策略，按权重设置随机概率</li>
+<li>轮询(不推荐)：按公约后的权重设置轮循比率<ul>
+<li>存在慢的提供者累积请求的问题</li>
+</ul>
+</li>
+<li>最少活跃调用数，相同活跃数的随机。活跃数指调用前后计数差。使慢的 Provider 收到更少请求，因为越慢的 Provider 的调用前后计数差会越大。</li>
+<li>一致性哈希：相同参数的请求总是落在同一台机器上<ul>
+<li>当某一台提供者挂时，原本发往该提供者的请求，基于虚拟节点，平摊到其它提供者，不会引起剧烈变动</li>
+</ul>
+</li>
+</ul>
+<h6 id="容错策略"><a href="#容错策略" class="headerlink" title="容错策略"></a>容错策略</h6><p><code>Dubbo 定义了集群接口 Cluster 以及及 Cluster Invoker。集群 Cluster 用途是将多个服务提供者合并为一个 Cluster Invoker，并将这个 Invoker 暴露给服务消费者。这样一来，服务消费者只需通过这个 Invoker 进行远程调用即可，至于具体调用哪个服务提供者，以及调用失败后如何处理等问题，现在都交给集群模块去处理</code></p>
+<ul>
+<li>Failover Cluster：默认机制，失败自动切换，当出现失败，重试其它服务器。<ul>
+<li>通常用于读操作，但重试会带来更长延迟</li>
+</ul>
+</li>
+<li>Failfast Cluster：快速失败，只发起一次调用，失败立即报错。<ul>
+<li>通常用于非幂等性的操作，如新增记录</li>
+</ul>
+</li>
+<li>Failsafe Cluster：失败安全，出现异常时，直接忽略。<ul>
+<li>通常用于写入审计日志等操作</li>
+</ul>
+</li>
+<li>Failback Cluster：失败自动恢复，后台记录失败请求，定时重发<ul>
+<li>通常用于消息通知操作</li>
+</ul>
+</li>
+<li>Forking Cluster：并行调用多个服务器，只要一个成功即返回。<ul>
+<li>通常用于实时性要求较高的读操作，但需要浪费更多服务资源</li>
+</ul>
+</li>
+<li>Broadcast Cluster ：广播调用所有提供者，逐个调用，任意一台报错则报错。(2.1.0开始支持)<ul>
+<li>通常用于通知所有提供者更新缓存或日志等本地资源信息</li>
+</ul>
+</li>
+</ul>
+<h6 id="dubbo健壮性的体现"><a href="#dubbo健壮性的体现" class="headerlink" title="dubbo健壮性的体现"></a>dubbo健壮性的体现</h6><ul>
+<li>zookeeper注册中心宕掉，一段时间内服务消费方还是能够调用提供方的服务的，实际上它使用的本地缓存进行通讯</li>
+<li>监控中心宕掉不影响使用，只是丢失部分采样数据</li>
+<li>数据库宕掉后，注册中心仍能通过缓存提供服务列表查询，但不能注册新服务</li>
+<li>注册中心对等集群，任意一台宕掉后，将自动切换到另一台</li>
+<li>注册中心全部宕掉后，服务提供者和服务消费者仍能通过本地缓存通讯</li>
+<li>服务提供者无状态，任意一台宕掉后，不影响使用</li>
+<li>服务提供者全部宕掉后，服务消费者应用将无法使用，并无限次重连等待服务提供者恢复</li>
+</ul>
+<p><code>服务提供者和消费者只在启动时与注册中心交互，注册中心不转发请求，压力较小。所以，我们可以完全可以绕过注册中心——采用 dubbo 直连 ，即在服务消费方配置服务提供方的位置信息。</code></p>
+<h5 id="zookeeper"><a href="#zookeeper" class="headerlink" title="zookeeper"></a>zookeeper</h5><p><a href="https://github.com/Snailclimb/JavaGuide/blob/master/%E4%B8%BB%E6%B5%81%E6%A1%86%E6%9E%B6/ZooKeeper.md" target="_blank" rel="noopener">https://github.com/Snailclimb/JavaGuide/blob/master/%E4%B8%BB%E6%B5%81%E6%A1%86%E6%9E%B6/ZooKeeper.md</a></p>
+<ul>
+<li>高可用的分布式管理与协调框架，只要半数以上节点存活，ZooKeeper 就能正常服务</li>
+<li>树型(Znode)的目录服务的数据存储,数据存储在内存中</li>
+<li>高性能：在读多于写的应用程序中尤其地高性能，因为写会导致所有的服务器间同步状态</li>
 <li>应用场景<ul>
 <li>配置管理</li>
 <li>集群管理：leader选举，集群容错</li>
@@ -783,6 +847,16 @@
 </li>
 </ul>
 </li>
+<li><strong>如何解决缓存一致性问题？</strong><ul>
+<li>延时双删策略<ul>
+<li>先淘汰缓存</li>
+<li>再写数据库</li>
+<li>休眠一段时间，再淘汰缓存，可以将这段时间内造成的脏数据删除</li>
+</ul>
+</li>
+<li>先更新数据库，再删除缓存</li>
+</ul>
+</li>
 <li><strong>如何扩容？</strong><ul>
 <li>被当做缓存：一致性哈希实现动态扩容</li>
 </ul>
@@ -795,6 +869,12 @@
 </li>
 <li>codis，基本和twemproxy一致的效果，但它支持在 节点数量改变情况下，旧节点数据可恢复到新hash节点</li>
 <li>redis cluster3.0自带的集群，分布式算法不是一致性hash，而是hash槽的概念，以及自身支持节点设置从节点</li>
+</ul>
+</li>
+<li><strong>同步机制</strong><ul>
+<li>主从同步，从从同步</li>
+<li>第一次同步时，主节点做一次 bgsave，并同时将后续修改操作记录到内存buffer，待完成后将RDB文件全量同步到复制节点，复制节点接受完成后将RDB镜像加载到内存</li>
+<li>加载完成后，再通知主节点将期间修改的操作记录同步到复制节点进行重放</li>
 </ul>
 </li>
 <li><strong>分区</strong><ul>
@@ -1431,6 +1511,14 @@ synchronized void setB() throws Exception{
 }
 </code></pre></li>
 </ul>
+<h3 id="锁优化"><a href="#锁优化" class="headerlink" title="锁优化"></a>锁优化</h3><ol>
+<li>减少锁持有的时间：对一个方法加锁，不如对方法中需要同步的几行代码加锁</li>
+<li>减小锁粒度：ConcurrentHashMap采取对segment加锁而不是整个map加锁，提高并发性</li>
+<li>锁分离：分为读锁和写锁</li>
+<li>锁粗化：在一个间隔性地需要执行同步语句的线程中，如果在不连续的同步块间频繁加锁解锁是很耗性能的，因此把加锁范围扩大，把这些不连续的同步语句进行一次性加锁解锁。虽然线程持有锁的时间增加了，但是总体来说是优化了的</li>
+<li>锁消除</li>
+<li>JVM中：偏向锁/轻量级锁/重量级锁/自旋锁/自适应自旋锁</li>
+</ol>
 <h3 id="synchronized关键字"><a href="#synchronized关键字" class="headerlink" title="synchronized关键字"></a>synchronized关键字</h3><ul>
 <li><strong>非公平锁、可重入锁、互斥锁</strong></li>
 </ul>
@@ -1457,7 +1545,7 @@ synchronized void setB() throws Exception{
 <h3 id="volatile"><a href="#volatile" class="headerlink" title="volatile"></a>volatile</h3><h4 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h4><ul>
 <li>JVM提供的最轻量级的同步机制</li>
 <li>一个变量使用volatile之后，具备两种特性：<ul>
-<li>保证此变量对所有线程的可见性<ul>
+<li>保证此变量对所有线程的可见性：使用volatile关键字会强制将修改的值立即写入主存<ul>
 <li>符合以下两条规则才能保证原子性：<ul>
 <li>对变量的写操作不依赖于当前值</li>
 <li>该变量没有包含在具有其他变量的不变式中。</li>
@@ -1843,6 +1931,18 @@ public class ChessyCounter{
 <li>接下来的数据传输都用该<strong>对称秘钥key</strong>进行加密</li>
 </ol>
 <p><em>通过非对称秘钥机制保证双方身份认证，完成建立连接，在实际数据通信中通过对称秘钥机制保障数据安全性</em></p>
+<ul>
+<li>双向认证<ul>
+<li>有两个或两个以上的证书，一个是服务端证书，另一个或多个是客户端证书。</li>
+<li>一般用于企业应用对接</li>
+</ul>
+</li>
+<li>单向认证<ul>
+<li>客户端保存着服务端的证书并信任该证书即可</li>
+<li>https一般是单向认证，这样可以让绝大部分人都可以访问你的站点。</li>
+</ul>
+</li>
+</ul>
 <p><strong>3. GET与POST方法的区别？</strong></p>
 <ol>
 <li>GET重点在从服务器获取资源，POST重点在向服务器发送数据</li>
@@ -1869,6 +1969,39 @@ public class ChessyCounter{
 <li>面向资源</li>
 </ul>
 </li>
+</ul>
+<h3 id="WebSocket"><a href="#WebSocket" class="headerlink" title="WebSocket"></a>WebSocket</h3><ul>
+<li>只需要服务器和浏览器通过HTTP协议进行一个握手的动作，然后单独建立一条TCP的通信通道进行数据的传送</li>
+<li>长连接</li>
+<li>WebSocket API是 HTML5 标准的一部分</li>
+</ul>
+<h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><ul>
+<li>浏览器、服务器建立TCP连接，三次握手。这是通信的基础，传输控制层，若失败后续都不执行。</li>
+<li>TCP连接成功后，浏览器通过<strong>HTTP协议</strong>向服务器传送WebSocket支持的版本号等信息。<strong>（开始前的HTTP握手）</strong></li>
+<li>服务器收到客户端的握手请求后，<strong>同样采用HTTP协议</strong> 回馈数据。</li>
+<li>当收到了连接成功的消息后，<strong>通过TCP通道进行传输通信</strong></li>
+</ul>
+<h4 id="与Http的联系"><a href="#与Http的联系" class="headerlink" title="与Http的联系"></a>与Http的联系</h4><ul>
+<li><strong>相同点：</strong><ul>
+<li>都基于TCP，都是可靠性传输协议</li>
+<li>都是应用层协议</li>
+</ul>
+</li>
+<li><strong>不同点：</strong><ul>
+<li>WebSocket是<strong>双向通信协议(全双工)</strong> ，模拟Socket协议，可以双向发送或接受信息。HTTP是单向的。</li>
+<li>WebSocket是需要握手进行建立连接的</li>
+</ul>
+</li>
+<li>WebSocket在建立握手时，数据是通过HTTP传输的。但是建立之后，在真正传输时候是不需要HTTP协议的。</li>
+</ul>
+<h4 id="与socket的联系"><a href="#与socket的联系" class="headerlink" title="与socket的联系"></a>与socket的联系</h4><ul>
+<li><strong>socket</strong><ul>
+<li>是位于应用层和传输控制层之间(会话层)的一组接口，是为了方便使用TCP或UDP而抽象出来的一层</li>
+<li>门面模式，把复杂的TCP/IP协议族隐藏在Socket接口后面</li>
+</ul>
+</li>
+<li>当两台主机通信时，必须通过Socket连接</li>
+<li>Socket是传输控制层协议，WebSocket是应用层协议</li>
 </ul>
 <h3 id="TCP-UDP（传输层）"><a href="#TCP-UDP（传输层）" class="headerlink" title="TCP / UDP（传输层）"></a>TCP / UDP（传输层）</h3><p><strong>1. TCP三次握手过程</strong></p>
 <ol>
@@ -2014,7 +2147,15 @@ public class ChessyCounter{
 </ul>
 <h4 id="RPC框架（dubbo）"><a href="#RPC框架（dubbo）" class="headerlink" title="RPC框架（dubbo）"></a>RPC框架（dubbo）</h4><ul>
 <li>像调用本地的函数一样去调远程函数，基于TCP</li>
-<li>面向过程</li>
+<li>SOA 面向服务的架构</li>
+</ul>
+<p><img src="https://image.qinjiangbo.com/blog/image/rpc-architecture.jpg" alt="icon"></p>
+<ul>
+<li><strong>与http框架的区别？</strong><ul>
+<li>HTTP服务主要是基于HTTP协议，所以RPC效率更高</li>
+<li>而HTTP服务开发迭代会更快</li>
+</ul>
+</li>
 </ul>
 <h3 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h3><p><strong>1. 从输入URL到页面加载发生了什么？</strong></p>
 <ol>
@@ -2326,6 +2467,26 @@ public class ChessyCounter{
 <li>少用静态变量：静态变量是全局变量，不会被GC回收，但一直占用内存</li>
 <li>尽量使用 StringBuffer,而不用 String 来累加字符串：StringBuffer是可变长的,它在原有基础上进行扩增,不会产生中间对象</li>
 <li>使用软引用类型</li>
+</ul>
+<h3 id="SafePoint"><a href="#SafePoint" class="headerlink" title="SafePoint"></a>SafePoint</h3><ul>
+<li>当线程运行到这些位置时它的状态是确定的,比如记录OopMap的状态，从而确定GC Root的信息</li>
+<li>这个点, 所有GC Root的状态都是已知并且heap里的对象是一致的; 在这个点进行GC时, 所有的线程都需要block住, 这就是(STW)Stop The World<ul>
+<li>假如一个java线程分配了一个对象A, 该对象的地址存在某个寄存器中, 然后线程的cpu时间片到期被切换出去, 同时GC的线程开始扫描存活对象, 由于没有路径到这个地址还在寄存器中的对象, 这个对象被认为是garbage, 回收了. 然后睡眠的java线程醒来了, 把寄存器中的对象地址赋值给了存活对象的某个字段, over…</li>
+<li><strong>所以safepoint下, heap是静止的, 并且所有活着的对象都可以被找到</strong></li>
+</ul>
+</li>
+</ul>
+<h4 id="如何达到safepoint？"><a href="#如何达到safepoint？" class="headerlink" title="如何达到safepoint？"></a>如何达到safepoint？</h4><ul>
+<li>Hotspot采用<strong>主动检测</strong>的方式使得其他线程停下来<ul>
+<li><strong>解释执行：</strong> 指定点执行检测代码，java方法返回和跳转指令(if或者循环里面)的地方会进行检测.</li>
+<li><strong>编译执行：</strong> polling page访问异常触发：在需要safepoint时, 会修改该页面的权限为不可访问, 这样编译的代码在访问这个页面时, 会触发段违规异常(SEGEV). 而hotspot在启动时捕获了这个异常, 当意识到是访问polling page导致时, 则主动挂起.</li>
+</ul>
+</li>
+</ul>
+<h4 id="Oopmap"><a href="#Oopmap" class="headerlink" title="Oopmap"></a>Oopmap</h4><ul>
+<li>在HotSpot中，对象的类型信息里有记录自己的OopMap，记录了在该类型的对象内什么偏移量上是什么类型的数据。</li>
+<li>在safepoint会记录Oopmap</li>
+<li>平时这些OopMap都是压缩了存在内存里的；在GC的时候才按需解压出来使用</li>
 </ul>
 <h2 id="Java类加载机制"><a href="#Java类加载机制" class="headerlink" title="Java类加载机制"></a>Java类加载机制</h2><p>  虚拟机把描述类的数据文件（字节码）加载到内存，并对数据进行验证、准备、解析以及类初始化，最终形成可以被虚拟机直接使用的java类型</p>
 <h3 id="类的生命周期"><a href="#类的生命周期" class="headerlink" title="类的生命周期"></a>类的生命周期</h3><ol>

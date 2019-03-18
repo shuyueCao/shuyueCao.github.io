@@ -89,7 +89,7 @@
 <meta property="og:locale" content="Java">
 <meta property="og:image" content="https://img-blog.csdn.net/20150427151555111?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaml1cWl5dWxpYW5n/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
 <meta property="og:image" content="https://img-blog.csdn.net/20141120210203542?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaml1cWl5dWxpYW5n/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
-<meta property="og:updated_time" content="2019-03-08T14:23:47.014Z">
+<meta property="og:updated_time" content="2019-03-18T14:25:11.576Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="项目">
 <meta name="twitter:description" content="DevOps工具链DevOps 通过高度自动化工具与流程来使得软件构建、测试、发布更加快捷、频繁和可靠 将开发、运维一体化  可以把 DevOps 看作开发（软件工程）、技术运营和质量保障（QA）三者的交集。 传统的软件组织将开发、IT 运营和质量保障设为各自分离的部门， 按照从前的工作方式，开发和部署，不需要 IT 支持或者 QA 深入的跨部门的支持；而现在却需要极其紧密的多部门协作。 而 De">
@@ -561,12 +561,76 @@
 <li><strong>对于每组测试数据，将输入数据写为工作目录的文本文件后，在子进程中限制资源，用freopen重定向输入输出，并使用execl运行程序，在父进程中使用ptrace监听控制子进程。这里有个坑，就是Docker默认是不能使用ptrace的，因此要在启动容器的时候加上启动选项 –cap-add=SYS_PTRACE。</strong></li>
 </ul>
 <p><a href="https://zhuanlan.zhihu.com/p/27807692" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/27807692</a></p>
-<h4 id="dubbo-zookeeper"><a href="#dubbo-zookeeper" class="headerlink" title="dubbo/zookeeper"></a>dubbo/zookeeper</h4><h5 id="dubbo"><a href="#dubbo" class="headerlink" title="dubbo"></a>dubbo</h5><ul>
+<h4 id="dubbo-zookeeper"><a href="#dubbo-zookeeper" class="headerlink" title="dubbo/zookeeper"></a>dubbo/zookeeper</h4><h5 id="dubbo"><a href="#dubbo" class="headerlink" title="dubbo"></a>dubbo</h5><p><a href="https://github.com/Snailclimb/JavaGuide/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1/dubbo.md" target="_blank" rel="noopener">https://github.com/Snailclimb/JavaGuide/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1/dubbo.md</a></p>
+<ul>
 <li>分布式服务框架，使用RPC调用</li>
+<li>SOA</li>
+<li><p>Dubbo中，先通过路由，从多个 Provider 中按照路由规则，选出一个子集。再根据负载均衡从子集中选出一个 Provider 进行本次调用。如果调用失败了，根据集群容错策略，进行重试或定时重发或快速失败等。</p>
+</li>
+<li><p><strong>为什么使用dubbo？</strong></p>
+<ul>
+<li>远程接口是基于Java Interface，并且依托于spring框架方便开发。可以方便的打包成单一文件，独立进程运行，和现在的微服务概念一致。</li>
+<li>可以为我们解决服务之间互相是如何调用的</li>
+<li>负载均衡</li>
+<li>服务访问压力以及时长统计、资源调度和治理：实时管理集群容量，提高集群利用率</li>
+<li>服务降级：某个服务挂掉之后调用备用服务</li>
 </ul>
-<h5 id="zookeeper"><a href="#zookeeper" class="headerlink" title="zookeeper"></a>zookeeper</h5><ul>
-<li>高可用的分布式管理与协调框架</li>
-<li>树型的目录服务的数据存储</li>
+</li>
+</ul>
+<h6 id="负载均衡策略"><a href="#负载均衡策略" class="headerlink" title="负载均衡策略"></a>负载均衡策略</h6><ul>
+<li>随机：默认策略，按权重设置随机概率</li>
+<li>轮询(不推荐)：按公约后的权重设置轮循比率<ul>
+<li>存在慢的提供者累积请求的问题</li>
+</ul>
+</li>
+<li>最少活跃调用数，相同活跃数的随机。活跃数指调用前后计数差。使慢的 Provider 收到更少请求，因为越慢的 Provider 的调用前后计数差会越大。</li>
+<li>一致性哈希：相同参数的请求总是落在同一台机器上<ul>
+<li>当某一台提供者挂时，原本发往该提供者的请求，基于虚拟节点，平摊到其它提供者，不会引起剧烈变动</li>
+</ul>
+</li>
+</ul>
+<h6 id="容错策略"><a href="#容错策略" class="headerlink" title="容错策略"></a>容错策略</h6><p><code>Dubbo 定义了集群接口 Cluster 以及及 Cluster Invoker。集群 Cluster 用途是将多个服务提供者合并为一个 Cluster Invoker，并将这个 Invoker 暴露给服务消费者。这样一来，服务消费者只需通过这个 Invoker 进行远程调用即可，至于具体调用哪个服务提供者，以及调用失败后如何处理等问题，现在都交给集群模块去处理</code></p>
+<ul>
+<li>Failover Cluster：默认机制，失败自动切换，当出现失败，重试其它服务器。<ul>
+<li>通常用于读操作，但重试会带来更长延迟</li>
+</ul>
+</li>
+<li>Failfast Cluster：快速失败，只发起一次调用，失败立即报错。<ul>
+<li>通常用于非幂等性的操作，如新增记录</li>
+</ul>
+</li>
+<li>Failsafe Cluster：失败安全，出现异常时，直接忽略。<ul>
+<li>通常用于写入审计日志等操作</li>
+</ul>
+</li>
+<li>Failback Cluster：失败自动恢复，后台记录失败请求，定时重发<ul>
+<li>通常用于消息通知操作</li>
+</ul>
+</li>
+<li>Forking Cluster：并行调用多个服务器，只要一个成功即返回。<ul>
+<li>通常用于实时性要求较高的读操作，但需要浪费更多服务资源</li>
+</ul>
+</li>
+<li>Broadcast Cluster ：广播调用所有提供者，逐个调用，任意一台报错则报错。(2.1.0开始支持)<ul>
+<li>通常用于通知所有提供者更新缓存或日志等本地资源信息</li>
+</ul>
+</li>
+</ul>
+<h6 id="dubbo健壮性的体现"><a href="#dubbo健壮性的体现" class="headerlink" title="dubbo健壮性的体现"></a>dubbo健壮性的体现</h6><ul>
+<li>zookeeper注册中心宕掉，一段时间内服务消费方还是能够调用提供方的服务的，实际上它使用的本地缓存进行通讯</li>
+<li>监控中心宕掉不影响使用，只是丢失部分采样数据</li>
+<li>数据库宕掉后，注册中心仍能通过缓存提供服务列表查询，但不能注册新服务</li>
+<li>注册中心对等集群，任意一台宕掉后，将自动切换到另一台</li>
+<li>注册中心全部宕掉后，服务提供者和服务消费者仍能通过本地缓存通讯</li>
+<li>服务提供者无状态，任意一台宕掉后，不影响使用</li>
+<li>服务提供者全部宕掉后，服务消费者应用将无法使用，并无限次重连等待服务提供者恢复</li>
+</ul>
+<p><code>服务提供者和消费者只在启动时与注册中心交互，注册中心不转发请求，压力较小。所以，我们可以完全可以绕过注册中心——采用 dubbo 直连 ，即在服务消费方配置服务提供方的位置信息。</code></p>
+<h5 id="zookeeper"><a href="#zookeeper" class="headerlink" title="zookeeper"></a>zookeeper</h5><p><a href="https://github.com/Snailclimb/JavaGuide/blob/master/%E4%B8%BB%E6%B5%81%E6%A1%86%E6%9E%B6/ZooKeeper.md" target="_blank" rel="noopener">https://github.com/Snailclimb/JavaGuide/blob/master/%E4%B8%BB%E6%B5%81%E6%A1%86%E6%9E%B6/ZooKeeper.md</a></p>
+<ul>
+<li>高可用的分布式管理与协调框架，只要半数以上节点存活，ZooKeeper 就能正常服务</li>
+<li>树型(Znode)的目录服务的数据存储,数据存储在内存中</li>
+<li>高性能：在读多于写的应用程序中尤其地高性能，因为写会导致所有的服务器间同步状态</li>
 <li>应用场景<ul>
 <li>配置管理</li>
 <li>集群管理：leader选举，集群容错</li>
@@ -746,7 +810,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#DevOps工具链"><span class="nav-number">1.</span> <span class="nav-text">DevOps工具链</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#DevOps"><span class="nav-number">1.1.</span> <span class="nav-text">DevOps</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#工具链"><span class="nav-number">1.2.</span> <span class="nav-text">工具链</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MyBatis"><span class="nav-number">1.3.</span> <span class="nav-text">MyBatis</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#教育平台"><span class="nav-number">2.</span> <span class="nav-text">教育平台</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Spring"><span class="nav-number">2.1.</span> <span class="nav-text">Spring</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#IoC"><span class="nav-number">2.1.1.</span> <span class="nav-text">IoC</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#AOP"><span class="nav-number">2.1.2.</span> <span class="nav-text">AOP</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Spring-MVC工作原理"><span class="nav-number">2.1.3.</span> <span class="nav-text">Spring MVC工作原理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Spring-Boot"><span class="nav-number">2.1.4.</span> <span class="nav-text">Spring Boot</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hibernate"><span class="nav-number">2.2.</span> <span class="nav-text">hibernate</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hibernate与mybatis的对比"><span class="nav-number">2.3.</span> <span class="nav-text">hibernate与mybatis的对比</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#JPA"><span class="nav-number">2.3.1.</span> <span class="nav-text">JPA</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#题库系统"><span class="nav-number">2.4.</span> <span class="nav-text">题库系统</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dubbo-zookeeper"><span class="nav-number">2.5.</span> <span class="nav-text">dubbo/zookeeper</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#dubbo"><span class="nav-number">2.5.1.</span> <span class="nav-text">dubbo</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#zookeeper"><span class="nav-number">2.5.2.</span> <span class="nav-text">zookeeper</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#DevOps工具链"><span class="nav-number">1.</span> <span class="nav-text">DevOps工具链</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#DevOps"><span class="nav-number">1.1.</span> <span class="nav-text">DevOps</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#工具链"><span class="nav-number">1.2.</span> <span class="nav-text">工具链</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MyBatis"><span class="nav-number">1.3.</span> <span class="nav-text">MyBatis</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#教育平台"><span class="nav-number">2.</span> <span class="nav-text">教育平台</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Spring"><span class="nav-number">2.1.</span> <span class="nav-text">Spring</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#IoC"><span class="nav-number">2.1.1.</span> <span class="nav-text">IoC</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#AOP"><span class="nav-number">2.1.2.</span> <span class="nav-text">AOP</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Spring-MVC工作原理"><span class="nav-number">2.1.3.</span> <span class="nav-text">Spring MVC工作原理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Spring-Boot"><span class="nav-number">2.1.4.</span> <span class="nav-text">Spring Boot</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hibernate"><span class="nav-number">2.2.</span> <span class="nav-text">hibernate</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hibernate与mybatis的对比"><span class="nav-number">2.3.</span> <span class="nav-text">hibernate与mybatis的对比</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#JPA"><span class="nav-number">2.3.1.</span> <span class="nav-text">JPA</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#题库系统"><span class="nav-number">2.4.</span> <span class="nav-text">题库系统</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dubbo-zookeeper"><span class="nav-number">2.5.</span> <span class="nav-text">dubbo/zookeeper</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#dubbo"><span class="nav-number">2.5.1.</span> <span class="nav-text">dubbo</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#负载均衡策略"><span class="nav-number">2.5.1.1.</span> <span class="nav-text">负载均衡策略</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#容错策略"><span class="nav-number">2.5.1.2.</span> <span class="nav-text">容错策略</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#dubbo健壮性的体现"><span class="nav-number">2.5.1.3.</span> <span class="nav-text">dubbo健壮性的体现</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#zookeeper"><span class="nav-number">2.5.2.</span> <span class="nav-text">zookeeper</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>

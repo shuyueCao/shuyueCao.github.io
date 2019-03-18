@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Alpaca&#39;s Blog">
 <meta property="og:description" content="JVM运行内存的分类 程序计数器 线程私有 当前线程所执行的字节码的行号指示器，用于记录正在执行的虚拟机字节指令地址 如果正在执行的是native方法，则为空   虚拟机栈 线程私有 每个方法被执行的时候都会同时创建一个栈帧用于存放局部变量表、操作栈、动态链接、方法出口等信息。每一个方法被调用直至执行完成的过程就对应着一个栈帧在虚拟机栈中从入栈到出栈的过程 生命周期与线程相同 为java方法服务">
 <meta property="og:locale" content="Java">
-<meta property="og:updated_time" content="2019-03-11T13:22:39.342Z">
+<meta property="og:updated_time" content="2019-03-18T04:32:06.103Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JVM整理">
 <meta name="twitter:description" content="JVM运行内存的分类 程序计数器 线程私有 当前线程所执行的字节码的行号指示器，用于记录正在执行的虚拟机字节指令地址 如果正在执行的是native方法，则为空   虚拟机栈 线程私有 每个方法被执行的时候都会同时创建一个栈帧用于存放局部变量表、操作栈、动态链接、方法出口等信息。每一个方法被调用直至执行完成的过程就对应着一个栈帧在虚拟机栈中从入栈到出栈的过程 生命周期与线程相同 为java方法服务">
@@ -494,6 +494,26 @@
 <li>尽量使用 StringBuffer,而不用 String 来累加字符串：StringBuffer是可变长的,它在原有基础上进行扩增,不会产生中间对象</li>
 <li>使用软引用类型</li>
 </ul>
+<h3 id="SafePoint"><a href="#SafePoint" class="headerlink" title="SafePoint"></a>SafePoint</h3><ul>
+<li>当线程运行到这些位置时它的状态是确定的,比如记录OopMap的状态，从而确定GC Root的信息</li>
+<li>这个点, 所有GC Root的状态都是已知并且heap里的对象是一致的; 在这个点进行GC时, 所有的线程都需要block住, 这就是(STW)Stop The World<ul>
+<li>假如一个java线程分配了一个对象A, 该对象的地址存在某个寄存器中, 然后线程的cpu时间片到期被切换出去, 同时GC的线程开始扫描存活对象, 由于没有路径到这个地址还在寄存器中的对象, 这个对象被认为是garbage, 回收了. 然后睡眠的java线程醒来了, 把寄存器中的对象地址赋值给了存活对象的某个字段, over…</li>
+<li><strong>所以safepoint下, heap是静止的, 并且所有活着的对象都可以被找到</strong></li>
+</ul>
+</li>
+</ul>
+<h4 id="如何达到safepoint？"><a href="#如何达到safepoint？" class="headerlink" title="如何达到safepoint？"></a>如何达到safepoint？</h4><ul>
+<li>Hotspot采用<strong>主动检测</strong>的方式使得其他线程停下来<ul>
+<li><strong>解释执行：</strong> 指定点执行检测代码，java方法返回和跳转指令(if或者循环里面)的地方会进行检测.</li>
+<li><strong>编译执行：</strong> polling page访问异常触发：在需要safepoint时, 会修改该页面的权限为不可访问, 这样编译的代码在访问这个页面时, 会触发段违规异常(SEGEV). 而hotspot在启动时捕获了这个异常, 当意识到是访问polling page导致时, 则主动挂起.</li>
+</ul>
+</li>
+</ul>
+<h4 id="Oopmap"><a href="#Oopmap" class="headerlink" title="Oopmap"></a>Oopmap</h4><ul>
+<li>在HotSpot中，对象的类型信息里有记录自己的OopMap，记录了在该类型的对象内什么偏移量上是什么类型的数据。</li>
+<li>在safepoint会记录Oopmap</li>
+<li>平时这些OopMap都是压缩了存在内存里的；在GC的时候才按需解压出来使用</li>
+</ul>
 <h2 id="Java类加载机制"><a href="#Java类加载机制" class="headerlink" title="Java类加载机制"></a>Java类加载机制</h2><p>  虚拟机把描述类的数据文件（字节码）加载到内存，并对数据进行验证、准备、解析以及类初始化，最终形成可以被虚拟机直接使用的java类型</p>
 <h3 id="类的生命周期"><a href="#类的生命周期" class="headerlink" title="类的生命周期"></a>类的生命周期</h3><ol>
 <li><strong>加载过程</strong><ul>
@@ -730,7 +750,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#JVM运行内存的分类"><span class="nav-number">1.</span> <span class="nav-text">JVM运行内存的分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java四大引用"><span class="nav-number">2.</span> <span class="nav-text">Java四大引用</span></a></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#GC回收机制"><span class="nav-number"></span> <span class="nav-text">GC回收机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#GC标记对象的方法"><span class="nav-number">1.</span> <span class="nav-text">GC标记对象的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#回收算法"><span class="nav-number">2.</span> <span class="nav-text">回收算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Minor-GC-amp-Full-GC"><span class="nav-number">3.</span> <span class="nav-text">Minor GC &amp; Full GC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存分配与回收策略"><span class="nav-number">4.</span> <span class="nav-text">内存分配与回收策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GC垃圾收集器"><span class="nav-number">5.</span> <span class="nav-text">GC垃圾收集器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何减少GC次数？"><span class="nav-number">6.</span> <span class="nav-text">如何减少GC次数？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java类加载机制"><span class="nav-number"></span> <span class="nav-text">Java类加载机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#类的生命周期"><span class="nav-number">1.</span> <span class="nav-text">类的生命周期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java类加载器"><span class="nav-number">2.</span> <span class="nav-text">Java类加载器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#双亲委派模型"><span class="nav-number">2.1.</span> <span class="nav-text">双亲委派模型</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JAVA内存模型-JMM"><span class="nav-number"></span> <span class="nav-text">JAVA内存模型(JMM)</span></a></li></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#JVM运行内存的分类"><span class="nav-number">1.</span> <span class="nav-text">JVM运行内存的分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java四大引用"><span class="nav-number">2.</span> <span class="nav-text">Java四大引用</span></a></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#GC回收机制"><span class="nav-number"></span> <span class="nav-text">GC回收机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#GC标记对象的方法"><span class="nav-number">1.</span> <span class="nav-text">GC标记对象的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#回收算法"><span class="nav-number">2.</span> <span class="nav-text">回收算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Minor-GC-amp-Full-GC"><span class="nav-number">3.</span> <span class="nav-text">Minor GC &amp; Full GC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存分配与回收策略"><span class="nav-number">4.</span> <span class="nav-text">内存分配与回收策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GC垃圾收集器"><span class="nav-number">5.</span> <span class="nav-text">GC垃圾收集器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何减少GC次数？"><span class="nav-number">6.</span> <span class="nav-text">如何减少GC次数？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SafePoint"><span class="nav-number">7.</span> <span class="nav-text">SafePoint</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#如何达到safepoint？"><span class="nav-number">7.1.</span> <span class="nav-text">如何达到safepoint？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Oopmap"><span class="nav-number">7.2.</span> <span class="nav-text">Oopmap</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java类加载机制"><span class="nav-number"></span> <span class="nav-text">Java类加载机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#类的生命周期"><span class="nav-number">1.</span> <span class="nav-text">类的生命周期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java类加载器"><span class="nav-number">2.</span> <span class="nav-text">Java类加载器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#双亲委派模型"><span class="nav-number">2.1.</span> <span class="nav-text">双亲委派模型</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JAVA内存模型-JMM"><span class="nav-number"></span> <span class="nav-text">JAVA内存模型(JMM)</span></a></li></div>
             
 
           </div>
