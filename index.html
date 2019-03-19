@@ -1463,12 +1463,7 @@ synchronized void setB() throws Exception{
 </ul>
 <h4 id="分段锁"><a href="#分段锁" class="headerlink" title="分段锁"></a>分段锁</h4><ul>
 <li>是一种设计,目的是<strong>细化锁的粒度</strong></li>
-<li>ConcurrentHashMap就是通过分段锁来实现高效的并发操作<ul>
-<li>ConcurrentHashMap中的分段锁称为<code>Segment</code>，它即类似于<code>HashMap</code>的结构，即内部拥有一个<code>Entry</code>数组，数组中的每个元素又是一个<strong>链表</strong>；同时又是一个<code>ReentrantLock</code><strong>（Segment继承了ReentrantLock)</strong>。</li>
-<li>需要put元素的时候，并不是对整个hashmap进行加锁，而是先通过<code>hashcode</code>来知道放在哪个分段中，然后对这个<strong>分段进行加锁</strong>，所以当多线程put的时候，只要不是放在一个分段中，就实现了真正的并行的插入</li>
-<li><strong>统计size的时候，即获取hashmap全局信息的时候，需要获取所有的分段锁才能统计</strong></li>
-</ul>
-</li>
+<li>jdk7中ConcurrentHashMap就是通过分段锁来实现高效的并发操作</li>
 </ul>
 <h4 id="偏向锁-轻量级锁-重量级锁"><a href="#偏向锁-轻量级锁-重量级锁" class="headerlink" title="偏向锁/轻量级锁/重量级锁"></a>偏向锁/轻量级锁/重量级锁</h4><ul>
 <li>指的是锁的状态，并且是针对synchronized</li>
@@ -1765,7 +1760,7 @@ public class ChessyCounter{
 <ul>
 <li>就绪状态：进程已获得除处理机以外的所需资源，等待分配处理机资源</li>
 <li>运行状态：占用处理机资源运行，处于此状态的进程数小于等于CPU数</li>
-<li>阻塞状态： 进程等待某种条件，在条件满足之前无法执</li>
+<li>阻塞状态： 进程等待某种条件，在条件满足之前无法执行</li>
 <li>就绪→执行；执行→就绪；执行→阻塞；阻塞→就绪</li>
 </ul>
 <p><strong>5. 进程调度策略</strong></p>
@@ -2036,7 +2031,6 @@ public class ChessyCounter{
 <li>为了保证最后一个ACK因丢失，而等待重发的时间</li>
 <li>保证残留网络报不会被新连接接收而产生数据错乱。保证所有残留的网络报在自己关闭前都已经超时</li>
 </ul>
-<hr>
 <p><strong>3. TCP头部</strong></p>
 <ol>
 <li>16位 源端口</li>
@@ -2972,7 +2966,7 @@ private void MergeSort(int[] arr) {
 <li>如果有冲突，以链表的形式存在后面</li>
 <li>如果冲突导致链表过长，就把链表转为红黑树</li>
 <li>如果节点已经存在就替换old value(保证key的唯一性)</li>
-<li>如果桶满了，就要resize</li>
+<li>如果桶满了，就要resize(与)</li>
 </ol>
 <h4 id="get方法"><a href="#get方法" class="headerlink" title="get方法"></a>get方法</h4><ol>
 <li>如果是桶中的第一个节点，则直接返回value</li>
@@ -2982,6 +2976,37 @@ private void MergeSort(int[] arr) {
 </ul>
 </li>
 </ol>
+<h4 id="1-7与1-8的区别"><a href="#1-7与1-8的区别" class="headerlink" title="1.7与1.8的区别"></a>1.7与1.8的区别</h4><table>
+<thead>
+<tr>
+<th></th>
+<th style="text-align:center">1.7</th>
+<th style="text-align:center">1.8</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>存储结构</td>
+<td style="text-align:center">数组+链表</td>
+<td style="text-align:center">数组+链表+红黑树</td>
+</tr>
+<tr>
+<td>扩容后存储位置的计算方式</td>
+<td style="text-align:center">按照原方法(hashCode–&gt;扰动处理)</td>
+<td style="text-align:center">扩容后的位置=原位置or原位置+扩容量</td>
+</tr>
+<tr>
+<td>转移数据方式</td>
+<td style="text-align:center">头插法(将原位置的数据后移1位再插入：逆序&amp;环形链表死循环问题)</td>
+<td style="text-align:center">尾插法</td>
+</tr>
+<tr>
+<td>插入数据时机&amp;位置重计算时机</td>
+<td style="text-align:center">扩容前插入、转移数据时统一计算</td>
+<td style="text-align:center">扩容后插入、单独计算(即转移数据时无统一计算)</td>
+</tr>
+</tbody>
+</table>
 <h4 id="LinkedHashMap"><a href="#LinkedHashMap" class="headerlink" title="LinkedHashMap"></a>LinkedHashMap</h4><ul>
 <li>保存了记录的插入顺序</li>
 </ul>
@@ -2990,7 +3015,30 @@ private void MergeSort(int[] arr) {
 <li>HashMap不是线程安全的，而Hashtable是线程安全的</li>
 <li>HashTable 的方法是 Synchronize 的，而 HashMap 不是，在多个线程访问 Hashtable 时，不需要自己为它的方法实现同步，而 HashMap 就必须为之提供外同步</li>
 </ul>
-<h3 id="Hashtable与ConcurrentHashMap的区别"><a href="#Hashtable与ConcurrentHashMap的区别" class="headerlink" title="Hashtable与ConcurrentHashMap的区别"></a>Hashtable与ConcurrentHashMap的区别</h3><ul>
+<h3 id="conConcurrentHashMap"><a href="#conConcurrentHashMap" class="headerlink" title="conConcurrentHashMap"></a>conConcurrentHashMap</h3><ul>
+<li>jdk7中ConcurrentHashMap就是通过分段锁来实现高效的并发操作<ul>
+<li>ConcurrentHashMap中的分段锁称为<code>Segment</code>，它即类似于<code>HashMap</code>的结构，即内部拥有一个<code>Entry</code>数组，数组中的每个元素又是一个<strong>链表</strong>；同时又是一个<code>ReentrantLock</code><strong>（Segment继承了ReentrantLock)</strong>。</li>
+<li>需要put元素的时候，并不是对整个hashmap进行加锁，而是先通过<code>hashcode</code>来知道放在哪个分段中，然后对这个<strong>分段进行加锁</strong>，所以当多线程put的时候，只要不是放在一个分段中，就实现了真正的并行的插入</li>
+<li><strong>统计size的时候，即获取hashmap全局信息的时候，需要获取所有的分段锁才能统计</strong></li>
+</ul>
+</li>
+<li>jdk8中改为CAS+synchronized操作，底层使用数组+链表+红黑树<ul>
+<li>并不是直接改为红黑树，而是将treeNode封装到treeBin对象中</li>
+</ul>
+</li>
+</ul>
+<h4 id="核心方法"><a href="#核心方法" class="headerlink" title="核心方法"></a>核心方法</h4><ul>
+<li>initTable():在插入元素时发生，只能由一个线程完成<ul>
+<li>sizeCtl:CAS算法进行判断</li>
+</ul>
+</li>
+<li>扩容transfer():<ul>
+<li>step1:单线程进行，构建一个nextTable，容量为原来的两倍。</li>
+<li>step2:允许多线程，将原来的table中的数据复制到nextTable中</li>
+</ul>
+</li>
+</ul>
+<h4 id="Hashtable与ConcurrentHashMap的区别"><a href="#Hashtable与ConcurrentHashMap的区别" class="headerlink" title="Hashtable与ConcurrentHashMap的区别"></a>Hashtable与ConcurrentHashMap的区别</h4><ul>
 <li>Hashtable的synchronized是针对整张Hash表的，即每次锁住整张表让线程独占，ConcurrentHashMap允许多个修改操作并发进行，其关键在于使用了分段锁技术</li>
 </ul>
 

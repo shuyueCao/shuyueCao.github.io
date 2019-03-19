@@ -88,7 +88,7 @@
 <meta property="og:description" content="线程创建线程 继Thread类 实现Runnable接口 实现Callable接口(比runnable多一个返回值)  Java不支持多继承，但可以实现多个接口。  start()方法会启动一个新线程，并包含run()方法。而run()只会执行run方法，不会启动新线程  线程池 为什么要用线程池？ 降低消耗。降低创建和销毁线程造成的消耗 提高响应速度。任务到达时，任务可以不需要等到线程创建就能立">
 <meta property="og:locale" content="Java">
 <meta property="og:image" content="https://img-blog.csdn.net/2018031320183899?watermark/2/text/Ly9ibG9nLmNzZG4ubmV0L3JlbndlaTI4OTQ0Mw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
-<meta property="og:updated_time" content="2019-03-18T04:49:19.625Z">
+<meta property="og:updated_time" content="2019-03-19T05:52:06.763Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java多线程">
 <meta name="twitter:description" content="线程创建线程 继Thread类 实现Runnable接口 实现Callable接口(比runnable多一个返回值)  Java不支持多继承，但可以实现多个接口。  start()方法会启动一个新线程，并包含run()方法。而run()只会执行run方法，不会启动新线程  线程池 为什么要用线程池？ 降低消耗。降低创建和销毁线程造成的消耗 提高响应速度。任务到达时，任务可以不需要等到线程创建就能立">
@@ -440,12 +440,7 @@ synchronized void setB() throws Exception{
 </ul>
 <h4 id="分段锁"><a href="#分段锁" class="headerlink" title="分段锁"></a>分段锁</h4><ul>
 <li>是一种设计,目的是<strong>细化锁的粒度</strong></li>
-<li>ConcurrentHashMap就是通过分段锁来实现高效的并发操作<ul>
-<li>ConcurrentHashMap中的分段锁称为<code>Segment</code>，它即类似于<code>HashMap</code>的结构，即内部拥有一个<code>Entry</code>数组，数组中的每个元素又是一个<strong>链表</strong>；同时又是一个<code>ReentrantLock</code><strong>（Segment继承了ReentrantLock)</strong>。</li>
-<li>需要put元素的时候，并不是对整个hashmap进行加锁，而是先通过<code>hashcode</code>来知道放在哪个分段中，然后对这个<strong>分段进行加锁</strong>，所以当多线程put的时候，只要不是放在一个分段中，就实现了真正的并行的插入</li>
-<li><strong>统计size的时候，即获取hashmap全局信息的时候，需要获取所有的分段锁才能统计</strong></li>
-</ul>
-</li>
+<li>jdk7中ConcurrentHashMap就是通过分段锁来实现高效的并发操作</li>
 </ul>
 <h4 id="偏向锁-轻量级锁-重量级锁"><a href="#偏向锁-轻量级锁-重量级锁" class="headerlink" title="偏向锁/轻量级锁/重量级锁"></a>偏向锁/轻量级锁/重量级锁</h4><ul>
 <li>指的是锁的状态，并且是针对synchronized</li>
