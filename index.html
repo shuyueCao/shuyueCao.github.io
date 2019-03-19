@@ -462,7 +462,9 @@
 </ul>
 </li>
 <li><strong>依赖注入的过程是用户第一次向IoC容器索要Bean时触发的</strong>，在BeanFatory接口中的getBean方法的实现就是触发依赖注入的地方。</li>
-<li>Spring IoC容器中管理了一系列靠依赖关系联系起来的Bean，程序不需要应用自己手动创建所需的对象，Spring IoC容器会在我们使用的时候自动为我们创建，并且为我们注入好相关的依赖<h5 id="AOP"><a href="#AOP" class="headerlink" title="AOP"></a>AOP</h5></li>
+<li>Spring IoC容器中管理了一系列靠依赖关系联系起来的Bean，程序不需要应用自己手动创建所需的对象，Spring IoC容器会在我们使用的时候自动为我们创建，并且为我们注入好相关的依赖</li>
+</ul>
+<h5 id="AOP"><a href="#AOP" class="headerlink" title="AOP"></a>AOP</h5><ul>
 <li>spring AOP的底层实现是<strong>动态代理</strong><ul>
 <li>提供了对JDK动态代理的支持以及CGLib的支持。<ul>
 <li>JDK动态代理只能为接口创建动态代理实例，而不能对类创建动态代理</li>
@@ -922,6 +924,35 @@
 <li>InnoDB的数据文件本身就是索引文件，MyISAM索引文件和数据文件是分离的，索引文件仅保存数据记录的地址</li>
 <li>InnoDB 中不保存表的具体行数，也就是说，执行<code>select count(*) from table</code>时，InnoDB要扫描一遍整个表来计算有多少行，但是MyISAM只要简单的读出保存好的行数即可。注意的是，当<code>count(*)</code>语句包含 where条件时，两种表的操作是一样的。</li>
 <li><strong>两种类型最主要的差别就是Innodb 支持事务处理与外键完整性约束和行级锁</strong>，所以MyISAM往往就容易被人认为只适合在小项目中使用,但是如果项目要求99.9%的<strong>稳定性，方便的扩展性和高可用性</strong>来说的话，MyISAM绝对是首选</li>
+</ul>
+<h3 id="MySQL主从同步"><a href="#MySQL主从同步" class="headerlink" title="MySQL主从同步"></a>MySQL主从同步</h3><ul>
+<li>基于二进制日志机制，主服务器使用二进制日志来记录数据库的变动情况，从服务器通过读取和执行该日志文件来保持和主服务器的数据一致</li>
+<li><strong>MySQL是异步复制的，MySQL cluster是同步复制的</strong></li>
+</ul>
+<h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><ul>
+<li>可以作为一种备份机制，相当于热备份</li>
+<li>可以用来做读写分离，均衡数据库负载</li>
+</ul>
+<h4 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h4><ul>
+<li>tatement Based Replication（SBR）基于SQL语句的复制<ul>
+<li>当使用二进制日志时，主服务器会把SQL语句写入到日志中，然后从服务器会执行该日志<ul>
+<li>日志文件更小</li>
+<li>记录了所有的语句，可以用来日后审计</li>
+<li>Insert … select语句会执行大量的行级锁表</li>
+<li>Update语句会执行大量的行级锁表来扫描整个表</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Row Based Replication（RBR）基于行的复制<ul>
+<li>主服务器把表的行变化作为事件写入到二进制日志中，主服务器把代表了行变化的事件复制到从服务中<ul>
+<li>所有的数据变化都是被复制，这是最安全的复制方式</li>
+<li>更少的行级锁表</li>
+<li>日志会很大</li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 <h3 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h3><ul>
 <li><strong>索引</strong><ul>
