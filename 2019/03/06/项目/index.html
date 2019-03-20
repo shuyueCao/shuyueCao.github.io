@@ -89,7 +89,7 @@
 <meta property="og:locale" content="Java">
 <meta property="og:image" content="https://img-blog.csdn.net/20150427151555111?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaml1cWl5dWxpYW5n/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
 <meta property="og:image" content="https://img-blog.csdn.net/20141120210203542?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaml1cWl5dWxpYW5n/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
-<meta property="og:updated_time" content="2019-03-19T14:21:30.072Z">
+<meta property="og:updated_time" content="2019-03-20T01:45:52.529Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="项目">
 <meta name="twitter:description" content="DevOps工具链DevOps 通过高度自动化工具与流程来使得软件构建、测试、发布更加快捷、频繁和可靠 将开发、运维一体化  可以把 DevOps 看作开发（软件工程）、技术运营和质量保障（QA）三者的交集。 传统的软件组织将开发、IT 运营和质量保障设为各自分离的部门， 按照从前的工作方式，开发和部署，不需要 IT 支持或者 QA 深入的跨部门的支持；而现在却需要极其紧密的多部门协作。 而 De">
@@ -449,20 +449,63 @@
 <li>比如说我们现在有两个类A和B，那么我们不需要new A()、或者new B()来创建A和B的对象，Spring会帮我们创建A和B的对象（默认是单例），并且把A和B的对象放入IoC容器中，如果B对象中需要用到A对象的话，那么就要用到DI，Spring会帮我们把A对象注入到B对象中，一般是通过setter方法注入或构造器注入。</li>
 </ul>
 </li>
-<li>在Spring中，有两个主要的IoC容器系列<ul>
-<li>实现BeanFactory接口的简单容器系列</li>
-<li>实现ApplicationContext接口的高级容器系列</li>
+<li><strong>在Spring中，有两个主要的IoC容器系列</strong><ul>
+<li>实现BeanFactory接口的简单容器系列<ul>
+<li>BeanFactory容器中，不会调用ApplicationContextAware接口的setApplicationContext()方法</li>
+<li>BeanPostProcessor接口的postProcessBeforeInitialzation()方法和postProcessAfterInitialization()方法不会自动调用，必须自己通过代码手动注册</li>
+<li>BeanFactory容器启动的时候，不会去实例化所有Bean,包括所有scope为singleton且非懒加载的Bean也是一样，而是在调用的时候去实例化</li>
+</ul>
+</li>
+<li>实现ApplicationContext接口的高级容器系列<ul>
+<li>在BeanFatory容器的基础上增加了事件传播、资源访问和国际化的消息访问等功能</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>IoC容器的初始化：</strong><ul>
+<li>入口是在构造方法中调用refresh开始的</li>
+<li>通过ResourceLoader来完成资源文件位置的定位</li>
+<li>通过BeanDefinitionReader来完成定义信息的解析和Bean信息的注册，XmlBeanDefinitionReader是BeanDefinitionReader的实现类，通过它来解析xml配置中的bean定义</li>
+<li>BeanDefinition的载入：把用户定义好的Bean表示成IoC容器内部的数据结构，即BeanDefinition。</li>
+<li>BeanDefinition的注册：把BeanDefinition向IoC容器注册，由BeanDefinitionRegistry实现的registerBeanDefiition方法进行。内部使用ConcurrentHashMap来保存BeanDefiition</li>
 </ul>
 </li>
 <li>在解析<bean>元素过程中没有创建和实例化Bean对象，只是创建了Bean对象的定义类BeanDefinition，将<bean>元素中的配置信息设置到BeanDefinition中作为记录，当依赖注入时才使用这些记录信息创建和实例化具体的Bean对象。</bean></bean></li>
-<li>IoC容器的初始化：<ul>
-<li>BeanDefinition的Resource定位：BeanDefinition的资源定位。</li>
-<li>BeanDefinition的载入：把用户定义好的Bean表示成IoC容器内部的数据结构，即BeanDefinition。</li>
-<li>BeanDefinition的注册：把BeanDefinition向IoC容器注册。</li>
+<li><strong>依赖注入的过程(lazy-init)：</strong><ul>
+<li><strong>依赖注入的过程是用户第一次向IoC容器索要Bean时触发的</strong>，在BeanFatory接口中的getBean方法的实现就是触发依赖注入的地方。</li>
+<li>Bean定义为单例模式(Singleton)，则容器在创建之前先从缓存中查找，以确保整个容器中只存在一个实例对象。如果Bean定义的是原型模式(Prototype)，则容器每次都会创建一个新的实例对象。除此之外，Bean定义还可以扩展为指定其生命周期范围</li>
+<li>依赖注入主要在两个方法中：<ul>
+<li><strong>createBeanInstance：生成Bean所包含的java对象实例。</strong><ul>
+<li>用CGLIB来生成</li>
+<li>通过BeanUtils，它使用了JVM的反射功能来生成Java对象实例</li>
 </ul>
 </li>
-<li><strong>依赖注入的过程是用户第一次向IoC容器索要Bean时触发的</strong>，在BeanFatory接口中的getBean方法的实现就是触发依赖注入的地方。</li>
+<li><strong>populateBean ：对Bean属性的依赖注入进行处理</strong><ul>
+<li>属性值类型不需要转换时，不需要解析属性值，直接准备进行依赖注入。</li>
+<li>属性值需要进行类型转换时，如对其他对象的引用等，首先需要解析属性值(resolveValueIfNecessary方法)，然后对解析后的属性值进行依赖注入</li>
+<li>setPropertyValues 属性注入</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>获取到某个Bean的时候也会通过<em>递归</em>的方式来依赖注入依赖的bean</li>
+</ul>
+</li>
 <li>Spring IoC容器中管理了一系列靠依赖关系联系起来的Bean，程序不需要应用自己手动创建所需的对象，Spring IoC容器会在我们使用的时候自动为我们创建，并且为我们注入好相关的依赖</li>
+</ul>
+<h5 id="bean的生命周期"><a href="#bean的生命周期" class="headerlink" title="bean的生命周期"></a>bean的生命周期</h5><ul>
+<li>容器启动后，会对scope为singleton且非懒加载的bean进行实例化</li>
+<li>按照Bean定义信息配置信息，注入所有的属性</li>
+<li>如果实现了BeanNameAware接口，会回调该接口的setBeanName()方法，传入该Bean的id，此时该Bean就获得了自己在配置文件中的id</li>
+<li>如果Bean实现了BeanFactoryAware接口，会回调该接口的setBeanFactory()方法，传入该Bean的BeanFactory，这样该Bean就获得了自己所在的BeanFactory</li>
+<li>如果Bean实现了ApplicationContextAware接口,会回调该接口的setApplicationContext()方法，传入该Bean的ApplicationContext，这样该Bean就获得了自己所在的ApplicationContext</li>
+<li>如果有Bean实现了BeanPostProcessor接口，则会回调该接口的postProcessBeforeInitialzation()方法</li>
+<li>如果Bean实现了InitializingBean接口，则会回调该接口的afterPropertiesSet()方法</li>
+<li>如果Bean配置了init-method方法，则会执行init-method配置的方法</li>
+<li>如果有Bean实现了BeanPostProcessor接口，则会回调该接口的postProcessAfterInitialization()方法</li>
+<li>之后便可以正式使用Bean了，对于scope为singleton的Bean,Spring的ioc容器中会缓存一份该bean的实例，而对于scope为prototype的Bean,每次被调用都会new一个新的对象，期生命周期就交给调用方管理了，不再是Spring容器进行管理了</li>
+<li>容器关闭后，如果Bean实现了DisposableBean接口，则会回调该接口的destroy()方法</li>
+<li>如果Bean配置了destroy-method方法，则会执行destroy-method配置的方法，至此，整个Bean的生命周期结束</li>
 </ul>
 <h5 id="AOP"><a href="#AOP" class="headerlink" title="AOP"></a>AOP</h5><ul>
 <li>spring AOP的底层实现是<strong>动态代理</strong><ul>
@@ -812,7 +855,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#DevOps工具链"><span class="nav-number">1.</span> <span class="nav-text">DevOps工具链</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#DevOps"><span class="nav-number">1.1.</span> <span class="nav-text">DevOps</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#工具链"><span class="nav-number">1.2.</span> <span class="nav-text">工具链</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MyBatis"><span class="nav-number">1.3.</span> <span class="nav-text">MyBatis</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#教育平台"><span class="nav-number">2.</span> <span class="nav-text">教育平台</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Spring"><span class="nav-number">2.1.</span> <span class="nav-text">Spring</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#IoC"><span class="nav-number">2.1.1.</span> <span class="nav-text">IoC</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#AOP"><span class="nav-number">2.1.2.</span> <span class="nav-text">AOP</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Spring-MVC工作原理"><span class="nav-number">2.1.3.</span> <span class="nav-text">Spring MVC工作原理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Spring-Boot"><span class="nav-number">2.1.4.</span> <span class="nav-text">Spring Boot</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hibernate"><span class="nav-number">2.2.</span> <span class="nav-text">hibernate</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hibernate与mybatis的对比"><span class="nav-number">2.3.</span> <span class="nav-text">hibernate与mybatis的对比</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#JPA"><span class="nav-number">2.3.1.</span> <span class="nav-text">JPA</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#题库系统"><span class="nav-number">2.4.</span> <span class="nav-text">题库系统</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dubbo-zookeeper"><span class="nav-number">2.5.</span> <span class="nav-text">dubbo/zookeeper</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#dubbo"><span class="nav-number">2.5.1.</span> <span class="nav-text">dubbo</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#负载均衡策略"><span class="nav-number">2.5.1.1.</span> <span class="nav-text">负载均衡策略</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#容错策略"><span class="nav-number">2.5.1.2.</span> <span class="nav-text">容错策略</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#dubbo健壮性的体现"><span class="nav-number">2.5.1.3.</span> <span class="nav-text">dubbo健壮性的体现</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#zookeeper"><span class="nav-number">2.5.2.</span> <span class="nav-text">zookeeper</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#DevOps工具链"><span class="nav-number">1.</span> <span class="nav-text">DevOps工具链</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#DevOps"><span class="nav-number">1.1.</span> <span class="nav-text">DevOps</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#工具链"><span class="nav-number">1.2.</span> <span class="nav-text">工具链</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MyBatis"><span class="nav-number">1.3.</span> <span class="nav-text">MyBatis</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#教育平台"><span class="nav-number">2.</span> <span class="nav-text">教育平台</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Spring"><span class="nav-number">2.1.</span> <span class="nav-text">Spring</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#IoC"><span class="nav-number">2.1.1.</span> <span class="nav-text">IoC</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#bean的生命周期"><span class="nav-number">2.1.2.</span> <span class="nav-text">bean的生命周期</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#AOP"><span class="nav-number">2.1.3.</span> <span class="nav-text">AOP</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Spring-MVC工作原理"><span class="nav-number">2.1.4.</span> <span class="nav-text">Spring MVC工作原理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Spring-Boot"><span class="nav-number">2.1.5.</span> <span class="nav-text">Spring Boot</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hibernate"><span class="nav-number">2.2.</span> <span class="nav-text">hibernate</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hibernate与mybatis的对比"><span class="nav-number">2.3.</span> <span class="nav-text">hibernate与mybatis的对比</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#JPA"><span class="nav-number">2.3.1.</span> <span class="nav-text">JPA</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#题库系统"><span class="nav-number">2.4.</span> <span class="nav-text">题库系统</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dubbo-zookeeper"><span class="nav-number">2.5.</span> <span class="nav-text">dubbo/zookeeper</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#dubbo"><span class="nav-number">2.5.1.</span> <span class="nav-text">dubbo</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#负载均衡策略"><span class="nav-number">2.5.1.1.</span> <span class="nav-text">负载均衡策略</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#容错策略"><span class="nav-number">2.5.1.2.</span> <span class="nav-text">容错策略</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#dubbo健壮性的体现"><span class="nav-number">2.5.1.3.</span> <span class="nav-text">dubbo健壮性的体现</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#zookeeper"><span class="nav-number">2.5.2.</span> <span class="nav-text">zookeeper</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
