@@ -79,22 +79,22 @@
 
 
 
-<meta name="description" content="Redis key-value类型的内存(缓存)数据库 整个数据库加载到内存中操作，定期flush到硬盘上进行保存 单线程 集群是master/slave模式  为了使在部分节点失败或者大部分节点无法通信的情况下集群仍然可用，所以集群使用了主从复制模型,每个节点都会有N-1个复制品 异步复制 Redis并不能保证数据的强一致性，这意味这在实际中集群在特定的条件下可能会丢失写操作。   与memch">
+<meta name="description" content="Redis key-value类型的内存(缓存)数据库 整个数据库加载到内存中操作，定期flush到硬盘上进行保存 单线程 CPU不是瓶颈，单线程容易实现   集群是master/slave模式  为了使在部分节点失败或者大部分节点无法通信的情况下集群仍然可用，所以集群使用了主从复制模型,每个节点都会有N-1个复制品 异步复制 Redis并不能保证数据的强一致性，这意味这在实际中集群在特定的条件下">
 <meta name="keywords" content="面试">
 <meta property="og:type" content="article">
 <meta property="og:title" content="数据库">
 <meta property="og:url" content="http://yoursite.com/2019/03/03/数据库/index.html">
 <meta property="og:site_name" content="Alpaca&#39;s Blog">
-<meta property="og:description" content="Redis key-value类型的内存(缓存)数据库 整个数据库加载到内存中操作，定期flush到硬盘上进行保存 单线程 集群是master/slave模式  为了使在部分节点失败或者大部分节点无法通信的情况下集群仍然可用，所以集群使用了主从复制模型,每个节点都会有N-1个复制品 异步复制 Redis并不能保证数据的强一致性，这意味这在实际中集群在特定的条件下可能会丢失写操作。   与memch">
+<meta property="og:description" content="Redis key-value类型的内存(缓存)数据库 整个数据库加载到内存中操作，定期flush到硬盘上进行保存 单线程 CPU不是瓶颈，单线程容易实现   集群是master/slave模式  为了使在部分节点失败或者大部分节点无法通信的情况下集群仍然可用，所以集群使用了主从复制模型,每个节点都会有N-1个复制品 异步复制 Redis并不能保证数据的强一致性，这意味这在实际中集群在特定的条件下">
 <meta property="og:locale" content="Java">
 <meta property="og:image" content="https://raw.githubusercontent.com/Draveness/Analyze/master/contents/Database/images/mysql/Tablespace-segment-extent-page-row.jpg">
 <meta property="og:image" content="https://image-static.segmentfault.com/200/005/2000054899-5b232c8cb2ea5_articlex">
 <meta property="og:image" content="https://image-static.segmentfault.com/122/280/1222804749-5b232ded5a2ef_articlex">
 <meta property="og:image" content="http://www.jasongj.com/img/kafka/KafkaColumn1/KafkaArchitecture.png">
-<meta property="og:updated_time" content="2019-03-19T14:17:33.881Z">
+<meta property="og:updated_time" content="2019-03-20T14:22:38.890Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据库">
-<meta name="twitter:description" content="Redis key-value类型的内存(缓存)数据库 整个数据库加载到内存中操作，定期flush到硬盘上进行保存 单线程 集群是master/slave模式  为了使在部分节点失败或者大部分节点无法通信的情况下集群仍然可用，所以集群使用了主从复制模型,每个节点都会有N-1个复制品 异步复制 Redis并不能保证数据的强一致性，这意味这在实际中集群在特定的条件下可能会丢失写操作。   与memch">
+<meta name="twitter:description" content="Redis key-value类型的内存(缓存)数据库 整个数据库加载到内存中操作，定期flush到硬盘上进行保存 单线程 CPU不是瓶颈，单线程容易实现   集群是master/slave模式  为了使在部分节点失败或者大部分节点无法通信的情况下集群仍然可用，所以集群使用了主从复制模型,每个节点都会有N-1个复制品 异步复制 Redis并不能保证数据的强一致性，这意味这在实际中集群在特定的条件下">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/Draveness/Analyze/master/contents/Database/images/mysql/Tablespace-segment-extent-page-row.jpg">
 
 
@@ -340,7 +340,10 @@
         <h3 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h3><ul>
 <li>key-value类型的内存(缓存)数据库</li>
 <li>整个数据库加载到内存中操作，定期flush到硬盘上进行保存</li>
-<li>单线程</li>
+<li>单线程<ul>
+<li>CPU不是瓶颈，单线程容易实现</li>
+</ul>
+</li>
 <li><p>集群是master/slave模式</p>
 <ul>
 <li>为了使在部分节点失败或者大部分节点无法通信的情况下集群仍然可用，所以集群使用了主从复制模型,每个节点都会有N-1个复制品</li>
