@@ -89,7 +89,7 @@
 <meta property="og:locale" content="Java">
 <meta property="og:image" content="https://img-blog.csdn.net/20150427151555111?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaml1cWl5dWxpYW5n/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
 <meta property="og:image" content="https://img-blog.csdn.net/20141120210203542?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaml1cWl5dWxpYW5n/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
-<meta property="og:updated_time" content="2019-03-20T08:32:22.320Z">
+<meta property="og:updated_time" content="2019-03-22T06:01:10.231Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="项目">
 <meta name="twitter:description" content="DevOps工具链DevOps 通过高度自动化工具与流程来使得软件构建、测试、发布更加快捷、频繁和可靠 将开发、运维一体化  可以把 DevOps 看作开发（软件工程）、技术运营和质量保障（QA）三者的交集。 传统的软件组织将开发、IT 运营和质量保障设为各自分离的部门， 按照从前的工作方式，开发和部署，不需要 IT 支持或者 QA 深入的跨部门的支持；而现在却需要极其紧密的多部门协作。 而 De">
@@ -376,7 +376,8 @@
 </li>
 <li>持续集成<ul>
 <li>gitlabCI：集成较好， 界面美观优雅， 使用简单<ul>
-<li>gitlab runner进行构建任务</li>
+<li>gitlab runner进行构建任务，gitlabCI负责管理各个项目的构建状态</li>
+<li>runner需要注册到CI中，可以安装到不同的机器上，因此构建任务期间不会影响gitlab的性能</li>
 <li>pipeline：相当于一次构建任务，里面可以包含多个流程，比如自动构建、自动进行单元测试、自动进行代码检查等流程<ul>
 <li>stages： build, test, deploy</li>
 <li>jobs</li>

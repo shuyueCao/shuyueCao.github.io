@@ -88,7 +88,7 @@
 <meta property="og:description" content="HTTP(无状态的协议)/HTTPS1. 两者区别？  HTTP是不安全的，HTTPS是安全的 OSI模型中，HTTP在应用层，HTTPS的安全传输机制在传输层 HTTP无法加密，HTTPS对传输的数据进行加密 HTTP不用证书，而HTTPS需要CA机构颁发的SSL证书  HTTPS就是HTTP加上加密处理（一般是SSL安全通信线路）+认证+消息完整性保护 2. HTTPS工作原理 双向认证 SS">
 <meta property="og:locale" content="Java">
 <meta property="og:image" content="https://image.qinjiangbo.com/blog/image/rpc-architecture.jpg">
-<meta property="og:updated_time" content="2019-03-19T07:39:31.521Z">
+<meta property="og:updated_time" content="2019-03-22T06:11:47.056Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="网络">
 <meta name="twitter:description" content="HTTP(无状态的协议)/HTTPS1. 两者区别？  HTTP是不安全的，HTTPS是安全的 OSI模型中，HTTP在应用层，HTTPS的安全传输机制在传输层 HTTP无法加密，HTTPS对传输的数据进行加密 HTTP不用证书，而HTTPS需要CA机构颁发的SSL证书  HTTPS就是HTTP加上加密处理（一般是SSL安全通信线路）+认证+消息完整性保护 2. HTTPS工作原理 双向认证 SS">
@@ -381,6 +381,36 @@
 <li><p><strong>重定向：</strong> 服务端根据逻辑,发送一个状态码,告诉浏览器重新去请求那个地址.所以地址栏显示的是新的URL</p>
 </li>
 <li><p><strong>转发是服务器行为，重定向是客户端行为。</strong></p>
+</li>
+</ul>
+<p><strong>5. HTTP常见状态码</strong></p>
+<ul>
+<li>1xx:表示服务器已接收了客户端请求，客户端可继续发送请求<ul>
+<li>100：继续，允许客户端继续发送</li>
+<li>101：转换协议</li>
+</ul>
+</li>
+<li>2xx:成功状态码<ul>
+<li>200：OK</li>
+<li>202：接受，请求还未处理完</li>
+</ul>
+</li>
+<li>3xx:用户已经移动的文件并且常被包含在定位头信息中指定的新的地址信息<ul>
+<li>300：多重选择，表示被请求的文件可以在多个地方得到</li>
+</ul>
+</li>
+<li>4xx：用户指定客户端的错误<ul>
+<li>400：错误请求，语法错误</li>
+<li>401：未授权</li>
+<li>403：禁止，表示除非拥有授权，否则服务器拒绝提供所请求的资源</li>
+<li>404：无法找到资源</li>
+</ul>
+</li>
+<li>5xx:用户指定服务器错误<ul>
+<li>500：服务器内部错误</li>
+<li>502：错误的网关</li>
+<li>504：网关超时</li>
+</ul>
 </li>
 </ul>
 <h4 id="RESTful架构"><a href="#RESTful架构" class="headerlink" title="RESTful架构"></a>RESTful架构</h4><ul>
