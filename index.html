@@ -264,6 +264,150 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/26/java基础/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Cao Shuyue">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Alpaca's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/26/java基础/" itemprop="url">java基础</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-26T18:08:24+08:00">
+                2019-03-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Java反射机制"><a href="#Java反射机制" class="headerlink" title="Java反射机制"></a>Java反射机制</h1><ul>
+<li>What?<ul>
+<li>动态加载对象，并对对象进行剖析</li>
+<li>在运行状态中，对于任意一个类，都能知道它的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法</li>
+<li><strong>动态获取信息以及动态调用对象方法的功能称为Java反射机制</strong></li>
+</ul>
+</li>
+</ul>
+<h2 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h2><ul>
+<li>优点<ul>
+<li>提高了程序的灵活性和扩展性：可以实现动态创建对象和编译</li>
+<li>底层框架中用的比较多，业务层少用</li>
+</ul>
+</li>
+<li>缺点<ul>
+<li>性能不好：反射是一种解释操作，用于字段和方法接入时要远远慢于直接代码</li>
+<li>程序逻辑有影响：会模糊化程序的内部逻辑</li>
+</ul>
+</li>
+</ul>
+<h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><ul>
+<li>实现RPC框架</li>
+<li>实现ORM框架</li>
+<li>拷贝属性值(BeanUtils.copyProperties)</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/06/项目/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -335,7 +479,7 @@
       
         
           
-            <h3 id="DevOps工具链"><a href="#DevOps工具链" class="headerlink" title="DevOps工具链"></a>DevOps工具链</h3><h4 id="DevOps"><a href="#DevOps" class="headerlink" title="DevOps"></a>DevOps</h4><ul>
+            <h1 id="DevOps工具链"><a href="#DevOps工具链" class="headerlink" title="DevOps工具链"></a>DevOps工具链</h1><h2 id="DevOps"><a href="#DevOps" class="headerlink" title="DevOps"></a>DevOps</h2><ul>
 <li>通过高度自动化工具与流程来使得软件构建、测试、发布更加快捷、频繁和可靠</li>
 <li>将开发、运维一体化</li>
 </ul>
@@ -365,7 +509,7 @@
 </ul>
 </li>
 </ul>
-<h4 id="工具链"><a href="#工具链" class="headerlink" title="工具链"></a>工具链</h4><ul>
+<h2 id="工具链"><a href="#工具链" class="headerlink" title="工具链"></a>工具链</h2><ul>
 <li>代码托管：gitlab<ul>
 <li>为什么不使用github？<ul>
 <li>gitlab对仓库有更多的控制，可以设置仓库权限是公用的还是私有的</li>
@@ -418,7 +562,7 @@
 </ul>
 </li>
 </ul>
-<h4 id="MyBatis"><a href="#MyBatis" class="headerlink" title="MyBatis"></a>MyBatis</h4><ul>
+<h2 id="MyBatis"><a href="#MyBatis" class="headerlink" title="MyBatis"></a>MyBatis</h2><ul>
 <li>MyBatis 是支持定制化 SQL、存储过程以及高级映射的优秀的持久层框架。</li>
 <li><p>MyBatis 避免了几乎所有的 JDBC 代码和手工设置参数以及抽取结果集。使用简单的 XML 或注解来配置和映射基本体，将接口和 Java 的 POJOs(Plain Old Java Objects,普通的 Java对象)映射成数据库中的记录。</p>
 </li>
@@ -444,7 +588,7 @@
 </ul>
 </li>
 </ul>
-<h3 id="教育平台"><a href="#教育平台" class="headerlink" title="教育平台"></a>教育平台</h3><h4 id="Spring"><a href="#Spring" class="headerlink" title="Spring"></a>Spring</h4><h5 id="IoC"><a href="#IoC" class="headerlink" title="IoC"></a>IoC</h5><ul>
+<h1 id="教育平台"><a href="#教育平台" class="headerlink" title="教育平台"></a>教育平台</h1><h2 id="Spring"><a href="#Spring" class="headerlink" title="Spring"></a>Spring</h2><h3 id="IoC"><a href="#IoC" class="headerlink" title="IoC"></a>IoC</h3><ul>
 <li>控制反转是一种通过描述并通过第三方去产生或获取特定对象的方式。在Spring中实现控制反转的是IoC容器，其实现方法是<strong>DI（依赖注入）</strong></li>
 <li>解决了类与类之间的依赖关系。程序员将控制类与类之间依赖的权利交给了IOC<ul>
 <li>比如说我们现在有两个类A和B，那么我们不需要new A()、或者new B()来创建A和B的对象，Spring会帮我们创建A和B的对象（默认是单例），并且把A和B的对象放入IoC容器中，如果B对象中需要用到A对象的话，那么就要用到DI，Spring会帮我们把A对象注入到B对象中，一般是通过setter方法注入或构造器注入。</li>
@@ -492,9 +636,32 @@
 <li>获取到某个Bean的时候也会通过<em>递归</em>的方式来依赖注入依赖的bean</li>
 </ul>
 </li>
+<li><strong>依赖注入的方式</strong><ul>
+<li>@autowired 注解</li>
+<li>setter方法：<ul>
+<li>要在<code>&lt;bean&gt;</code> 标签中创建一个 <code>&lt;property&gt;</code> 标签</li>
+<li>ref指向其他<code>&lt;bean&gt;</code>标签的name属性</li>
+</ul>
+</li>
+<li>构造器注入<ul>
+<li>不用<property>的形式，而是使用<constructor-arg>标签</constructor-arg></property></li>
+<li>ref指向其他<code>&lt;bean&gt;</code>标签的name属性</li>
+</ul>
+</li>
+<li>静态工厂的方法<ul>
+<li>ref指向静态工厂</li>
+<li>配置 factory-method=”…”指定调用哪个工厂方法</li>
+</ul>
+</li>
+<li>实例工厂的方法<ul>
+<li>需要首先new工厂类，再调用普通的实例方法</li>
+</ul>
+</li>
+</ul>
+</li>
 <li>Spring IoC容器中管理了一系列靠依赖关系联系起来的Bean，程序不需要应用自己手动创建所需的对象，Spring IoC容器会在我们使用的时候自动为我们创建，并且为我们注入好相关的依赖</li>
 </ul>
-<h5 id="bean的生命周期"><a href="#bean的生命周期" class="headerlink" title="bean的生命周期"></a>bean的生命周期</h5><ul>
+<h3 id="bean的生命周期"><a href="#bean的生命周期" class="headerlink" title="bean的生命周期"></a>bean的生命周期</h3><ul>
 <li>容器启动后，会对scope为singleton且非懒加载的bean进行实例化</li>
 <li>按照Bean定义信息配置信息，注入所有的属性</li>
 <li>如果实现了BeanNameAware接口，会回调该接口的setBeanName()方法，传入该Bean的id，此时该Bean就获得了自己在配置文件中的id</li>
@@ -508,7 +675,7 @@
 <li>容器关闭后，如果Bean实现了DisposableBean接口，则会回调该接口的destroy()方法</li>
 <li>如果Bean配置了destroy-method方法，则会执行destroy-method配置的方法，至此，整个Bean的生命周期结束</li>
 </ul>
-<h5 id="AOP"><a href="#AOP" class="headerlink" title="AOP"></a>AOP</h5><ul>
+<h3 id="AOP"><a href="#AOP" class="headerlink" title="AOP"></a>AOP</h3><ul>
 <li>spring AOP的底层实现是<strong>动态代理</strong><ul>
 <li>提供了对JDK动态代理的支持以及CGLib的支持。<ul>
 <li>JDK动态代理只能为接口创建动态代理实例，而不能对类创建动态代理</li>
@@ -523,14 +690,14 @@
 </ul>
 </li>
 </ul>
-<h5 id="Spring-MVC工作原理"><a href="#Spring-MVC工作原理" class="headerlink" title="Spring MVC工作原理"></a>Spring MVC工作原理</h5><ol>
+<h2 id="Spring-MVC工作原理"><a href="#Spring-MVC工作原理" class="headerlink" title="Spring MVC工作原理"></a>Spring MVC工作原理</h2><ol>
 <li>Http请求：客户端请求提交到前置控制器DispatcherServlet</li>
 <li>DispatcherServlet寻找处理器Controller：由DispatcherServlet控制器查询一个或多个HandlerMapping，找到处理请求所对应的Controller</li>
 <li>处理器Controller执行：DispatcherServlet将请求提交到Controller，Controller调用业务逻辑处理后，返回ModelAndView。</li>
 <li>dispatcherServlet借助ViewResoler完成逻辑视图到真实视图对象的解析</li>
 <li>dispatcherServlet使用这个view对ModelAndView中的模型数据进行视图渲染，返回给用户</li>
 </ol>
-<h5 id="Spring-Boot"><a href="#Spring-Boot" class="headerlink" title="Spring Boot"></a>Spring Boot</h5><ul>
+<h2 id="Spring-Boot"><a href="#Spring-Boot" class="headerlink" title="Spring Boot"></a>Spring Boot</h2><ul>
 <li>主要是简化了spring的难度，简省了繁重的配置，提供了各种容器，开发者能快速上手</li>
 <li><strong>优点</strong><ul>
 <li>独立运行<ul>
@@ -567,7 +734,7 @@
 </ul>
 </li>
 </ul>
-<h4 id="hibernate"><a href="#hibernate" class="headerlink" title="hibernate"></a>hibernate</h4><ul>
+<h2 id="hibernate"><a href="#hibernate" class="headerlink" title="hibernate"></a>hibernate</h2><ul>
 <li>Hibernate是开源的一个ORM（对象关系映射）框架，是对JDBC的进一步封装<br><img src="https://img-blog.csdn.net/20141120210203542?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaml1cWl5dWxpYW5n/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="icon"></li>
 <li><strong>核心：面向对象、关系映射以及数据持久化</strong></li>
 <li><strong>优点</strong><ul>
@@ -585,7 +752,7 @@
 </ul>
 </li>
 </ul>
-<h4 id="hibernate与mybatis的对比"><a href="#hibernate与mybatis的对比" class="headerlink" title="hibernate与mybatis的对比"></a>hibernate与mybatis的对比</h4><ul>
+<h3 id="hibernate与mybatis的对比"><a href="#hibernate与mybatis的对比" class="headerlink" title="hibernate与mybatis的对比"></a>hibernate与mybatis的对比</h3><ul>
 <li>Hibernate的真正掌握要比Mybatis困难，Hibernate比mybatis更加重量级一些。</li>
 <li>Mybatis需要手动编写SQL语句，Hibernate也可以自己写SQL语句来指定需要查询的字段，但这样破坏了Hibernate封装以及简洁性。</li>
 <li>mybatis由于所有SQL都是依赖数据库书写，所以扩展性，迁移性比较差</li>
@@ -597,17 +764,17 @@
 </ul>
 </li>
 </ul>
-<h5 id="JPA"><a href="#JPA" class="headerlink" title="JPA"></a>JPA</h5><ul>
+<h3 id="JPA"><a href="#JPA" class="headerlink" title="JPA"></a>JPA</h3><ul>
 <li>Spring Data JPA是Spring Data的子模块。使用Spring Data，使得基于”repositories”概念的JPA实现更简单和容易。</li>
 <li>JPA默认使用hibernate作为ORM实现，所以，一般使用Spring Data JPA即会使用hibernate。</li>
 </ul>
-<h4 id="题库系统"><a href="#题库系统" class="headerlink" title="题库系统"></a>题库系统</h4><ul>
+<h2 id="考试系统"><a href="#考试系统" class="headerlink" title="考试系统"></a>考试系统</h2><ul>
 <li>判题程序在docker中进行，启动容器安装java环境，将容器保存为镜像</li>
 <li>限制程序的运行资源，如内存、时间用量，进程、线程数量</li>
 <li><strong>对于每组测试数据，将输入数据写为工作目录的文本文件后，在子进程中限制资源，用freopen重定向输入输出，并使用execl运行程序，在父进程中使用ptrace监听控制子进程。这里有个坑，就是Docker默认是不能使用ptrace的，因此要在启动容器的时候加上启动选项 –cap-add=SYS_PTRACE。</strong></li>
 </ul>
 <p><a href="https://zhuanlan.zhihu.com/p/27807692" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/27807692</a></p>
-<h4 id="dubbo-zookeeper"><a href="#dubbo-zookeeper" class="headerlink" title="dubbo/zookeeper"></a>dubbo/zookeeper</h4><h5 id="dubbo"><a href="#dubbo" class="headerlink" title="dubbo"></a>dubbo</h5><p><a href="https://github.com/Snailclimb/JavaGuide/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1/dubbo.md" target="_blank" rel="noopener">https://github.com/Snailclimb/JavaGuide/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1/dubbo.md</a></p>
+<h3 id="dubbo-zookeeper"><a href="#dubbo-zookeeper" class="headerlink" title="dubbo/zookeeper"></a>dubbo/zookeeper</h3><h4 id="dubbo"><a href="#dubbo" class="headerlink" title="dubbo"></a>dubbo</h4><p><a href="https://github.com/Snailclimb/JavaGuide/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1/dubbo.md" target="_blank" rel="noopener">https://github.com/Snailclimb/JavaGuide/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1/dubbo.md</a></p>
 <ul>
 <li>分布式服务框架，使用RPC调用</li>
 <li>SOA</li>
@@ -623,7 +790,7 @@
 </ul>
 </li>
 </ul>
-<h6 id="负载均衡策略"><a href="#负载均衡策略" class="headerlink" title="负载均衡策略"></a>负载均衡策略</h6><ul>
+<h5 id="负载均衡策略"><a href="#负载均衡策略" class="headerlink" title="负载均衡策略"></a>负载均衡策略</h5><ul>
 <li>随机：默认策略，按权重设置随机概率</li>
 <li>轮询(不推荐)：按公约后的权重设置轮循比率<ul>
 <li>存在慢的提供者累积请求的问题</li>
@@ -635,7 +802,7 @@
 </ul>
 </li>
 </ul>
-<h6 id="容错策略"><a href="#容错策略" class="headerlink" title="容错策略"></a>容错策略</h6><p><code>Dubbo 定义了集群接口 Cluster 以及及 Cluster Invoker。集群 Cluster 用途是将多个服务提供者合并为一个 Cluster Invoker，并将这个 Invoker 暴露给服务消费者。这样一来，服务消费者只需通过这个 Invoker 进行远程调用即可，至于具体调用哪个服务提供者，以及调用失败后如何处理等问题，现在都交给集群模块去处理</code></p>
+<h5 id="容错策略"><a href="#容错策略" class="headerlink" title="容错策略"></a>容错策略</h5><p><code>Dubbo 定义了集群接口 Cluster 以及及 Cluster Invoker。集群 Cluster 用途是将多个服务提供者合并为一个 Cluster Invoker，并将这个 Invoker 暴露给服务消费者。这样一来，服务消费者只需通过这个 Invoker 进行远程调用即可，至于具体调用哪个服务提供者，以及调用失败后如何处理等问题，现在都交给集群模块去处理</code></p>
 <ul>
 <li>Failover Cluster：默认机制，失败自动切换，当出现失败，重试其它服务器。<ul>
 <li>通常用于读操作，但重试会带来更长延迟</li>
@@ -662,7 +829,7 @@
 </ul>
 </li>
 </ul>
-<h6 id="dubbo健壮性的体现"><a href="#dubbo健壮性的体现" class="headerlink" title="dubbo健壮性的体现"></a>dubbo健壮性的体现</h6><ul>
+<h5 id="dubbo健壮性的体现"><a href="#dubbo健壮性的体现" class="headerlink" title="dubbo健壮性的体现"></a>dubbo健壮性的体现</h5><ul>
 <li>zookeeper注册中心宕掉，一段时间内服务消费方还是能够调用提供方的服务的，实际上它使用的本地缓存进行通讯</li>
 <li>监控中心宕掉不影响使用，只是丢失部分采样数据</li>
 <li>数据库宕掉后，注册中心仍能通过缓存提供服务列表查询，但不能注册新服务</li>
@@ -672,7 +839,7 @@
 <li>服务提供者全部宕掉后，服务消费者应用将无法使用，并无限次重连等待服务提供者恢复</li>
 </ul>
 <p><code>服务提供者和消费者只在启动时与注册中心交互，注册中心不转发请求，压力较小。所以，我们可以完全可以绕过注册中心——采用 dubbo 直连 ，即在服务消费方配置服务提供方的位置信息。</code></p>
-<h5 id="zookeeper"><a href="#zookeeper" class="headerlink" title="zookeeper"></a>zookeeper</h5><p><a href="https://github.com/Snailclimb/JavaGuide/blob/master/%E4%B8%BB%E6%B5%81%E6%A1%86%E6%9E%B6/ZooKeeper.md" target="_blank" rel="noopener">https://github.com/Snailclimb/JavaGuide/blob/master/%E4%B8%BB%E6%B5%81%E6%A1%86%E6%9E%B6/ZooKeeper.md</a></p>
+<h4 id="zookeeper"><a href="#zookeeper" class="headerlink" title="zookeeper"></a>zookeeper</h4><p><a href="https://github.com/Snailclimb/JavaGuide/blob/master/%E4%B8%BB%E6%B5%81%E6%A1%86%E6%9E%B6/ZooKeeper.md" target="_blank" rel="noopener">https://github.com/Snailclimb/JavaGuide/blob/master/%E4%B8%BB%E6%B5%81%E6%A1%86%E6%9E%B6/ZooKeeper.md</a></p>
 <ul>
 <li>高可用的分布式管理与协调框架，只要半数以上节点存活，ZooKeeper 就能正常服务</li>
 <li>树型(Znode)的目录服务的数据存储,数据存储在内存中</li>
@@ -1435,7 +1602,7 @@
       
         
           
-            <h3 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h3><h4 id="创建线程"><a href="#创建线程" class="headerlink" title="创建线程"></a>创建线程</h4><ul>
+            <h1 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h1><h2 id="创建线程"><a href="#创建线程" class="headerlink" title="创建线程"></a>创建线程</h2><ul>
 <li>继Thread类</li>
 <li>实现Runnable接口</li>
 <li>实现Callable接口(比runnable多一个返回值)</li>
@@ -1444,7 +1611,7 @@
 <ul>
 <li>start()方法会启动一个新线程，并包含run()方法。而run()只会执行run方法，不会启动新线程</li>
 </ul>
-<h4 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h4><ul>
+<h2 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h2><ul>
 <li>为什么要用线程池？<ul>
 <li>降低消耗。降低创建和销毁线程造成的消耗</li>
 <li>提高响应速度。任务到达时，任务可以不需要等到线程创建就能立即执行</li>
@@ -1472,21 +1639,30 @@
 <li><strong>threadFactory：线程工厂，用来创建线程</strong></li>
 </ul>
 </li>
+<li><strong>相关类</strong><ul>
+<li>ThreadPoolExecutor</li>
+<li>ScheduledThreadPoolExecutor</li>
 </ul>
-<h4 id="ThreadLocal"><a href="#ThreadLocal" class="headerlink" title="ThreadLocal"></a>ThreadLocal</h4><ul>
+</li>
+</ul>
+<h2 id="ThreadLocal"><a href="#ThreadLocal" class="headerlink" title="ThreadLocal"></a>ThreadLocal</h2><ul>
 <li>用于线程间的数据隔离</li>
 <li>使用ThreadLocal维护变量时，ThreadLocal为每个使用该变量的线程提供独立的变量副本，所以每一个线程都可以独立地改变自己的副本，而不会影响其它线程所对应的副本</li>
 </ul>
-<h3 id="Wait-Notify-NotifyAll"><a href="#Wait-Notify-NotifyAll" class="headerlink" title="Wait/Notify/NotifyAll"></a>Wait/Notify/NotifyAll</h3><ul>
+<h2 id="Wait-Notify-NotifyAll"><a href="#Wait-Notify-NotifyAll" class="headerlink" title="Wait/Notify/NotifyAll"></a>Wait/Notify/NotifyAll</h2><ul>
 <li>wait( )，notify( )，notifyAll( )都不属于Thread类，而是属于Object基础类<ul>
 <li>why？</li>
 </ul>
 </li>
 <li>wait():线程执行wait()时，会把当前的锁释放，然后让出CPU，进入等待状态。</li>
-<li>notify():唤醒一个正在等待该锁的对象</li>
-<li>notifyAll():唤醒所有等待该锁的对象，但这些对象会竞争，只有一个获得该锁</li>
+<li>notify():随机唤醒一个正在等待该锁的对象</li>
+<li>notifyAll():唤醒所有等待该锁的对象，但这些对象会竞争，只有一个获得该锁<ul>
+<li>其他的对象不会返回等待状态，除非再次调用wait()方法</li>
+<li>会一直等到当前拥有锁的对象释放锁，然后再次竞争</li>
 </ul>
-<h3 id="锁的类型"><a href="#锁的类型" class="headerlink" title="锁的类型"></a>锁的类型</h3><h4 id="乐观锁-悲观锁"><a href="#乐观锁-悲观锁" class="headerlink" title="乐观锁/悲观锁"></a>乐观锁/悲观锁</h4><ul>
+</li>
+</ul>
+<h1 id="锁的类型"><a href="#锁的类型" class="headerlink" title="锁的类型"></a>锁的类型</h1><h2 id="乐观锁-悲观锁"><a href="#乐观锁-悲观锁" class="headerlink" title="乐观锁/悲观锁"></a>乐观锁/悲观锁</h2><ul>
 <li>乐观锁：认为对于同一个数据的并发操作，是不会发生修改的<ul>
 <li>更新数据的时候，会采用<strong>尝试更新，不断重试</strong>的方式更新数据</li>
 <li><strong>CAS算法</strong>，典型例子为<strong>原子类</strong></li>
@@ -1499,7 +1675,7 @@
 </ul>
 </li>
 </ul>
-<h5 id="CAS-CompareAndSwap-算法"><a href="#CAS-CompareAndSwap-算法" class="headerlink" title="CAS(CompareAndSwap)算法"></a>CAS(CompareAndSwap)算法</h5><ul>
+<h3 id="CAS-CompareAndSwap-算法"><a href="#CAS-CompareAndSwap-算法" class="headerlink" title="CAS(CompareAndSwap)算法"></a>CAS(CompareAndSwap)算法</h3><ul>
 <li>CAS指令执行时，当且仅当内存地址V的值与预期值A相等时，将内存地址V的值修改为B，否则就什么都不做。整个比较并替换的操作是一个原子操作。</li>
 <li>优点：<ul>
 <li>比加锁效率更高：因为对Atomic 变量进行操作时没有阻塞线程，而使用同步代码块时会阻塞线程，并且会造成程序的复杂性增高</li>
@@ -1516,14 +1692,14 @@
 </ul>
 </li>
 </ul>
-<h4 id="公平锁-非公平锁"><a href="#公平锁-非公平锁" class="headerlink" title="公平锁/非公平锁"></a>公平锁/非公平锁</h4><ul>
+<h2 id="公平锁-非公平锁"><a href="#公平锁-非公平锁" class="headerlink" title="公平锁/非公平锁"></a>公平锁/非公平锁</h2><ul>
 <li>公平锁：多个线程在等待同一个锁时，必须按照申请锁的先后顺序来一次获得锁</li>
 <li>非公平锁<ul>
 <li>可能导致饿死</li>
 </ul>
 </li>
 </ul>
-<h4 id="可重入锁-不可重入锁"><a href="#可重入锁-不可重入锁" class="headerlink" title="可重入锁/不可重入锁"></a>可重入锁/不可重入锁</h4><ul>
+<h2 id="可重入锁-不可重入锁"><a href="#可重入锁-不可重入锁" class="headerlink" title="可重入锁/不可重入锁"></a>可重入锁/不可重入锁</h2><ul>
 <li><p>可重入锁：同一个线程在外层方法获取锁的时候，在进入内层方法会自动获取锁。</p>
 <ul>
 <li><p>eg:</p>
@@ -1539,11 +1715,11 @@ synchronized void setB() throws Exception{
 </li>
 <li>不可重入锁：对于上面的例子可能造成死锁</li>
 </ul>
-<h4 id="分段锁"><a href="#分段锁" class="headerlink" title="分段锁"></a>分段锁</h4><ul>
+<h2 id="分段锁"><a href="#分段锁" class="headerlink" title="分段锁"></a>分段锁</h2><ul>
 <li>是一种设计,目的是<strong>细化锁的粒度</strong></li>
 <li>jdk7中ConcurrentHashMap就是通过分段锁来实现高效的并发操作</li>
 </ul>
-<h4 id="偏向锁-轻量级锁-重量级锁"><a href="#偏向锁-轻量级锁-重量级锁" class="headerlink" title="偏向锁/轻量级锁/重量级锁"></a>偏向锁/轻量级锁/重量级锁</h4><ul>
+<h2 id="偏向锁-轻量级锁-重量级锁"><a href="#偏向锁-轻量级锁-重量级锁" class="headerlink" title="偏向锁/轻量级锁/重量级锁"></a>偏向锁/轻量级锁/重量级锁</h2><ul>
 <li>指的是锁的状态，并且是针对synchronized</li>
 <li>偏向锁：指一段同步代码一直被一个线程所访问，那么该线程会自动获取锁。<ul>
 <li>降低获取锁的代价。</li>
@@ -1558,7 +1734,7 @@ synchronized void setB() throws Exception{
 </ul>
 </li>
 </ul>
-<h4 id="自旋锁"><a href="#自旋锁" class="headerlink" title="自旋锁"></a>自旋锁</h4><ul>
+<h2 id="自旋锁"><a href="#自旋锁" class="headerlink" title="自旋锁"></a>自旋锁</h2><ul>
 <li>指尝试获取锁的线程不会立即阻塞，而是采用<strong>循环</strong>的方式去尝试获取锁</li>
 <li>优点：减少线程上下文切换的消耗</li>
 <li>缺点<ul>
@@ -1584,7 +1760,7 @@ synchronized void setB() throws Exception{
 }
 </code></pre></li>
 </ul>
-<h3 id="锁优化"><a href="#锁优化" class="headerlink" title="锁优化"></a>锁优化</h3><ol>
+<h1 id="锁优化"><a href="#锁优化" class="headerlink" title="锁优化"></a>锁优化</h1><ol>
 <li>减少锁持有的时间：对一个方法加锁，不如对方法中需要同步的几行代码加锁</li>
 <li>减小锁粒度：ConcurrentHashMap采取对segment加锁而不是整个map加锁，提高并发性</li>
 <li>锁分离：分为读锁和写锁</li>
@@ -1592,15 +1768,30 @@ synchronized void setB() throws Exception{
 <li>锁消除</li>
 <li>JVM中：偏向锁/轻量级锁/重量级锁/自旋锁/自适应自旋锁</li>
 </ol>
-<h3 id="synchronized关键字"><a href="#synchronized关键字" class="headerlink" title="synchronized关键字"></a>synchronized关键字</h3><ul>
+<h1 id="synchronized关键字"><a href="#synchronized关键字" class="headerlink" title="synchronized关键字"></a>synchronized关键字</h1><ul>
 <li><strong>非公平锁、可重入锁、互斥锁</strong></li>
 </ul>
-<h4 id="使用方式"><a href="#使用方式" class="headerlink" title="使用方式"></a>使用方式</h4><ul>
+<h2 id="使用方式"><a href="#使用方式" class="headerlink" title="使用方式"></a>使用方式</h2><ul>
+<li><p>ACC_SYNCHRONIZED 访问标志区分一个方法是否同步方法</p>
+<ul>
 <li>修饰实例方法，对当前实例加锁，进入同步代码之前需要获得当前实例的锁</li>
 <li>修饰静态方法，对当前类对象加锁，进入同步代码之前需要获得当前类对象的锁。</li>
-<li>修饰代码块，对指定对象加锁，进入同步代码之前需要获得指定对象的锁。</li>
 </ul>
-<h4 id="与LOCK的区别"><a href="#与LOCK的区别" class="headerlink" title="与LOCK的区别"></a>与LOCK的区别</h4><ul>
+</li>
+<li><p>修饰代码块，对指定对象加锁，进入同步代码之前需要获得指定对象的锁。</p>
+<ul>
+<li>通过monitorenter和monitorexit</li>
+</ul>
+</li>
+</ul>
+<h2 id="JVM对synchronized关键字的优化"><a href="#JVM对synchronized关键字的优化" class="headerlink" title="JVM对synchronized关键字的优化"></a>JVM对synchronized关键字的优化</h2><ul>
+<li>偏向锁</li>
+<li>轻量级锁</li>
+<li>重量级锁</li>
+<li>自旋锁</li>
+<li>锁消除：即时编译时通过对运行上下文的扫描，去除不可能存在共享资源竞争的锁</li>
+</ul>
+<h2 id="与LOCK的区别"><a href="#与LOCK的区别" class="headerlink" title="与LOCK的区别"></a>与LOCK的区别</h2><ul>
 <li>对于synchronized,如果多个线程都只是进行读操作，所以当一个线程在进行读操作时，其他线程只能等待无法进行读操作。Lock可以提高多个线程进行读操作的效率</li>
 <li>Lock可以知道线程有没有成功获取到锁。synchronized不行</li>
 <li>采用synchronized不需要用户去手动释放锁，而Lock则必须要用户去手动释放锁，如果没有主动释放锁，就有可能导致出现死锁现象。</li>
@@ -1608,14 +1799,14 @@ synchronized void setB() throws Exception{
 <li>Lock可以让等待锁的线程响应中断，而synchronized却不行</li>
 <li>synchronized是同步阻塞，使用的是悲观并发策略，lock是同步非阻塞，采用的是乐观并发策略</li>
 </ul>
-<h4 id="ReenTrantLock"><a href="#ReenTrantLock" class="headerlink" title="ReenTrantLock"></a>ReenTrantLock</h4><ul>
+<h2 id="ReenTrantLock"><a href="#ReenTrantLock" class="headerlink" title="ReenTrantLock"></a>ReenTrantLock</h2><ul>
 <li>与synchronized一样都可重入，同一线程可以多次获得同一个锁</li>
 <li>实现了Lock接口</li>
 <li>ReenTrantLock可以指定是公平锁还是非公平锁。而synchronized只能是非公平锁。所谓的公平锁就是先等待的线程先获得锁。</li>
 <li>ReenTrantLock提供了一个Condition（条件）类，用来实现分组唤醒需要唤醒的线程们，而不是像synchronized要么随机唤醒一个线程要么唤醒全部线程。</li>
 </ul>
 <p><img src="https://img-blog.csdn.net/2018031320183899?watermark/2/text/Ly9ibG9nLmNzZG4ubmV0L3JlbndlaTI4OTQ0Mw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="icon"></p>
-<h3 id="volatile"><a href="#volatile" class="headerlink" title="volatile"></a>volatile</h3><h4 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h4><ul>
+<h2 id="volatile"><a href="#volatile" class="headerlink" title="volatile"></a>volatile</h2><h3 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h3><ul>
 <li>JVM提供的最轻量级的同步机制</li>
 <li>一个变量使用volatile之后，具备两种特性：<ul>
 <li>保证此变量对所有线程的可见性：使用volatile关键字会强制将修改的值立即写入主存<ul>
@@ -1661,13 +1852,13 @@ public class ChessyCounter{
 //使用锁进行所有变化的操作，使用 volatile 进行只读操作。
 </code></pre></li>
 </ul>
-<h4 id="与synchronized区别"><a href="#与synchronized区别" class="headerlink" title="与synchronized区别"></a>与synchronized区别</h4><ul>
+<h3 id="与synchronized区别"><a href="#与synchronized区别" class="headerlink" title="与synchronized区别"></a>与synchronized区别</h3><ul>
 <li>synchronized关键字解决的是执行控制的问题，volatile关键字解决的是内存可见性的问题</li>
 <li>volatile仅能使用在变量级别；synchronized则可以使用在变量、方法、和类级别</li>
 <li>volatile仅能实现变量的修改可见性，不能保证原子性；而synchronized则可以保证变量的修改可见性和原子性</li>
 <li>volatile不会造成线程的阻塞；synchronized可能会造成线程的阻塞。</li>
 </ul>
-<h3 id="BIO-NIO-AIO"><a href="#BIO-NIO-AIO" class="headerlink" title="BIO/NIO/AIO"></a>BIO/NIO/AIO</h3><h4 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h4><ul>
+<h1 id="BIO-NIO-AIO"><a href="#BIO-NIO-AIO" class="headerlink" title="BIO/NIO/AIO"></a>BIO/NIO/AIO</h1><h2 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h2><ul>
 <li>同步和异步：是针对应用程序和内核的交互而言的<ul>
 <li>同步：用户进程触发IO操作并等待或者轮询的去查看IO操作是否就绪</li>
 <li>异步：用户进程触发IO操作以后便开始做自己的事情，而当IO操作已经完成的时候会得到IO完成的通知</li>
@@ -1679,7 +1870,7 @@ public class ChessyCounter{
 </ul>
 </li>
 </ul>
-<h4 id="三者区别"><a href="#三者区别" class="headerlink" title="三者区别"></a>三者区别</h4><ul>
+<h2 id="三者区别"><a href="#三者区别" class="headerlink" title="三者区别"></a>三者区别</h2><ul>
 <li><strong>BIO:：同步阻塞</strong><ul>
 <li>服务器实现模式为<strong>一个连接一个线程</strong>，即客户端有连接请求时服务器端就需要启动一个线程进行处理，如果这个连接不做任何事情会造成不必要的线程开销<ul>
 <li>可以通过线程池机制改善</li>
@@ -3634,7 +3825,7 @@ private void MergeSort(int[] arr) {
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

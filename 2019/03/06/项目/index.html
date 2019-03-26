@@ -89,7 +89,7 @@
 <meta property="og:locale" content="Java">
 <meta property="og:image" content="https://img-blog.csdn.net/20150427151555111?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaml1cWl5dWxpYW5n/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
 <meta property="og:image" content="https://img-blog.csdn.net/20141120210203542?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaml1cWl5dWxpYW5n/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
-<meta property="og:updated_time" content="2019-03-22T06:01:10.231Z">
+<meta property="og:updated_time" content="2019-03-26T10:10:04.211Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="项目">
 <meta name="twitter:description" content="DevOps工具链DevOps 通过高度自动化工具与流程来使得软件构建、测试、发布更加快捷、频繁和可靠 将开发、运维一体化  可以把 DevOps 看作开发（软件工程）、技术运营和质量保障（QA）三者的交集。 传统的软件组织将开发、IT 运营和质量保障设为各自分离的部门， 按照从前的工作方式，开发和部署，不需要 IT 支持或者 QA 深入的跨部门的支持；而现在却需要极其紧密的多部门协作。 而 De">
@@ -335,7 +335,7 @@
       
 
       
-        <h3 id="DevOps工具链"><a href="#DevOps工具链" class="headerlink" title="DevOps工具链"></a>DevOps工具链</h3><h4 id="DevOps"><a href="#DevOps" class="headerlink" title="DevOps"></a>DevOps</h4><ul>
+        <h1 id="DevOps工具链"><a href="#DevOps工具链" class="headerlink" title="DevOps工具链"></a>DevOps工具链</h1><h2 id="DevOps"><a href="#DevOps" class="headerlink" title="DevOps"></a>DevOps</h2><ul>
 <li>通过高度自动化工具与流程来使得软件构建、测试、发布更加快捷、频繁和可靠</li>
 <li>将开发、运维一体化</li>
 </ul>
@@ -365,7 +365,7 @@
 </ul>
 </li>
 </ul>
-<h4 id="工具链"><a href="#工具链" class="headerlink" title="工具链"></a>工具链</h4><ul>
+<h2 id="工具链"><a href="#工具链" class="headerlink" title="工具链"></a>工具链</h2><ul>
 <li>代码托管：gitlab<ul>
 <li>为什么不使用github？<ul>
 <li>gitlab对仓库有更多的控制，可以设置仓库权限是公用的还是私有的</li>
@@ -418,7 +418,7 @@
 </ul>
 </li>
 </ul>
-<h4 id="MyBatis"><a href="#MyBatis" class="headerlink" title="MyBatis"></a>MyBatis</h4><ul>
+<h2 id="MyBatis"><a href="#MyBatis" class="headerlink" title="MyBatis"></a>MyBatis</h2><ul>
 <li>MyBatis 是支持定制化 SQL、存储过程以及高级映射的优秀的持久层框架。</li>
 <li><p>MyBatis 避免了几乎所有的 JDBC 代码和手工设置参数以及抽取结果集。使用简单的 XML 或注解来配置和映射基本体，将接口和 Java 的 POJOs(Plain Old Java Objects,普通的 Java对象)映射成数据库中的记录。</p>
 </li>
@@ -444,7 +444,7 @@
 </ul>
 </li>
 </ul>
-<h3 id="教育平台"><a href="#教育平台" class="headerlink" title="教育平台"></a>教育平台</h3><h4 id="Spring"><a href="#Spring" class="headerlink" title="Spring"></a>Spring</h4><h5 id="IoC"><a href="#IoC" class="headerlink" title="IoC"></a>IoC</h5><ul>
+<h1 id="教育平台"><a href="#教育平台" class="headerlink" title="教育平台"></a>教育平台</h1><h2 id="Spring"><a href="#Spring" class="headerlink" title="Spring"></a>Spring</h2><h3 id="IoC"><a href="#IoC" class="headerlink" title="IoC"></a>IoC</h3><ul>
 <li>控制反转是一种通过描述并通过第三方去产生或获取特定对象的方式。在Spring中实现控制反转的是IoC容器，其实现方法是<strong>DI（依赖注入）</strong></li>
 <li>解决了类与类之间的依赖关系。程序员将控制类与类之间依赖的权利交给了IOC<ul>
 <li>比如说我们现在有两个类A和B，那么我们不需要new A()、或者new B()来创建A和B的对象，Spring会帮我们创建A和B的对象（默认是单例），并且把A和B的对象放入IoC容器中，如果B对象中需要用到A对象的话，那么就要用到DI，Spring会帮我们把A对象注入到B对象中，一般是通过setter方法注入或构造器注入。</li>
@@ -492,9 +492,32 @@
 <li>获取到某个Bean的时候也会通过<em>递归</em>的方式来依赖注入依赖的bean</li>
 </ul>
 </li>
+<li><strong>依赖注入的方式</strong><ul>
+<li>@autowired 注解</li>
+<li>setter方法：<ul>
+<li>要在<code>&lt;bean&gt;</code> 标签中创建一个 <code>&lt;property&gt;</code> 标签</li>
+<li>ref指向其他<code>&lt;bean&gt;</code>标签的name属性</li>
+</ul>
+</li>
+<li>构造器注入<ul>
+<li>不用<property>的形式，而是使用<constructor-arg>标签</constructor-arg></property></li>
+<li>ref指向其他<code>&lt;bean&gt;</code>标签的name属性</li>
+</ul>
+</li>
+<li>静态工厂的方法<ul>
+<li>ref指向静态工厂</li>
+<li>配置 factory-method=”…”指定调用哪个工厂方法</li>
+</ul>
+</li>
+<li>实例工厂的方法<ul>
+<li>需要首先new工厂类，再调用普通的实例方法</li>
+</ul>
+</li>
+</ul>
+</li>
 <li>Spring IoC容器中管理了一系列靠依赖关系联系起来的Bean，程序不需要应用自己手动创建所需的对象，Spring IoC容器会在我们使用的时候自动为我们创建，并且为我们注入好相关的依赖</li>
 </ul>
-<h5 id="bean的生命周期"><a href="#bean的生命周期" class="headerlink" title="bean的生命周期"></a>bean的生命周期</h5><ul>
+<h3 id="bean的生命周期"><a href="#bean的生命周期" class="headerlink" title="bean的生命周期"></a>bean的生命周期</h3><ul>
 <li>容器启动后，会对scope为singleton且非懒加载的bean进行实例化</li>
 <li>按照Bean定义信息配置信息，注入所有的属性</li>
 <li>如果实现了BeanNameAware接口，会回调该接口的setBeanName()方法，传入该Bean的id，此时该Bean就获得了自己在配置文件中的id</li>
@@ -508,7 +531,7 @@
 <li>容器关闭后，如果Bean实现了DisposableBean接口，则会回调该接口的destroy()方法</li>
 <li>如果Bean配置了destroy-method方法，则会执行destroy-method配置的方法，至此，整个Bean的生命周期结束</li>
 </ul>
-<h5 id="AOP"><a href="#AOP" class="headerlink" title="AOP"></a>AOP</h5><ul>
+<h3 id="AOP"><a href="#AOP" class="headerlink" title="AOP"></a>AOP</h3><ul>
 <li>spring AOP的底层实现是<strong>动态代理</strong><ul>
 <li>提供了对JDK动态代理的支持以及CGLib的支持。<ul>
 <li>JDK动态代理只能为接口创建动态代理实例，而不能对类创建动态代理</li>
@@ -523,14 +546,14 @@
 </ul>
 </li>
 </ul>
-<h5 id="Spring-MVC工作原理"><a href="#Spring-MVC工作原理" class="headerlink" title="Spring MVC工作原理"></a>Spring MVC工作原理</h5><ol>
+<h2 id="Spring-MVC工作原理"><a href="#Spring-MVC工作原理" class="headerlink" title="Spring MVC工作原理"></a>Spring MVC工作原理</h2><ol>
 <li>Http请求：客户端请求提交到前置控制器DispatcherServlet</li>
 <li>DispatcherServlet寻找处理器Controller：由DispatcherServlet控制器查询一个或多个HandlerMapping，找到处理请求所对应的Controller</li>
 <li>处理器Controller执行：DispatcherServlet将请求提交到Controller，Controller调用业务逻辑处理后，返回ModelAndView。</li>
 <li>dispatcherServlet借助ViewResoler完成逻辑视图到真实视图对象的解析</li>
 <li>dispatcherServlet使用这个view对ModelAndView中的模型数据进行视图渲染，返回给用户</li>
 </ol>
-<h5 id="Spring-Boot"><a href="#Spring-Boot" class="headerlink" title="Spring Boot"></a>Spring Boot</h5><ul>
+<h2 id="Spring-Boot"><a href="#Spring-Boot" class="headerlink" title="Spring Boot"></a>Spring Boot</h2><ul>
 <li>主要是简化了spring的难度，简省了繁重的配置，提供了各种容器，开发者能快速上手</li>
 <li><strong>优点</strong><ul>
 <li>独立运行<ul>
@@ -567,7 +590,7 @@
 </ul>
 </li>
 </ul>
-<h4 id="hibernate"><a href="#hibernate" class="headerlink" title="hibernate"></a>hibernate</h4><ul>
+<h2 id="hibernate"><a href="#hibernate" class="headerlink" title="hibernate"></a>hibernate</h2><ul>
 <li>Hibernate是开源的一个ORM（对象关系映射）框架，是对JDBC的进一步封装<br><img src="https://img-blog.csdn.net/20141120210203542?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaml1cWl5dWxpYW5n/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="icon"></li>
 <li><strong>核心：面向对象、关系映射以及数据持久化</strong></li>
 <li><strong>优点</strong><ul>
@@ -585,7 +608,7 @@
 </ul>
 </li>
 </ul>
-<h4 id="hibernate与mybatis的对比"><a href="#hibernate与mybatis的对比" class="headerlink" title="hibernate与mybatis的对比"></a>hibernate与mybatis的对比</h4><ul>
+<h3 id="hibernate与mybatis的对比"><a href="#hibernate与mybatis的对比" class="headerlink" title="hibernate与mybatis的对比"></a>hibernate与mybatis的对比</h3><ul>
 <li>Hibernate的真正掌握要比Mybatis困难，Hibernate比mybatis更加重量级一些。</li>
 <li>Mybatis需要手动编写SQL语句，Hibernate也可以自己写SQL语句来指定需要查询的字段，但这样破坏了Hibernate封装以及简洁性。</li>
 <li>mybatis由于所有SQL都是依赖数据库书写，所以扩展性，迁移性比较差</li>
@@ -597,17 +620,17 @@
 </ul>
 </li>
 </ul>
-<h5 id="JPA"><a href="#JPA" class="headerlink" title="JPA"></a>JPA</h5><ul>
+<h3 id="JPA"><a href="#JPA" class="headerlink" title="JPA"></a>JPA</h3><ul>
 <li>Spring Data JPA是Spring Data的子模块。使用Spring Data，使得基于”repositories”概念的JPA实现更简单和容易。</li>
 <li>JPA默认使用hibernate作为ORM实现，所以，一般使用Spring Data JPA即会使用hibernate。</li>
 </ul>
-<h4 id="题库系统"><a href="#题库系统" class="headerlink" title="题库系统"></a>题库系统</h4><ul>
+<h2 id="考试系统"><a href="#考试系统" class="headerlink" title="考试系统"></a>考试系统</h2><ul>
 <li>判题程序在docker中进行，启动容器安装java环境，将容器保存为镜像</li>
 <li>限制程序的运行资源，如内存、时间用量，进程、线程数量</li>
 <li><strong>对于每组测试数据，将输入数据写为工作目录的文本文件后，在子进程中限制资源，用freopen重定向输入输出，并使用execl运行程序，在父进程中使用ptrace监听控制子进程。这里有个坑，就是Docker默认是不能使用ptrace的，因此要在启动容器的时候加上启动选项 –cap-add=SYS_PTRACE。</strong></li>
 </ul>
 <p><a href="https://zhuanlan.zhihu.com/p/27807692" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/27807692</a></p>
-<h4 id="dubbo-zookeeper"><a href="#dubbo-zookeeper" class="headerlink" title="dubbo/zookeeper"></a>dubbo/zookeeper</h4><h5 id="dubbo"><a href="#dubbo" class="headerlink" title="dubbo"></a>dubbo</h5><p><a href="https://github.com/Snailclimb/JavaGuide/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1/dubbo.md" target="_blank" rel="noopener">https://github.com/Snailclimb/JavaGuide/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1/dubbo.md</a></p>
+<h3 id="dubbo-zookeeper"><a href="#dubbo-zookeeper" class="headerlink" title="dubbo/zookeeper"></a>dubbo/zookeeper</h3><h4 id="dubbo"><a href="#dubbo" class="headerlink" title="dubbo"></a>dubbo</h4><p><a href="https://github.com/Snailclimb/JavaGuide/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1/dubbo.md" target="_blank" rel="noopener">https://github.com/Snailclimb/JavaGuide/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1/dubbo.md</a></p>
 <ul>
 <li>分布式服务框架，使用RPC调用</li>
 <li>SOA</li>
@@ -623,7 +646,7 @@
 </ul>
 </li>
 </ul>
-<h6 id="负载均衡策略"><a href="#负载均衡策略" class="headerlink" title="负载均衡策略"></a>负载均衡策略</h6><ul>
+<h5 id="负载均衡策略"><a href="#负载均衡策略" class="headerlink" title="负载均衡策略"></a>负载均衡策略</h5><ul>
 <li>随机：默认策略，按权重设置随机概率</li>
 <li>轮询(不推荐)：按公约后的权重设置轮循比率<ul>
 <li>存在慢的提供者累积请求的问题</li>
@@ -635,7 +658,7 @@
 </ul>
 </li>
 </ul>
-<h6 id="容错策略"><a href="#容错策略" class="headerlink" title="容错策略"></a>容错策略</h6><p><code>Dubbo 定义了集群接口 Cluster 以及及 Cluster Invoker。集群 Cluster 用途是将多个服务提供者合并为一个 Cluster Invoker，并将这个 Invoker 暴露给服务消费者。这样一来，服务消费者只需通过这个 Invoker 进行远程调用即可，至于具体调用哪个服务提供者，以及调用失败后如何处理等问题，现在都交给集群模块去处理</code></p>
+<h5 id="容错策略"><a href="#容错策略" class="headerlink" title="容错策略"></a>容错策略</h5><p><code>Dubbo 定义了集群接口 Cluster 以及及 Cluster Invoker。集群 Cluster 用途是将多个服务提供者合并为一个 Cluster Invoker，并将这个 Invoker 暴露给服务消费者。这样一来，服务消费者只需通过这个 Invoker 进行远程调用即可，至于具体调用哪个服务提供者，以及调用失败后如何处理等问题，现在都交给集群模块去处理</code></p>
 <ul>
 <li>Failover Cluster：默认机制，失败自动切换，当出现失败，重试其它服务器。<ul>
 <li>通常用于读操作，但重试会带来更长延迟</li>
@@ -662,7 +685,7 @@
 </ul>
 </li>
 </ul>
-<h6 id="dubbo健壮性的体现"><a href="#dubbo健壮性的体现" class="headerlink" title="dubbo健壮性的体现"></a>dubbo健壮性的体现</h6><ul>
+<h5 id="dubbo健壮性的体现"><a href="#dubbo健壮性的体现" class="headerlink" title="dubbo健壮性的体现"></a>dubbo健壮性的体现</h5><ul>
 <li>zookeeper注册中心宕掉，一段时间内服务消费方还是能够调用提供方的服务的，实际上它使用的本地缓存进行通讯</li>
 <li>监控中心宕掉不影响使用，只是丢失部分采样数据</li>
 <li>数据库宕掉后，注册中心仍能通过缓存提供服务列表查询，但不能注册新服务</li>
@@ -672,7 +695,7 @@
 <li>服务提供者全部宕掉后，服务消费者应用将无法使用，并无限次重连等待服务提供者恢复</li>
 </ul>
 <p><code>服务提供者和消费者只在启动时与注册中心交互，注册中心不转发请求，压力较小。所以，我们可以完全可以绕过注册中心——采用 dubbo 直连 ，即在服务消费方配置服务提供方的位置信息。</code></p>
-<h5 id="zookeeper"><a href="#zookeeper" class="headerlink" title="zookeeper"></a>zookeeper</h5><p><a href="https://github.com/Snailclimb/JavaGuide/blob/master/%E4%B8%BB%E6%B5%81%E6%A1%86%E6%9E%B6/ZooKeeper.md" target="_blank" rel="noopener">https://github.com/Snailclimb/JavaGuide/blob/master/%E4%B8%BB%E6%B5%81%E6%A1%86%E6%9E%B6/ZooKeeper.md</a></p>
+<h4 id="zookeeper"><a href="#zookeeper" class="headerlink" title="zookeeper"></a>zookeeper</h4><p><a href="https://github.com/Snailclimb/JavaGuide/blob/master/%E4%B8%BB%E6%B5%81%E6%A1%86%E6%9E%B6/ZooKeeper.md" target="_blank" rel="noopener">https://github.com/Snailclimb/JavaGuide/blob/master/%E4%B8%BB%E6%B5%81%E6%A1%86%E6%9E%B6/ZooKeeper.md</a></p>
 <ul>
 <li>高可用的分布式管理与协调框架，只要半数以上节点存活，ZooKeeper 就能正常服务</li>
 <li>树型(Znode)的目录服务的数据存储,数据存储在内存中</li>
@@ -725,6 +748,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/26/java基础/" rel="prev" title="java基础">
+                java基础 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -801,7 +828,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -856,7 +883,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#DevOps工具链"><span class="nav-number">1.</span> <span class="nav-text">DevOps工具链</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#DevOps"><span class="nav-number">1.1.</span> <span class="nav-text">DevOps</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#工具链"><span class="nav-number">1.2.</span> <span class="nav-text">工具链</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MyBatis"><span class="nav-number">1.3.</span> <span class="nav-text">MyBatis</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#教育平台"><span class="nav-number">2.</span> <span class="nav-text">教育平台</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Spring"><span class="nav-number">2.1.</span> <span class="nav-text">Spring</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#IoC"><span class="nav-number">2.1.1.</span> <span class="nav-text">IoC</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#bean的生命周期"><span class="nav-number">2.1.2.</span> <span class="nav-text">bean的生命周期</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#AOP"><span class="nav-number">2.1.3.</span> <span class="nav-text">AOP</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Spring-MVC工作原理"><span class="nav-number">2.1.4.</span> <span class="nav-text">Spring MVC工作原理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Spring-Boot"><span class="nav-number">2.1.5.</span> <span class="nav-text">Spring Boot</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hibernate"><span class="nav-number">2.2.</span> <span class="nav-text">hibernate</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hibernate与mybatis的对比"><span class="nav-number">2.3.</span> <span class="nav-text">hibernate与mybatis的对比</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#JPA"><span class="nav-number">2.3.1.</span> <span class="nav-text">JPA</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#题库系统"><span class="nav-number">2.4.</span> <span class="nav-text">题库系统</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dubbo-zookeeper"><span class="nav-number">2.5.</span> <span class="nav-text">dubbo/zookeeper</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#dubbo"><span class="nav-number">2.5.1.</span> <span class="nav-text">dubbo</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#负载均衡策略"><span class="nav-number">2.5.1.1.</span> <span class="nav-text">负载均衡策略</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#容错策略"><span class="nav-number">2.5.1.2.</span> <span class="nav-text">容错策略</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#dubbo健壮性的体现"><span class="nav-number">2.5.1.3.</span> <span class="nav-text">dubbo健壮性的体现</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#zookeeper"><span class="nav-number">2.5.2.</span> <span class="nav-text">zookeeper</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#DevOps工具链"><span class="nav-number">1.</span> <span class="nav-text">DevOps工具链</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#DevOps"><span class="nav-number">1.1.</span> <span class="nav-text">DevOps</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#工具链"><span class="nav-number">1.2.</span> <span class="nav-text">工具链</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MyBatis"><span class="nav-number">1.3.</span> <span class="nav-text">MyBatis</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#教育平台"><span class="nav-number">2.</span> <span class="nav-text">教育平台</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring"><span class="nav-number">2.1.</span> <span class="nav-text">Spring</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#IoC"><span class="nav-number">2.1.1.</span> <span class="nav-text">IoC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bean的生命周期"><span class="nav-number">2.1.2.</span> <span class="nav-text">bean的生命周期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AOP"><span class="nav-number">2.1.3.</span> <span class="nav-text">AOP</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-MVC工作原理"><span class="nav-number">2.2.</span> <span class="nav-text">Spring MVC工作原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-Boot"><span class="nav-number">2.3.</span> <span class="nav-text">Spring Boot</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hibernate"><span class="nav-number">2.4.</span> <span class="nav-text">hibernate</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#hibernate与mybatis的对比"><span class="nav-number">2.4.1.</span> <span class="nav-text">hibernate与mybatis的对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JPA"><span class="nav-number">2.4.2.</span> <span class="nav-text">JPA</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#考试系统"><span class="nav-number">2.5.</span> <span class="nav-text">考试系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#dubbo-zookeeper"><span class="nav-number">2.5.1.</span> <span class="nav-text">dubbo/zookeeper</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#dubbo"><span class="nav-number">2.5.1.1.</span> <span class="nav-text">dubbo</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#负载均衡策略"><span class="nav-number">2.5.1.1.1.</span> <span class="nav-text">负载均衡策略</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#容错策略"><span class="nav-number">2.5.1.1.2.</span> <span class="nav-text">容错策略</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#dubbo健壮性的体现"><span class="nav-number">2.5.1.1.3.</span> <span class="nav-text">dubbo健壮性的体现</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#zookeeper"><span class="nav-number">2.5.1.2.</span> <span class="nav-text">zookeeper</span></a></li></ol></li></ol></li></ol></li></ol></div>
             
 
           </div>
