@@ -79,19 +79,19 @@
 
 
 
-<meta name="description" content="基本排序算法 稳定性 排序前后两个相等的数相对位置不变，则算法稳定。插入排序 直接插入排序 折半插入排序（二分法插入） 希尔排序：不稳定    直接插入排序稳定，算法复杂度：O(n²) public void insertionSort(int[] a) {     for (int i = 1; i &amp;lt; a.length; i++) {         int temp = a[i];">
+<meta name="description" content="基本排序算法 稳定性 排序前后两个相等的数相对位置不变，则算法稳定。插入排序 直接插入排序 折半插入排序（二分法插入） 希尔排序：不稳定    直接插入排序稳定，算法复杂度：O(n²) 1234567891011public void insertionSort(int[] a) &amp;#123;    for (int i = 1; i &amp;lt; a.length; i++) &amp;#123;">
 <meta name="keywords" content="面试">
 <meta property="og:type" content="article">
 <meta property="og:title" content="数据结构和排序算法">
 <meta property="og:url" content="http://yoursite.com/2019/01/12/数据结构和排序算法/index.html">
 <meta property="og:site_name" content="Alpaca&#39;s Blog">
-<meta property="og:description" content="基本排序算法 稳定性 排序前后两个相等的数相对位置不变，则算法稳定。插入排序 直接插入排序 折半插入排序（二分法插入） 希尔排序：不稳定    直接插入排序稳定，算法复杂度：O(n²) public void insertionSort(int[] a) {     for (int i = 1; i &amp;lt; a.length; i++) {         int temp = a[i];">
+<meta property="og:description" content="基本排序算法 稳定性 排序前后两个相等的数相对位置不变，则算法稳定。插入排序 直接插入排序 折半插入排序（二分法插入） 希尔排序：不稳定    直接插入排序稳定，算法复杂度：O(n²) 1234567891011public void insertionSort(int[] a) &amp;#123;    for (int i = 1; i &amp;lt; a.length; i++) &amp;#123;">
 <meta property="og:locale" content="Java">
 <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/6/66/Red-black_tree_example.svg">
-<meta property="og:updated_time" content="2019-03-20T13:57:01.908Z">
+<meta property="og:updated_time" content="2019-03-28T05:29:28.357Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据结构和排序算法">
-<meta name="twitter:description" content="基本排序算法 稳定性 排序前后两个相等的数相对位置不变，则算法稳定。插入排序 直接插入排序 折半插入排序（二分法插入） 希尔排序：不稳定    直接插入排序稳定，算法复杂度：O(n²) public void insertionSort(int[] a) {     for (int i = 1; i &amp;lt; a.length; i++) {         int temp = a[i];">
+<meta name="twitter:description" content="基本排序算法 稳定性 排序前后两个相等的数相对位置不变，则算法稳定。插入排序 直接插入排序 折半插入排序（二分法插入） 希尔排序：不稳定    直接插入排序稳定，算法复杂度：O(n²) 1234567891011public void insertionSort(int[] a) &amp;#123;    for (int i = 1; i &amp;lt; a.length; i++) &amp;#123;">
 <meta name="twitter:image" content="https://upload.wikimedia.org/wikipedia/commons/6/66/Red-black_tree_example.svg">
 
 
@@ -377,109 +377,22 @@
 </li>
 </ul>
 <h3 id="直接插入排序"><a href="#直接插入排序" class="headerlink" title="直接插入排序"></a>直接插入排序</h3><p><strong>稳定，算法复杂度：O(n²)</strong></p>
-<pre><code>public void insertionSort(int[] a) {
-    for (int i = 1; i &lt; a.length; i++) {
-        int temp = a[i];
-        int j = i - 1;
-        while (j &gt;= 0 &amp;&amp; a[j] &gt; temp) {
-            a[j + 1] = a[j];
-            j--;
-        }
-        a[j + 1] = temp;
-    }
-}
-</code></pre><h3 id="折半插入排序（此处描述的是二分法查找算法）"><a href="#折半插入排序（此处描述的是二分法查找算法）" class="headerlink" title="折半插入排序（此处描述的是二分法查找算法）"></a>折半插入排序（此处描述的是二分法查找算法）</h3><p><strong>稳定，查找算法复杂度：O(logN)；排序算法复杂度：O(NlogN)</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">insertionSort</span><span class="params">(<span class="keyword">int</span>[] a)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; a.length; i++) &#123;</span><br><span class="line">        <span class="keyword">int</span> temp = a[i];</span><br><span class="line">        <span class="keyword">int</span> j = i - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (j &gt;= <span class="number">0</span> &amp;&amp; a[j] &gt; temp) &#123;</span><br><span class="line">            a[j + <span class="number">1</span>] = a[j];</span><br><span class="line">            j--;</span><br><span class="line">        &#125;</span><br><span class="line">        a[j + <span class="number">1</span>] = temp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="折半插入排序（此处描述的是二分法查找算法）"><a href="#折半插入排序（此处描述的是二分法查找算法）" class="headerlink" title="折半插入排序（此处描述的是二分法查找算法）"></a>折半插入排序（此处描述的是二分法查找算法）</h3><p><strong>稳定，查找算法复杂度：O(logN)；排序算法复杂度：O(NlogN)</strong></p>
 <p><strong>要求：1.存储在数组中（链表中不适合） 2.有序排列</strong></p>
 <p>在算法中属于<code>分治算法</code></p>
-<pre><code> //递归实现
- public int binarySearchRecursion(int[] array, int low, int high, int target) {
-    if (low &gt; high)
-        return -1;
-    int mid = (low + high) / 2;
-    if (target &lt; array[mid])
-        return binarySearchRecursion(array, low, mid - 1, target);
-    if (target &gt; array[mid])
-        return binarySearchRecursion(array, mid + 1, high, target);
-    return array[mid];
-}
-
-//非递归实现
-public int binarySearch(int[] array, int low, int high, int target) {
-    while (low &lt;= high) {
-        int mid = (low + high) / 2;
-        if (target &lt; array[mid])
-            high = mid - 1;
-        else if (target &gt; array[mid])
-            low = mid + 1;
-        else
-            return mid;
-    }
-    return -1;
-}
-</code></pre><h2 id="交换排序"><a href="#交换排序" class="headerlink" title="交换排序"></a>交换排序</h2><ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">//递归实现</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">binarySearchRecursion</span><span class="params">(<span class="keyword">int</span>[] array, <span class="keyword">int</span> low, <span class="keyword">int</span> high, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (low &gt; high)</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> mid = (low + high) / <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">if</span> (target &lt; array[mid])</span><br><span class="line">        <span class="keyword">return</span> binarySearchRecursion(array, low, mid - <span class="number">1</span>, target);</span><br><span class="line">    <span class="keyword">if</span> (target &gt; array[mid])</span><br><span class="line">        <span class="keyword">return</span> binarySearchRecursion(array, mid + <span class="number">1</span>, high, target);</span><br><span class="line">    <span class="keyword">return</span> array[mid];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//非递归实现</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">binarySearch</span><span class="params">(<span class="keyword">int</span>[] array, <span class="keyword">int</span> low, <span class="keyword">int</span> high, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (low &lt;= high) &#123;</span><br><span class="line">        <span class="keyword">int</span> mid = (low + high) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (target &lt; array[mid])</span><br><span class="line">            high = mid - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (target &gt; array[mid])</span><br><span class="line">            low = mid + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">return</span> mid;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//二分法插入</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">binaryInsert</span><span class="params">(<span class="keyword">int</span>[] array,<span class="keyword">int</span> target)</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> low =<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> high = array.length-<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span>[] res = <span class="keyword">new</span> <span class="keyword">int</span>[array.length+<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">while</span> (low&lt;=high)&#123;</span><br><span class="line">            <span class="keyword">int</span> mid = (low+high)/<span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span> (array[mid]&lt; target)</span><br><span class="line">                low = mid+<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                high = mid-<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;low;i++)</span><br><span class="line">            res[i]=array[i];</span><br><span class="line">        res[low] = target;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=low+<span class="number">1</span>;i&lt;res.length;i++)</span><br><span class="line">            res[i]=array[low++];</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="交换排序"><a href="#交换排序" class="headerlink" title="交换排序"></a>交换排序</h2><ul>
 <li>冒泡排序</li>
 <li>快速排序(不稳定)</li>
 </ul>
 <h3 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h3><p><strong>稳定，算法复杂度：O(n²)；最好情况下O(n)</strong></p>
-<pre><code>public void bubbleSort(int[] a) {
-    for (int i = 0; i &lt; a.length; i++) {
-        for (int j = 1; j &lt; a.length - i; j++) {
-            if (a[j] &lt; a[j - 1]) {
-                int temp = a[j];
-                a[j] = a[j - 1];
-                a[j - 1] = temp;
-            }
-        }
-    }
-}
-//算法还可以改进，从两头向中间逼近，可以加快速度
-</code></pre><h3 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h3><p><strong>不稳定，算法复杂度：O(NlogN)</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">bubbleSort</span><span class="params">(<span class="keyword">int</span>[] a)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; a.length; i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; a.length - i; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (a[j] &lt; a[j - <span class="number">1</span>]) &#123;</span><br><span class="line">                <span class="keyword">int</span> temp = a[j];</span><br><span class="line">                a[j] = a[j - <span class="number">1</span>];</span><br><span class="line">                a[j - <span class="number">1</span>] = temp;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//算法还可以改进，从两头向中间逼近，可以加快速度</span></span><br></pre></td></tr></table></figure>
+<h3 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h3><p><strong>不稳定，算法复杂度：O(NlogN)</strong></p>
 <p>在所有同数量级的排序方法中，平均性能最好</p>
-<pre><code>//递归实现
-public void quickSortRecursion(int[] arr, int low, int high) {
-    if (low &lt; high) {
-        int pivot = partition(arr, low, high);
-        quickSortRecursion(arr, low, pivot - 1);
-        quickSortRecursion(arr, pivot + 1, high);
-    }
-}
-
-
-private int partition(int[] arr, int low, int high) {
-    int pivot = arr[low];
-    while (low &lt; high) {
-        while (low &lt; high &amp;&amp; arr[high] &gt; pivot) high--;
-        arr[low] = arr[high];
-        while (low &lt; high &amp;&amp; arr[low] &lt; pivot) low++;
-        arr[high] = arr[low];
-
-    }
-    arr[low] = pivot;
-    return low;
-}
-
-//非递归实现
-public void quickSort(int[] arr, int low, int high) {
-    Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();
-    if (low &lt; high) {
-        stack.push(high);
-        stack.push(low);
-        while (!stack.empty()) {
-            int l = stack.pop();
-            int r = stack.pop();
-            int pivot = partition(arr, l, r);
-            if (l &lt; pivot - 1) {
-                stack.push(pivot - 1);
-                stack.push(l);
-            }
-            if (r &gt; pivot + 1) {
-                stack.push(r);
-                stack.push(pivot + 1);
-            }
-        }
-    }
-}
-</code></pre><h2 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h2><ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//递归实现</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">quickSortRecursion</span><span class="params">(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> low, <span class="keyword">int</span> high)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (low &lt; high) &#123;</span><br><span class="line">        <span class="keyword">int</span> pivot = partition(arr, low, high);</span><br><span class="line">        quickSortRecursion(arr, low, pivot - <span class="number">1</span>);</span><br><span class="line">        quickSortRecursion(arr, pivot + <span class="number">1</span>, high);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">partition</span><span class="params">(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> low, <span class="keyword">int</span> high)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> pivot = arr[low];</span><br><span class="line">    <span class="keyword">while</span> (low &lt; high) &#123;</span><br><span class="line">        <span class="keyword">while</span> (low &lt; high &amp;&amp; arr[high] &gt; pivot) high--;</span><br><span class="line">        arr[low] = arr[high];</span><br><span class="line">        <span class="keyword">while</span> (low &lt; high &amp;&amp; arr[low] &lt; pivot) low++;</span><br><span class="line">        arr[high] = arr[low];</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    arr[low] = pivot;</span><br><span class="line">    <span class="keyword">return</span> low;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//非递归实现</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">quickSort</span><span class="params">(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> low, <span class="keyword">int</span> high)</span> </span>&#123;</span><br><span class="line">    Stack&lt;Integer&gt; stack = <span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line">    <span class="keyword">if</span> (low &lt; high) &#123;</span><br><span class="line">        stack.push(high);</span><br><span class="line">        stack.push(low);</span><br><span class="line">        <span class="keyword">while</span> (!stack.empty()) &#123;</span><br><span class="line">            <span class="keyword">int</span> l = stack.pop();</span><br><span class="line">            <span class="keyword">int</span> r = stack.pop();</span><br><span class="line">            <span class="keyword">int</span> pivot = partition(arr, l, r);</span><br><span class="line">            <span class="keyword">if</span> (l &lt; pivot - <span class="number">1</span>) &#123;</span><br><span class="line">                stack.push(pivot - <span class="number">1</span>);</span><br><span class="line">                stack.push(l);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (r &gt; pivot + <span class="number">1</span>) &#123;</span><br><span class="line">                stack.push(r);</span><br><span class="line">                stack.push(pivot + <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h2><ul>
 <li>直接选择排序：不稳定<ul>
 <li>直接选择最小(最大)的记录与第一个记录交换位置，再对余下的n-1个进行同样操作</li>
 <li>算法复杂度：O(n²)</li>
@@ -496,105 +409,12 @@ public void quickSort(int[] arr, int low, int high) {
 </ul>
 </li>
 </ul>
-<h3 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h3><pre><code>//堆排序
-public void heapsort(int[] arr) {
-    for (int i = arr.length / 2; i &gt;= 0; i--)
-        adjustHeap(arr, i, arr.length);
-    for (int i = arr.length - 1; i &gt; 0; i--) {
-        swap(arr, 0, i);
-        adjustHeap(arr, 0, i);
-    }
-}
-
-/** 构建最大堆的过程
- * @param arr 数组
- * @param i   需要构建堆的根节点的序号
- * @param n   数组长度
- ** /
-public void adjustHeap(int[] arr, int i, int n) {
-    int father;
-    int child;
-    for (father = arr[i]; leftChild(i) &lt; n; i = child) {
-        child = leftChild(i);
-        // 如果左子树小于右子树，则需要比较右子树和父节点
-        if (child != n - 1 &amp;&amp; arr[child] &lt; arr[child + 1])
-            child++;//序号+1，指向右子树
-        // 如果父节点小于孩子结点，则需要交换
-        if (father &lt; arr[child]) {
-            arr[i] = arr[child];
-        } else
-            break;//是最大堆，无需破坏
-    }
-    arr[i] = father;
-}
-
-private int leftChild(int i) {
-    return 2 * i + 1;
-}
-
-private void swap(int[] arr, int index1, int index2) {
-    int tmp = arr[index1];
-    arr[index1] = arr[index2];
-    arr[index2] = tmp;
-}  
-</code></pre><h2 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h2><p><strong>稳定，算法复杂度：O(NlogN)</strong></p>
+<h3 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//堆排序</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">heapsort</span><span class="params">(<span class="keyword">int</span>[] arr)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = arr.length / <span class="number">2</span>; i &gt;= <span class="number">0</span>; i--)</span><br><span class="line">        adjustHeap(arr, i, arr.length);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = arr.length - <span class="number">1</span>; i &gt; <span class="number">0</span>; i--) &#123;</span><br><span class="line">        swap(arr, <span class="number">0</span>, i);</span><br><span class="line">        adjustHeap(arr, <span class="number">0</span>, i);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** 构建最大堆的过程</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> arr 数组</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> i   需要构建堆的根节点的序号</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> n   数组长度</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">adjustHeap</span><span class="params">(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> i, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> father;</span><br><span class="line">    <span class="keyword">int</span> child;</span><br><span class="line">    <span class="keyword">for</span> (father = arr[i]; leftChild(i) &lt; n; i = child) &#123;</span><br><span class="line">        child = leftChild(i);</span><br><span class="line">        <span class="comment">// 如果左子树小于右子树，则需要比较右子树和父节点</span></span><br><span class="line">        <span class="keyword">if</span> (child != n - <span class="number">1</span> &amp;&amp; arr[child] &lt; arr[child + <span class="number">1</span>])</span><br><span class="line">            child++;<span class="comment">//序号+1，指向右子树</span></span><br><span class="line">        <span class="comment">// 如果父节点小于孩子结点，则需要交换</span></span><br><span class="line">        <span class="keyword">if</span> (father &lt; arr[child]) &#123;</span><br><span class="line">            arr[i] = arr[child];</span><br><span class="line">        &#125; <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">break</span>;<span class="comment">//是最大堆，无需破坏</span></span><br><span class="line">    &#125;</span><br><span class="line">    arr[i] = father;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">leftChild</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">2</span> * i + <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> index1, <span class="keyword">int</span> index2)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> tmp = arr[index1];</span><br><span class="line">    arr[index1] = arr[index2];</span><br><span class="line">    arr[index2] = tmp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h2><p><strong>稳定，算法复杂度：O(NlogN)</strong></p>
 <p>在算法中属于<code>分治算法</code></p>
-<pre><code>//递归
-public void MergeSort(int[] arr, int left, int right) {
-    int mid = (left + right) / 2;
-    if (left &lt; right){
-        MergeSort(arr, left, mid);
-        MergeSort(arr, mid + 1, right);
-        merge(arr, left, mid, right);
-    }
-}
-
-
-//merge函数实际上是将两个有序数组合并成一个有序数组
-//因为数组有序，合并很简单，只要维护几个指针就可以了
-private void merge(int[] arr, int left, int mid, int right) {
-    //temp数组用于暂存合并的结果
-    int[] temp = new int[right - left + 1];
-    //左半边的指针
-    int head1 = left;
-    //右半边的指针
-    int head2 = mid+1;
-    //合并后数组的指针
-    int index = 0;
-
-    //将记录由小到大地放进temp数组
-    for(; head1 &lt;= mid &amp;&amp; head2 &lt;= right; index++) {
-        if(arr[head1] &lt; arr[head2])
-            temp[index] = arr[head1++];
-        else
-            temp[index] = arr[head2++];
-    }
-
-    //接下来两个while循环是为了将剩余的（比另一边多出来的个数）放到temp数组中
-    while(head1 &lt;= mid)
-        temp[index++] = arr[head1++];
-
-    while(head2 &lt;= right)
-        temp[index++] = arr[head2++];
-
-    //将temp数组中的元素写入到待排数组中
-    for(int i = 0; i &lt; temp.length; i++)
-        arr[left + i] = temp[i];
-}
-
-//非递归
-private void MergeSort(int[] arr) {
-    int len = arr.length;
-
-    int step = 1; //每一个区间的长度，1,2,4,8...
-    while (step &lt;= len) {
-        int offset = 2 * step;
-        for (int i = 0; i &lt; len; i += offset)
-            merge(arr, i, Math.min(i + step - 1, len - 1), Math.min(i + offset - 1, len - 1));
-        step = offset;
-    }
-}
-</code></pre><h2 id="基数排序"><a href="#基数排序" class="headerlink" title="基数排序"></a>基数排序</h2><ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//递归</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">MergeSort</span><span class="params">(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> left, <span class="keyword">int</span> right)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> mid = (left + right) / <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">if</span> (left &lt; right)&#123;</span><br><span class="line">        MergeSort(arr, left, mid);</span><br><span class="line">        MergeSort(arr, mid + <span class="number">1</span>, right);</span><br><span class="line">        merge(arr, left, mid, right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//merge函数实际上是将两个有序数组合并成一个有序数组</span></span><br><span class="line"><span class="comment">//因为数组有序，合并很简单，只要维护几个指针就可以了</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">merge</span><span class="params">(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> left, <span class="keyword">int</span> mid, <span class="keyword">int</span> right)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//temp数组用于暂存合并的结果</span></span><br><span class="line">    <span class="keyword">int</span>[] temp = <span class="keyword">new</span> <span class="keyword">int</span>[right - left + <span class="number">1</span>];</span><br><span class="line">    <span class="comment">//左半边的指针</span></span><br><span class="line">    <span class="keyword">int</span> head1 = left;</span><br><span class="line">    <span class="comment">//右半边的指针</span></span><br><span class="line">    <span class="keyword">int</span> head2 = mid+<span class="number">1</span>;</span><br><span class="line">    <span class="comment">//合并后数组的指针</span></span><br><span class="line">    <span class="keyword">int</span> index = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//将记录由小到大地放进temp数组</span></span><br><span class="line">    <span class="keyword">for</span>(; head1 &lt;= mid &amp;&amp; head2 &lt;= right; index++) &#123;</span><br><span class="line">        <span class="keyword">if</span>(arr[head1] &lt; arr[head2])</span><br><span class="line">            temp[index] = arr[head1++];</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            temp[index] = arr[head2++];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//接下来两个while循环是为了将剩余的（比另一边多出来的个数）放到temp数组中</span></span><br><span class="line">    <span class="keyword">while</span>(head1 &lt;= mid)</span><br><span class="line">        temp[index++] = arr[head1++];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(head2 &lt;= right)</span><br><span class="line">        temp[index++] = arr[head2++];</span><br><span class="line"></span><br><span class="line">    <span class="comment">//将temp数组中的元素写入到待排数组中</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; temp.length; i++)</span><br><span class="line">        arr[left + i] = temp[i];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//非递归</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">MergeSort</span><span class="params">(<span class="keyword">int</span>[] arr)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> len = arr.length;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> step = <span class="number">1</span>; <span class="comment">//每一个区间的长度，1,2,4,8...</span></span><br><span class="line">    <span class="keyword">while</span> (step &lt;= len) &#123;</span><br><span class="line">        <span class="keyword">int</span> offset = <span class="number">2</span> * step;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; len; i += offset)</span><br><span class="line">            merge(arr, i, Math.min(i + step - <span class="number">1</span>, len - <span class="number">1</span>), Math.min(i + offset - <span class="number">1</span>, len - <span class="number">1</span>));</span><br><span class="line">        step = offset;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="基数排序"><a href="#基数排序" class="headerlink" title="基数排序"></a>基数排序</h2><ul>
 <li>桶排序：稳定<ul>
 <li>算法复杂度：O(n+radix)</li>
 <li>空间复杂度：O(n+2radix)</li>
