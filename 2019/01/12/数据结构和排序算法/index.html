@@ -79,19 +79,19 @@
 
 
 
-<meta name="description" content="基本排序算法 稳定性 排序前后两个相等的数相对位置不变，则算法稳定。插入排序 直接插入排序 折半插入排序（二分法插入） 希尔排序：不稳定    直接插入排序稳定，算法复杂度：O(n²) 1234567891011public void insertionSort(int[] a) &amp;#123;    for (int i = 1; i &amp;lt; a.length; i++) &amp;#123;">
+<meta name="description" content="基本排序算法 稳定性  排序前后两个相等的数相对位置不变，则算法稳定。    插入排序 直接插入排序 折半插入排序（二分法插入） 希尔排序：不稳定  直接插入排序稳定，算法复杂度：O(n²) 1234567891011public void insertionSort(int[] a) &amp;#123;    for (int i = 1; i &amp;lt; a.length; i++) &amp;#123;">
 <meta name="keywords" content="面试">
 <meta property="og:type" content="article">
 <meta property="og:title" content="数据结构和排序算法">
 <meta property="og:url" content="http://yoursite.com/2019/01/12/数据结构和排序算法/index.html">
 <meta property="og:site_name" content="Alpaca&#39;s Blog">
-<meta property="og:description" content="基本排序算法 稳定性 排序前后两个相等的数相对位置不变，则算法稳定。插入排序 直接插入排序 折半插入排序（二分法插入） 希尔排序：不稳定    直接插入排序稳定，算法复杂度：O(n²) 1234567891011public void insertionSort(int[] a) &amp;#123;    for (int i = 1; i &amp;lt; a.length; i++) &amp;#123;">
+<meta property="og:description" content="基本排序算法 稳定性  排序前后两个相等的数相对位置不变，则算法稳定。    插入排序 直接插入排序 折半插入排序（二分法插入） 希尔排序：不稳定  直接插入排序稳定，算法复杂度：O(n²) 1234567891011public void insertionSort(int[] a) &amp;#123;    for (int i = 1; i &amp;lt; a.length; i++) &amp;#123;">
 <meta property="og:locale" content="Java">
 <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/6/66/Red-black_tree_example.svg">
-<meta property="og:updated_time" content="2019-03-28T05:29:28.357Z">
+<meta property="og:updated_time" content="2019-03-28T05:31:25.453Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据结构和排序算法">
-<meta name="twitter:description" content="基本排序算法 稳定性 排序前后两个相等的数相对位置不变，则算法稳定。插入排序 直接插入排序 折半插入排序（二分法插入） 希尔排序：不稳定    直接插入排序稳定，算法复杂度：O(n²) 1234567891011public void insertionSort(int[] a) &amp;#123;    for (int i = 1; i &amp;lt; a.length; i++) &amp;#123;">
+<meta name="twitter:description" content="基本排序算法 稳定性  排序前后两个相等的数相对位置不变，则算法稳定。    插入排序 直接插入排序 折半插入排序（二分法插入） 希尔排序：不稳定  直接插入排序稳定，算法复杂度：O(n²) 1234567891011public void insertionSort(int[] a) &amp;#123;    for (int i = 1; i &amp;lt; a.length; i++) &amp;#123;">
 <meta name="twitter:image" content="https://upload.wikimedia.org/wikipedia/commons/6/66/Red-black_tree_example.svg">
 
 
@@ -368,13 +368,16 @@
 
       
         <h1 id="基本排序算法"><a href="#基本排序算法" class="headerlink" title="基本排序算法"></a>基本排序算法</h1><ul>
-<li><strong>稳定性</strong><ul>
-<li>排序前后两个相等的数相对位置不变，则算法稳定。<h2 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h2></li>
+<li><p><strong>稳定性</strong></p>
+<ul>
+<li>排序前后两个相等的数相对位置不变，则算法稳定。</li>
+</ul>
+</li>
+</ul>
+<h2 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h2><ul>
 <li>直接插入排序</li>
 <li>折半插入排序（二分法插入）</li>
 <li>希尔排序：不稳定</li>
-</ul>
-</li>
 </ul>
 <h3 id="直接插入排序"><a href="#直接插入排序" class="headerlink" title="直接插入排序"></a>直接插入排序</h3><p><strong>稳定，算法复杂度：O(n²)</strong></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">insertionSort</span><span class="params">(<span class="keyword">int</span>[] a)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; a.length; i++) &#123;</span><br><span class="line">        <span class="keyword">int</span> temp = a[i];</span><br><span class="line">        <span class="keyword">int</span> j = i - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (j &gt;= <span class="number">0</span> &amp;&amp; a[j] &gt; temp) &#123;</span><br><span class="line">            a[j + <span class="number">1</span>] = a[j];</span><br><span class="line">            j--;</span><br><span class="line">        &#125;</span><br><span class="line">        a[j + <span class="number">1</span>] = temp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
