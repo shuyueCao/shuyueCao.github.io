@@ -1847,21 +1847,6 @@ synchronized void setB() throws Exception{
 <li>是一种设计,目的是<strong>细化锁的粒度</strong></li>
 <li>jdk7中ConcurrentHashMap就是通过分段锁来实现高效的并发操作</li>
 </ul>
-<h2 id="偏向锁-轻量级锁-重量级锁"><a href="#偏向锁-轻量级锁-重量级锁" class="headerlink" title="偏向锁/轻量级锁/重量级锁"></a>偏向锁/轻量级锁/重量级锁</h2><ul>
-<li>指的是锁的状态，并且是针对synchronized</li>
-<li>偏向锁：指一段同步代码一直被一个线程所访问，那么该线程会自动获取锁。<ul>
-<li>降低获取锁的代价。</li>
-</ul>
-</li>
-<li>轻量级锁：指当锁是偏向锁的时候，被另一个线程所访问，偏向锁就会升级为轻量级锁，其他线程会通过自旋的形式尝试获取锁<ul>
-<li>不会阻塞，提高性能。</li>
-</ul>
-</li>
-<li>重量级锁：当锁为轻量级锁的时候，另一个线程虽然是自旋，但自旋不会一直持续下去，当自旋一定次数的时候，还没有获取到锁，就会进入阻塞，该锁膨胀为重量级锁<ul>
-<li>重量级锁会让其他申请的线程进入阻塞，性能降低。</li>
-</ul>
-</li>
-</ul>
 <h2 id="自旋锁"><a href="#自旋锁" class="headerlink" title="自旋锁"></a>自旋锁</h2><ul>
 <li>指尝试获取锁的线程不会立即阻塞，而是采用<strong>循环</strong>的方式去尝试获取锁</li>
 <li>优点：减少线程上下文切换的消耗</li>
@@ -1912,10 +1897,19 @@ synchronized void setB() throws Exception{
 </ul>
 </li>
 </ul>
-<h2 id="JVM对synchronized关键字的优化"><a href="#JVM对synchronized关键字的优化" class="headerlink" title="JVM对synchronized关键字的优化"></a>JVM对synchronized关键字的优化</h2><ul>
-<li>偏向锁</li>
-<li>轻量级锁</li>
-<li>重量级锁</li>
+<h2 id="JVM对synchronized关键字的优化（状态）"><a href="#JVM对synchronized关键字的优化（状态）" class="headerlink" title="JVM对synchronized关键字的优化（状态）"></a>JVM对synchronized关键字的优化（状态）</h2><ul>
+<li>偏向锁：指一段同步代码一直被一个线程所访问，那么该线程会自动获取锁。<ul>
+<li>降低获取锁的代价。</li>
+</ul>
+</li>
+<li>轻量级锁：指当锁是偏向锁的时候，被另一个线程所访问，偏向锁就会升级为轻量级锁，其他线程会通过<strong>自旋</strong>的形式尝试获取锁<ul>
+<li>不会阻塞，提高性能。</li>
+</ul>
+</li>
+<li>重量级锁：当锁为轻量级锁的时候，另一个线程虽然是自旋，但自旋不会一直持续下去，当自旋一定次数的时候，还没有获取到锁，就会进入阻塞，该锁膨胀为重量级锁<ul>
+<li>重量级锁会让其他申请的线程进入阻塞，性能降低。</li>
+</ul>
+</li>
 <li>自旋锁</li>
 <li>锁消除：即时编译时通过对运行上下文的扫描，去除不可能存在共享资源竞争的锁</li>
 </ul>
