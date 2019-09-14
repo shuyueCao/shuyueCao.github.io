@@ -79,20 +79,20 @@
 
 
 
-<meta name="description" content="线程创建线程 继Thread类 实现Runnable接口 实现Callable接口(比runnable多一个返回值)  Java不支持多继承，但可以实现多个接口。  start()方法会启动一个新线程，并包含run()方法。而run()只会执行run方法，不会启动新线程  线程池 为什么要用线程池？ 降低消耗。降低创建和销毁线程造成的消耗 提高响应速度。任务到达时，任务可以不需要等到线程创建就能立">
+<meta name="description" content="Spring 优点 轻量 控制反转 AOP 容器：Spring 包含并管理应用中对象的生命周期和配置 MVC框架 事务管理：Spring 提供一个持续的事务管理接口，可以扩展到上至本地事务下至全局事务 异常处理： 提供方便的API把具体技术相关的异常（比如由JDBC，Hibernate or JDO抛出的）转化为一致的unchecked 异常  缺点 jsp中要写很多代码、控制器过于灵活，缺少一个">
 <meta name="keywords" content="面试">
 <meta property="og:type" content="article">
-<meta property="og:title" content="java多线程">
-<meta property="og:url" content="http://yoursite.com/2019/02/28/java多线程/index.html">
+<meta property="og:title" content="spring">
+<meta property="og:url" content="http://yoursite.com/2019/09/14/spring/index.html">
 <meta property="og:site_name" content="Alpaca&#39;s Blog">
-<meta property="og:description" content="线程创建线程 继Thread类 实现Runnable接口 实现Callable接口(比runnable多一个返回值)  Java不支持多继承，但可以实现多个接口。  start()方法会启动一个新线程，并包含run()方法。而run()只会执行run方法，不会启动新线程  线程池 为什么要用线程池？ 降低消耗。降低创建和销毁线程造成的消耗 提高响应速度。任务到达时，任务可以不需要等到线程创建就能立">
+<meta property="og:description" content="Spring 优点 轻量 控制反转 AOP 容器：Spring 包含并管理应用中对象的生命周期和配置 MVC框架 事务管理：Spring 提供一个持续的事务管理接口，可以扩展到上至本地事务下至全局事务 异常处理： 提供方便的API把具体技术相关的异常（比如由JDBC，Hibernate or JDO抛出的）转化为一致的unchecked 异常  缺点 jsp中要写很多代码、控制器过于灵活，缺少一个">
 <meta property="og:locale" content="Java">
-<meta property="og:image" content="https://img-blog.csdn.net/2018031320183899?watermark/2/text/Ly9ibG9nLmNzZG4ubmV0L3JlbndlaTI4OTQ0Mw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
-<meta property="og:updated_time" content="2019-03-28T01:43:14.305Z">
+<meta property="og:image" content="http://p3.pstatp.com/large/f750008ad20260cf3f2">
+<meta property="og:updated_time" content="2019-09-14T04:35:09.583Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="java多线程">
-<meta name="twitter:description" content="线程创建线程 继Thread类 实现Runnable接口 实现Callable接口(比runnable多一个返回值)  Java不支持多继承，但可以实现多个接口。  start()方法会启动一个新线程，并包含run()方法。而run()只会执行run方法，不会启动新线程  线程池 为什么要用线程池？ 降低消耗。降低创建和销毁线程造成的消耗 提高响应速度。任务到达时，任务可以不需要等到线程创建就能立">
-<meta name="twitter:image" content="https://img-blog.csdn.net/2018031320183899?watermark/2/text/Ly9ibG9nLmNzZG4ubmV0L3JlbndlaTI4OTQ0Mw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+<meta name="twitter:title" content="spring">
+<meta name="twitter:description" content="Spring 优点 轻量 控制反转 AOP 容器：Spring 包含并管理应用中对象的生命周期和配置 MVC框架 事务管理：Spring 提供一个持续的事务管理接口，可以扩展到上至本地事务下至全局事务 异常处理： 提供方便的API把具体技术相关的异常（比如由JDBC，Hibernate or JDO抛出的）转化为一致的unchecked 异常  缺点 jsp中要写很多代码、控制器过于灵活，缺少一个">
+<meta name="twitter:image" content="http://p3.pstatp.com/large/f750008ad20260cf3f2">
 
 
 
@@ -122,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/02/28/java多线程/">
+  <link rel="canonical" href="http://yoursite.com/2019/09/14/spring/">
 
 
 
 
 
-  <title>java多线程 | Alpaca's Blog</title>
+  <title>spring | Alpaca's Blog</title>
   
 
 
@@ -267,7 +267,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/28/java多线程/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/14/spring/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Cao Shuyue">
@@ -284,7 +284,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">java多线程</h1>
+          <h1 class="post-title" itemprop="name headline">spring</h1>
         
 
         <div class="post-meta">
@@ -296,8 +296,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-28T11:58:53+08:00">
-                2019-02-28
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-09-14T12:07:04+08:00">
+                2019-09-14
               </time>
             
 
@@ -334,303 +334,235 @@
       
 
       
-        <h1 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h1><h2 id="创建线程"><a href="#创建线程" class="headerlink" title="创建线程"></a>创建线程</h2><ul>
-<li>继Thread类</li>
-<li>实现Runnable接口</li>
-<li>实现Callable接口(比runnable多一个返回值)</li>
+        <h1 id="Spring"><a href="#Spring" class="headerlink" title="Spring"></a>Spring</h1><p><img src="http://p3.pstatp.com/large/f750008ad20260cf3f2" alt="icon"></p>
+<h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><ul>
+<li>轻量</li>
+<li>控制反转</li>
+<li>AOP</li>
+<li>容器：Spring 包含并管理应用中对象的生命周期和配置</li>
+<li>MVC框架</li>
+<li>事务管理：Spring 提供一个持续的事务管理接口，可以扩展到上至本地事务下至全局事务</li>
+<li>异常处理： 提供方便的API把具体技术相关的异常（比如由JDBC，Hibernate or JDO抛出的）转化为一致的unchecked 异常</li>
 </ul>
-<p>Java不支持多继承，但可以实现多个接口。</p>
-<ul>
-<li>start()方法会启动一个新线程，并包含run()方法。而run()只会执行run方法，不会启动新线程</li>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><ul>
+<li>jsp中要写很多代码、控制器过于灵活，缺少一个公用控制器</li>
+<li>不支持分布式，这也是EJB仍然在用的原因之一</li>
 </ul>
-<h2 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h2><ul>
-<li>为什么要用线程池？<ul>
-<li>降低消耗。降低创建和销毁线程造成的消耗</li>
-<li>提高响应速度。任务到达时，任务可以不需要等到线程创建就能立即执行</li>
-<li>提高线程的可管理性</li>
-</ul>
-</li>
-<li><strong>参数</strong><ul>
-<li><strong>corePoolSize：线程池核心线程数量</strong><ul>
-<li>如果池中线程数量少于核心线程池数量，则直接新建线程处理当前任务</li>
-<li>当池中无空闲线程时，新任务将被添加到阻塞队列</li>
-<li>核心线程池空闲不会被回收。</li>
+<h2 id="IoC"><a href="#IoC" class="headerlink" title="IoC"></a>IoC</h2><ul>
+<li>控制反转是一种通过描述并通过第三方去产生或获取特定对象的方式。在Spring中实现控制反转的是IoC容器，其实现方法是<strong>DI（依赖注入）</strong></li>
+<li>解决了类与类之间的依赖关系。程序员将控制类与类之间依赖的权利交给了IOC<ul>
+<li>比如说我们现在有两个类A和B，那么我们不需要new A()、或者new B()来创建A和B的对象，Spring会帮我们创建A和B的对象（默认是单例），并且把A和B的对象放入IoC容器中，如果B对象中需要用到A对象的话，那么就要用到DI，Spring会帮我们把A对象注入到B对象中，一般是通过setter方法注入或构造器注入。</li>
 </ul>
 </li>
-<li><strong>maximumPoolSize：线程池最大线程数量</strong><ul>
-<li>当阻塞队列已满，并且有新任务还在入队时，创建新的线程处理，直到线程数大于maximumPoolSize</li>
-<li>超出corePoolSize部分的线程超过空闲时间后会被回收</li>
-<li>当线程已经超出maximumPoolSize，并且阻塞队列已满，则通过handler所指定的策略来处理任务。</li>
+<li><strong>在Spring中，有两个主要的IoC容器系列</strong><ul>
+<li>实现BeanFactory接口的简单容器系列<ul>
+<li>BeanFactory容器中，不会调用ApplicationContextAware接口的setApplicationContext()方法</li>
+<li>BeanPostProcessor接口的postProcessBeforeInitialzation()方法和postProcessAfterInitialization()方法不会自动调用，必须自己通过代码手动注册</li>
+<li>BeanFactory容器启动的时候，不会去实例化所有Bean,包括所有scope为singleton且非懒加载的Bean也是一样，而是<strong>在调用的时候去实例化</strong></li>
 </ul>
 </li>
-<li><strong>keepAliveTime：线程存活时间</strong><ul>
-<li>当线程超出corePoolSize时生效</li>
-</ul>
-</li>
-<li><strong>workQueue：阻塞队列（存储等待执行的任务）</strong></li>
-<li><strong>threadFactory：线程工厂，用来创建线程</strong></li>
-</ul>
-</li>
-<li><strong>相关类</strong><ul>
-<li>ThreadPoolExecutor</li>
-<li>ScheduledThreadPoolExecutor</li>
-</ul>
-</li>
-</ul>
-<h2 id="ThreadLocal"><a href="#ThreadLocal" class="headerlink" title="ThreadLocal"></a>ThreadLocal</h2><ul>
-<li>用于线程间的数据隔离</li>
-<li>使用ThreadLocal维护变量时，ThreadLocal为每个使用该变量的线程提供独立的变量副本，所以每一个线程都可以独立地改变自己的副本，而不会影响其它线程所对应的副本</li>
-</ul>
-<h2 id="Wait-Notify-NotifyAll"><a href="#Wait-Notify-NotifyAll" class="headerlink" title="Wait/Notify/NotifyAll"></a>Wait/Notify/NotifyAll</h2><ul>
-<li>wait( )，notify( )，notifyAll( )都不属于Thread类，而是属于Object基础类<ul>
-<li>why？</li>
-</ul>
-</li>
-<li>wait():线程执行wait()时，会把当前的锁释放，然后让出CPU，进入等待状态。</li>
-<li>notify():随机唤醒一个正在等待该锁的对象</li>
-<li>notifyAll():唤醒所有等待该锁的对象，但这些对象会竞争，只有一个获得该锁<ul>
-<li>其他的对象不会返回等待状态，除非再次调用wait()方法</li>
-<li>会一直等到当前拥有锁的对象释放锁，然后再次竞争</li>
-</ul>
-</li>
-</ul>
-<h1 id="锁的类型"><a href="#锁的类型" class="headerlink" title="锁的类型"></a>锁的类型</h1><h2 id="乐观锁-悲观锁"><a href="#乐观锁-悲观锁" class="headerlink" title="乐观锁/悲观锁"></a>乐观锁/悲观锁</h2><ul>
-<li>乐观锁：认为对于同一个数据的并发操作，是不会发生修改的<ul>
-<li>更新数据的时候，会采用<strong>尝试更新，不断重试</strong>的方式更新数据</li>
-<li><strong>CAS算法</strong>，典型例子为<strong>原子类</strong></li>
-<li>适合读操作非常多的场景</li>
-</ul>
-</li>
-<li>悲观锁：认为对于同一个数据的并发操作，一定是会发生修改的<ul>
-<li><strong>采取加锁的形式</strong></li>
-<li>适合写操作非常多的场景</li>
-</ul>
-</li>
-</ul>
-<h3 id="CAS-CompareAndSwap-算法"><a href="#CAS-CompareAndSwap-算法" class="headerlink" title="CAS(CompareAndSwap)算法"></a>CAS(CompareAndSwap)算法</h3><ul>
-<li>CAS指令执行时，当且仅当内存地址V的值与预期值A相等时，将内存地址V的值修改为B，否则就什么都不做。整个比较并替换的操作是一个原子操作。</li>
-<li>优点：<ul>
-<li>比加锁效率更高：因为对Atomic 变量进行操作时没有阻塞线程，而使用同步代码块时会阻塞线程，并且会造成程序的复杂性增高</li>
-</ul>
-</li>
-<li>缺点：<ul>
-<li>循环时间长开销大</li>
-<li>只能保证一个共享变量的原子操作</li>
-<li>ABA问题<ul>
-<li>如果内存地址V初次读取的值是A，并且在准备赋值的时候检查到它的值仍然为A；但是在这个过程中它的值曾经被改成了B，后来又被改回为A，那CAS操作就会误认为它从来没有被改变过。</li>
-<li><strong>解决方式：</strong> 带有标记的原子引用类“AtomicStampedReference”，它可以通过控制变量值的版本来保证CAS的正确性。</li>
+<li>实现ApplicationContext接口的高级容器系列<ul>
+<li>在BeanFatory容器的基础上增加了事件传播、资源访问和国际化的消息访问等功能</li>
+<li>在容器启动时会实例化scope为singleton且非懒加载的bean</li>
 </ul>
 </li>
 </ul>
 </li>
+<li><strong>IoC容器的初始化：</strong><ul>
+<li>入口是在构造方法中调用refresh开始的</li>
+<li>通过ResourceLoader来完成资源文件位置的定位</li>
+<li>通过BeanDefinitionReader来完成定义信息的解析和Bean信息的注册，XmlBeanDefinitionReader是BeanDefinitionReader的实现类，通过它来解析xml配置中的bean定义</li>
+<li>BeanDefinition的载入：把用户定义好的Bean表示成IoC容器内部的数据结构，即BeanDefinition。</li>
+<li>BeanDefinition的注册：把BeanDefinition向IoC容器注册，由BeanDefinitionRegistry实现的registerBeanDefiition方法进行。内部使用ConcurrentHashMap来保存BeanDefiition</li>
 </ul>
-<h2 id="公平锁-非公平锁"><a href="#公平锁-非公平锁" class="headerlink" title="公平锁/非公平锁"></a>公平锁/非公平锁</h2><ul>
-<li>公平锁：多个线程在等待同一个锁时，必须按照申请锁的先后顺序来一次获得锁</li>
-<li>非公平锁<ul>
-<li>可能导致饿死</li>
+</li>
+<li>在解析<bean>元素过程中没有创建和实例化Bean对象，只是创建了Bean对象的定义类BeanDefinition，将<bean>元素中的配置信息设置到BeanDefinition中作为记录，当依赖注入时才使用这些记录信息创建和实例化具体的Bean对象。</bean></bean></li>
+<li><strong>依赖注入的过程(lazy-init)：</strong><ul>
+<li><strong>依赖注入的过程是用户第一次向IoC容器索要Bean时触发的</strong>，在BeanFatory接口中的getBean方法的实现就是触发依赖注入的地方。</li>
+<li>Bean定义为单例模式(Singleton)，则容器在创建之前先从缓存中查找，以确保整个容器中只存在一个实例对象。如果Bean定义的是原型模式(Prototype)，则容器每次都会创建一个新的实例对象。除此之外，Bean定义还可以扩展为指定其生命周期范围</li>
+<li>依赖注入主要在两个方法中：<ul>
+<li><strong>createBeanInstance：生成Bean所包含的java对象实例。</strong><ul>
+<li>用CGLIB来生成</li>
+<li>通过BeanUtils，它使用了JVM的反射功能来生成Java对象实例</li>
+</ul>
+</li>
+<li><strong>populateBean ：对Bean属性的依赖注入进行处理</strong><ul>
+<li>属性值类型不需要转换时，不需要解析属性值，直接准备进行依赖注入。</li>
+<li>属性值需要进行类型转换时，如对其他对象的引用等，首先需要解析属性值(resolveValueIfNecessary方法)，然后对解析后的属性值进行依赖注入</li>
+<li>setPropertyValues 属性注入</li>
 </ul>
 </li>
 </ul>
-<h2 id="可重入锁-不可重入锁"><a href="#可重入锁-不可重入锁" class="headerlink" title="可重入锁/不可重入锁"></a>可重入锁/不可重入锁</h2><ul>
-<li><p>可重入锁：同一个线程在外层方法获取锁的时候，在进入内层方法会自动获取锁。</p>
-<ul>
-<li><p>eg:</p>
-<pre><code>synchronized void setA() throws Exception{
-  Thread.sleep(1000);
-  setB();
-}
-synchronized void setB() throws Exception{
-  Thread.sleep(1000);
-}
-</code></pre></li>
+</li>
+<li>获取到某个Bean的时候也会通过<em>递归</em>的方式来依赖注入依赖的bean</li>
 </ul>
 </li>
-<li>不可重入锁：对于上面的例子可能造成死锁</li>
-</ul>
-<h2 id="分段锁"><a href="#分段锁" class="headerlink" title="分段锁"></a>分段锁</h2><ul>
-<li>是一种设计,目的是<strong>细化锁的粒度</strong></li>
-<li>jdk7中ConcurrentHashMap就是通过分段锁来实现高效的并发操作</li>
-</ul>
-<h2 id="偏向锁-轻量级锁-重量级锁"><a href="#偏向锁-轻量级锁-重量级锁" class="headerlink" title="偏向锁/轻量级锁/重量级锁"></a>偏向锁/轻量级锁/重量级锁</h2><ul>
-<li>指的是锁的状态，并且是针对synchronized</li>
-<li>偏向锁：指一段同步代码一直被一个线程所访问，那么该线程会自动获取锁。<ul>
-<li>降低获取锁的代价。</li>
+<li><strong>依赖注入的方式</strong><ul>
+<li>@autowired 注解</li>
+<li>setter方法：<ul>
+<li>要在<code>&lt;bean&gt;</code> 标签中创建一个 <code>&lt;property&gt;</code> 标签</li>
+<li>ref指向其他<code>&lt;bean&gt;</code>标签的name属性</li>
 </ul>
 </li>
-<li>轻量级锁：指当锁是偏向锁的时候，被另一个线程所访问，偏向锁就会升级为轻量级锁，其他线程会通过自旋的形式尝试获取锁<ul>
-<li>不会阻塞，提高性能。</li>
+<li>构造器注入<ul>
+<li>不用<property>的形式，而是使用<constructor-arg>标签</constructor-arg></property></li>
+<li>ref指向其他<code>&lt;bean&gt;</code>标签的name属性</li>
 </ul>
 </li>
-<li>重量级锁：当锁为轻量级锁的时候，另一个线程虽然是自旋，但自旋不会一直持续下去，当自旋一定次数的时候，还没有获取到锁，就会进入阻塞，该锁膨胀为重量级锁<ul>
-<li>重量级锁会让其他申请的线程进入阻塞，性能降低。</li>
+<li>静态工厂的方法<ul>
+<li><strong>工厂初始化之前，工厂中的类就已经被实例化放在工厂容器中</strong></li>
+<li>ref指向静态工厂</li>
+<li>配置 factory-method=”…”指定调用哪个工厂方法</li>
+</ul>
+</li>
+<li>实例工厂的方法<ul>
+<li><strong>工厂在构造方法初始化时，将类实例化放在工厂中</strong><ul>
+<li>先有bean工厂，再bean一个具体类</li>
+</ul>
+</li>
+<li>需要首先new工厂类，再调用普通的实例方法</li>
 </ul>
 </li>
 </ul>
-<h2 id="自旋锁"><a href="#自旋锁" class="headerlink" title="自旋锁"></a>自旋锁</h2><ul>
-<li>指尝试获取锁的线程不会立即阻塞，而是采用<strong>循环</strong>的方式去尝试获取锁</li>
-<li>优点：减少线程上下文切换的消耗</li>
-<li>缺点<ul>
-<li>循环会消耗CPU。</li>
-<li>饥饿问题</li>
+</li>
+<li>Spring IoC容器中管理了一系列靠依赖关系联系起来的Bean，程序不需要应用自己手动创建所需的对象，Spring IoC容器会在我们使用的时候自动为我们创建，并且为我们注入好相关的依赖</li>
+<li><strong>循环依赖</strong><ul>
+<li>三级缓存<ul>
+<li>第一级缓存singletonObjects：放置实例化好的单例对象</li>
+<li>第二级缓存earlySingletonObjects：放置提前曝光的单例对象（没有完全装配好）</li>
+<li>第三级缓存singletonFactorys：存放的是要被实例化的对象的对象工厂</li>
 </ul>
 </li>
-<li><p>如何实现自旋锁?</p>
-<pre><code>public class SpinLock {
-  private AtomicReference&lt;Thread&gt; cas = new AtomicReference&lt;Thread&gt;();
-
-  public void lock() {
-    Thread current = Thread.currentThread();
-    // 利用CAS
-    while (!cas.compareAndSet(null, current)) {
-      // DO nothing
-    }
-  }
-  public void unlock() {
-    Thread current = Thread.currentThread();
-    cas.compareAndSet(current, null);
-  }
-}
-</code></pre></li>
 </ul>
-<h1 id="锁优化"><a href="#锁优化" class="headerlink" title="锁优化"></a>锁优化</h1><ol>
-<li>减少锁持有的时间：对一个方法加锁，不如对方法中需要同步的几行代码加锁</li>
-<li>减小锁粒度：ConcurrentHashMap采取对segment加锁而不是整个map加锁，提高并发性</li>
-<li>锁分离：分为读锁和写锁</li>
-<li>锁粗化：在一个间隔性地需要执行同步语句的线程中，如果在不连续的同步块间频繁加锁解锁是很耗性能的，因此把加锁范围扩大，把这些不连续的同步语句进行一次性加锁解锁。虽然线程持有锁的时间增加了，但是总体来说是优化了的</li>
-<li>锁消除</li>
-<li>JVM中：偏向锁/轻量级锁/重量级锁/自旋锁/自适应自旋锁</li>
+</li>
+</ul>
+<h3 id="bean的生命周期"><a href="#bean的生命周期" class="headerlink" title="bean的生命周期"></a>bean的生命周期</h3><ul>
+<li>容器启动后，会对scope为singleton且非懒加载的bean进行实例化</li>
+<li>按照Bean定义信息配置信息，注入所有的属性</li>
+<li>如果实现了BeanNameAware接口，会回调该接口的setBeanName()方法，传入该Bean的id，此时该Bean就获得了自己在配置文件中的id</li>
+<li>如果Bean实现了BeanFactoryAware接口，会回调该接口的setBeanFactory()方法，传入该Bean的BeanFactory，这样该Bean就获得了自己所在的BeanFactory</li>
+<li>如果Bean实现了ApplicationContextAware接口,会回调该接口的setApplicationContext()方法，传入该Bean的ApplicationContext，这样该Bean就获得了自己所在的ApplicationContext</li>
+<li>如果有Bean实现了BeanPostProcessor（实例化后置处理器）接口，则会回调该接口的postProcessBeforeInitialzation()方法</li>
+<li>如果Bean实现了InitializingBean接口，则会回调该接口的afterPropertiesSet()方法</li>
+<li>如果Bean配置了init-method方法，则会执行init-method配置的方法</li>
+<li>如果有Bean实现了BeanPostProcessor接口，则会回调该接口的postProcessAfterInitialization()方法</li>
+<li>之后便可以正式使用Bean了，对于scope为singleton的Bean,Spring的ioc容器中会缓存一份该bean的实例，而对于scope为prototype的Bean,每次被调用都会new一个新的对象，期生命周期就交给调用方管理了，不再是Spring容器进行管理了</li>
+<li>容器关闭后，如果Bean实现了DisposableBean接口，则会回调该接口的destroy()方法</li>
+<li>如果Bean配置了destroy-method方法，则会执行destroy-method配置的方法，至此，整个Bean的生命周期结束</li>
+</ul>
+<h2 id="AOP"><a href="#AOP" class="headerlink" title="AOP"></a>AOP</h2><ul>
+<li>spring AOP的底层实现是<strong>动态代理</strong><ul>
+<li>提供了对JDK动态代理的支持以及CGLib的支持。<ul>
+<li>JDK动态代理只能为接口创建动态代理实例，而不能对类创建动态代理</li>
+<li>CGLib动态代理需要依赖asm包，把被代理对象类的class文件加载进来，修改其字节码生成子类。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>AspectJ的底层技术是<strong>静态代理</strong><ul>
+<li>通过一个命令来编译，生成一个新的代理类</li>
+<li>在<strong>编译</strong>时增强</li>
+</ul>
+</li>
+</ul>
+<h2 id="事务管理"><a href="#事务管理" class="headerlink" title="事务管理"></a>事务管理</h2><ul>
+<li>spring并不直接管理事务，而是提供了多种事务管理器，将事务管理的职责委托给Hibernate或者JTA等持久化机制所提供的相关平台框架的事务来实现</li>
+<li>PlatformTransactionManager接口为各个平台提供了对应的事务管理器<ul>
+<li>getTransaction()</li>
+<li>commit()</li>
+<li>rollback()</li>
+</ul>
+</li>
+<li><strong>优点</strong><ul>
+<li>为不同的事务API提供一致的编程模型，如JTA、JDBC、Hibernate、JPA</li>
+</ul>
+</li>
+</ul>
+<h1 id="Spring-MVC工作原理"><a href="#Spring-MVC工作原理" class="headerlink" title="Spring MVC工作原理"></a>Spring MVC工作原理</h1><ol>
+<li>Http请求：客户端请求提交到前置控制器DispatcherServlet</li>
+<li>DispatcherServlet寻找处理器Controller：由DispatcherServlet控制器查询一个或多个HandlerMapping，找到处理请求所对应的Controller</li>
+<li>处理器Controller执行：DispatcherServlet将请求提交到Controller，Controller调用业务逻辑处理后，返回ModelAndView。</li>
+<li>dispatcherServlet借助ViewResoler完成逻辑视图到真实视图对象的解析</li>
+<li>dispatcherServlet使用这个view对ModelAndView中的模型数据进行视图渲染，返回给用户</li>
 </ol>
-<h1 id="synchronized关键字"><a href="#synchronized关键字" class="headerlink" title="synchronized关键字"></a>synchronized关键字</h1><ul>
-<li><strong>非公平锁、可重入锁、互斥锁</strong></li>
-</ul>
-<h2 id="使用方式"><a href="#使用方式" class="headerlink" title="使用方式"></a>使用方式</h2><ul>
-<li><p>ACC_SYNCHRONIZED 访问标志区分一个方法是否同步方法</p>
-<ul>
-<li>修饰实例方法，对当前实例加锁，进入同步代码之前需要获得当前实例的锁</li>
-<li>修饰静态方法，对当前类对象加锁，进入同步代码之前需要获得当前类对象的锁。</li>
+<h1 id="Spring-Boot"><a href="#Spring-Boot" class="headerlink" title="Spring Boot"></a>Spring Boot</h1><ul>
+<li>主要是简化了spring的难度，简省了繁重的配置，提供了各种容器，开发者能快速上手</li>
+<li><strong>优点</strong><ul>
+<li>独立运行<ul>
+<li>内嵌了各种servlet容器，Tomcat、Jetty等</li>
+<li>不再需要打成war包部署到容器中，Spring Boot只要打成一个可执行的jar包就能独立运行，所有的依赖包都在一个jar包内。</li>
 </ul>
 </li>
-<li><p>修饰代码块，对指定对象加锁，进入同步代码之前需要获得指定对象的锁。</p>
-<ul>
-<li>通过monitorenter和monitorexit</li>
+<li>简化配置<ul>
+<li>spring-boot-starter-web启动器自动依赖其他组件，简少了maven的配置</li>
 </ul>
 </li>
+<li>自动配置<ul>
+<li>Spring Boot能根据当前类路径下的类、jar包来自动配置bean，如添加一个spring-boot-starter-web启动器就能拥有web的功能，无需其他配置。</li>
 </ul>
-<h2 id="JVM对synchronized关键字的优化"><a href="#JVM对synchronized关键字的优化" class="headerlink" title="JVM对synchronized关键字的优化"></a>JVM对synchronized关键字的优化</h2><ul>
-<li>偏向锁</li>
-<li>轻量级锁</li>
-<li>重量级锁</li>
-<li>自旋锁</li>
-<li>锁消除：即时编译时通过对运行上下文的扫描，去除不可能存在共享资源竞争的锁</li>
+</li>
+<li>无代码生成和XML配置<ul>
+<li>Spring Boot配置过程中无代码生成，也无需XML配置文件就能完成所有配置工作，这一切都是借助于条件注解完成的</li>
 </ul>
-<h2 id="与LOCK的区别"><a href="#与LOCK的区别" class="headerlink" title="与LOCK的区别"></a>与LOCK的区别</h2><ul>
-<li>对于synchronized,如果多个线程都只是进行读操作，所以当一个线程在进行读操作时，其他线程只能等待无法进行读操作。Lock可以提高多个线程进行读操作的效率</li>
-<li>Lock可以知道线程有没有成功获取到锁。synchronized不行</li>
-<li>采用synchronized不需要用户去手动释放锁，而Lock则必须要用户去手动释放锁，如果没有主动释放锁，就有可能导致出现死锁现象。</li>
-<li>Lock是一个接口，而synchronized是Java中的关键字，synchronized是内置的语言实现；</li>
-<li>Lock可以让等待锁的线程响应中断，而synchronized却不行</li>
-<li>synchronized是同步阻塞，使用的是悲观并发策略，lock是同步非阻塞，采用的是乐观并发策略</li>
-</ul>
-<h2 id="ReenTrantLock"><a href="#ReenTrantLock" class="headerlink" title="ReenTrantLock"></a>ReenTrantLock</h2><ul>
-<li>与synchronized一样都可重入，同一线程可以多次获得同一个锁</li>
-<li>实现了Lock接口</li>
-<li>ReenTrantLock可以指定是公平锁还是非公平锁。而synchronized只能是非公平锁。所谓的公平锁就是先等待的线程先获得锁。</li>
-<li>ReenTrantLock提供了一个Condition（条件）类，用来实现分组唤醒需要唤醒的线程们，而不是像synchronized要么随机唤醒一个线程要么唤醒全部线程。</li>
-</ul>
-<p><img src="https://img-blog.csdn.net/2018031320183899?watermark/2/text/Ly9ibG9nLmNzZG4ubmV0L3JlbndlaTI4OTQ0Mw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="icon"></p>
-<h2 id="volatile"><a href="#volatile" class="headerlink" title="volatile"></a>volatile</h2><h3 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h3><ul>
-<li>JVM提供的最轻量级的同步机制</li>
-<li>一个变量使用volatile之后，具备两种特性：<ul>
-<li>保证此变量对所有线程的可见性：使用volatile关键字会强制将修改的值立即写入主存<ul>
-<li>符合以下两条规则才能保证原子性：<ul>
-<li>对变量的写操作不依赖于当前值</li>
-<li>该变量没有包含在具有其他变量的不变式中。</li>
+</li>
+<li>应用监控<ul>
+<li>Spring Boot提供一系列端点可以监控服务及应用，做健康检测。</li>
 </ul>
 </li>
 </ul>
 </li>
-<li>禁止指令重排序优化</li>
+<li><strong>核心注解</strong><ul>
+<li>@SpringBootConfiguration：组合了 @Configuration 注解，实现配置文件的功能。</li>
+<li>@EnableAutoConfiguration：打开自动配置的功能，也可以关闭某个自动配置的选项</li>
+<li>@ComponentScan：Spring组件扫描</li>
 </ul>
 </li>
-<li><p>eg:</p>
-<pre><code>//1
-volatile boolean shutdownRequested;
-
-public void shutdown() {
-    shutdownRequested = true;
-}
-
-public void doWork() {
-  while (!shutdownRequested) {
-  //do stuff
-  }
-}
-
-//2
-public class ChessyCounter{
-  @GuardedBy(&quot;this&quot;) private volatile int value;
-
-  //读操作，没有synchronized，提高性能
-  public int getValue(){
-    return value
-  }
-
-  //写操作，必须synchronized。因为x++不是原子操作
-  public synchronized int increment() {
-    return value++;
-  }
-}
-//锁一次只允许一个线程访问值，volatile 允许多个线程执行读操作
-//使用锁进行所有变化的操作，使用 volatile 进行只读操作。
-</code></pre></li>
-</ul>
-<h3 id="与synchronized区别"><a href="#与synchronized区别" class="headerlink" title="与synchronized区别"></a>与synchronized区别</h3><ul>
-<li>synchronized关键字解决的是执行控制的问题，volatile关键字解决的是内存可见性的问题</li>
-<li>volatile仅能使用在变量级别；synchronized则可以使用在变量、方法、和类级别</li>
-<li>volatile仅能实现变量的修改可见性，不能保证原子性；而synchronized则可以保证变量的修改可见性和原子性</li>
-<li>volatile不会造成线程的阻塞；synchronized可能会造成线程的阻塞。</li>
-</ul>
-<h1 id="BIO-NIO-AIO"><a href="#BIO-NIO-AIO" class="headerlink" title="BIO/NIO/AIO"></a>BIO/NIO/AIO</h1><h2 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h2><ul>
-<li>同步和异步：是针对应用程序和内核的交互而言的<ul>
-<li>同步：用户进程触发IO操作并等待或者轮询的去查看IO操作是否就绪</li>
-<li>异步：用户进程触发IO操作以后便开始做自己的事情，而当IO操作已经完成的时候会得到IO完成的通知</li>
-</ul>
-</li>
-<li>阻塞和非阻塞：是针对于进程在访问数据的时候<ul>
-<li>阻塞方式：读取或者写入函数将一直等待</li>
-<li>非阻塞方式：读取或者写入函数会立即返回一个状态值</li>
+<li><strong>如何理解 Spring Boot 中的 Starters</strong><ul>
+<li>Starters可以理解为启动器，它包含了一系列可以集成到应用里面的依赖包，你可以一站式集成 Spring 及其他技术，而不需要到处找示例代码和依赖包。</li>
 </ul>
 </li>
 </ul>
-<h2 id="三者区别"><a href="#三者区别" class="headerlink" title="三者区别"></a>三者区别</h2><ul>
-<li><strong>BIO:：同步阻塞</strong><ul>
-<li>服务器实现模式为<strong>一个连接一个线程</strong>，即客户端有连接请求时服务器端就需要启动一个线程进行处理，如果这个连接不做任何事情会造成不必要的线程开销<ul>
-<li>可以通过线程池机制改善</li>
+<h1 id="SSH-SSM"><a href="#SSH-SSM" class="headerlink" title="SSH/SSM"></a>SSH/SSM</h1><ul>
+<li>SSH：structs2(控制器)+spring(管理各层组件)+hibernate(持久化层)<ul>
+<li>Struts2是Action类级别</li>
 </ul>
 </li>
-<li>用户进程在发起一个IO操作以后，必须等待IO操作的完成，只有当真正完成了IO操作以后，用户进程才能运行<ul>
-<li>Java自己处理IO读写，Java调用会一直阻塞到读写完成才返回</li>
+<li>SSM：SpringMVC(控制器)+spring(管理各层组件)+mybatis(持久化层)<ul>
+<li>SpringMVC是方法级别，更容易实现RESTful风格</li>
 </ul>
 </li>
-<li>适用于连接数目比较小且固定的架构，这种方式对服务器资源要求比较高，并发局限于应用中</li>
+</ul>
+<h3 id="Structs2工作原理"><a href="#Structs2工作原理" class="headerlink" title="Structs2工作原理"></a>Structs2工作原理</h3><p>Struts2使用Filter嵌入</p>
+<ol>
+<li>客户端初始化一个指向Servlet容器（例如Tomcat）的请求，这个请求经过一系列的过滤器（Filter）</li>
+<li>接着FilterDispatcher被调用，FilterDispatcher询问ActionMapper来决定这个请求是否需要调用Action</li>
+<li>FilterDispatcher把处理权交给ActionProxy，ActionProxy通过Configuration Manager询问框架的配置文件，找到需要调用的Action类</li>
+<li>ActionProxy创建一个ActionInvocation的实例</li>
+<li>ActionInvocation实例使用命名模式来调用，在调用Action的过程前后，涉及到相关拦截器（Intercepter）的调用</li>
+<li>一旦Action执行完毕，ActionInvocation负责根据struts.xml中的配置找到对应的返回结果。返回结果通常是（但不总是，也可 能是另外的一个Action链）一个需要被表示的JSP或者FreeMarker的模版</li>
+<li>将处理结果返回给客户端</li>
+</ol>
+<h1 id="Servlet"><a href="#Servlet" class="headerlink" title="Servlet"></a>Servlet</h1><ul>
+<li>是运行在服务端的java程序，为java程序提供一个统一的web应用的规范</li>
+<li>一个http请求到来，容器将请求封装成Servlet中的request对象，在request中可以得到http的所有信息，并将其取出进行操作</li>
+<li>最后将数据封装成Servlet中的response对象，容器将response解析后封装成http response</li>
+<li>Tomcat是一个servlet容器</li>
+</ul>
+<h4 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h4><ul>
+<li>初始化阶段init()：init方法只会被调用一次<ul>
+<li>Servlet容器启动时自动装载某些servlet</li>
+<li>在Servlet容器启动后，客户首次向Servlet发送请求</li>
+<li>Servlet类文件被更新后，重新装载</li>
 </ul>
 </li>
-<li><strong>NIO：同步非阻塞</strong><ul>
-<li>服务器实现模式为<strong>一个请求一个线程</strong>，即客户端发送的连接请求都会注册到多路复用器上，多路复用器轮询到连接<strong>有I/O请求时才启动一个线程进行处理</strong></li>
-<li>用户进程发起一个IO操作以后边可返回做其它事情，但是用户进程需要时不时的询问IO操作是否就绪，这就要求用户进程不停的去询问，从而引入不必要的CPU资源浪费<ul>
-<li>Java自己处理IO读写，但是不能读写时Java调用会马上返回，当IO事件分发器会通知可读写时再继续进行读写，不断循环直到读写完成</li>
+<li>处理客户请求阶段service()：每收到一个客户端请求，服务器就会产生一个新的线程去处理<ul>
+<li>对于用户的Servlet请求，Servlet容器会创建一个特定于请求的ServletRequest和ServletResponse</li>
+<li>service()方法会对请求的方法进行匹配</li>
+<li>对于tomcat来说，它会将传递来的参数放入一个HashTable中，这是一个String–&gt;String[]的键值映射</li>
 </ul>
 </li>
-<li>适用于连接数目多且连接比较短（轻操作）的架构，比如聊天服务器</li>
-</ul>
-</li>
-<li><strong>AIO：异步非阻塞</strong><ul>
-<li>服务器实现模式为<strong>一个有效请求一个线程</strong>，客户端的I/O请求都是由OS先完成了再通知服务器应用去启动线程进行处理</li>
-<li>用户进程只需要发起一个IO操作然后立即返回，等IO操作真正的完成以后，应用程序会得到IO操作完成的通知，此时用户进程只需要对数据进行处理就好了，不需要进行实际的IO读写操作，因为真正的IO读取或者写入操作已经由内核完成了<ul>
-<li>Java将IO读写委托给OS处理，需要将数据缓冲区地址和大小传给OS</li>
-</ul>
-</li>
-<li>适用于连接数目多且连接比较长（重操作）的架构，比如相册服务器，充分调用OS参与并发操作</li>
+<li>终止阶段destroy()<ul>
+<li>当web应用被终止，或者Servlet容器终止运行，或者Servlet重新装载Servlet新实例时，Servlet容器会调用Servlet的destroy()方法</li>
 </ul>
 </li>
 </ul>
@@ -664,8 +596,8 @@ public class ChessyCounter{
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/02/27/操作系统/" rel="next" title="操作系统">
-                <i class="fa fa-chevron-left"></i> 操作系统
+              <a href="/2019/03/26/java基础/" rel="next" title="java基础">
+                <i class="fa fa-chevron-left"></i> java基础
               </a>
             
           </div>
@@ -673,10 +605,6 @@ public class ChessyCounter{
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/03/03/数据库/" rel="prev" title="数据库">
-                数据库 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -808,7 +736,7 @@ public class ChessyCounter{
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#线程"><span class="nav-number">1.</span> <span class="nav-text">线程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建线程"><span class="nav-number">1.1.</span> <span class="nav-text">创建线程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程池"><span class="nav-number">1.2.</span> <span class="nav-text">线程池</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ThreadLocal"><span class="nav-number">1.3.</span> <span class="nav-text">ThreadLocal</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Wait-Notify-NotifyAll"><span class="nav-number">1.4.</span> <span class="nav-text">Wait/Notify/NotifyAll</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#锁的类型"><span class="nav-number">2.</span> <span class="nav-text">锁的类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#乐观锁-悲观锁"><span class="nav-number">2.1.</span> <span class="nav-text">乐观锁/悲观锁</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CAS-CompareAndSwap-算法"><span class="nav-number">2.1.1.</span> <span class="nav-text">CAS(CompareAndSwap)算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#公平锁-非公平锁"><span class="nav-number">2.2.</span> <span class="nav-text">公平锁/非公平锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可重入锁-不可重入锁"><span class="nav-number">2.3.</span> <span class="nav-text">可重入锁/不可重入锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分段锁"><span class="nav-number">2.4.</span> <span class="nav-text">分段锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#偏向锁-轻量级锁-重量级锁"><span class="nav-number">2.5.</span> <span class="nav-text">偏向锁/轻量级锁/重量级锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自旋锁"><span class="nav-number">2.6.</span> <span class="nav-text">自旋锁</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#锁优化"><span class="nav-number">3.</span> <span class="nav-text">锁优化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#synchronized关键字"><span class="nav-number">4.</span> <span class="nav-text">synchronized关键字</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用方式"><span class="nav-number">4.1.</span> <span class="nav-text">使用方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM对synchronized关键字的优化"><span class="nav-number">4.2.</span> <span class="nav-text">JVM对synchronized关键字的优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#与LOCK的区别"><span class="nav-number">4.3.</span> <span class="nav-text">与LOCK的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ReenTrantLock"><span class="nav-number">4.4.</span> <span class="nav-text">ReenTrantLock</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#volatile"><span class="nav-number">4.5.</span> <span class="nav-text">volatile</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#作用"><span class="nav-number">4.5.1.</span> <span class="nav-text">作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#与synchronized区别"><span class="nav-number">4.5.2.</span> <span class="nav-text">与synchronized区别</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#BIO-NIO-AIO"><span class="nav-number">5.</span> <span class="nav-text">BIO/NIO/AIO</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基础概念"><span class="nav-number">5.1.</span> <span class="nav-text">基础概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三者区别"><span class="nav-number">5.2.</span> <span class="nav-text">三者区别</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Spring"><span class="nav-number">1.</span> <span class="nav-text">Spring</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#优点"><span class="nav-number">1.0.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺点"><span class="nav-number">1.0.2.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IoC"><span class="nav-number">1.1.</span> <span class="nav-text">IoC</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#bean的生命周期"><span class="nav-number">1.1.1.</span> <span class="nav-text">bean的生命周期</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AOP"><span class="nav-number">1.2.</span> <span class="nav-text">AOP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事务管理"><span class="nav-number">1.3.</span> <span class="nav-text">事务管理</span></a></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#Spring-MVC工作原理"><span class="nav-number">2.</span> <span class="nav-text">Spring MVC工作原理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Spring-Boot"><span class="nav-number">3.</span> <span class="nav-text">Spring Boot</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SSH-SSM"><span class="nav-number">4.</span> <span class="nav-text">SSH/SSM</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Structs2工作原理"><span class="nav-number">4.0.1.</span> <span class="nav-text">Structs2工作原理</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Servlet"><span class="nav-number">5.</span> <span class="nav-text">Servlet</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#生命周期"><span class="nav-number">5.0.0.1.</span> <span class="nav-text">生命周期</span></a></li></ol></li></div>
             
 
           </div>

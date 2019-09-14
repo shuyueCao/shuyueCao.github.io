@@ -91,7 +91,9 @@
 <meta property="og:image" content="https://image-static.segmentfault.com/200/005/2000054899-5b232c8cb2ea5_articlex">
 <meta property="og:image" content="https://image-static.segmentfault.com/122/280/1222804749-5b232ded5a2ef_articlex">
 <meta property="og:image" content="http://www.jasongj.com/img/kafka/KafkaColumn1/KafkaArchitecture.png">
-<meta property="og:updated_time" content="2019-03-20T14:22:38.890Z">
+<meta property="og:image" content="https://img-blog.csdn.net/20150427151555111?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaml1cWl5dWxpYW5n/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="https://img-blog.csdn.net/20141120210203542?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaml1cWl5dWxpYW5n/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:updated_time" content="2019-09-14T04:38:06.580Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据库">
 <meta name="twitter:description" content="Redis key-value类型的内存(缓存)数据库 整个数据库加载到内存中操作，定期flush到硬盘上进行保存 单线程 CPU不是瓶颈，单线程容易实现   集群是master/slave模式  为了使在部分节点失败或者大部分节点无法通信的情况下集群仍然可用，所以集群使用了主从复制模型,每个节点都会有N-1个复制品 异步复制 Redis并不能保证数据的强一致性，这意味这在实际中集群在特定的条件下">
@@ -337,7 +339,7 @@
       
 
       
-        <h3 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h3><ul>
+        <h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><ul>
 <li>key-value类型的内存(缓存)数据库</li>
 <li>整个数据库加载到内存中操作，定期flush到硬盘上进行保存</li>
 <li>单线程<ul>
@@ -481,8 +483,8 @@
 </ul>
 </li>
 </ul>
-<h3 id="MySQL存储引擎"><a href="#MySQL存储引擎" class="headerlink" title="MySQL存储引擎"></a>MySQL存储引擎</h3><p><a href="https://draveness.me/mysql-innodb" target="_blank" rel="noopener">https://draveness.me/mysql-innodb</a></p>
-<h4 id="InnoDB"><a href="#InnoDB" class="headerlink" title="InnoDB"></a>InnoDB</h4><ul>
+<h1 id="MySQL存储引擎"><a href="#MySQL存储引擎" class="headerlink" title="MySQL存储引擎"></a>MySQL存储引擎</h1><p><a href="https://draveness.me/mysql-innodb" target="_blank" rel="noopener">https://draveness.me/mysql-innodb</a></p>
+<h2 id="InnoDB"><a href="#InnoDB" class="headerlink" title="InnoDB"></a>InnoDB</h2><ul>
 <li>所有的数据都被<strong>逻辑地</strong>存放在表空间中，表空间（tablespace）是存储引擎中最高的存储逻辑单位，在表空间的下面又包括段（segment）、区（extent）、页（page）</li>
 <li>页作为磁盘管理的最小单位,在页中数据按行存储。<br><img src="https://raw.githubusercontent.com/Draveness/Analyze/master/contents/Database/images/mysql/Tablespace-segment-extent-page-row.jpg" alt="icon"></li>
 <li>MySQL 使用 InnoDB 存储表时，会将<strong>表的定义</strong>和<strong>数据索引</strong>等信息分开存储</li>
@@ -504,7 +506,7 @@
 <li>InnoDB 中不保存表的具体行数，也就是说，执行<code>select count(*) from table</code>时，InnoDB要扫描一遍整个表来计算有多少行，但是MyISAM只要简单的读出保存好的行数即可。注意的是，当<code>count(*)</code>语句包含 where条件时，两种表的操作是一样的。</li>
 <li><strong>两种类型最主要的差别就是Innodb 支持事务处理与外键完整性约束和行级锁</strong>，所以MyISAM往往就容易被人认为只适合在小项目中使用,但是如果项目要求99.9%的<strong>稳定性，方便的扩展性和高可用性</strong>来说的话，MyISAM绝对是首选</li>
 </ul>
-<h3 id="MySQL主从同步"><a href="#MySQL主从同步" class="headerlink" title="MySQL主从同步"></a>MySQL主从同步</h3><ul>
+<h2 id="MySQL主从同步"><a href="#MySQL主从同步" class="headerlink" title="MySQL主从同步"></a>MySQL主从同步</h2><ul>
 <li>基于二进制日志机制，主服务器使用二进制日志来记录数据库的变动情况，从服务器通过读取和执行该日志文件来保持和主服务器的数据一致</li>
 <li><strong>MySQL是异步复制的，MySQL cluster是同步复制的</strong></li>
 </ul>
@@ -533,7 +535,7 @@
 </ul>
 </li>
 </ul>
-<h3 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h3><ul>
+<h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><ul>
 <li><strong>索引</strong><ul>
 <li>原理<ul>
 <li>对要查询的字段建立索引其实就是把该字段按照一定的方式排序；建立的索引只对该字段有用，如果查询的字段改变，那么这个索引也就无效了</li>
@@ -574,7 +576,7 @@
 </ul>
 </li>
 </ul>
-<h4 id="MySQL索引"><a href="#MySQL索引" class="headerlink" title="MySQL索引"></a>MySQL索引</h4><ul>
+<h3 id="MySQL索引"><a href="#MySQL索引" class="headerlink" title="MySQL索引"></a>MySQL索引</h3><ul>
 <li><strong>B+树</strong><ul>
 <li>特点<ul>
 <li>非叶子节点的子树指针与关键字个数相同</li>
@@ -623,7 +625,7 @@
 </ul>
 </li>
 </ul>
-<h4 id="SQL优化"><a href="#SQL优化" class="headerlink" title="SQL优化"></a>SQL优化</h4><ul>
+<h2 id="SQL优化"><a href="#SQL优化" class="headerlink" title="SQL优化"></a>SQL优化</h2><ul>
 <li>重写order by语句以使用索引</li>
 <li>SELECT子句中避免使用 ‘ * ‘</li>
 <li>减少访问数据库的次数</li>
@@ -634,7 +636,7 @@
 <li>避免在索引列上使用NOT</li>
 <li>避免在索引列上使用计算</li>
 </ul>
-<h3 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h3><ul>
+<h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><ul>
 <li>概念<ul>
 <li>指访问并可能更新数据库中各种数据项的一个程序执行单元</li>
 <li>对数据库进行读或写的一个操作序列</li>
@@ -648,7 +650,7 @@
 </ul>
 </li>
 </ul>
-<h4 id="事务隔离级别"><a href="#事务隔离级别" class="headerlink" title="事务隔离级别"></a>事务隔离级别</h4><ul>
+<h3 id="事务隔离级别"><a href="#事务隔离级别" class="headerlink" title="事务隔离级别"></a>事务隔离级别</h3><ul>
 <li><strong>脏读</strong><ul>
 <li>当一个事务正在访问数据，并且对数据进行了修改，而这种修改还没有提交到数据库中，这时，另外一个事务也访问这个数据，然后使用了这个数据。</li>
 </ul>
@@ -681,7 +683,7 @@
 </ul>
 </li>
 </ul>
-<h4 id="锁-InnoDB"><a href="#锁-InnoDB" class="headerlink" title="锁(InnoDB)"></a>锁(InnoDB)</h4><ul>
+<h2 id="锁-InnoDB"><a href="#锁-InnoDB" class="headerlink" title="锁(InnoDB)"></a>锁(InnoDB)</h2><ul>
 <li><strong>种类</strong><ul>
 <li>排他锁/写锁/x锁<ul>
 <li>事务T可以修改A也可以读A，其他事务不能再对A加任何锁，直到事务T释放A上的锁</li>
@@ -752,7 +754,7 @@
 </ul>
 </li>
 </ul>
-<h4 id="分布式事务"><a href="#分布式事务" class="headerlink" title="分布式事务"></a>分布式事务</h4><p><a href="https://zhuanlan.zhihu.com/p/41725894" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/41725894</a></p>
+<h2 id="分布式事务"><a href="#分布式事务" class="headerlink" title="分布式事务"></a>分布式事务</h2><p><a href="https://zhuanlan.zhihu.com/p/41725894" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/41725894</a></p>
 <ul>
 <li><strong>CAP定理</strong><ul>
 <li>一致性(Consistence):等同于所有节点访问同一份最新的数据副本</li>
@@ -845,8 +847,66 @@
 </ul>
 </li>
 </ul>
-<h3 id="SQL注入"><a href="#SQL注入" class="headerlink" title="SQL注入"></a>SQL注入</h3><ul>
+<h2 id="SQL注入"><a href="#SQL注入" class="headerlink" title="SQL注入"></a>SQL注入</h2><ul>
 <li>通过把SQL命令插入到Web表单提交或输入域名或页面请求的查询字符串，最终达到欺骗服务器执行恶意的SQL命令</li>
+</ul>
+<h1 id="框架"><a href="#框架" class="headerlink" title="框架"></a>框架</h1><h2 id="MyBatis"><a href="#MyBatis" class="headerlink" title="MyBatis"></a>MyBatis</h2><ul>
+<li>MyBatis 是支持定制化 SQL、存储过程以及高级映射的优秀的持久层框架。</li>
+<li>MyBatis 避免了几乎所有的 JDBC 代码和手工设置参数以及抽取结果集。使用简单的 XML 或注解来配置和映射基本体，将接口和 Java 的 POJOs(Plain Old Java Objects,普通的 Java对象)映射成数据库中的记录。</li>
+<li><strong>优点</strong><ul>
+<li>简单易学：没有任何第三方依赖，最简单安装只要两个jar文件+配置几个sql映射文件</li>
+<li>灵活：不会对应用程序或者数据库的现有设计强加任何影响。 sql写在xml里，便于统一管理和优化。</li>
+<li>解除sql与程序代码的耦合，提高了可维护性</li>
+<li>提供映射标签，支持对象与数据库的orm字段关系映射</li>
+<li>提供对象关系映射标签，支持对象关系组建维护</li>
+<li>提供xml标签，支持编写动态sql。</li>
+</ul>
+</li>
+<li><strong>缺点</strong><ul>
+<li>编写SQL语句时工作量很大，尤其是字段多、关联表多时。</li>
+<li>SQL语句依赖于数据库，导致数据库移植性差，不能更换数据库。</li>
+<li>框架还是比较简陋，功能尚有缺失，虽然简化了数据绑定代码，但是整个底层数据库查询实际还是要自己写的，工作量也比较大，而且不太容易适应快速数据库修改。</li>
+<li>二级缓存机制不佳</li>
+</ul>
+</li>
+<li><strong>原理</strong><ul>
+<li>应用程序根据XML配置文件创建SqlSessionFactory，SqlSessionFactory在根据配置，配置来源于两个地方，一处是配置文件，一处是Java代码的注解，获取一个SqlSession。SqlSession包含了执行sql所需要的所有方法，可以通过SqlSession实例直接运行映射的sql语句，完成对数据的增删改查和事务提交等，用完之后关闭SqlSession。<br><img src="https://img-blog.csdn.net/20150427151555111?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaml1cWl5dWxpYW5n/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="icon"></li>
+</ul>
+</li>
+</ul>
+<h2 id="hibernate"><a href="#hibernate" class="headerlink" title="hibernate"></a>hibernate</h2><ul>
+<li>Hibernate是开源的一个ORM（对象关系映射）框架，是对JDBC的进一步封装<br><img src="https://img-blog.csdn.net/20141120210203542?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaml1cWl5dWxpYW5n/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="icon"></li>
+<li><strong>核心：面向对象、关系映射以及数据持久化</strong></li>
+<li><strong>优点</strong><ul>
+<li>更加对象化：只需要操作对象就可以</li>
+<li>移植性：做了持久层的封装，所写代码都具有可复用性</li>
+<li>没有侵入性(轻量级)：Hibernate不需要继承任何类，不需要实现任何接口。这样的对象叫POJO对象。</li>
+<li>代码测试方便</li>
+<li>提高效率，提高生产力</li>
+</ul>
+</li>
+<li><strong>缺点</strong><ul>
+<li>使用数据库特性的语句，将很难调优</li>
+<li>对大批量数据更新存在问题</li>
+<li>系统中存在大量的攻击查询功能</li>
+</ul>
+</li>
+</ul>
+<h3 id="hibernate与mybatis的对比"><a href="#hibernate与mybatis的对比" class="headerlink" title="hibernate与mybatis的对比"></a>hibernate与mybatis的对比</h3><ul>
+<li>Hibernate的真正掌握要比Mybatis困难，Hibernate比mybatis更加重量级一些。</li>
+<li>Mybatis需要手动编写SQL语句，Hibernate也可以自己写SQL语句来指定需要查询的字段，但这样破坏了Hibernate封装以及简洁性。</li>
+<li>mybatis由于所有SQL都是依赖数据库书写，所以扩展性，迁移性比较差</li>
+<li>hibernate有更好的二级缓存机制，可以使用第三方缓存，MyBatis本身提供的缓存机制不佳</li>
+<li>总结：<ul>
+<li><strong>对于数据的操作，hibernate是面向对象的，而MyBatis是面向关系的。</strong></li>
+<li>Mybatis：小巧、方便、高效、简单、直接、半自动化</li>
+<li>Hibernate：强大、方便、高效、复杂、间接、全自动化</li>
+</ul>
+</li>
+</ul>
+<h3 id="JPA"><a href="#JPA" class="headerlink" title="JPA"></a>JPA</h3><ul>
+<li>Spring Data JPA是Spring Data的子模块。使用Spring Data，使得基于”repositories”概念的JPA实现更简单和容易。</li>
+<li>JPA默认使用hibernate作为ORM实现，所以，一般使用Spring Data JPA即会使用hibernate。</li>
 </ul>
 
       
@@ -967,7 +1027,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -978,7 +1038,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
@@ -1022,7 +1082,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Redis"><span class="nav-number">1.</span> <span class="nav-text">Redis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL存储引擎"><span class="nav-number">2.</span> <span class="nav-text">MySQL存储引擎</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#InnoDB"><span class="nav-number">2.1.</span> <span class="nav-text">InnoDB</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#InnoDB与MYlSAM区别"><span class="nav-number">2.2.</span> <span class="nav-text">InnoDB与MYlSAM区别</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL主从同步"><span class="nav-number">3.</span> <span class="nav-text">MySQL主从同步</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#优点"><span class="nav-number">3.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法"><span class="nav-number">3.2.</span> <span class="nav-text">方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引"><span class="nav-number">4.</span> <span class="nav-text">索引</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#MySQL索引"><span class="nav-number">4.1.</span> <span class="nav-text">MySQL索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SQL优化"><span class="nav-number">4.2.</span> <span class="nav-text">SQL优化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事务"><span class="nav-number">5.</span> <span class="nav-text">事务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#事务隔离级别"><span class="nav-number">5.1.</span> <span class="nav-text">事务隔离级别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#锁-InnoDB"><span class="nav-number">5.2.</span> <span class="nav-text">锁(InnoDB)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分布式事务"><span class="nav-number">5.3.</span> <span class="nav-text">分布式事务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#消息队列"><span class="nav-number">5.4.</span> <span class="nav-text">消息队列</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SQL注入"><span class="nav-number">6.</span> <span class="nav-text">SQL注入</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis"><span class="nav-number">1.</span> <span class="nav-text">Redis</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MySQL存储引擎"><span class="nav-number">2.</span> <span class="nav-text">MySQL存储引擎</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#InnoDB"><span class="nav-number">2.1.</span> <span class="nav-text">InnoDB</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#InnoDB与MYlSAM区别"><span class="nav-number">2.1.0.1.</span> <span class="nav-text">InnoDB与MYlSAM区别</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL主从同步"><span class="nav-number">2.2.</span> <span class="nav-text">MySQL主从同步</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#优点"><span class="nav-number">2.2.0.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法"><span class="nav-number">2.2.0.2.</span> <span class="nav-text">方法</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#索引"><span class="nav-number">2.3.</span> <span class="nav-text">索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL索引"><span class="nav-number">2.3.1.</span> <span class="nav-text">MySQL索引</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SQL优化"><span class="nav-number">2.4.</span> <span class="nav-text">SQL优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事务"><span class="nav-number">2.5.</span> <span class="nav-text">事务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#事务隔离级别"><span class="nav-number">2.5.1.</span> <span class="nav-text">事务隔离级别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#锁-InnoDB"><span class="nav-number">2.6.</span> <span class="nav-text">锁(InnoDB)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分布式事务"><span class="nav-number">2.7.</span> <span class="nav-text">分布式事务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#消息队列"><span class="nav-number">2.7.0.1.</span> <span class="nav-text">消息队列</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SQL注入"><span class="nav-number">2.8.</span> <span class="nav-text">SQL注入</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#框架"><span class="nav-number">3.</span> <span class="nav-text">框架</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MyBatis"><span class="nav-number">3.1.</span> <span class="nav-text">MyBatis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hibernate"><span class="nav-number">3.2.</span> <span class="nav-text">hibernate</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#hibernate与mybatis的对比"><span class="nav-number">3.2.1.</span> <span class="nav-text">hibernate与mybatis的对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JPA"><span class="nav-number">3.2.2.</span> <span class="nav-text">JPA</span></a></li></ol></li></ol></li></div>
             
 
           </div>

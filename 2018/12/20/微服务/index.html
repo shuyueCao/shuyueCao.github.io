@@ -79,17 +79,24 @@
 
 
 
-<meta name="description" content="微服务架构http://dockone.io/article/3687 https://www.kancloud.cn/good-rain/micro-services/248952 API网关比较NGINX vs. ZUUL vs. Spring Cloud Gateway vs. Linkerdhttps://juejin.im/entry/5ad408de6fb9a028cc61af94">
+<meta name="description" content="微服务框架Dubbohttps://github.com/Snailclimb/JavaGuide/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1/dubbo.md  分布式服务框架，RPC调用 SOA Dubbo中，先通过路由，从多个 Pr">
 <meta property="og:type" content="article">
-<meta property="og:title" content="微服务">
+<meta property="og:title" content="微服务框架">
 <meta property="og:url" content="http://yoursite.com/2018/12/20/微服务/index.html">
 <meta property="og:site_name" content="Alpaca&#39;s Blog">
-<meta property="og:description" content="微服务架构http://dockone.io/article/3687 https://www.kancloud.cn/good-rain/micro-services/248952 API网关比较NGINX vs. ZUUL vs. Spring Cloud Gateway vs. Linkerdhttps://juejin.im/entry/5ad408de6fb9a028cc61af94">
+<meta property="og:description" content="微服务框架Dubbohttps://github.com/Snailclimb/JavaGuide/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1/dubbo.md  分布式服务框架，RPC调用 SOA Dubbo中，先通过路由，从多个 Pr">
 <meta property="og:locale" content="Java">
-<meta property="og:updated_time" content="2018-12-20T08:19:31.187Z">
+<meta property="og:image" content="https://pic2.zhimg.com/80/v2-7f707a632b189c2a9cd7af1c3f63f091_hd.jpg">
+<meta property="og:image" content="http://favorites.ren/assets/images/2017/springcloud/eureka-architecture-overview.png">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/10/24/166a55aee7f1f8be?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/10/24/166a55f3c6867f87?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/10/24/166a55f3cccc7426?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/10/24/166a55fbd5770656?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:updated_time" content="2019-09-14T07:58:19.277Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="微服务">
-<meta name="twitter:description" content="微服务架构http://dockone.io/article/3687 https://www.kancloud.cn/good-rain/micro-services/248952 API网关比较NGINX vs. ZUUL vs. Spring Cloud Gateway vs. Linkerdhttps://juejin.im/entry/5ad408de6fb9a028cc61af94">
+<meta name="twitter:title" content="微服务框架">
+<meta name="twitter:description" content="微服务框架Dubbohttps://github.com/Snailclimb/JavaGuide/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1/dubbo.md  分布式服务框架，RPC调用 SOA Dubbo中，先通过路由，从多个 Pr">
+<meta name="twitter:image" content="https://pic2.zhimg.com/80/v2-7f707a632b189c2a9cd7af1c3f63f091_hd.jpg">
 
 
 
@@ -125,7 +132,7 @@
 
 
 
-  <title>微服务 | Alpaca's Blog</title>
+  <title>微服务框架 | Alpaca's Blog</title>
   
 
 
@@ -281,7 +288,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">微服务</h1>
+          <h1 class="post-title" itemprop="name headline">微服务框架</h1>
         
 
         <div class="post-meta">
@@ -323,6 +330,17 @@
 
                 
                 
+                  , 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/架构/面试/" itemprop="url" rel="index">
+                    <span itemprop="name">面试</span>
+                  </a>
+                </span>
+
+                
+                
               
             </span>
           
@@ -353,9 +371,250 @@
       
 
       
-        <h1 id="微服务架构"><a href="#微服务架构" class="headerlink" title="微服务架构"></a>微服务架构</h1><p><a href="http://dockone.io/article/3687" target="_blank" rel="noopener">http://dockone.io/article/3687</a></p>
-<p><a href="https://www.kancloud.cn/good-rain/micro-services/248952" target="_blank" rel="noopener">https://www.kancloud.cn/good-rain/micro-services/248952</a></p>
-<h2 id="API网关比较"><a href="#API网关比较" class="headerlink" title="API网关比较"></a>API网关比较</h2><h4 id="NGINX-vs-ZUUL-vs-Spring-Cloud-Gateway-vs-Linkerd"><a href="#NGINX-vs-ZUUL-vs-Spring-Cloud-Gateway-vs-Linkerd" class="headerlink" title="NGINX vs. ZUUL vs. Spring Cloud Gateway vs. Linkerd"></a>NGINX vs. ZUUL vs. Spring Cloud Gateway vs. Linkerd</h4><p><a href="https://juejin.im/entry/5ad408de6fb9a028cc61af94" target="_blank" rel="noopener">https://juejin.im/entry/5ad408de6fb9a028cc61af94</a></p>
+        <h1 id="微服务框架"><a href="#微服务框架" class="headerlink" title="微服务框架"></a>微服务框架</h1><h2 id="Dubbo"><a href="#Dubbo" class="headerlink" title="Dubbo"></a>Dubbo</h2><p><a href="https://github.com/Snailclimb/JavaGuide/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1/dubbo.md" target="_blank" rel="noopener">https://github.com/Snailclimb/JavaGuide/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1/dubbo.md</a></p>
+<ul>
+<li>分布式服务框架，RPC调用</li>
+<li>SOA</li>
+<li>Dubbo中，先通过路由，从多个 Provider 中按照路由规则，选出一个子集。再根据负载均衡从子集中选出一个 Provider 进行本次调用。如果调用失败了，根据集群容错策略，进行重试或定时重发或快速失败等。</li>
+<li><strong>为什么使用dubbo？</strong><ul>
+<li>远程接口是基于Java Interface，并且依托于spring框架方便开发。可以方便的打包成单一文件，独立进程运行，和现在的微服务概念一致。</li>
+<li>可以为我们解决服务之间互相是如何调用的</li>
+<li>负载均衡</li>
+<li>服务访问压力以及时长统计、资源调度和治理：实时管理集群容量，提高集群利用率</li>
+<li>服务降级：某个服务挂掉之后调用备用服务</li>
+</ul>
+</li>
+</ul>
+<h5 id="负载均衡策略"><a href="#负载均衡策略" class="headerlink" title="负载均衡策略"></a>负载均衡策略</h5><ul>
+<li>随机：默认策略，按权重设置随机概率</li>
+<li>轮询(不推荐)：按公约后的权重设置轮循比率<ul>
+<li>存在慢的提供者累积请求的问题</li>
+</ul>
+</li>
+<li>最少活跃调用数，相同活跃数的随机。活跃数指调用前后计数差。使慢的 Provider 收到更少请求，因为越慢的 Provider 的调用前后计数差会越大。</li>
+<li>一致性哈希：相同参数的请求总是落在同一台机器上<ul>
+<li>当某一台提供者挂时，原本发往该提供者的请求，基于虚拟节点，平摊到其它提供者，不会引起剧烈变动</li>
+</ul>
+</li>
+</ul>
+<h5 id="容错策略"><a href="#容错策略" class="headerlink" title="容错策略"></a>容错策略</h5><p><code>Dubbo 定义了集群接口 Cluster 以及及 Cluster Invoker。集群 Cluster 用途是将多个服务提供者合并为一个 Cluster Invoker，并将这个 Invoker 暴露给服务消费者。这样一来，服务消费者只需通过这个 Invoker 进行远程调用即可，至于具体调用哪个服务提供者，以及调用失败后如何处理等问题，现在都交给集群模块去处理</code></p>
+<ul>
+<li>Failover Cluster：默认机制，失败自动切换，当出现失败，重试其它服务器。<ul>
+<li>通常用于读操作，但重试会带来更长延迟</li>
+</ul>
+</li>
+<li>Failfast Cluster：快速失败，只发起一次调用，失败立即报错。<ul>
+<li>通常用于非幂等性的操作，如新增记录</li>
+</ul>
+</li>
+<li>Failsafe Cluster：失败安全，出现异常时，直接忽略。<ul>
+<li>通常用于写入审计日志等操作</li>
+</ul>
+</li>
+<li>Failback Cluster：失败自动恢复，后台记录失败请求，定时重发<ul>
+<li>通常用于消息通知操作</li>
+</ul>
+</li>
+<li>Forking Cluster：并行调用多个服务器，只要一个成功即返回。<ul>
+<li>通常用于实时性要求较高的读操作，但需要浪费更多服务资源</li>
+</ul>
+</li>
+<li>Broadcast Cluster ：广播调用所有提供者，逐个调用，任意一台报错则报错。(2.1.0开始支持)<ul>
+<li>通常用于通知所有提供者更新缓存或日志等本地资源信息</li>
+</ul>
+</li>
+</ul>
+<h5 id="dubbo健壮性的体现"><a href="#dubbo健壮性的体现" class="headerlink" title="dubbo健壮性的体现"></a>dubbo健壮性的体现</h5><ul>
+<li>zookeeper注册中心宕掉，一段时间内服务消费方还是能够调用提供方的服务的，实际上它使用的本地缓存进行通讯</li>
+<li>监控中心宕掉不影响使用，只是丢失部分采样数据</li>
+<li>数据库宕掉后，注册中心仍能通过缓存提供服务列表查询，但不能注册新服务</li>
+<li>注册中心对等集群，任意一台宕掉后，将自动切换到另一台</li>
+<li>注册中心全部宕掉后，服务提供者和服务消费者仍能通过本地缓存通讯</li>
+<li>服务提供者无状态，任意一台宕掉后，不影响使用</li>
+<li>服务提供者全部宕掉后，服务消费者应用将无法使用，并无限次重连等待服务提供者恢复</li>
+</ul>
+<p><code>服务提供者和消费者只在启动时与注册中心交互，注册中心不转发请求，压力较小。所以，我们可以完全可以绕过注册中心——采用 dubbo 直连 ，即在服务消费方配置服务提供方的位置信息。</code></p>
+<h3 id="zookeeper"><a href="#zookeeper" class="headerlink" title="zookeeper"></a>zookeeper</h3><p><a href="https://github.com/Snailclimb/JavaGuide/blob/master/%E4%B8%BB%E6%B5%81%E6%A1%86%E6%9E%B6/ZooKeeper.md" target="_blank" rel="noopener">https://github.com/Snailclimb/JavaGuide/blob/master/%E4%B8%BB%E6%B5%81%E6%A1%86%E6%9E%B6/ZooKeeper.md</a></p>
+<ul>
+<li>高可用的分布式管理与协调框架，只要半数以上节点存活，ZooKeeper 就能正常服务</li>
+<li>树型(Znode)的目录服务的数据存储,数据存储在内存中</li>
+<li>高性能：在读多于写的应用程序中尤其地高性能，因为写会导致所有的服务器间同步状态</li>
+<li>应用场景<ul>
+<li>配置管理</li>
+<li>集群管理：leader选举，集群容错</li>
+<li>发布与订阅</li>
+<li>数据库切换</li>
+<li>分布式日志的收集</li>
+</ul>
+</li>
+</ul>
+<h2 id="Spring-Cloud"><a href="#Spring-Cloud" class="headerlink" title="Spring Cloud"></a>Spring Cloud</h2><p><em>学习资料汇总：<a href="http://www.ityouknow.com/springcloud/2016/12/30/springcloud-collect.html" target="_blank" rel="noopener">http://www.ityouknow.com/springcloud/2016/12/30/springcloud-collect.html</a></em></p>
+<p><img src="https://pic2.zhimg.com/80/v2-7f707a632b189c2a9cd7af1c3f63f091_hd.jpg" alt="icon"></p>
+<h2 id="基础组件"><a href="#基础组件" class="headerlink" title="基础组件"></a>基础组件</h2><ul>
+<li>路由网关 Zuul：动态路由、过滤、监控、弹性伸缩和安全</li>
+<li>服务注册和发现Eureka：提供服务注册和发现功能<ul>
+<li>Spring Cloud Consul：是一个服务发现与配置工具，与Docker容器可以无缝集成。支持健康检查，并允许HTTP和DNS协议调用API存储键值对。</li>
+</ul>
+</li>
+<li>网络请求RestTemplate：访问RESTful API接口的网络请求框架</li>
+<li>负载均衡Ribbon：Ribbon作为服务消费者的负载均衡器，一种是和 RestTemplate结合，一种是和 Feign 相结合，Feign 默认集成了 Ribbon 。</li>
+<li>声明式调用Feign：调用 Spring Cloud 服务的工具，让 Java Http 客户端调用过程变的简单。</li>
+<li>配置中心config：将配置文件进行统一管理，可以从 Config Server 服务或 Git 仓库读取</li>
+<li>熔断器hystrix：提供了熔断器的功能，能够阻止分布式系统中出现联动故障。</li>
+<li>服务链路追踪Sleuth：主要功能是在分布式系统中提供服务链路追踪的解决方案。</li>
+<li>服务监控Spring boot Admin：管理和监控一个或多个 Spring Boot 程序，使用 Spring Boot Admin 监控 Spring Cloud 微服务。</li>
+<li>消费总线Bus：Spring Cloud Bus 将 Spring 的事件处理机制和消息中间件消息的发送和接收整合起来，可以轻松的将分布式应用中连接有消息中间件的多个服务节点连接起来，实现消息互通。</li>
+<li>系统保护：为保证服务的安全，微服务系统需要增加安全验证，常用的方式是增加 Spring Security 或Spring OAuth2 框架来保护微服务系统。</li>
+</ul>
+<h3 id="Eureka"><a href="#Eureka" class="headerlink" title="Eureka"></a>Eureka</h3><p><img src="http://favorites.ren/assets/images/2017/springcloud/eureka-architecture-overview.png" alt="icon"></p>
+<ul>
+<li><strong>Eureka的自我保护模式</strong><br><code>Eureka Server</code>在运行期间，会统计心跳失败的比例在15分钟之内是否 低于85%，如果出现低于的情况（实际在 生产环境上通常是由于网络不稳定导致），<code>Eureka Server</code>会将当前的实例注册信息保护起来，同时提 示警告。保护模式主要用于一组客户端和<code>Eureka Server</code>之间存在网络分 区场景下的保护。一旦进入保护模式，<code>Eureka Server</code>将会尝试保护其服务注册表中的信息，不再删除服务注册表中的数据（也就是不会注销任何微服务）。<br><strong>所以Eureka的哲学是，同时保留”好数据“与”坏数据“总比丢掉任何”好数据“要更好，所以这种模式在实践中非常有效。</strong></li>
+</ul>
+<h4 id="与Consul-Zookeeper比较"><a href="#与Consul-Zookeeper比较" class="headerlink" title="与Consul/Zookeeper比较"></a>与Consul/Zookeeper比较</h4><table>
+<thead>
+<tr>
+<th style="text-align:left"></th>
+<th style="text-align:center">Eureka</th>
+<th style="text-align:center">consul</th>
+<th style="text-align:center">zookeeper</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">服务健康检查</td>
+<td style="text-align:center">可配支持</td>
+<td style="text-align:center">服务状态、内存、硬盘等</td>
+<td style="text-align:center">(弱)长连接，keepAlive</td>
+</tr>
+<tr>
+<td style="text-align:left">多数据中心</td>
+<td style="text-align:center">—</td>
+<td style="text-align:center">支持</td>
+<td style="text-align:center">—</td>
+</tr>
+<tr>
+<td style="text-align:left">一致性</td>
+<td style="text-align:center">—</td>
+<td style="text-align:center">raft</td>
+<td style="text-align:center">paxos</td>
+</tr>
+<tr>
+<td style="text-align:left">kv存储服务</td>
+<td style="text-align:center">—</td>
+<td style="text-align:center">支持</td>
+<td style="text-align:center">支持</td>
+</tr>
+<tr>
+<td style="text-align:left">CAP</td>
+<td style="text-align:center">AP</td>
+<td style="text-align:center">CA</td>
+<td style="text-align:center">CP</td>
+</tr>
+<tr>
+<td style="text-align:left">使用接口</td>
+<td style="text-align:center">http（sidecar）</td>
+<td style="text-align:center">http和DNS</td>
+<td style="text-align:center">客户端</td>
+</tr>
+<tr>
+<td style="text-align:left">自身监控</td>
+<td style="text-align:center">metrics</td>
+<td style="text-align:center">metrics</td>
+<td style="text-align:center">—</td>
+</tr>
+<tr>
+<td style="text-align:left">安全</td>
+<td style="text-align:center">acl/https</td>
+<td style="text-align:center">—</td>
+<td style="text-align:center">acl</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p><strong>raft</strong>：强依赖 Leader 节点的可用性来确保集群数据的一致性。<img src="https://user-gold-cdn.xitu.io/2018/10/24/166a55aee7f1f8be?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="icon"></p>
+</li>
+<li><p><strong>为什么不使用Zookeeper？</strong></p>
+<ul>
+<li><code>ZooKeeper</code>是分布式协调服务，它的职责是保证数据（注：配置数据，状态数据）在其管辖下的所有服务之间保持同步、一致；（强一致性）</li>
+<li>发现服务的核心应该是需要强调服务的高可用</li>
+<li>正确的设置与维护<code>ZooKeeper服务</code>就非常的困难</li>
+<li>集群中出现了网络分割的故障（交换机故障导致交换机底下的子网间不能互访）<code>ZooKeeper</code>会将它们都从自己管理范围中剔除出去，外界就不能访问到这些节点了，本身这些节点是<code>“健康”</code>的，能提供服务的</li>
+<li><code>Eureka</code>可以很好的应对因网络故障导致部分节点失去联系的情况，而不会像<code>zookeeper</code>那样使整个注册服务瘫痪。</li>
+</ul>
+</li>
+<li><strong>consul的优势</strong><ul>
+<li>由于<code>Consul</code>自身提供了服务端，所以我们不需要像之前<code>实现Eureka</code>的时候创建服务注册中心，直接通过下载consul的服务端程序就可以使用。 <code>Consul</code>内置了<code>服务注册</code>与<code>发现框架</code>（一站式）、具有以下性质(参考上面列表)：<ul>
+<li>分布式一致性协议实现，raft算法比paxos更直接</li>
+<li>健康检查</li>
+<li>K/V存储</li>
+<li>多数据中心方案，内外网的服务采用不同的端口进行监听。</li>
+<li>支持https和dns协议接口</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="Feign-Client"><a href="#Feign-Client" class="headerlink" title="Feign Client"></a>Feign Client</h3><ul>
+<li>声明式、模板化的http客户端</li>
+<li>底层使用ribbon实现</li>
+<li>支持hystrix和它的fallback</li>
+</ul>
+<h3 id="Hystrix"><a href="#Hystrix" class="headerlink" title="Hystrix"></a>Hystrix</h3><p>具备了<strong>服务降级、服务熔断、线程隔离、请求缓存、请求合并以及服务监控</strong>等强大功能。</p>
+<h3 id="Zuul"><a href="#Zuul" class="headerlink" title="Zuul"></a>Zuul</h3><p><img src="https://user-gold-cdn.xitu.io/2018/10/24/166a55f3c6867f87?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="icon"></p>
+<ul>
+<li>本身就集成了hystrix和ribbon<ul>
+<li>容错与回退<ul>
+<li>Zuul的Hystrix监控的<code>粒度</code>是<code>微服务</code>，而不是某个<code>API</code></li>
+<li>Zuul提供了一个ZuulFallbackProvider接口实现回退功能</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>好处<ul>
+<li>将细粒度的服务组合起来提供一个粗粒度的服务</li>
+<li>所有请求都导入一个统一的入口，那么整个服务只需要暴露一个api</li>
+<li>对外屏蔽了服务端的实现细节，也减少了客户端与服务器的网络调用次数</li>
+</ul>
+</li>
+<li>功能<ul>
+<li>客户端负载：Zuul 注册于 Eureka 并集成了 Ribbon 所以自然也是可以从注册中心获取到服务列表进行客户端负载</li>
+<li>动态路由：解放运维</li>
+<li>监控与审查</li>
+<li>身份认证与安全</li>
+<li>压力测试：逐渐增加某一个服务集群的流量，以了解服务性能</li>
+<li>服务迁移</li>
+<li>负载裁剪：为每一个负载类型分配对应的容量，对超过限定值的请求弃用</li>
+<li>静态应答处理</li>
+</ul>
+</li>
+<li>Zuul过滤器<ul>
+<li>pre：路由前。我们可利用这种过滤器实现身份验证、在集群中选择请求的微服务、记录调试信息等。</li>
+<li>routing：路由之时。这种过滤器用于构建发送给微服务的请求，并使用Apache HttpClient或Netfilx Ribbon请求微服务。</li>
+<li>post：路由之后。这种过滤器可用来为响应添加标准的HTTP Header、收集统计信息和指标、将响应从微服务发送给客户端等。</li>
+<li>error：其他阶段发生错误时执行该过滤器</li>
+</ul>
+</li>
+<li>Zuul高可用<img src="https://user-gold-cdn.xitu.io/2018/10/24/166a55f3cccc7426?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="icon"><ul>
+<li><code>Eureka 高可用</code>：部署多个 Zuul 节点，并且都注册于 Eureka(有一个严重的缺点：那就是客户端也得注册到 Eureka 上才能对 Zuul 的调用做到负载，这显然是不现实的。)</li>
+<li><code>基于 Nginx 高可用</code>：在调用 Zuul 之前使用 Nginx 之类的负载均衡工具进行负载，这样 Zuul 既能注册到 Eureka ，客户端也能实现对 Zuul 的负载</li>
+</ul>
+</li>
+</ul>
+<h4 id="API网关比较"><a href="#API网关比较" class="headerlink" title="API网关比较"></a>API网关比较</h4><p>NGINX vs. ZUUL vs. Spring Cloud Gateway vs. Linkerd</p>
+<p><a href="https://juejin.im/entry/5ad408de6fb9a028cc61af94" target="_blank" rel="noopener">https://juejin.im/entry/5ad408de6fb9a028cc61af94</a></p>
+<h3 id="Spring-Cloud-Config"><a href="#Spring-Cloud-Config" class="headerlink" title="Spring Cloud Config"></a>Spring Cloud Config</h3><ul>
+<li>优点<ul>
+<li>部署极其简单：同一个上线包，无须改动配置，即可在多个环境中(RD/QA/PRODUCTION) 上线</li>
+<li>部署动态化：更改配置，无需重新打包或重启，即可实时生效</li>
+<li>统一管理：提供web平台，统一管理 多个环境(RD/QA/PRODUCTION)、多个产品 的所有配置</li>
+<li>支持微服务架构</li>
+</ul>
+</li>
+<li>服务端：负责将git svn中存储的配置文件发布成REST接口</li>
+<li>客户端：可以从服务端REST接口获取配置，客户端并不能主动感知到配置的变化，从而主动去获取新的配置,由消息总线来通知各个Spring Cloud Config的客户端去服务端更新配置。</li>
+</ul>
+<h3 id="Spring-Cloud-Bus"><a href="#Spring-Cloud-Bus" class="headerlink" title="Spring Cloud Bus"></a>Spring Cloud Bus</h3><p>spring cloud config手动刷新只能针对单个服务。消息总线可以用来广播式自动刷新。通过<code>RabbitMQ</code>或<code>kafka</code> 加 <code>Git</code>的<code>Webhooks</code>來触发配置的更新 <strong>Spring Cloud Bus</strong> 事件处理机制和消息中间件消息的发送和接收整合起来，主要由发送端、接收端和事件组成。针对不同的业务需求，可以设置不同的事件，发送端发送事件，接收端接受相应的事件，并进行相应的处理，用于实现微服务之间的通信。本质是利用了MQ的广播机制在分布式的系统中传播消息  。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/10/24/166a55fbd5770656?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="icon"></p>
 
       
     </div>
@@ -465,7 +724,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -476,7 +735,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
@@ -520,7 +779,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#微服务架构"><span class="nav-number">1.</span> <span class="nav-text">微服务架构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#API网关比较"><span class="nav-number">1.1.</span> <span class="nav-text">API网关比较</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#NGINX-vs-ZUUL-vs-Spring-Cloud-Gateway-vs-Linkerd"><span class="nav-number">1.1.0.1.</span> <span class="nav-text">NGINX vs. ZUUL vs. Spring Cloud Gateway vs. Linkerd</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#微服务框架"><span class="nav-number">1.</span> <span class="nav-text">微服务框架</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Dubbo"><span class="nav-number">1.1.</span> <span class="nav-text">Dubbo</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#负载均衡策略"><span class="nav-number">1.1.0.0.1.</span> <span class="nav-text">负载均衡策略</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#容错策略"><span class="nav-number">1.1.0.0.2.</span> <span class="nav-text">容错策略</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#dubbo健壮性的体现"><span class="nav-number">1.1.0.0.3.</span> <span class="nav-text">dubbo健壮性的体现</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#zookeeper"><span class="nav-number">1.1.1.</span> <span class="nav-text">zookeeper</span></a></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-Cloud"><span class="nav-number">1.2.</span> <span class="nav-text">Spring Cloud</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基础组件"><span class="nav-number">1.3.</span> <span class="nav-text">基础组件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Eureka"><span class="nav-number">1.3.1.</span> <span class="nav-text">Eureka</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#与Consul-Zookeeper比较"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">与Consul/Zookeeper比较</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Feign-Client"><span class="nav-number">1.3.2.</span> <span class="nav-text">Feign Client</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hystrix"><span class="nav-number">1.3.3.</span> <span class="nav-text">Hystrix</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Zuul"><span class="nav-number">1.3.4.</span> <span class="nav-text">Zuul</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#API网关比较"><span class="nav-number">1.3.4.1.</span> <span class="nav-text">API网关比较</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-Cloud-Config"><span class="nav-number">1.3.5.</span> <span class="nav-text">Spring Cloud Config</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-Cloud-Bus"><span class="nav-number">1.3.6.</span> <span class="nav-text">Spring Cloud Bus</span></a></li></ol></li></div>
             
 
           </div>

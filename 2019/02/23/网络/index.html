@@ -88,7 +88,7 @@
 <meta property="og:description" content="HTTP(无状态的协议)/HTTPS1. 两者区别？  HTTP是不安全的，HTTPS是安全的 OSI模型中，HTTP在应用层，HTTPS的安全传输机制在传输层 HTTP无法加密，HTTPS对传输的数据进行加密 HTTP不用证书，而HTTPS需要CA机构颁发的SSL证书  HTTPS就是HTTP加上加密处理（一般是SSL安全通信线路）+认证+消息完整性保护 2. HTTPS工作原理 双向认证 SS">
 <meta property="og:locale" content="Java">
 <meta property="og:image" content="https://image.qinjiangbo.com/blog/image/rpc-architecture.jpg">
-<meta property="og:updated_time" content="2019-03-22T08:07:35.958Z">
+<meta property="og:updated_time" content="2019-09-14T04:43:43.358Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="网络">
 <meta name="twitter:description" content="HTTP(无状态的协议)/HTTPS1. 两者区别？  HTTP是不安全的，HTTPS是安全的 OSI模型中，HTTP在应用层，HTTPS的安全传输机制在传输层 HTTP无法加密，HTTPS对传输的数据进行加密 HTTP不用证书，而HTTPS需要CA机构颁发的SSL证书  HTTPS就是HTTP加上加密处理（一般是SSL安全通信线路）+认证+消息完整性保护 2. HTTPS工作原理 双向认证 SS">
@@ -371,6 +371,7 @@
 <li>GET重点在从服务器获取资源，POST重点在向服务器发送数据</li>
 <li>get传输数据是通过URL请求，以field（字段）= value的形式，置于URL后，并用”?”连接，多个请求数据间用”&amp;”连接，如<a href="http://127.0.0.1/Test/login.action?name=admin&amp;password=admin" target="_blank" rel="noopener">http://127.0.0.1/Test/login.action?name=admin&amp;password=admin</a> 这个过程用户是可见的；<br>post传输数据通过Http的post机制，将字段与对应值封存在请求实体中发送给服务器，这个过程对用户是不可见的；</li>
 <li>POST比GET更安全</li>
+<li>GET产生一个TCP数据包，浏览器会把http header和data一并发送出去，服务器响应200（返回数据）；而POST产生两个，浏览器先发送header，服务器响应100 continue，浏览器再发送data，服务器响应200 ok（返回数据）。</li>
 </ol>
 <p><strong>4. forward和redirect的区别</strong></p>
 <ul>
@@ -395,7 +396,7 @@
 <li>202：接受，请求还未处理完</li>
 </ul>
 </li>
-<li>3xx:要完成请求，需要进一步操作。 通常，这些状态代码用来重定向<ul>
+<li>3xx:要完成请求，需要进一步操作。 通常，这些状态代码用来<strong>重定向</strong><ul>
 <li>300：多重选择，表示被请求的文件可以在多个地方得到</li>
 </ul>
 </li>
@@ -597,18 +598,11 @@
 </ul>
 </li>
 </ul>
-<h4 id="RPC框架（dubbo）"><a href="#RPC框架（dubbo）" class="headerlink" title="RPC框架（dubbo）"></a>RPC框架（dubbo）</h4><ul>
+<h4 id="RPC框架"><a href="#RPC框架" class="headerlink" title="RPC框架"></a>RPC框架</h4><ul>
 <li>像调用本地的函数一样去调远程函数，基于TCP</li>
 <li>SOA 面向服务的架构</li>
 </ul>
 <p><img src="https://image.qinjiangbo.com/blog/image/rpc-architecture.jpg" alt="icon"></p>
-<ul>
-<li><strong>与http框架的区别？</strong><ul>
-<li>HTTP服务主要是基于HTTP协议，所以RPC效率更高</li>
-<li>而HTTP服务开发迭代会更快</li>
-</ul>
-</li>
-</ul>
 <h3 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h3><p><strong>1. 从输入URL到页面加载发生了什么？</strong></p>
 <ol>
 <li>DNS解析：<ul>
@@ -758,7 +752,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -769,7 +763,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
@@ -813,7 +807,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP-无状态的协议-HTTPS"><span class="nav-number">1.</span> <span class="nav-text">HTTP(无状态的协议)/HTTPS</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#RESTful架构"><span class="nav-number">1.1.</span> <span class="nav-text">RESTful架构</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WebSocket"><span class="nav-number">2.</span> <span class="nav-text">WebSocket</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#原理"><span class="nav-number">2.1.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#与Http的联系"><span class="nav-number">2.2.</span> <span class="nav-text">与Http的联系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#与socket的联系"><span class="nav-number">2.3.</span> <span class="nav-text">与socket的联系</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP-UDP（传输层）"><span class="nav-number">3.</span> <span class="nav-text">TCP / UDP（传输层）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#TCP-IP的四个层次"><span class="nav-number">3.1.</span> <span class="nav-text">TCP/IP的四个层次</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RPC框架（dubbo）"><span class="nav-number">3.2.</span> <span class="nav-text">RPC框架（dubbo）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DNS"><span class="nav-number">4.</span> <span class="nav-text">DNS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Session-Cookie"><span class="nav-number">5.</span> <span class="nav-text">Session / Cookie</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP-无状态的协议-HTTPS"><span class="nav-number">1.</span> <span class="nav-text">HTTP(无状态的协议)/HTTPS</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#RESTful架构"><span class="nav-number">1.1.</span> <span class="nav-text">RESTful架构</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WebSocket"><span class="nav-number">2.</span> <span class="nav-text">WebSocket</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#原理"><span class="nav-number">2.1.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#与Http的联系"><span class="nav-number">2.2.</span> <span class="nav-text">与Http的联系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#与socket的联系"><span class="nav-number">2.3.</span> <span class="nav-text">与socket的联系</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP-UDP（传输层）"><span class="nav-number">3.</span> <span class="nav-text">TCP / UDP（传输层）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#TCP-IP的四个层次"><span class="nav-number">3.1.</span> <span class="nav-text">TCP/IP的四个层次</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RPC框架"><span class="nav-number">3.2.</span> <span class="nav-text">RPC框架</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DNS"><span class="nav-number">4.</span> <span class="nav-text">DNS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Session-Cookie"><span class="nav-number">5.</span> <span class="nav-text">Session / Cookie</span></a></li></ol></div>
             
 
           </div>

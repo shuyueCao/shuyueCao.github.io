@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Alpaca&#39;s Blog">
 <meta property="og:description" content="JVM运行内存的分类 程序计数器 线程私有 当前线程所执行的字节码的行号指示器，用于记录正在执行的虚拟机字节指令地址 如果正在执行的是native方法，则为空   虚拟机栈 线程私有 每个方法被执行的时候都会同时创建一个栈帧用于存放局部变量表、操作栈、动态链接、方法出口等信息。每一个方法被调用直至执行完成的过程就对应着一个栈帧在虚拟机栈中从入栈到出栈的过程 生命周期与线程相同 为java方法服务">
 <meta property="og:locale" content="Java">
-<meta property="og:updated_time" content="2019-03-25T10:48:46.276Z">
+<meta property="og:updated_time" content="2019-09-14T07:59:00.473Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JVM整理">
 <meta name="twitter:description" content="JVM运行内存的分类 程序计数器 线程私有 当前线程所执行的字节码的行号指示器，用于记录正在执行的虚拟机字节指令地址 如果正在执行的是native方法，则为空   虚拟机栈 线程私有 每个方法被执行的时候都会同时创建一个栈帧用于存放局部变量表、操作栈、动态链接、方法出口等信息。每一个方法被调用直至执行完成的过程就对应着一个栈帧在虚拟机栈中从入栈到出栈的过程 生命周期与线程相同 为java方法服务">
@@ -440,21 +440,25 @@
 </li>
 </ol>
 <h3 id="回收算法"><a href="#回收算法" class="headerlink" title="回收算法"></a>回收算法</h3><ol>
-<li><strong>标记-清除</strong><ul>
+<li><p><strong>标记-清除</strong></p>
+<ul>
 <li>缺点：产生内存碎片</li>
 </ul>
 </li>
-<li><strong>复制算法</strong><ul>
+<li><p><strong>复制算法</strong></p>
+<ul>
 <li>按照容量划分二个大小相等的内存区域，当一块用完的时候将活着的对象复制到另一块上，然后再把已使用的内存空间一次清理掉</li>
 <li>缺点：内存缩小为原来的一半</li>
 </ul>
 </li>
-<li><strong>标记-整理</strong><ul>
+<li><p><strong>标记-整理</strong></p>
+<ul>
 <li>标记出没有用的对象，让所有存活的对象都向一端移动，然后直接清除掉端边界以外的内存</li>
 <li>优点：解决了清除算法的内存碎片问题和复制算法的效率低下问题</li>
 </ul>
 </li>
-<li><strong>分代收集算法</strong><ul>
+<li><p><strong>分代收集算法</strong></p>
+<ul>
 <li>根据对象存活周期的不同将内存划分为几块，一般是新生代和老年代。</li>
 <li>新生代采用复制算法，老年代采用标记-整理算法</li>
 </ul>
@@ -516,25 +520,30 @@
 </ul>
 <h2 id="Java类加载机制"><a href="#Java类加载机制" class="headerlink" title="Java类加载机制"></a>Java类加载机制</h2><p>  虚拟机把描述类的数据文件（字节码）加载到内存，并对数据进行验证、准备、解析以及类初始化，最终形成可以被虚拟机直接使用的java类型</p>
 <h3 id="类的生命周期"><a href="#类的生命周期" class="headerlink" title="类的生命周期"></a>类的生命周期</h3><ol>
-<li><strong>加载过程</strong><ul>
+<li><p><strong>加载过程</strong></p>
+<ul>
 <li>通过一个类的全限定名来获取其定义的二进制字节流。</li>
 <li>将这个字节流所代表的静态存储结构转化为方法区的运行时数据结构。</li>
 <li>在Java堆中生成一个代表这个类的java.lang.Class对象，作为对方法区中这些数据的访问入口。</li>
 </ul>
 </li>
-<li><strong>验证过程</strong><ul>
+<li><p><strong>验证过程</strong></p>
+<ul>
 <li>确保Class文件的字节流中包含的信息符合当前虚拟机的要求</li>
 </ul>
 </li>
-<li><strong>准备过程</strong><ul>
+<li><p><strong>准备过程</strong></p>
+<ul>
 <li>正式为类属性分配内存并设置类属性初始值的阶段，这些内存都将在<strong>方法区中</strong>进行分配</li>
 </ul>
 </li>
-<li><strong>解析阶段</strong><ul>
+<li><p><strong>解析阶段</strong></p>
+<ul>
 <li>虚拟机将常量池内的符号引用替换为直接引用的过程</li>
 </ul>
 </li>
-<li><strong>初始化阶段</strong><ul>
+<li><p><strong>初始化阶段</strong></p>
+<ul>
 <li>类初始化阶段是类加载过程的最后一步。初始化阶段就是执行类构造器方法的过程</li>
 </ul>
 </li>
@@ -571,7 +580,8 @@
 </ul>
 <p>线程对变量的所有操作（读取、 赋值等）都必须在工作内存中进行，而不能直接读写主内存中的变量</p>
 </li>
-<li><strong>先行发生原则happens-before</strong><ul>
+<li><p><strong>先行发生原则happens-before</strong></p>
+<ul>
 <li>如果说操作A先行发生于操作B，其实就是说在发生操作B之前，操作A产生的影响能被操作B观察到，“影响”包括修改了内存中共享变量的值、 发送了消息、 调用了方法等。</li>
 </ul>
 </li>
@@ -695,7 +705,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -706,7 +716,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
