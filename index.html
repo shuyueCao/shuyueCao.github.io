@@ -1049,22 +1049,19 @@
 <li>CPU不是瓶颈，单线程容易实现</li>
 </ul>
 </li>
-<li><p>集群是master/slave模式</p>
-<ul>
+<li>集群是master/slave模式<ul>
 <li>为了使在部分节点失败或者大部分节点无法通信的情况下集群仍然可用，所以集群使用了主从复制模型,每个节点都会有N-1个复制品</li>
 <li>异步复制</li>
 <li>Redis并不能保证数据的强一致性，这意味这在实际中集群在特定的条件下可能会丢失写操作。</li>
 </ul>
 </li>
-<li><p><strong>与memchached的区别</strong></p>
-<ul>
+<li><strong>与memchached的区别</strong><ul>
 <li>memchached仅支持string类型，Redis支持更丰富的数据类型且能提供对他们的原子操作</li>
 <li>Redis速度更快</li>
 <li>Redis可以持久化</li>
 </ul>
 </li>
-<li><p><strong>支持的数据类型和底层实现</strong></p>
-<ul>
+<li><strong>支持的数据类型和底层实现</strong><ul>
 <li><strong>在Redis中，所有key-value对都存储在一个hash table中</strong><ul>
 <li>Hash table是一个二维结构</li>
 <li>一个一维固定长度的数组，每个槽位上保存一个dictEntry对象。key计算hash值后按照这个定长数组<strong>求模</strong>，结果相同的key-balue通过<strong>链表</strong>保存在同一个槽位上，这样便形成了一个二维结构</li>
@@ -1093,8 +1090,7 @@
 </li>
 </ul>
 </li>
-<li><p><strong>使用场景</strong></p>
-<ul>
+<li><strong>使用场景</strong><ul>
 <li>会话缓存</li>
 <li>队列</li>
 <li>发布/订阅</li>
@@ -1185,6 +1181,43 @@
 <li>主从复制不要用图状结构，用单向链表结构更为稳定，即：Master &lt;- Slave1 &lt;- Slave2 &lt;- Slave3…这样的结构方便解决单点故障问题，实现Slave对Master的替换。如果Master挂了，可以立刻启用Slave1做Master，其他不变。</li>
 </ul>
 </li>
+<li><strong>缓存雪崩</strong><ul>
+<li>由于原有缓存失效，新缓存未到期间(例如：我们设置缓存时采用了相同的过期时间，在同一时刻出现大面积的缓存过期)，所有原本应该访问缓存的请求都去查询数据库了，而对数据库CPU和内存造成巨大压力</li>
+<li>解决方案<ul>
+<li>加锁排队：只是为了减轻数据库的压力，并没有提高系统吞吐量。假设在高并发下，缓存重建期间key是锁着的，这是过来1000个请求999个都在阻塞的。同样会导致用户等待超时</li>
+<li>给每一个缓存数据增加相应的缓存标记，记录缓存的是否失效，如果缓存标记失效，则更新数据缓存</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>缓存穿透</strong><ul>
+<li>用户查询数据，在数据库没有，自然在缓存中也不会有。这样就导致用户查询的时候，在缓存中找不到，每次都要去数据库再查询一遍，然后返回空（相当于进行了两次无用的查询）</li>
+<li>解决方案<ul>
+<li>布隆过滤器：将所有可能存在的数据哈希到一个足够大的bitmap中，一个一定不存在的数据会被这个bitmap拦截掉，从而避免了对底层存储系统的查询压力</li>
+<li>如果一个查询返回的数据为空（不管是数据不存在，还是系统故障），我们仍然把这个空结果进行缓存，但它的过期时间会很短，最长不超过五分钟。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>缓存预热</strong><ul>
+<li>系统上线后，提前将相关的缓存数据直接加载到缓存系统。避免在用户请求的时候，先查询数据库，然后再将数据缓存</li>
+<li>解决方案<ul>
+<li>直接写个缓存刷新页面，上线时手工操作</li>
+<li>数据量不大，可以在项目启动的时候自动进行加载</li>
+<li>定时刷新缓存</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>缓存更新</strong><ul>
+<li>除了缓存服务器自带的缓存失效策略之外（Redis默认的有6中策略可供选择），我们还可以根据具体的业务需求进行自定义的缓存淘汰，常见的策略有两种：<ul>
+<li>定时清理过期的缓存（维护大量缓存的key非常麻烦）</li>
+<li>当有用户请求过来时，再判断这个请求所用到的缓存是否过期，过期的话就去底层系统得到新数据并更新缓存（逻辑相对较复杂）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>*<em>缓存降级</em></li>
 </ul>
 <h1 id="MySQL存储引擎"><a href="#MySQL存储引擎" class="headerlink" title="MySQL存储引擎"></a>MySQL存储引擎</h1><p><a href="https://draveness.me/mysql-innodb" target="_blank" rel="noopener">https://draveness.me/mysql-innodb</a></p>
 <h2 id="InnoDB"><a href="#InnoDB" class="headerlink" title="InnoDB"></a>InnoDB</h2><ul>
