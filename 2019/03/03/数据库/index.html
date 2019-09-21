@@ -87,17 +87,18 @@
 <meta property="og:site_name" content="Alpaca&#39;s Blog">
 <meta property="og:description" content="Redis key-value类型的内存(缓存)数据库 整个数据库加载到内存中操作，定期flush到硬盘上进行保存 单线程 CPU不是瓶颈，单线程容易实现   集群是master/slave模式 为了使在部分节点失败或者大部分节点无法通信的情况下集群仍然可用，所以集群使用了主从复制模型,每个节点都会有N-1个复制品 异步复制 Redis并不能保证数据的强一致性，这意味这在实际中集群在特定的条件下可">
 <meta property="og:locale" content="Java">
+<meta property="og:image" content="https://imgq1.7139.com/zz/0722/218e6364b6e0e31d.jpg">
 <meta property="og:image" content="https://raw.githubusercontent.com/Draveness/Analyze/master/contents/Database/images/mysql/Tablespace-segment-extent-page-row.jpg">
 <meta property="og:image" content="https://image-static.segmentfault.com/200/005/2000054899-5b232c8cb2ea5_articlex">
 <meta property="og:image" content="https://image-static.segmentfault.com/122/280/1222804749-5b232ded5a2ef_articlex">
 <meta property="og:image" content="http://www.jasongj.com/img/kafka/KafkaColumn1/KafkaArchitecture.png">
 <meta property="og:image" content="https://img-blog.csdn.net/20150427151555111?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaml1cWl5dWxpYW5n/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
 <meta property="og:image" content="https://img-blog.csdn.net/20141120210203542?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaml1cWl5dWxpYW5n/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
-<meta property="og:updated_time" content="2019-09-15T05:39:48.195Z">
+<meta property="og:updated_time" content="2019-09-21T14:11:27.436Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据库">
 <meta name="twitter:description" content="Redis key-value类型的内存(缓存)数据库 整个数据库加载到内存中操作，定期flush到硬盘上进行保存 单线程 CPU不是瓶颈，单线程容易实现   集群是master/slave模式 为了使在部分节点失败或者大部分节点无法通信的情况下集群仍然可用，所以集群使用了主从复制模型,每个节点都会有N-1个复制品 异步复制 Redis并不能保证数据的强一致性，这意味这在实际中集群在特定的条件下可">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/Draveness/Analyze/master/contents/Database/images/mysql/Tablespace-segment-extent-page-row.jpg">
+<meta name="twitter:image" content="https://imgq1.7139.com/zz/0722/218e6364b6e0e31d.jpg">
 
 
 
@@ -426,20 +427,7 @@
 </li>
 </ul>
 </li>
-<li><strong>如何解决缓存一致性问题？</strong><ul>
-<li>延时双删策略<ul>
-<li>先淘汰缓存</li>
-<li>再写数据库</li>
-<li>休眠一段时间，再淘汰缓存，可以将这段时间内造成的脏数据删除</li>
-</ul>
-</li>
-<li>先更新数据库，再删除缓存</li>
-</ul>
-</li>
-<li><strong>如何扩容？</strong><ul>
-<li>被当做缓存：一致性哈希实现动态扩容</li>
-</ul>
-</li>
+<li></li>
 <li><strong>集群方案</strong><ul>
 <li>twemproxy，类似代理。设置好它下属的多个redis实例后，使用时在本需要连接redis的地方改为连接twemproxy，它会以一个代理的身份接收请求并使用一致性hash算法(对2^32取模)，将请求转接到具体redis<ul>
 <li>使用方式简便(相对redis只需修改连接端口)，对旧项目扩展的首选</li>
@@ -514,7 +502,61 @@
 </li>
 </ul>
 </li>
-<li>*<em>缓存降级</em></li>
+<li><strong>缓存降级</strong></li>
+</ul>
+<h2 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h2><h3 id="如何解决缓存一致性问题"><a href="#如何解决缓存一致性问题" class="headerlink" title="如何解决缓存一致性问题"></a>如何解决缓存一致性问题</h3><ul>
+<li><strong>先删除缓存，再更新数据库</strong><ul>
+<li>线程A删除缓存—&gt;线程B查询数据—&gt;发现缓存数据不存在—&gt;线程B查询数据库得到旧值—&gt;写入缓存—&gt;线程A将新值更新到数据库。这样一来缓存中的数据仍然是旧值。</li>
+<li>如果B执行的是更新操作，那么A的更新操作就会被抹去，这就是<strong>更新数据库事务原子性</strong>问题，需要使用<strong>分布式锁</strong>来解决</li>
+</ul>
+</li>
+<li><strong>先更新数据库，再删除缓存</strong><ul>
+<li><strong>数据安全无法保证</strong>：原本顺序应为A先执行，后B执行，数据库的记录是B执行后的记录，但是变为，请求A Update 数据库 —&gt; 请求B Update 数据库 —&gt; 请求B Update 缓存 —&gt; 请求A Update 缓存。<ul>
+<li>这就导致缓存和数据库中的数据不一致，从而缓存中的数据成为了脏数据。</li>
+<li>且写入写入操作多于读操作，就会频繁的刷新缓存，但是这些数据根本没有被读过。这样就会浪费服务器的资源。</li>
+</ul>
+</li>
+<li>这种情况下只需要线程B<strong>延时删除缓存</strong>就好。另外在数据库主从同步的情况下，延时删除还能防止数据更新还未从主数据库同步到从数据库的情况。</li>
+</ul>
+</li>
+<li><strong>延时双删策略</strong><ul>
+<li>先淘汰缓存，再写数据库，休眠一段时间，再淘汰缓存，可以将这段时间内造成的脏数据删除<ul>
+<li>设计为延时双删的目的在于当最后一次延时<strong>删除缓存失败</strong>的情况发生，至少一致性策略只会<strong>退化成先删缓存再更新数据</strong>的策略。</li>
+</ul>
+</li>
+<li>在主从同步完成之前线程查询到的值仍旧是旧值</li>
+</ul>
+</li>
+<li><strong>队列删除缓存</strong><ul>
+<li>在把数据更新到数据库后，把删除缓存的消息加入到队列中，如果队列执行失败，就再次加入到队列执行直到成功为止。这样，只要队列消息能够保证安全，那么缓存就一定会被刷新</li>
+<li>基于业务代码，耦合度很高</li>
+</ul>
+</li>
+<li><p><strong>binlog订阅删除缓存</strong></p>
+<ul>
+<li><img src="https://imgq1.7139.com/zz/0722/218e6364b6e0e31d.jpg" alt="icon"></li>
+<li>整体技术思路：<ul>
+<li>读Redis：热数据基本都在Redis</li>
+<li>写MySQL：增删改查都是操作MySQL</li>
+<li>更新Redis数据：订阅MySQL的数据操作记录binlog（canal中间件），来更新到Redis</li>
+</ul>
+</li>
+<li>分为两部分：<ul>
+<li>全量更新</li>
+<li>增量更新(实时更新)</li>
+</ul>
+</li>
+<li>一旦MySQL中产生了新的写入、更新、删除等操作，就可以把binlog相关的消息通过消息队列推送至Redis，Redis再根据binlog中的记录，对Redis进行更新。<ul>
+<li>这种同步机制类似于MySQL的主从备份机制</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>如何扩容？</strong></p>
+<ul>
+<li>被当做缓存：一致性哈希实现动态扩容</li>
+</ul>
+</li>
 </ul>
 <h1 id="MySQL存储引擎"><a href="#MySQL存储引擎" class="headerlink" title="MySQL存储引擎"></a>MySQL存储引擎</h1><p><a href="https://draveness.me/mysql-innodb" target="_blank" rel="noopener">https://draveness.me/mysql-innodb</a></p>
 <h2 id="InnoDB"><a href="#InnoDB" class="headerlink" title="InnoDB"></a>InnoDB</h2><ul>
@@ -1115,7 +1157,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis"><span class="nav-number">1.</span> <span class="nav-text">Redis</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MySQL存储引擎"><span class="nav-number">2.</span> <span class="nav-text">MySQL存储引擎</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#InnoDB"><span class="nav-number">2.1.</span> <span class="nav-text">InnoDB</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#InnoDB与MYlSAM区别"><span class="nav-number">2.1.0.1.</span> <span class="nav-text">InnoDB与MYlSAM区别</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL主从同步"><span class="nav-number">2.2.</span> <span class="nav-text">MySQL主从同步</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#优点"><span class="nav-number">2.2.0.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法"><span class="nav-number">2.2.0.2.</span> <span class="nav-text">方法</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#索引"><span class="nav-number">2.3.</span> <span class="nav-text">索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL索引"><span class="nav-number">2.3.1.</span> <span class="nav-text">MySQL索引</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SQL优化"><span class="nav-number">2.4.</span> <span class="nav-text">SQL优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事务"><span class="nav-number">2.5.</span> <span class="nav-text">事务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#事务隔离级别"><span class="nav-number">2.5.1.</span> <span class="nav-text">事务隔离级别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#锁-InnoDB"><span class="nav-number">2.6.</span> <span class="nav-text">锁(InnoDB)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分布式事务"><span class="nav-number">2.7.</span> <span class="nav-text">分布式事务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#消息队列"><span class="nav-number">2.7.0.1.</span> <span class="nav-text">消息队列</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SQL注入"><span class="nav-number">2.8.</span> <span class="nav-text">SQL注入</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#框架"><span class="nav-number">3.</span> <span class="nav-text">框架</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MyBatis"><span class="nav-number">3.1.</span> <span class="nav-text">MyBatis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hibernate"><span class="nav-number">3.2.</span> <span class="nav-text">hibernate</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#hibernate与mybatis的对比"><span class="nav-number">3.2.1.</span> <span class="nav-text">hibernate与mybatis的对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JPA"><span class="nav-number">3.2.2.</span> <span class="nav-text">JPA</span></a></li></ol></li></ol></li></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis"><span class="nav-number">1.</span> <span class="nav-text">Redis</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存"><span class="nav-number">1.1.</span> <span class="nav-text">缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#如何解决缓存一致性问题"><span class="nav-number">1.1.1.</span> <span class="nav-text">如何解决缓存一致性问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MySQL存储引擎"><span class="nav-number">2.</span> <span class="nav-text">MySQL存储引擎</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#InnoDB"><span class="nav-number">2.1.</span> <span class="nav-text">InnoDB</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#InnoDB与MYlSAM区别"><span class="nav-number">2.1.0.1.</span> <span class="nav-text">InnoDB与MYlSAM区别</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL主从同步"><span class="nav-number">2.2.</span> <span class="nav-text">MySQL主从同步</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#优点"><span class="nav-number">2.2.0.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法"><span class="nav-number">2.2.0.2.</span> <span class="nav-text">方法</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#索引"><span class="nav-number">2.3.</span> <span class="nav-text">索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL索引"><span class="nav-number">2.3.1.</span> <span class="nav-text">MySQL索引</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SQL优化"><span class="nav-number">2.4.</span> <span class="nav-text">SQL优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事务"><span class="nav-number">2.5.</span> <span class="nav-text">事务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#事务隔离级别"><span class="nav-number">2.5.1.</span> <span class="nav-text">事务隔离级别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#锁-InnoDB"><span class="nav-number">2.6.</span> <span class="nav-text">锁(InnoDB)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分布式事务"><span class="nav-number">2.7.</span> <span class="nav-text">分布式事务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#消息队列"><span class="nav-number">2.7.0.1.</span> <span class="nav-text">消息队列</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SQL注入"><span class="nav-number">2.8.</span> <span class="nav-text">SQL注入</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#框架"><span class="nav-number">3.</span> <span class="nav-text">框架</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MyBatis"><span class="nav-number">3.1.</span> <span class="nav-text">MyBatis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hibernate"><span class="nav-number">3.2.</span> <span class="nav-text">hibernate</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#hibernate与mybatis的对比"><span class="nav-number">3.2.1.</span> <span class="nav-text">hibernate与mybatis的对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JPA"><span class="nav-number">3.2.2.</span> <span class="nav-text">JPA</span></a></li></ol></li></ol></li></div>
             
 
           </div>
