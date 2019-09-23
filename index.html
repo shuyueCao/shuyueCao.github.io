@@ -721,6 +721,39 @@
 </ul>
 </li>
 </ul>
+<h2 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h2><h3 id="JDK代理"><a href="#JDK代理" class="headerlink" title="JDK代理"></a>JDK代理</h3><p>利用反射机制生成一个实现代理接口的匿名类，在调用具体方法前调用InvokeHandler来处理。</p>
+<ul>
+<li><p><strong>JDK的动态代理只能针对实现了接口的类生成代理</strong></p>
+</li>
+<li><p>example</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Car接口</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Car</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Car实现类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CarImpl</span> <span class="keyword">implements</span> <span class="title">Car</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"car running"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Car代理类</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.InvocationHandler;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line"></span><br><span class="line"><span class="comment">//JDK动态代理代理类 </span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CarHandler</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span></span>&#123;</span><br><span class="line">    <span class="comment">//真实类的对象</span></span><br><span class="line">    <span class="keyword">private</span> Object car;</span><br><span class="line">    <span class="comment">//构造方法赋值给真实的类</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CarHandler</span><span class="params">(Object obj)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.car = obj;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">//代理类执行方法时，调用的是这个方法</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"before"</span>);</span><br><span class="line">        Object res = method.invoke(car, args);</span><br><span class="line">        System.out.println(<span class="string">"after"</span>);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Main方法</span></span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Proxy;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">main</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        CarImpl carImpl = <span class="keyword">new</span> CarImpl();</span><br><span class="line">        CarHandler carHandler = <span class="keyword">new</span> CarHandler(carImpl);</span><br><span class="line">        Car proxy = (Car)Proxy.newProxyInstance(</span><br><span class="line">                main.class.getClassLoader(), <span class="comment">//第一个参数，获取ClassLoader</span></span><br><span class="line">                carImpl.getClass().getInterfaces(), <span class="comment">//第二个参数，获取被代理类的接口</span></span><br><span class="line">                carHandler);<span class="comment">//第三个参数，一个InvocationHandler对象，表示的是当我这个动态代理对象在调用方法的时候，会关联到哪一个InvocationHandler对象上</span></span><br><span class="line">        proxy.run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>JDK的动态代理依靠接口实现，入参必须有被代理类的接口</strong>，也就是<code>carImpl.getClass().getInterfaces()</code>,如果有些类并没有实现接口，则不能使用JDK代理</li>
+</ul>
+</li>
+</ul>
+<h3 id="CGLIB动态代理"><a href="#CGLIB动态代理" class="headerlink" title="CGLIB动态代理"></a>CGLIB动态代理</h3><p>利用asm开源包，对代理对象类的class文件加载进来，通过修改其字节码生成子类来处理。</p>
+<ul>
+<li><p><strong>针对类实现代理，对指定的目标类生成一个子类， 并覆盖其中方法实现增强，但因为采用的是继承，所以不能对final修饰的类进行代理</strong></p>
+</li>
+<li><p>example</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//没有实现接口的car</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CarNoInterface</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"car running"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//cglib代理类</span></span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.cglib.proxy.Enhancer;</span><br><span class="line"><span class="keyword">import</span> org.springframework.cglib.proxy.MethodInterceptor;</span><br><span class="line"><span class="keyword">import</span> org.springframework.cglib.proxy.MethodProxy;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CglibProxy</span> <span class="keyword">implements</span> <span class="title">MethodInterceptor</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Object car;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/** </span></span><br><span class="line"><span class="comment">     * 创建代理对象 </span></span><br><span class="line"><span class="comment">     *  </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> target </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> </span></span><br><span class="line"><span class="comment">     */</span>  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">getInstance</span><span class="params">(Object object)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">this</span>.car = object;  </span><br><span class="line">        Enhancer enhancer = <span class="keyword">new</span> Enhancer();  </span><br><span class="line">        enhancer.setSuperclass(<span class="keyword">this</span>.car.getClass());  </span><br><span class="line">        <span class="comment">// 回调方法  </span></span><br><span class="line">        enhancer.setCallback(<span class="keyword">this</span>);  </span><br><span class="line">        <span class="comment">// 创建代理对象  </span></span><br><span class="line">        <span class="keyword">return</span> enhancer.create();  </span><br><span class="line">    &#125;  </span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">intercept</span><span class="params">(Object obj, Method method, Object[] args,MethodProxy proxy)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"事物开始"</span>);  </span><br><span class="line">        proxy.invokeSuper(obj, args);  </span><br><span class="line">        System.out.println(<span class="string">"事物结束"</span>);  </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;  </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//main方法</span></span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Proxy;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">main</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;    </span><br><span class="line">        CglibProxy cglibProxy = <span class="keyword">new</span> CglibProxy();</span><br><span class="line">        CarNoInterface carNoInterface = (CarNoInterface)cglibProxy.getInstance(<span class="keyword">new</span> CarNoInterface());</span><br><span class="line">        carNoInterface.run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Spring中两者使用场景"><a href="#Spring中两者使用场景" class="headerlink" title="Spring中两者使用场景"></a>Spring中两者使用场景</h3><ol>
+<li>如果目标对象实现了<code>接口</code>，默认情况下会采用<code>JDK的动态代理</code>实现AOP</li>
+<li>如果目标对象实现了接口，可以强制使用CGLIB实现AOP<ol>
+<li>添加CGLIB库，SPRING_HOME/cglib/*.jar</li>
+<li>在spring配置文件中加入&lt;aop:aspectj-autoproxy proxy-target-class=”true”/&gt;</li>
+</ol>
+</li>
+<li>如果目标对象没有实现了接口，<code>必须采用CGLIB库</code>，spring会自动在JDK动态代理和CGLIB之间转换</li>
+</ol>
+</li>
+</ul>
 
           
         
@@ -1625,7 +1658,21 @@
 </li>
 </ul>
 <h2 id="SQL注入"><a href="#SQL注入" class="headerlink" title="SQL注入"></a>SQL注入</h2><ul>
-<li>通过把SQL命令插入到Web表单提交或输入域名或页面请求的查询字符串，最终达到欺骗服务器执行恶意的SQL命令</li>
+<li><p>通过把SQL命令插入到Web表单提交或输入域名或页面请求的查询字符串，最终达到欺骗服务器执行恶意的SQL命令</p>
+</li>
+<li><p><strong>如何防止？</strong></p>
+<ul>
+<li><strong>PreparedStatement</strong>预编译<ul>
+<li>提高代码的可读性和可维护性、提高性能以及安全性</li>
+<li>原理：sql注入只对sql语句的准备(编译)过程有破坏作用，preparedStatement已经准备好了，不再对sql语句进行解析</li>
+</ul>
+</li>
+<li><strong>使用正则表达式过滤传入的参数</strong></li>
+<li><strong>字符串过滤</strong></li>
+<li><strong>jsp中调用该函数检查是否包函非法字符</strong></li>
+<li><strong>jsp页面判断代码</strong></li>
+</ul>
+</li>
 </ul>
 <h1 id="框架"><a href="#框架" class="headerlink" title="框架"></a>框架</h1><h2 id="MyBatis"><a href="#MyBatis" class="headerlink" title="MyBatis"></a>MyBatis</h2><ul>
 <li>MyBatis 是支持定制化 SQL、存储过程以及高级映射的优秀的持久层框架。</li>
@@ -1837,7 +1884,19 @@
 <li>当线程超出corePoolSize时生效</li>
 </ul>
 </li>
-<li><strong>workQueue：阻塞队列（存储等待执行的任务）</strong></li>
+<li><strong>workQueue：阻塞队列（存储等待执行的任务）</strong><ul>
+<li>阻塞队列与普通队列的区别在于，当队列是空的时，从队列中获取元素的操作将会被阻塞，或者当队列是满时，往队列里添加元素的操作会被阻塞</li>
+<li>实现方式<ul>
+<li>ArrayBlockingQueue ：一个由数组结构组成的有界阻塞队列。</li>
+<li>LinkedBlockingQueue ：一个由链表结构组成的有界阻塞队列。</li>
+<li>LinkedBlockingDeque：一个由链表结构组成的双向阻塞队列。</li>
+<li>LinkedTransferQueue：一个由链表结构组成的无界阻塞队列。</li>
+<li>PriorityBlockingQueue ：一个支持优先级排序的无界阻塞队列。</li>
+<li>DelayQueue：一个使用优先级队列实现的无界阻塞队列。</li>
+</ul>
+</li>
+</ul>
+</li>
 <li><strong>threadFactory：线程工厂，用来创建线程</strong></li>
 </ul>
 </li>

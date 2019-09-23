@@ -88,7 +88,7 @@
 <meta property="og:description" content="线程创建线程 继Thread类 实现Runnable接口 实现Callable接口(比runnable多一个返回值)  Java不支持多继承，但可以实现多个接口。  start()方法会启动一个新线程，并包含run()方法。而run()只会执行run方法，不会启动新线程  线程池 为什么要用线程池？ 降低消耗。降低创建和销毁线程造成的消耗 提高响应速度。任务到达时，任务可以不需要等到线程创建就能立">
 <meta property="og:locale" content="Java">
 <meta property="og:image" content="https://img-blog.csdn.net/2018031320183899?watermark/2/text/Ly9ibG9nLmNzZG4ubmV0L3JlbndlaTI4OTQ0Mw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
-<meta property="og:updated_time" content="2019-09-14T10:00:45.631Z">
+<meta property="og:updated_time" content="2019-09-23T06:47:52.062Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java多线程">
 <meta name="twitter:description" content="线程创建线程 继Thread类 实现Runnable接口 实现Callable接口(比runnable多一个返回值)  Java不支持多继承，但可以实现多个接口。  start()方法会启动一个新线程，并包含run()方法。而run()只会执行run方法，不会启动新线程  线程池 为什么要用线程池？ 降低消耗。降低创建和销毁线程造成的消耗 提高响应速度。任务到达时，任务可以不需要等到线程创建就能立">
@@ -367,7 +367,19 @@
 <li>当线程超出corePoolSize时生效</li>
 </ul>
 </li>
-<li><strong>workQueue：阻塞队列（存储等待执行的任务）</strong></li>
+<li><strong>workQueue：阻塞队列（存储等待执行的任务）</strong><ul>
+<li>阻塞队列与普通队列的区别在于，当队列是空的时，从队列中获取元素的操作将会被阻塞，或者当队列是满时，往队列里添加元素的操作会被阻塞</li>
+<li>实现方式<ul>
+<li>ArrayBlockingQueue ：一个由数组结构组成的有界阻塞队列。</li>
+<li>LinkedBlockingQueue ：一个由链表结构组成的有界阻塞队列。</li>
+<li>LinkedBlockingDeque：一个由链表结构组成的双向阻塞队列。</li>
+<li>LinkedTransferQueue：一个由链表结构组成的无界阻塞队列。</li>
+<li>PriorityBlockingQueue ：一个支持优先级排序的无界阻塞队列。</li>
+<li>DelayQueue：一个使用优先级队列实现的无界阻塞队列。</li>
+</ul>
+</li>
+</ul>
+</li>
 <li><strong>threadFactory：线程工厂，用来创建线程</strong></li>
 </ul>
 </li>
