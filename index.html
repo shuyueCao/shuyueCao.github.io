@@ -264,6 +264,302 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/24/海量数据处理/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Cao Shuyue">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Alpaca's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/24/海量数据处理/" itemprop="url">海量数据处理</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-09-24T16:26:43+08:00">
+                2019-09-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="海量数据处理"><a href="#海量数据处理" class="headerlink" title="海量数据处理"></a>海量数据处理</h1><h2 id="算法-数据结构基础"><a href="#算法-数据结构基础" class="headerlink" title="算法/数据结构基础"></a>算法/数据结构基础</h2><ul>
+<li><p><strong>Bloom Filter</strong>：利用<strong>位数组</strong>来表示一个集合并判断一个元素是否属于这个集合。</p>
+<ul>
+<li>bloom filter若判断元素不在集合，那一定不存在。若判断元素存在集合中，有一定概率判断错误</li>
+<li>适用范围：数据字典、数据判重、集合求交</li>
+</ul>
+</li>
+<li><p><strong>hash</strong></p>
+<ul>
+<li>适用范围：快速查找，删除的基本数据结构，通常需要总数据量可以放入内存</li>
+</ul>
+</li>
+<li><p><strong>Bit-map</strong>:用一个bit位来标记某个元素对应的值。</p>
+<ul>
+<li>适用范围：可进行数据的快速查找，判重，删除，一般来说数据范围是int的10倍以下</li>
+<li>问题实例：<ul>
+<li>已知某个文件内包含一些电话号码，每个号码为8位数字，统计不同号码的个数。</li>
+<li>2.5亿个整数中找出不重复的整数的个数，内存空间不足以容纳这2.5亿个整数。<ul>
+<li><strong>扩展为2-bitmap</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>堆</strong></p>
+<ul>
+<li>适用范围：海量数据前n大，并且n比较小，堆可以放入内存</li>
+<li><strong>最大堆求前n小，最小堆求前n大</strong>，比如求前n小，我们比较当前元素与最大堆里的最大元素，如果它小于最大元素，则应该替换那个最大元素。这样最后得到的n个元素就是最小的n个。</li>
+<li><strong>扩展：</strong>双堆，一个最大堆与一个最小堆结合，可以用来维护<strong>中位数</strong>。</li>
+<li>问题实例：<ul>
+<li>100w个数中找最大的前100个数。<ul>
+<li>用一个100个元素大小的最小堆即可。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>trie树</strong></p>
+<ul>
+<li>适用范围：数据量大，重复多，但是数据种类小可以放入内存<ul>
+<li>前缀统计、词频统计</li>
+</ul>
+</li>
+<li>问题实例：<ul>
+<li>有10个文件，每个文件1G，每个文件的每一行都存放的是用户的query，每个文件的query都可能重复。要你按照query的频度排序。</li>
+<li>1000万字符串，其中有些是相同的(重复),需要把重复的全部去掉，保留没有重复的字符串。请问怎么设计和实现？</li>
+<li>寻找热门查询：查询串的重复度比较高，虽然总数是1千万，但如果除去重复后，不超过3百万个，每个不超过255字节。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>外排序</strong></p>
+<ul>
+<li>适用范围：大数据的排序、去重</li>
+<li>原理：<ul>
+<li>按内存大小，将外存上含n个记录的文件分成若干个长度L的子文件或段。依次读入内存并利用有效的内部排序对它们进行排序，并将排序后得到的有序字文件重新写入外存，通常称这些子文件为归并段。</li>
+<li>对这些归并段进行逐趟归并，使归并段有小到大，直至得到整个有序稳健为止。</li>
+</ul>
+</li>
+<li>优化方法：置换选择、败者树原理、最优归并树</li>
+</ul>
+</li>
+<li><p><strong>数据库索引</strong></p>
+<ul>
+<li>适用范围：大数据量的增删改查</li>
+</ul>
+</li>
+<li><p><strong>倒排索引</strong></p>
+<ul>
+<li><p>适用范围：搜索引擎，关键字查询</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">以英文为例，下面是要被索引的文本：</span><br><span class="line">    T0 = &quot;it is what it is&quot;</span><br><span class="line">    T1 = &quot;what is it&quot;</span><br><span class="line">    T2 = &quot;it is a banana&quot;</span><br><span class="line"></span><br><span class="line">我们就能得到下面的反向文件索引：</span><br><span class="line">&quot;a&quot;:      &#123;2&#125;</span><br><span class="line">&quot;banana&quot;: &#123;2&#125;</span><br><span class="line">&quot;is&quot;:     &#123;0, 1, 2&#125;</span><br><span class="line">&quot;it&quot;:     &#123;0, 1, 2&#125;</span><br><span class="line">&quot;what&quot;:   &#123;0, 1&#125;</span><br><span class="line">检索的条件&quot;what&quot;,&quot;is&quot;和&quot;it&quot;将对应集合的交集。</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="面试问题解决"><a href="#面试问题解决" class="headerlink" title="面试问题解决"></a>面试问题解决</h2><ul>
+<li><p><strong>海量日志数据，提取某日访问百度次数最多的IP。</strong></p>
+<ul>
+<li><strong>分而治之+hash</strong></li>
+<li>IP地址最多有2^32=4G种取值情况</li>
+<li>可以考虑采用<strong>分而治之</strong>的思想，按照IP地址的Hash(IP)%1024值，把海量IP日志分别存储到1024个小文件中。这样，每个小文件最多包含4MB个IP地址</li>
+<li>对于每一个小文件，可以构建一个IP为key，出现次数为value的Hash map，同时记录当前出现次数最多的那个IP地址</li>
+<li>可以得到1024个小文件中的出现次数最多的IP，再依据常规的排序算法得到总体上出现次数最多的IP；</li>
+</ul>
+</li>
+<li><p><strong>搜索引擎会通过日志文件把用户每次检索使用的所有检索串都记录下来，每个查询串的长度为1-255字节。假设目前有一千万个记录，去重后不超过三百万个，统计最热门的10个查询串</strong></p>
+<ul>
+<li><strong>典型的topK算法，hashmap+堆</strong></li>
+<li>先对这批海量数据预处理，在O（N）的时间内用Hash表完成统计</li>
+<li>借助堆这个数据结构，找出Top K，时间复杂度为O(N*logK)</li>
+</ul>
+</li>
+<li><p><strong>有一个1G大小的一个文件，里面每一行是一个词，词的大小不超过16字节，内存限制大小是1M。返回频数最高的100个词。</strong></p>
+<ul>
+<li><strong>分而治之+hash统计+堆排序</strong></li>
+<li>顺序读文件中，对于每个词x，取hash(x)%5000，然后按照该值存到5000个小文件（记为x0,x1,…x4999）中。这样每个文件大概是200k左右。</li>
+<li>对每个小文件，采用trie树/hashMap统计每个文件中出现的词以及相应的频率。</li>
+<li>取出出现频率最大的100个词（可以用含100个结点的最小堆），并把100个词及相应的频率存入文件，这样又得到了5000个文件。下一步就是把这5000个文件进行归并（类似于归并排序）的过程了。</li>
+</ul>
+</li>
+<li><p><strong>有10个文件，每个文件1G，每个文件的每一行存放的都是用户的query，每个文件的query都可能重复。要求你按照query的频度排序。</strong></p>
+<ul>
+<li><strong>方案1：分而治之+hash统计+堆排序</strong><ul>
+<li>顺序读取10个文件，按照hash(query)%10的结果将query写入到另外10个文件中。这样新生成的文件每个的大小大约也1G（假设hash函数是随机的）。</li>
+<li>找一台内存2G左右的机器，依次对用hash_map(query, query_count)来统计每个query出现的次数。利用快速/堆/归并排序按照出现次数进行排序。将排序好的query和对应的query_cout输出到文件中。这样得到了10个排好序的文件。</li>
+<li>对这10个文件进行归并排序（内排序与外排序相结合）。</li>
+</ul>
+</li>
+<li><strong>方案2：hashmap+堆</strong><ul>
+<li>一般query的总量是有限的，只是重复的次数比较多而已，可能对于所有的query，一次性就可以加入到内存了。这样，我们就可以采用trie树/hash_map等直接来统计每个query出现的次数，然后按出现次数做快速/堆/归并排序就可以了。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>给定a、b两个文件，各存放50亿个url，每个url各占64字节，内存限制是4G，让你找出a、b文件共同的url？</strong></p>
+<ul>
+<li><strong>方案1：分而治之+hash统计</strong><ul>
+<li>可以估计每个文件的大小为5G×64=320G，远远大于内存限制的4G。所以不可能将其完全加载到内存中处理。考虑采取分而治之的方法</li>
+<li>遍历文件a，对每个url求取hash(url)%1000，然后根据所取得的值将url分别存储到1000个小文件（记为a0,a1,…,a999）中。这样每个小文件的大约为300M。</li>
+<li>遍历文件b，采取和a相同的方式将url分别存储到1000小文件（记为b0,b1,…,b999）。这样处理后，所有可能相同的url都在对应的小文件（a0vsb0,a1vsb1,…,a999vsb999）中，不对应的小文件不可能有相同的url。然后我们只要求出1000对小文件中相同的url即可。</li>
+<li>求每对小文件中相同的url时，可以把其中一个小文件的url存储到hash_set中。然后遍历另一个小文件的每个url，看其是否在刚才构建的hash_set中，如果是，那么就是共同的url，存到文件里面就可以了。</li>
+</ul>
+</li>
+<li><strong>方案2：bloom filter（允许有一定的错误率）</strong><ul>
+<li>4G内存大概可以表示340亿bit。将其中一个文件中的url使用Bloom filter映射为这340亿bit，然后挨个读取另外一个文件的url，检查是否与Bloom filter，如果是，那么该url应该是共同的url（注意会有一定的错误率）。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>在2.5亿个整数中找出不重复的整数，注，内存不足以容纳这2.5亿个整数。</strong></p>
+<ul>
+<li><strong>方案1：2-Bitmap</strong><ul>
+<li>采用2-Bitmap（每个数分配2bit，00表示不存在，01表示出现一次，10表示多次，11无意义）进行，共需内存2^32 * 2 bit=1 GB内存，还可以接受。然后扫描这2.5亿个整数，查看Bitmap中相对应位，如果是00变01，01变10，10保持不变。所描完事后，查看bitmap，把对应位是01的整数输出即可。</li>
+</ul>
+</li>
+<li><strong>方案2</strong><ul>
+<li>也可采用与第1题类似的方法，进行划分小文件的方法。然后在小文件中找出不重复的整数，并排序。然后再进行归并，注意去除重复的元素。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>腾讯面试题：给40亿个不重复的unsigned int的整数，没排过序的，然后再给一个数，如何快速判断这个数是否在那40亿个数当中？</strong></p>
+<ul>
+<li><p><strong>方案1</strong></p>
+<ul>
+<li>申请512M的内存，一个bit位代表一个unsigned int值。读入40亿个数，设置相应的bit位，读入要查询的数，查看相应bit位是否为1，为1表示存在，为0表示不存在</li>
+</ul>
+</li>
+<li><p><strong>方案2</strong></p>
+<ul>
+<li><p>因为2^32为40亿多，所以给定一个数可能在，也可能不在其中；这里我们把40亿个数中的每一个用32位的二进制来表示。</p>
+<pre><code>假设这40亿个数开始放在一个文件中，然后将这40亿个数分成两类:
+  1.最高位为0
+  2.最高位为1
+并将这两类分别写入到两个文件中，其中一个文件中数的个数&lt;=20亿，而另一个&gt;=20亿（这相当于折半了）；与要查找的数的最高位比较并接着进入相应的文件再查找
+
+再然后把这个文件为又分成两类:
+  1.次最高位为0
+  2.次最高位为1
+
+并将这两类分别写入到两个文件中，其中一个文件中数的个数&lt;=10亿，而另一个&gt;=10亿（这相当于折半了）；
+与要查找的数的次最高位比较并接着进入相应的文件再查找。
+.......
+以此类推，就可以找到了,而且时间复杂度为O(logn)
+</code></pre></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>怎么在海量数据中找出重复次数最多的一个？</strong></p>
+<ul>
+<li>先做hash，然后求模映射为小文件，求出每个小文件中重复次数最多的一个，并记录重复次数。然后找出上一步求出的数据中重复次数最多的一个就是所求</li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/23/Spring/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -3527,210 +3823,6 @@ public class ChessyCounter{
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/24/算法整理/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Cao Shuyue">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Alpaca's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/24/算法整理/" itemprop="url">算法整理</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-24T14:15:04+08:00">
-                2018-12-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="常用算法"><a href="#常用算法" class="headerlink" title="常用算法"></a>常用算法</h1><h2 id="一-穷举法"><a href="#一-穷举法" class="headerlink" title="(一) 穷举法"></a>(一) 穷举法</h2><h2 id="二-贪婪算法"><a href="#二-贪婪算法" class="headerlink" title="(二) 贪婪算法"></a>(二) 贪婪算法</h2><p>在对问题求解时，总是做出在当前看来是最好的选择。也就是说，不从整体最优上加以考虑，他所做出的是在某种意义上的<strong>局部最优解</strong>。</p>
-<p>贪婪算法不能保证全局最优，所以使用贪心算法的前提是，局部最优策略能导致全局最优解。同时贪心算法必须满足无后效性，即某个状态以后的状态不会影响以前的状态。</p>
-<h3 id="适用情况"><a href="#适用情况" class="headerlink" title="适用情况"></a>适用情况</h3><p>局部最优策略能导致全局最优解</p>
-<h3 id="基本思路"><a href="#基本思路" class="headerlink" title="基本思路"></a>基本思路</h3><ol>
-<li>建立数学模型来描述问题</li>
-<li>把求解的问题分成若干个子问题</li>
-<li>对每一子问题求解，得到子问题的局部最优解</li>
-<li>把局部最优解合成原来问题的一个解</li>
-</ol>
-<h3 id="经典问题"><a href="#经典问题" class="headerlink" title="经典问题"></a>经典问题</h3><ol>
-<li>霍夫曼编码</li>
-<li>最小生成树</li>
-<li>0/1背包问题</li>
-</ol>
-<h2 id="三-动态规划"><a href="#三-动态规划" class="headerlink" title="(三) 动态规划"></a>(三) 动态规划</h2><p> 动态规划过程是：每次决策依赖于当前状态，又随即引起状态的转移。一个决策序列就是在变化的状态中产生出来的。</p>
-<p> 与分治法最大的差别是：<code>适合于用动态规划法求解的问题，经分解后得到的子问题往往不是互相独立的（即下一个子阶段的求解是建立在上一个子阶段的解的基础上，进行进一步的求解）。</code></p>
-<h3 id="适用情况-1"><a href="#适用情况-1" class="headerlink" title="适用情况"></a>适用情况</h3><ol>
-<li>最优化原理：问题的最优解所包含的子问题的解也是最优的</li>
-<li>无后效性：某阶段状态一旦确定，就不受这个状态以后决策的影响</li>
-<li>有重叠子问题：子问题之间是不独立的，一个子问题在下一阶段决策中可能被多次使用到。</li>
-</ol>
-<h3 id="基本思路-1"><a href="#基本思路-1" class="headerlink" title="基本思路"></a>基本思路</h3><p><em>初始状态→│决策１│→│决策２│→…→│决策ｎ│→结束状态</em></p>
-<ol>
-<li>划分：划分后的阶段一定要是有序的或者是可排序的</li>
-<li>确定状态和状态变量：要满足无后效性</li>
-<li>确定决策并写出状态转移方程：状态转移就是根据上一阶段的状态和决策来导出本阶段的状态</li>
-<li>寻找边界条件</li>
-</ol>
-<h3 id="经典问题-1"><a href="#经典问题-1" class="headerlink" title="经典问题"></a>经典问题</h3><ol>
-<li>N级台阶问题</li>
-<li>最长递增子序列</li>
-</ol>
-<h2 id="四-分治算法"><a href="#四-分治算法" class="headerlink" title="(四) 分治算法"></a>(四) 分治算法</h2><p>把一个复杂的问题分成两个或更多的相同或相似的子问题，再把子问题分成更小的子问题……直到最后子问题可以简单的直接求解，原问题的解即子问题的解的合并。</p>
-<h3 id="适用情况-2"><a href="#适用情况-2" class="headerlink" title="适用情况"></a>适用情况</h3><ol>
-<li>问题的复杂性随问题的规模递增</li>
-<li>最优子结构性质</li>
-<li>利用该问题分解出的子问题的解可以合并为该问题的解<ul>
-<li>如果不满足第三条，可以用贪心算法Or动态规划算法</li>
-</ul>
-</li>
-<li>子问题之间相互独立</li>
-</ol>
-<h3 id="基本思路-2"><a href="#基本思路-2" class="headerlink" title="基本思路"></a>基本思路</h3><p><em>分解-解决-合并</em></p>
-<p>###经典问题</p>
-<ol>
-<li>快速排序</li>
-<li>归并排序</li>
-<li>二分查找</li>
-</ol>
-<h2 id="五-回溯法"><a href="#五-回溯法" class="headerlink" title="(五) 回溯法"></a>(五) 回溯法</h2><p>回溯算法实际上一个类似枚举的搜索尝试过程，主要是在搜索尝试过程中寻找问题的解，当发现已不满足求解条件时，就“回溯”返回，尝试别的路径。</p>
-<p><code>**深度优先搜索策略**</code></p>
-<h3 id="基本思路-3"><a href="#基本思路-3" class="headerlink" title="基本思路"></a>基本思路</h3><ol>
-<li>确定问题的解空间</li>
-<li>确定节点的扩展搜索规则</li>
-<li>以深度优先方式搜索解空间，并在搜索过程中用剪枝函数避免无效搜索</li>
-</ol>
-<h2 id="六-分支界限算法"><a href="#六-分支界限算法" class="headerlink" title="(六) 分支界限算法"></a>(六) 分支界限算法</h2><p>回溯法的求解目标是找出T中满足约束条件的<em>所有解</em>，而分支限界法的求解目标则是找出<em>满足约束条件的一个解</em>，或是在满足约束条件的解中找出使某一目标函数值达到<em>极大或极小的解</em>，即<em>在某种意义下的最优解</em>。</p>
-<p><code>**广度优先搜索策略**</code></p>
-<h3 id="分支搜索算法"><a href="#分支搜索算法" class="headerlink" title="分支搜索算法"></a>分支搜索算法</h3><ol>
-<li>FIFO搜索</li>
-<li>LIFO搜索</li>
-<li>优先队列式搜索</li>
-</ol>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -3781,7 +3873,7 @@ public class ChessyCounter{
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

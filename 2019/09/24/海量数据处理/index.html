@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="进程/线程1. 进程线程区别与联系  区别： 进程是资源分配的最小单位；线程是CPU调度的最小单位 进程切换消耗资源更大 线程的划分尺度小于进程，导致多线程并发性更高 线程拥有自己独立的栈和栈指针等信息 多线程程序的并发性高   联系： 一个程序至少有一个进程，一个进程至少有一个线程 进程在执行过程中拥有独立的内存单元，而多个线程共享所在进程的内存 进程有独立的地址空间，一个进程崩溃后，在保护模式">
+<meta name="description" content="海量数据处理算法/数据结构基础 Bloom Filter：利用位数组来表示一个集合并判断一个元素是否属于这个集合。  bloom filter若判断元素不在集合，那一定不存在。若判断元素存在集合中，有一定概率判断错误 适用范围：数据字典、数据判重、集合求交   hash  适用范围：快速查找，删除的基本数据结构，通常需要总数据量可以放入内存   Bit-map:用一个bit位来标记某个元素对应的值">
 <meta name="keywords" content="面试">
 <meta property="og:type" content="article">
-<meta property="og:title" content="操作系统">
-<meta property="og:url" content="http://yoursite.com/2019/02/27/操作系统/index.html">
+<meta property="og:title" content="海量数据处理">
+<meta property="og:url" content="http://yoursite.com/2019/09/24/海量数据处理/index.html">
 <meta property="og:site_name" content="Alpaca&#39;s Blog">
-<meta property="og:description" content="进程/线程1. 进程线程区别与联系  区别： 进程是资源分配的最小单位；线程是CPU调度的最小单位 进程切换消耗资源更大 线程的划分尺度小于进程，导致多线程并发性更高 线程拥有自己独立的栈和栈指针等信息 多线程程序的并发性高   联系： 一个程序至少有一个进程，一个进程至少有一个线程 进程在执行过程中拥有独立的内存单元，而多个线程共享所在进程的内存 进程有独立的地址空间，一个进程崩溃后，在保护模式">
+<meta property="og:description" content="海量数据处理算法/数据结构基础 Bloom Filter：利用位数组来表示一个集合并判断一个元素是否属于这个集合。  bloom filter若判断元素不在集合，那一定不存在。若判断元素存在集合中，有一定概率判断错误 适用范围：数据字典、数据判重、集合求交   hash  适用范围：快速查找，删除的基本数据结构，通常需要总数据量可以放入内存   Bit-map:用一个bit位来标记某个元素对应的值">
 <meta property="og:locale" content="Java">
-<meta property="og:updated_time" content="2019-03-20T05:59:08.959Z">
+<meta property="og:updated_time" content="2019-09-24T09:09:59.197Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="操作系统">
-<meta name="twitter:description" content="进程/线程1. 进程线程区别与联系  区别： 进程是资源分配的最小单位；线程是CPU调度的最小单位 进程切换消耗资源更大 线程的划分尺度小于进程，导致多线程并发性更高 线程拥有自己独立的栈和栈指针等信息 多线程程序的并发性高   联系： 一个程序至少有一个进程，一个进程至少有一个线程 进程在执行过程中拥有独立的内存单元，而多个线程共享所在进程的内存 进程有独立的地址空间，一个进程崩溃后，在保护模式">
+<meta name="twitter:title" content="海量数据处理">
+<meta name="twitter:description" content="海量数据处理算法/数据结构基础 Bloom Filter：利用位数组来表示一个集合并判断一个元素是否属于这个集合。  bloom filter若判断元素不在集合，那一定不存在。若判断元素存在集合中，有一定概率判断错误 适用范围：数据字典、数据判重、集合求交   hash  适用范围：快速查找，删除的基本数据结构，通常需要总数据量可以放入内存   Bit-map:用一个bit位来标记某个元素对应的值">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/02/27/操作系统/">
+  <link rel="canonical" href="http://yoursite.com/2019/09/24/海量数据处理/">
 
 
 
 
 
-  <title>操作系统 | Alpaca's Blog</title>
+  <title>海量数据处理 | Alpaca's Blog</title>
   
 
 
@@ -265,7 +265,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/27/操作系统/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/24/海量数据处理/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Cao Shuyue">
@@ -282,7 +282,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">操作系统</h1>
+          <h1 class="post-title" itemprop="name headline">海量数据处理</h1>
         
 
         <div class="post-meta">
@@ -294,8 +294,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-27T10:51:12+08:00">
-                2019-02-27
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-09-24T16:26:43+08:00">
+                2019-09-24
               </time>
             
 
@@ -332,91 +332,182 @@
       
 
       
-        <h3 id="进程-线程"><a href="#进程-线程" class="headerlink" title="进程/线程"></a>进程/线程</h3><p><strong>1. 进程线程区别与联系</strong></p>
+        <h1 id="海量数据处理"><a href="#海量数据处理" class="headerlink" title="海量数据处理"></a>海量数据处理</h1><h2 id="算法-数据结构基础"><a href="#算法-数据结构基础" class="headerlink" title="算法/数据结构基础"></a>算法/数据结构基础</h2><ul>
+<li><p><strong>Bloom Filter</strong>：利用<strong>位数组</strong>来表示一个集合并判断一个元素是否属于这个集合。</p>
 <ul>
-<li>区别：<ul>
-<li>进程是资源分配的最小单位；线程是CPU调度的最小单位</li>
-<li>进程切换消耗资源更大</li>
-<li>线程的划分尺度小于进程，导致多线程并发性更高</li>
-<li>线程拥有自己独立的栈和栈指针等信息</li>
-<li>多线程程序的并发性高</li>
+<li>bloom filter若判断元素不在集合，那一定不存在。若判断元素存在集合中，有一定概率判断错误</li>
+<li>适用范围：数据字典、数据判重、集合求交</li>
 </ul>
 </li>
-<li>联系：<ul>
-<li>一个程序至少有一个进程，一个进程至少有一个线程</li>
-<li>进程在执行过程中拥有独立的内存单元，而多个线程共享所在进程的内存</li>
-<li>进程有独立的地址空间，一个进程崩溃后，在保护模式下不会对其它进程产生影响，而线程只是一个进程中的不同执行路径。</li>
+<li><p><strong>hash</strong></p>
+<ul>
+<li>适用范围：快速查找，删除的基本数据结构，通常需要总数据量可以放入内存</li>
+</ul>
+</li>
+<li><p><strong>Bit-map</strong>:用一个bit位来标记某个元素对应的值。</p>
+<ul>
+<li>适用范围：可进行数据的快速查找，判重，删除，一般来说数据范围是int的10倍以下</li>
+<li>问题实例：<ul>
+<li>已知某个文件内包含一些电话号码，每个号码为8位数字，统计不同号码的个数。</li>
+<li>2.5亿个整数中找出不重复的整数的个数，内存空间不足以容纳这2.5亿个整数。<ul>
+<li><strong>扩展为2-bitmap</strong></li>
 </ul>
 </li>
 </ul>
-<p><strong>2. 进程间通信方式</strong></p>
-<ul>
-<li>管道：半双工，是数据只能单向流动<ul>
-<li>无名管道：只能在具有亲缘关系的进程间使用，一般指父子</li>
-<li>有名管道：允许无亲缘关系进程间的通信。</li>
-<li>缓冲区有限</li>
-<li>四次数据拷贝<ul>
-<li>用户空间buf拷贝到内核中</li>
-<li>内核将数据拷贝到内存中</li>
-<li>内存到内核</li>
-<li>内核到用户空间的buf</li>
+</li>
 </ul>
 </li>
-<li>只能承载无格式字节流</li>
+<li><p><strong>堆</strong></p>
+<ul>
+<li>适用范围：海量数据前n大，并且n比较小，堆可以放入内存</li>
+<li><strong>最大堆求前n小，最小堆求前n大</strong>，比如求前n小，我们比较当前元素与最大堆里的最大元素，如果它小于最大元素，则应该替换那个最大元素。这样最后得到的n个元素就是最小的n个。</li>
+<li><strong>扩展：</strong>双堆，一个最大堆与一个最小堆结合，可以用来维护<strong>中位数</strong>。</li>
+<li>问题实例：<ul>
+<li>100w个数中找最大的前100个数。<ul>
+<li>用一个100个元素大小的最小堆即可。</li>
 </ul>
 </li>
-<li>信号量</li>
-<li>消息队列<ul>
-<li>可以实现任意进程间的通信，通过<em>系统调用函数</em> 来实现消息发送和接收之间的同步，无需考虑同步问题，方便</li>
-<li>信息的复制需要额外消耗CPU的时间，不适宜于信息量大或操作频繁的场合</li>
-<li>四次数据拷贝</li>
 </ul>
 </li>
-<li>共享内存：同一块物理内存被映射到进程A、B各自的进程地址空间<ul>
-<li>两次数据拷贝，一次从输入文件到共享内存区，另一次从共享内存区到输出文件</li>
-<li>共享内存时保持共享区域直到通信完毕，共享内容在解除映射时才写回文件</li>
-<li>效率高，读写内存</li>
-<li>共享内存段被映射进进程空间之后，存在于进程空间的数据段</li>
 </ul>
 </li>
-<li>套接字：可用于不同机器间的进程通信，用socket实现</li>
-</ul>
-<p><strong>3. 线程间通信方式</strong></p>
+<li><p><strong>trie树</strong></p>
 <ul>
-<li>锁</li>
-<li>信号量semaphore：同一时刻访问此资源的最大线程数量</li>
-<li>信号signal：通过通知操作的方式来保持多线程同步</li>
+<li>适用范围：数据量大，重复多，但是数据种类小可以放入内存<ul>
+<li>前缀统计、词频统计</li>
 </ul>
-<p><strong>4. 进程的几种状态</strong></p>
-<ul>
-<li>就绪状态：进程已获得除处理机以外的所需资源，等待分配处理机资源</li>
-<li>运行状态：占用处理机资源运行，处于此状态的进程数小于等于CPU数</li>
-<li>阻塞状态： 进程等待某种条件，在条件满足之前无法执行</li>
-<li>就绪→执行；执行→就绪；执行→阻塞；阻塞→就绪</li>
+</li>
+<li>问题实例：<ul>
+<li>有10个文件，每个文件1G，每个文件的每一行都存放的是用户的query，每个文件的query都可能重复。要你按照query的频度排序。</li>
+<li>1000万字符串，其中有些是相同的(重复),需要把重复的全部去掉，保留没有重复的字符串。请问怎么设计和实现？</li>
+<li>寻找热门查询：查询串的重复度比较高，虽然总数是1千万，但如果除去重复后，不超过3百万个，每个不超过255字节。</li>
 </ul>
-<p><strong>5. 进程调度策略</strong></p>
-<ul>
-<li>FCFS先来先服务：没有考虑优先级</li>
-<li>短作业优先：不利于长作业</li>
-<li>高响应比优先：响应比计算系统开销，增加系统开销</li>
-<li>时间片轮转</li>
-<li>多级反馈队列</li>
+</li>
 </ul>
-<p><strong>6. 进程同步机制</strong></p>
+</li>
+<li><p><strong>外排序</strong></p>
 <ul>
-<li>信号量</li>
-<li>管程</li>
+<li>适用范围：大数据的排序、去重</li>
+<li>原理：<ul>
+<li>按内存大小，将外存上含n个记录的文件分成若干个长度L的子文件或段。依次读入内存并利用有效的内部排序对它们进行排序，并将排序后得到的有序字文件重新写入外存，通常称这些子文件为归并段。</li>
+<li>对这些归并段进行逐趟归并，使归并段有小到大，直至得到整个有序稳健为止。</li>
 </ul>
-<h3 id="内存"><a href="#内存" class="headerlink" title="内存"></a>内存</h3><p><strong>1. 段页区别</strong></p>
+</li>
+<li>优化方法：置换选择、败者树原理、最优归并树</li>
+</ul>
+</li>
+<li><p><strong>数据库索引</strong></p>
 <ul>
-<li>段是信息的<strong>逻辑单位</strong>，它是根据用户的需要划分的，因此段对用户是<strong>可见</strong>的</li>
-<li>页是信息的<strong>物理单位</strong>，是为了管理主存的方便而划分的，对用户是<strong>透明</strong>的。</li>
-<li>段的大小不固定，有它所完成的功能决定</li>
-<li>页的大小固定，由系统决定.</li>
-<li>段向用户提供二维地址空间，在标识一个地址时，即需给出段名，又需给出段内地址</li>
-<li>页向用户提供的是一维地址空间</li>
-<li>段是信息的逻辑单位，便于存储保护和信息的共享，页的保护和共享受到限制</li>
-<li><strong>页式虚拟存储系统存在内部碎片；段式虚拟存储系统，存在外部碎片</strong></li>
+<li>适用范围：大数据量的增删改查</li>
+</ul>
+</li>
+<li><p><strong>倒排索引</strong></p>
+<ul>
+<li><p>适用范围：搜索引擎，关键字查询</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">以英文为例，下面是要被索引的文本：</span><br><span class="line">    T0 = &quot;it is what it is&quot;</span><br><span class="line">    T1 = &quot;what is it&quot;</span><br><span class="line">    T2 = &quot;it is a banana&quot;</span><br><span class="line"></span><br><span class="line">我们就能得到下面的反向文件索引：</span><br><span class="line">&quot;a&quot;:      &#123;2&#125;</span><br><span class="line">&quot;banana&quot;: &#123;2&#125;</span><br><span class="line">&quot;is&quot;:     &#123;0, 1, 2&#125;</span><br><span class="line">&quot;it&quot;:     &#123;0, 1, 2&#125;</span><br><span class="line">&quot;what&quot;:   &#123;0, 1&#125;</span><br><span class="line">检索的条件&quot;what&quot;,&quot;is&quot;和&quot;it&quot;将对应集合的交集。</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="面试问题解决"><a href="#面试问题解决" class="headerlink" title="面试问题解决"></a>面试问题解决</h2><ul>
+<li><p><strong>海量日志数据，提取某日访问百度次数最多的IP。</strong></p>
+<ul>
+<li><strong>分而治之+hash</strong></li>
+<li>IP地址最多有2^32=4G种取值情况</li>
+<li>可以考虑采用<strong>分而治之</strong>的思想，按照IP地址的Hash(IP)%1024值，把海量IP日志分别存储到1024个小文件中。这样，每个小文件最多包含4MB个IP地址</li>
+<li>对于每一个小文件，可以构建一个IP为key，出现次数为value的Hash map，同时记录当前出现次数最多的那个IP地址</li>
+<li>可以得到1024个小文件中的出现次数最多的IP，再依据常规的排序算法得到总体上出现次数最多的IP；</li>
+</ul>
+</li>
+<li><p><strong>搜索引擎会通过日志文件把用户每次检索使用的所有检索串都记录下来，每个查询串的长度为1-255字节。假设目前有一千万个记录，去重后不超过三百万个，统计最热门的10个查询串</strong></p>
+<ul>
+<li><strong>典型的topK算法，hashmap+堆</strong></li>
+<li>先对这批海量数据预处理，在O（N）的时间内用Hash表完成统计</li>
+<li>借助堆这个数据结构，找出Top K，时间复杂度为O(N*logK)</li>
+</ul>
+</li>
+<li><p><strong>有一个1G大小的一个文件，里面每一行是一个词，词的大小不超过16字节，内存限制大小是1M。返回频数最高的100个词。</strong></p>
+<ul>
+<li><strong>分而治之+hash统计+堆排序</strong></li>
+<li>顺序读文件中，对于每个词x，取hash(x)%5000，然后按照该值存到5000个小文件（记为x0,x1,…x4999）中。这样每个文件大概是200k左右。</li>
+<li>对每个小文件，采用trie树/hashMap统计每个文件中出现的词以及相应的频率。</li>
+<li>取出出现频率最大的100个词（可以用含100个结点的最小堆），并把100个词及相应的频率存入文件，这样又得到了5000个文件。下一步就是把这5000个文件进行归并（类似于归并排序）的过程了。</li>
+</ul>
+</li>
+<li><p><strong>有10个文件，每个文件1G，每个文件的每一行存放的都是用户的query，每个文件的query都可能重复。要求你按照query的频度排序。</strong></p>
+<ul>
+<li><strong>方案1：分而治之+hash统计+堆排序</strong><ul>
+<li>顺序读取10个文件，按照hash(query)%10的结果将query写入到另外10个文件中。这样新生成的文件每个的大小大约也1G（假设hash函数是随机的）。</li>
+<li>找一台内存2G左右的机器，依次对用hash_map(query, query_count)来统计每个query出现的次数。利用快速/堆/归并排序按照出现次数进行排序。将排序好的query和对应的query_cout输出到文件中。这样得到了10个排好序的文件。</li>
+<li>对这10个文件进行归并排序（内排序与外排序相结合）。</li>
+</ul>
+</li>
+<li><strong>方案2：hashmap+堆</strong><ul>
+<li>一般query的总量是有限的，只是重复的次数比较多而已，可能对于所有的query，一次性就可以加入到内存了。这样，我们就可以采用trie树/hash_map等直接来统计每个query出现的次数，然后按出现次数做快速/堆/归并排序就可以了。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>给定a、b两个文件，各存放50亿个url，每个url各占64字节，内存限制是4G，让你找出a、b文件共同的url？</strong></p>
+<ul>
+<li><strong>方案1：分而治之+hash统计</strong><ul>
+<li>可以估计每个文件的大小为5G×64=320G，远远大于内存限制的4G。所以不可能将其完全加载到内存中处理。考虑采取分而治之的方法</li>
+<li>遍历文件a，对每个url求取hash(url)%1000，然后根据所取得的值将url分别存储到1000个小文件（记为a0,a1,…,a999）中。这样每个小文件的大约为300M。</li>
+<li>遍历文件b，采取和a相同的方式将url分别存储到1000小文件（记为b0,b1,…,b999）。这样处理后，所有可能相同的url都在对应的小文件（a0vsb0,a1vsb1,…,a999vsb999）中，不对应的小文件不可能有相同的url。然后我们只要求出1000对小文件中相同的url即可。</li>
+<li>求每对小文件中相同的url时，可以把其中一个小文件的url存储到hash_set中。然后遍历另一个小文件的每个url，看其是否在刚才构建的hash_set中，如果是，那么就是共同的url，存到文件里面就可以了。</li>
+</ul>
+</li>
+<li><strong>方案2：bloom filter（允许有一定的错误率）</strong><ul>
+<li>4G内存大概可以表示340亿bit。将其中一个文件中的url使用Bloom filter映射为这340亿bit，然后挨个读取另外一个文件的url，检查是否与Bloom filter，如果是，那么该url应该是共同的url（注意会有一定的错误率）。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>在2.5亿个整数中找出不重复的整数，注，内存不足以容纳这2.5亿个整数。</strong></p>
+<ul>
+<li><strong>方案1：2-Bitmap</strong><ul>
+<li>采用2-Bitmap（每个数分配2bit，00表示不存在，01表示出现一次，10表示多次，11无意义）进行，共需内存2^32 * 2 bit=1 GB内存，还可以接受。然后扫描这2.5亿个整数，查看Bitmap中相对应位，如果是00变01，01变10，10保持不变。所描完事后，查看bitmap，把对应位是01的整数输出即可。</li>
+</ul>
+</li>
+<li><strong>方案2</strong><ul>
+<li>也可采用与第1题类似的方法，进行划分小文件的方法。然后在小文件中找出不重复的整数，并排序。然后再进行归并，注意去除重复的元素。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>腾讯面试题：给40亿个不重复的unsigned int的整数，没排过序的，然后再给一个数，如何快速判断这个数是否在那40亿个数当中？</strong></p>
+<ul>
+<li><p><strong>方案1</strong></p>
+<ul>
+<li>申请512M的内存，一个bit位代表一个unsigned int值。读入40亿个数，设置相应的bit位，读入要查询的数，查看相应bit位是否为1，为1表示存在，为0表示不存在</li>
+</ul>
+</li>
+<li><p><strong>方案2</strong></p>
+<ul>
+<li><p>因为2^32为40亿多，所以给定一个数可能在，也可能不在其中；这里我们把40亿个数中的每一个用32位的二进制来表示。</p>
+<pre><code>假设这40亿个数开始放在一个文件中，然后将这40亿个数分成两类:
+  1.最高位为0
+  2.最高位为1
+并将这两类分别写入到两个文件中，其中一个文件中数的个数&lt;=20亿，而另一个&gt;=20亿（这相当于折半了）；与要查找的数的最高位比较并接着进入相应的文件再查找
+
+再然后把这个文件为又分成两类:
+  1.次最高位为0
+  2.次最高位为1
+
+并将这两类分别写入到两个文件中，其中一个文件中数的个数&lt;=10亿，而另一个&gt;=10亿（这相当于折半了）；
+与要查找的数的次最高位比较并接着进入相应的文件再查找。
+.......
+以此类推，就可以找到了,而且时间复杂度为O(logn)
+</code></pre></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>怎么在海量数据中找出重复次数最多的一个？</strong></p>
+<ul>
+<li>先做hash，然后求模映射为小文件，求出每个小文件中重复次数最多的一个，并记录重复次数。然后找出上一步求出的数据中重复次数最多的一个就是所求</li>
+</ul>
+</li>
 </ul>
 
       
@@ -448,8 +539,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/02/23/网络/" rel="next" title="网络">
-                <i class="fa fa-chevron-left"></i> 网络
+              <a href="/2019/09/23/Spring/" rel="next" title="Spring">
+                <i class="fa fa-chevron-left"></i> Spring
               </a>
             
           </div>
@@ -457,10 +548,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/02/28/java多线程/" rel="prev" title="java多线程">
-                java多线程 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -592,7 +679,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#进程-线程"><span class="nav-number">1.</span> <span class="nav-text">进程/线程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存"><span class="nav-number">2.</span> <span class="nav-text">内存</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#海量数据处理"><span class="nav-number">1.</span> <span class="nav-text">海量数据处理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#算法-数据结构基础"><span class="nav-number">1.1.</span> <span class="nav-text">算法/数据结构基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#面试问题解决"><span class="nav-number">1.2.</span> <span class="nav-text">面试问题解决</span></a></li></ol></li></ol></div>
             
 
           </div>
