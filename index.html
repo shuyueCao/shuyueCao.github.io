@@ -983,10 +983,25 @@
         
           
             <h1 id="Java反射机制"><a href="#Java反射机制" class="headerlink" title="Java反射机制"></a>Java反射机制</h1><ul>
-<li>What?<ul>
+<li><p>What?</p>
+<ul>
 <li>动态加载对象，并对对象进行剖析</li>
 <li>在运行状态中，对于任意一个类，都能知道它的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法</li>
 <li><strong>动态获取信息以及动态调用对象方法的功能称为Java反射机制</strong></li>
+</ul>
+</li>
+<li><p>example</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Class c1 = Code.class;<span class="comment">//这说明任何一个类都有一个隐含的静态成员变量class，这种方式是通过获取类的静态成员变量class得到的</span></span><br><span class="line">Class c2 = code1.getClass();<span class="comment">//code1是Code的一个对象，这种方式是通过一个类的对象的getClass()方法获得的</span></span><br><span class="line">Class c3 = Class.forName(<span class="string">"com.trigl.reflect.Code"</span>);<span class="comment">//这种方法是Class类调用forName方法，通过一个类的全量限定名获得</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>相关操作</p>
+<ul>
+<li><p>获取成员方法信息</p>
+</li>
+<li><p>获取成员变量信息</p>
+</li>
+<li><p>获取构造函数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Class c = Class.forName(<span class="string">"com.tengj.reflect.Person"</span>);  <span class="comment">//先生成class</span></span><br><span class="line">Object o = c.newInstance();                           <span class="comment">//newInstance可以初始化一个实例</span></span><br><span class="line">Method method = c.getMethod(<span class="string">"fun"</span>, String.class, <span class="keyword">int</span>.class);<span class="comment">//获取方法</span></span><br><span class="line">method.invoke(o, <span class="string">"tengj"</span>, <span class="number">10</span>);                              <span class="comment">//通过invoke调用该方法,参数第一个为实例对象，后面为具体参数值</span></span><br><span class="line">Method[] methods = c.getDeclaredMethods(); <span class="comment">// 得到该类所有的方法，不包括父类的</span></span><br><span class="line">或者：</span><br><span class="line">Method[] methods = c.getMethods();<span class="comment">// 得到该类所有的public方法，包括父类的</span></span><br><span class="line"></span><br><span class="line">Field[] fields = c.getDeclaredFields();</span><br><span class="line"></span><br><span class="line"><span class="comment">//获取构造函数</span></span><br><span class="line">Constructor constructor = c.getDeclaredConstructor(String.class);</span><br><span class="line">constructor.setAccessible(<span class="keyword">true</span>);<span class="comment">//设置是否允许访问，因为该构造器是private的，所以要手动设置允许访问，如果构造器是public的就不需要这行了。</span></span><br></pre></td></tr></table></figure>
+</li>
 </ul>
 </li>
 </ul>
@@ -1788,6 +1803,47 @@
 </li>
 </ul>
 </li>
+</ul>
+<h2 id="MVCC-多版本并发控制"><a href="#MVCC-多版本并发控制" class="headerlink" title="MVCC(多版本并发控制)"></a>MVCC(多版本并发控制)</h2><ul>
+<li><p>InnoDB的<strong>一致性的非锁定读</strong>就是通过在MVCC实现的，Mysql的大多数事务型存储引擎实现的都不是简单的行级锁。基于提升并发性能的考虑，它们一般都同时实现了多版本并发控制（MVCC）。但是MVCC在各个数据库中的实现并不统一。</p>
+<ul>
+<li><p>InnoDB：通过在每行记录后面保存两个隐藏的列来实现的，这两个列分别保存了这个行的创建时间和行的删除时间。</p>
+<ul>
+<li><p>事务以排他锁的形式修改原始数据</p>
+</li>
+<li><p>把修改前的数据存放于undo log，通过回滚指针与主数据关联</p>
+</li>
+<li><p>修改成功（commit）啥都不做，失败则恢复undo log中的数据（rollback）</p>
+</li>
+<li><p>乐观锁和悲观锁</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">1.悲观锁</span><br><span class="line">    1、排它锁，当事务在操作数据时把这部分数据进行锁定，直到操作完毕后再解锁，其他事务操作才可操作该部分数据。这将防止其他进程读取或修改表中的数据。</span><br><span class="line">    2、实现：大多数情况下依靠数据库的锁机制实现</span><br><span class="line">  实现方式：</span><br><span class="line">  一般使用 select ...for update 对所选择的数据进行加锁处理，例如select * from account where name=”Max” for update， 这条sql 语句锁定了account 表中所有符合检索条件（name=”Max”）的记录。本次事务提交之前（事务提交时会释放事务过程中的锁），外界无法修改这些记录。</span><br><span class="line">2.乐观锁</span><br><span class="line">  实现方式：</span><br><span class="line">    1、如果有人在你之前更新了，你的更新应当是被拒绝的，可以让用户重新操作。</span><br><span class="line">    2、实现：大多数基于数据版本（Version）记录机制实现</span><br><span class="line">  具体可通过给表加一个版本号或时间戳字段实现，当读取数据时，将version字段的值一同读出，数据每更新一次，对此version值加一。当我们提交更新的时候，判断当前版本信息与第一次取出来的版本值大小，如果数据库表当前版本号与第一次取出来的version值相等，则予以更新，否则认为是过期数据，拒绝更新，让用户重新操作。</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>MVCC<strong>解决的问题是读写互相不阻塞的问题</strong>，每次更新都产生一个新的版本，读的话可以读历史版本。</p>
+<ul>
+<li>锁机制可以控制并发操作，但是其系统开销较大，而MVCC可以在大多数情况下<strong>代替行级锁</strong>，使用MVCC能降低其系统开销。</li>
+</ul>
+</li>
+<li><p>MVCC的实现，是通过保存数据在某一个时间点的快照来实现的。因此每一个事务无论执行多长时间看到的数据，都是一样的。所以MVCC实现可重复读。</p>
+<ul>
+<li>快照读：select语句默认，不加锁，MVCC实现可重复读，使用的是MVCC机制读取undo中的已经提交的数据。所以它的读取是非阻塞的</li>
+<li>当前读：select语句加S锁或X锁；所有的修改操作加X锁，在select for update 的时候，才是当前读。</li>
+</ul>
+</li>
+<li><p><strong>在事务隔离级别为RC和RR级别下， InnoDB存储引擎使用的才是多版本并发控制。</strong></p>
+</li>
+</ul>
+<h3 id="乐观锁与MVCC的区别？"><a href="#乐观锁与MVCC的区别？" class="headerlink" title="乐观锁与MVCC的区别？"></a>乐观锁与MVCC的区别？</h3><ul>
+<li>innodb 则只对读无锁，写操作仍是上锁的悲观并发控制；但postgres 对写操作也是乐观并发控制；在表中保存同一行数据记录的多个不同版本，每次写操作，都是创建，而回避更新；<ul>
+<li>可见 MVCC 中的写操作仍可以按悲观并发控制实现，而 CAS 的写操作只能是乐观并发控制。</li>
+</ul>
+</li>
+<li>MVCC 在语境中倾向于 “对多行数据打快照造平行宇宙”，然而 CAS 一般只是保护单行数据而已</li>
 </ul>
 <h2 id="锁-InnoDB"><a href="#锁-InnoDB" class="headerlink" title="锁(InnoDB)"></a>锁(InnoDB)</h2><ul>
 <li><strong>种类</strong><ul>

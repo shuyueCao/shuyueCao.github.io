@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="Java反射机制 What? 动态加载对象，并对对象进行剖析 在运行状态中，对于任意一个类，都能知道它的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法 动态获取信息以及动态调用对象方法的功能称为Java反射机制    优缺点 优点 提高了程序的灵活性和扩展性：可以实现动态创建对象和编译 底层框架中用的比较多，业务层少用   缺点 性能不好：反射是一种解释操作，用于字段和方法接入时要远">
+<meta name="description" content="Java反射机制 What?  动态加载对象，并对对象进行剖析 在运行状态中，对于任意一个类，都能知道它的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法 动态获取信息以及动态调用对象方法的功能称为Java反射机制   example 123Class c1 = Code.class;//这说明任何一个类都有一个隐含的静态成员变量class，这种方式是通过获取类的静态成员变量class">
 <meta name="keywords" content="面试">
 <meta property="og:type" content="article">
 <meta property="og:title" content="java基础">
 <meta property="og:url" content="http://yoursite.com/2019/03/26/java基础/index.html">
 <meta property="og:site_name" content="Alpaca&#39;s Blog">
-<meta property="og:description" content="Java反射机制 What? 动态加载对象，并对对象进行剖析 在运行状态中，对于任意一个类，都能知道它的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法 动态获取信息以及动态调用对象方法的功能称为Java反射机制    优缺点 优点 提高了程序的灵活性和扩展性：可以实现动态创建对象和编译 底层框架中用的比较多，业务层少用   缺点 性能不好：反射是一种解释操作，用于字段和方法接入时要远">
+<meta property="og:description" content="Java反射机制 What?  动态加载对象，并对对象进行剖析 在运行状态中，对于任意一个类，都能知道它的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法 动态获取信息以及动态调用对象方法的功能称为Java反射机制   example 123Class c1 = Code.class;//这说明任何一个类都有一个隐含的静态成员变量class，这种方式是通过获取类的静态成员变量class">
 <meta property="og:locale" content="Java">
-<meta property="og:updated_time" content="2019-09-23T10:22:20.913Z">
+<meta property="og:updated_time" content="2019-09-26T16:17:09.012Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java基础">
-<meta name="twitter:description" content="Java反射机制 What? 动态加载对象，并对对象进行剖析 在运行状态中，对于任意一个类，都能知道它的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法 动态获取信息以及动态调用对象方法的功能称为Java反射机制    优缺点 优点 提高了程序的灵活性和扩展性：可以实现动态创建对象和编译 底层框架中用的比较多，业务层少用   缺点 性能不好：反射是一种解释操作，用于字段和方法接入时要远">
+<meta name="twitter:description" content="Java反射机制 What?  动态加载对象，并对对象进行剖析 在运行状态中，对于任意一个类，都能知道它的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法 动态获取信息以及动态调用对象方法的功能称为Java反射机制   example 123Class c1 = Code.class;//这说明任何一个类都有一个隐含的静态成员变量class，这种方式是通过获取类的静态成员变量class">
 
 
 
@@ -333,10 +333,25 @@
 
       
         <h1 id="Java反射机制"><a href="#Java反射机制" class="headerlink" title="Java反射机制"></a>Java反射机制</h1><ul>
-<li>What?<ul>
+<li><p>What?</p>
+<ul>
 <li>动态加载对象，并对对象进行剖析</li>
 <li>在运行状态中，对于任意一个类，都能知道它的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法</li>
 <li><strong>动态获取信息以及动态调用对象方法的功能称为Java反射机制</strong></li>
+</ul>
+</li>
+<li><p>example</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Class c1 = Code.class;<span class="comment">//这说明任何一个类都有一个隐含的静态成员变量class，这种方式是通过获取类的静态成员变量class得到的</span></span><br><span class="line">Class c2 = code1.getClass();<span class="comment">//code1是Code的一个对象，这种方式是通过一个类的对象的getClass()方法获得的</span></span><br><span class="line">Class c3 = Class.forName(<span class="string">"com.trigl.reflect.Code"</span>);<span class="comment">//这种方法是Class类调用forName方法，通过一个类的全量限定名获得</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>相关操作</p>
+<ul>
+<li><p>获取成员方法信息</p>
+</li>
+<li><p>获取成员变量信息</p>
+</li>
+<li><p>获取构造函数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Class c = Class.forName(<span class="string">"com.tengj.reflect.Person"</span>);  <span class="comment">//先生成class</span></span><br><span class="line">Object o = c.newInstance();                           <span class="comment">//newInstance可以初始化一个实例</span></span><br><span class="line">Method method = c.getMethod(<span class="string">"fun"</span>, String.class, <span class="keyword">int</span>.class);<span class="comment">//获取方法</span></span><br><span class="line">method.invoke(o, <span class="string">"tengj"</span>, <span class="number">10</span>);                              <span class="comment">//通过invoke调用该方法,参数第一个为实例对象，后面为具体参数值</span></span><br><span class="line">Method[] methods = c.getDeclaredMethods(); <span class="comment">// 得到该类所有的方法，不包括父类的</span></span><br><span class="line">或者：</span><br><span class="line">Method[] methods = c.getMethods();<span class="comment">// 得到该类所有的public方法，包括父类的</span></span><br><span class="line"></span><br><span class="line">Field[] fields = c.getDeclaredFields();</span><br><span class="line"></span><br><span class="line"><span class="comment">//获取构造函数</span></span><br><span class="line">Constructor constructor = c.getDeclaredConstructor(String.class);</span><br><span class="line">constructor.setAccessible(<span class="keyword">true</span>);<span class="comment">//设置是否允许访问，因为该构造器是private的，所以要手动设置允许访问，如果构造器是public的就不需要这行了。</span></span><br></pre></td></tr></table></figure>
+</li>
 </ul>
 </li>
 </ul>
