@@ -264,6 +264,249 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/03/Kafka/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Cao Shuyue">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Alpaca's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/10/03/Kafka/" itemprop="url">Kafka</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-10-03T21:15:12+08:00">
+                2019-10-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Kafka架构和原理"><a href="#Kafka架构和原理" class="headerlink" title="Kafka架构和原理"></a>Kafka架构和原理</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Kafka是一种高性能跨语言的，分布式的，基于发布/订阅的消息系统。主要设计目标如下：</p>
+<ol>
+<li>以<code>时间复杂度为O(1)</code>的方式提供<code>消息持久化能力</code>，并保证即使对TB级以上数据也能保证常数时间的访问性能</li>
+<li><code>高吞吐率</code>。即使在非常廉价的商用机器上也能做到单机支持每秒100K条消息的传输</li>
+<li>支持Kafka Server间的<code>消息分区</code>，及<code>分布式消息消费</code>，同时保证每个partition内的消息<code>顺序传输</code></li>
+<li>同时支持<code>离线数据处理</code>和<code>实时数据处理</code></li>
+</ol>
+<h2 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h2><ol>
+<li><strong>高吞吐量、低延迟</strong></li>
+<li><strong>可扩展</strong>：kafka集群支持热扩展</li>
+<li><strong>持久性、可靠性</strong>：消息被持久化到本地磁盘，并且支持数据备份防止数据丢失</li>
+<li><strong>容错性</strong>：允许集群中节点失败（若副本数量为n,则允许n-1个节点失败）</li>
+<li><strong>高并发</strong></li>
+</ol>
+<h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><ol>
+<li><strong>日志收集</strong></li>
+<li><strong>消息系统</strong>：解耦生产者和消费者、缓存消息等</li>
+<li><strong>用户活动跟踪</strong>：将用户行为收集，并通过订阅者进行实时监控</li>
+<li><strong>运营指标</strong>：记录运营监控数据</li>
+<li><strong>流式处理</strong>：spark streaming</li>
+</ol>
+<h2 id="相关术语"><a href="#相关术语" class="headerlink" title="相关术语"></a>相关术语</h2><ol>
+<li><strong>Broker</strong>：Kafka集群包含一个或多个服务器，这种服务器被称为broker</li>
+<li><strong>Topic</strong>：每条发布到Kafka集群的消息都有一个类别，这个类别被称为topic。<ul>
+<li>物理上不同topic的消息分开存储</li>
+<li>逻辑上一个topic的消息虽然保存于一个或多个broker上，但用户只需指定消息的topic即可生产或消费数据而不必关心数据存于何处</li>
+</ul>
+</li>
+<li><strong>Partition</strong>：parition是物理上的概念，每个topic包含一个或多个partition<ul>
+<li>创建topic时可指定parition数量。</li>
+<li>每个partition对应于一个文件夹，该文件夹下存储该partition的数据和索引文件</li>
+</ul>
+</li>
+<li><strong>Producer</strong>：负责发布消息到Kafka broker</li>
+<li><strong>Consumer</strong>：消费消息。<ul>
+<li>每个consumer属于一个特定的consuer group（可为每个consumer指定group name，若不指定group name则属于默认的group）</li>
+<li>使用consumer high level API时，同一topic的一条消息只能被同一个consumer group内的一个consumer消费，但多个consumer group可同时消费这一消息。</li>
+</ul>
+</li>
+</ol>
+<h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><p><img src="http://www.jasongj.com/img/kafka/KafkaColumn1/KafkaArchitecture.png" alt="icon"></p>
+<p>如上图所示，一个典型的kafka集群中包含若干producer（可以是web前端产生的page view，或者是服务器日志，系统CPU、memory等），若干broker（Kafka支持<code>水平扩展</code>，一般broker数量越多，集群吞吐率越高）， 若干consumer group，以及一个<code>Zookeeper集群</code>。</p>
+<p>Kafka通过Zookeeper管理集群配置，选举leader，以及在consumer group发生变化时进行rebalance。</p>
+<h3 id="Consumer-Group"><a href="#Consumer-Group" class="headerlink" title="Consumer Group"></a>Consumer Group</h3><ul>
+<li>consumer group下可以有一个或多个consumer instance，consumer instance可以是一个进程，也可以是一个线程</li>
+<li>允许consumer group对一个topic进行消费，不同的consumer group之间独立消费。</li>
+<li>partition为最小的并行消费单位，即一个group内的consumer只能消费不同的partition</li>
+</ul>
+<h3 id="push-pull"><a href="#push-pull" class="headerlink" title="push/pull"></a>push/pull</h3><ul>
+<li>producer使用<code>push模式</code>将消息发布到broker</li>
+<li>consumer使用<code>pull模式</code>从 broker订阅并消费消息。</li>
+<li><strong>好处</strong>：<ul>
+<li>消息消费的速率由 Consumer自己决定<ul>
+<li>push模式的目标是尽可能以最快速度传递消息，但是这样很容易造成consumer来不及处理消息，典型的表现就是<code>拒绝服务</code>以及<code>网络拥塞</code></li>
+</ul>
+</li>
+<li>Consumer可以自己控制消费方式——<code>既可批量消费也可逐条消费</code>，同时还能<code>选择不同的提交方式</code>从而实现不同的传输语义。 </li>
+</ul>
+</li>
+</ul>
+<h3 id="Topic-Partition"><a href="#Topic-Partition" class="headerlink" title="Topic/Partition"></a>Topic/Partition</h3><ul>
+<li><p><strong>kafka为什么要在topic里加入分区的概念？</strong></p>
+<ul>
+<li>topic是逻辑概念，partition是物理概念，consumer并不关心消息处在集群哪个broker，而只关心在哪个topic</li>
+<li>如果topic内的消息只存放在一个broker，那么这个broker会成为瓶颈，无法做到水平扩展</li>
+</ul>
+</li>
+<li><p><strong>物理上把Topic分成一个或多个Partition</strong>，每个partition可以被认为是一个无限长度的数组，新数据会<strong>顺序追加（顺序写磁盘因此效率很高）</strong>进这个数组（<code>通过offset定位</code>）。每个Partition在物理上对应一个文件夹，该文件夹下存储这个Partition的所有消息和索引文件。</p>
+<ul>
+<li>问题：Topic有多个Partition，那么消息分配到某个Partition的依据是什么？<ul>
+<li>key hash 或者round Robin</li>
+</ul>
+</li>
+</ul>
+<p><img src="http://xstarcd.github.io/wiki/img/kafka/anatomy_of_a_topic.png" alt="icon"></p>
+</li>
+<li><p>一个broker可以存放多个partition</p>
+<p><img src="https://img-blog.csdn.net/20170107212450867?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMzU3MzEzMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="icon"></p>
+</li>
+</ul>
+<h3 id="分区多副本（副本机制）"><a href="#分区多副本（副本机制）" class="headerlink" title="分区多副本（副本机制）"></a>分区多副本（副本机制）</h3><p><img src="https://img-blog.csdn.net/20160620014329074" alt="icon"></p>
+<ul>
+<li>通过副本机制实现故障自动转移，当Kafka集群中一个Broker失效情况下仍然保证服务可用</li>
+<li>N个replicas中。其中一个replica为leader，其他都为follower，leader处理partition的所有读写请求，与此同时，follower会被动定期地去复制leader上的数据。<ul>
+<li>问题：kafka 如何确认一个 Follower 是活的？<ul>
+<li>和 zookeeper 保持联系。</li>
+<li>Follower 复制 Leader 上的消息，且落后的不多（可配置）。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>消息同步到所有的 Follower 才认为是提交成功，提交成功才能被消费。所以 Leader 宕机不会造成消息丢失</li>
+<li>如果leader发生故障或挂掉，一个新leader被选举并接收客户端的消息成功写入。<ul>
+<li>Kafak动态维护一个同步备份集合（ISR）。这个集合中的 Follower 都能成为 Leader。 </li>
+<li>一个写入要同步到所有的 ISR 中才能算做 Commit 成功</li>
+<li>同时 ISR 会被持久化到 ZK 中。</li>
+</ul>
+</li>
+</ul>
+<h3 id="消息可靠性"><a href="#消息可靠性" class="headerlink" title="消息可靠性"></a>消息可靠性</h3><ul>
+<li><p>在实际消息传递过程中，可能会出现如下情况：</p>
+<ul>
+<li>一个消息发送失败</li>
+<li>一个消息被发送多次</li>
+</ul>
+</li>
+<li><p>kafka如何保证消息可靠性？</p>
+<ul>
+<li><strong>从Producer端看</strong>：当一个消息被发送后，Producer会等待broker成功接收到<code>消息的反馈</code>（可通过参数控制等待时间），如果消息在途中丢失或是其中一个broker挂掉，Producer会<code>重新发送</code>（我们知道Kafka有备份机制，可以通过参数控制是否等待所有备份节点都收到消息）。</li>
+<li><strong>从Consumer端看</strong>：broker端记录了partition中的一个offset值，这个值指向Consumer下一个即将消费的message。当Consumer收到了消息，但却在处理过程中挂掉，此时Consumer可以通过这个offset值重新找到上一个消息再进行处理。<ul>
+<li>Consumer还有权限控制这个offset值，对持久化到broker端的消息做任意处理。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="Zookeeper在kafka集群中的作用"><a href="#Zookeeper在kafka集群中的作用" class="headerlink" title="Zookeeper在kafka集群中的作用"></a>Zookeeper在kafka集群中的作用</h2><ul>
+<li><strong>数据发布与订阅中心</strong>：即所谓的配置中心，实现配置的集中式管理和动态更新。例如，全局的配置信息，服务服务框架的地址列表</li>
+<li><strong>负载均衡</strong></li>
+<li><strong>命名服务</strong></li>
+<li><strong>分布式通知/协调</strong>：这个利用的是zookeeper的<code>watcher注册</code>和<code>异步通知机制</code>，能够很好的实现分布式环境中不同系统间的通知与协调，实现对数据变更的实时处理。</li>
+<li><strong>集群管理与master选举</strong></li>
+<li><strong>分布式锁</strong>：这个主要得益于zookeeper数据的强一致性，利用的是临时节点。</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/24/海量数据处理/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -732,6 +975,12 @@
 </li>
 </ul>
 </li>
+<li><strong>IOC中的继承和java继承的区别</strong><ul>
+<li>前者是实例与实例之间参数值的延续，后者则是从一般到特殊的细化。Spring 中的子bean 和父bean 可以是不同类型，但在Java 中的，子类是对父类的加强，是一种特殊的父类</li>
+<li>前者是对象与对象之间的关系，后者是类与类之间的关系。spring 中bean 的继承是实例之间的关系，主要表现为参数值的延续:而Java 中的继承是类与类之间的关系，主要表现为方法及属性的延续。</li>
+<li>Spring 中子bean 不可作父bean 使用，不具备多态性；而Java 中的子类实例完全可当成父类实例使用。</li>
+</ul>
+</li>
 </ul>
 <h3 id="bean的生命周期"><a href="#bean的生命周期" class="headerlink" title="bean的生命周期"></a>bean的生命周期</h3><ul>
 <li>容器启动后，会对scope为singleton且非懒加载的bean进行实例化</li>
@@ -747,8 +996,19 @@
 <li>容器关闭后，如果Bean实现了DisposableBean接口，则会回调该接口的destroy()方法</li>
 <li>如果Bean配置了destroy-method方法，则会执行destroy-method配置的方法，至此，整个Bean的生命周期结束</li>
 </ul>
+<h3 id="bean的scope"><a href="#bean的scope" class="headerlink" title="bean的scope"></a>bean的scope</h3><ul>
+<li>singleton：一个容器中只存在一个实例</li>
+<li>prototype：每次收到请求都生成一个新的实例</li>
+<li>request</li>
+<li>session</li>
+<li>globalSession</li>
+</ul>
 <h2 id="AOP"><a href="#AOP" class="headerlink" title="AOP"></a>AOP</h2><ul>
-<li>spring AOP的底层实现是<strong>动态代理</strong><ul>
+<li>运用场景：事务管理(数据库事务、编程事务、声明事务Spring AOP)，日志处理，安全验证</li>
+<li>AOP有三种织入切面的方法：<ul>
+<li>其一是编译期织入，这要求使用特殊的Java编译器，AspectJ是其中的代表者；</li>
+<li>其二是类装载期织入，而这要求使用特殊的类装载器，AspectJ和AspectWerkz是其中的代表者；</li>
+<li>其三为动态代理织入，在运行期为目标类添加增强生成子类的方式，Spring AOP采用<strong>动态代理</strong>织入切面。<ul>
 <li>提供了对JDK动态代理的支持以及CGLib的支持。<ul>
 <li>JDK动态代理只能为接口创建动态代理实例，而不能对类创建动态代理</li>
 <li>CGLib动态代理需要依赖asm包，把被代理对象类的class文件加载进来，修改其字节码生成子类。</li>
@@ -756,9 +1016,24 @@
 </li>
 </ul>
 </li>
-<li>AspectJ的底层技术是<strong>静态代理</strong><ul>
-<li>通过一个命令来编译，生成一个新的代理类</li>
-<li>在<strong>编译</strong>时增强</li>
+</ul>
+</li>
+<li><strong>相关概念</strong><ul>
+<li>关注点concern： 一个关注点可以是一个特定的问题，概念、或者应用程序的兴趣点。总而言之，应用程序必须达到一个目标<ul>
+<li>安全验证、日志记录、事务管理都是一个关注点</li>
+<li>在oo应用程序中，关注点可能已经被代码模块化了还可能散落在整个对象模型中</li>
+</ul>
+</li>
+<li>连接点join point：程序执行的某个特定位置：如类开始初始化前，类初始化后，类某个方法调用前。一个类或一段代码拥有一些边界性质的特定点，这些代码中的特定点就被称为“连接点”。</li>
+<li>切点pointcut：AOP通过“切点”定位特定的连接点，即连接点相当于数据库中的记录，而切点相当于查询条件<ul>
+<li>一个类中可能有多个方法，每个都是连接点，通过切点定位某一个感兴趣的连接点</li>
+<li>一个切点可以匹配多个连接点</li>
+</ul>
+</li>
+<li>增强advice：织入到目标类连接点上的一段程序代码</li>
+<li>目标对象target：增强逻辑的织入目标类</li>
+<li>引介introduction：引介是一种特殊的增强，它为类添加一些属性和方法。这样，即使一个业务类原本没有实现某个接口，通过AOP的引介功能，我们可以动态的为该事务添加接口的实现逻辑，让业务类成为这个接口的实现类。</li>
+<li>切面aspect：切面由切点和增强（引介）组成，它既包括了横切逻辑的定义，也包括了连接点的定义，Spring AOP就是负责实施切面的框架，它将切面所定义的横切逻辑织入到切面所指定的链接点中。</li>
 </ul>
 </li>
 </ul>
@@ -782,6 +1057,17 @@
 <li>dispatcherServlet借助ViewResoler完成逻辑视图到真实视图对象的解析</li>
 <li>dispatcherServlet使用这个view对ModelAndView中的模型数据进行视图渲染，返回给用户</li>
 </ol>
+<h2 id="核心组件"><a href="#核心组件" class="headerlink" title="核心组件"></a>核心组件</h2><ul>
+<li>DispatcherServlet：前置控制器，负责分发请求</li>
+<li>HandlerMapping：映射处理器，负责根据请求找到对应的控制器</li>
+<li>Controller：处理请求的控制器</li>
+<li>ModelAndView：封装数据信息和视图信息</li>
+<li>ViewReslover：视图处理器，通过处理找到对应的页面</li>
+</ul>
+<h2 id="怎样实现重定向和转发？"><a href="#怎样实现重定向和转发？" class="headerlink" title="怎样实现重定向和转发？"></a>怎样实现重定向和转发？</h2><ul>
+<li>在返回值的前面加”forword”，就可以实现让结果转发</li>
+<li>在返回值的前面加上”redirect”，就可以让返回值重定向。</li>
+</ul>
 <h1 id="Spring-Boot"><a href="#Spring-Boot" class="headerlink" title="Spring Boot"></a>Spring Boot</h1><ul>
 <li>主要是简化了spring的难度，简省了繁重的配置，提供了各种容器，开发者能快速上手</li>
 <li><strong>优点</strong><ul>
@@ -1025,6 +1311,11 @@
 <h1 id="Java代理机制"><a href="#Java代理机制" class="headerlink" title="Java代理机制"></a>Java代理机制</h1><ul>
 <li>静态代理：编译时实现<ul>
 <li>编译后代理类是一个class文件</li>
+<li>AspectJ的底层技术是<strong>静态代理</strong><ul>
+<li>通过一个命令来编译，生成一个新的代理类</li>
+<li>在<strong>编译</strong>时增强</li>
+</ul>
+</li>
 </ul>
 </li>
 <li>动态代理：运行时生成<ul>
@@ -1038,22 +1329,24 @@
 </li>
 <li><p>example</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Car接口</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Car</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Car实现类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CarImpl</span> <span class="keyword">implements</span> <span class="title">Car</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"car running"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Car代理类</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.InvocationHandler;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line"></span><br><span class="line"><span class="comment">//JDK动态代理代理类 </span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CarHandler</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span></span>&#123;</span><br><span class="line">    <span class="comment">//真实类的对象</span></span><br><span class="line">    <span class="keyword">private</span> Object car;</span><br><span class="line">    <span class="comment">//构造方法赋值给真实的类</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CarHandler</span><span class="params">(Object obj)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.car = obj;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">//代理类执行方法时，调用的是这个方法</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"before"</span>);</span><br><span class="line">        Object res = method.invoke(car, args);</span><br><span class="line">        System.out.println(<span class="string">"after"</span>);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Main方法</span></span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Proxy;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">main</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        CarImpl carImpl = <span class="keyword">new</span> CarImpl();</span><br><span class="line">        CarHandler carHandler = <span class="keyword">new</span> CarHandler(carImpl);</span><br><span class="line">        Car proxy = (Car)Proxy.newProxyInstance(</span><br><span class="line">                main.class.getClassLoader(), <span class="comment">//第一个参数，获取ClassLoader</span></span><br><span class="line">                carImpl.getClass().getInterfaces(), <span class="comment">//第二个参数，获取被代理类的接口</span></span><br><span class="line">                carHandler);<span class="comment">//第三个参数，一个InvocationHandler对象，表示的是当我这个动态代理对象在调用方法的时候，会关联到哪一个InvocationHandler对象上</span></span><br><span class="line">        proxy.run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Car实现类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CarImpl</span> <span class="keyword">implements</span> <span class="title">Car</span></span>&#123;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        start();</span><br><span class="line">        System.out.println(<span class="string">"running...."</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">start</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"starting......."</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Car代理类</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.InvocationHandler;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line"></span><br><span class="line"><span class="comment">//JDK动态代理代理类 </span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CarHandler</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span></span>&#123;</span><br><span class="line">    <span class="comment">//真实类的对象</span></span><br><span class="line">    <span class="keyword">private</span> Object car;</span><br><span class="line">    <span class="comment">//构造方法赋值给真实的类</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CarHandler</span><span class="params">(Object obj)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.car = obj;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">//代理类执行方法时，调用的是这个方法</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">      System.out.println(<span class="string">"before"</span>);</span><br><span class="line">        Object res = method.invoke(car, args);</span><br><span class="line">        System.out.println(<span class="string">"after"</span>);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Main方法</span></span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Proxy;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">main</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        CarImpl carImpl = <span class="keyword">new</span> CarImpl();</span><br><span class="line">        CarHandler carHandler = <span class="keyword">new</span> CarHandler(carImpl);</span><br><span class="line">        Car proxy = (Car)Proxy.newProxyInstance(</span><br><span class="line">              main.class.getClassLoader(), <span class="comment">//第一个参数，获取ClassLoader</span></span><br><span class="line">                carImpl.getClass().getInterfaces(), <span class="comment">//第二个参数，获取被代理类的接口</span></span><br><span class="line">                carHandler);<span class="comment">//第三个参数，一个InvocationHandler对象，表示的是当我这个动态代理对象在调用方法的时候，会关联到哪一个InvocationHandler对象上</span></span><br><span class="line">        proxy.run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">打印结果：</span><br><span class="line">before</span><br><span class="line">starting....</span><br><span class="line">running.....</span><br><span class="line">after</span><br></pre></td></tr></table></figure>
 <ul>
 <li><strong>JDK的动态代理依靠接口实现，入参必须有被代理类的接口</strong>，也就是<code>carImpl.getClass().getInterfaces()</code>,如果有些类并没有实现接口，则不能使用JDK代理</li>
-</ul>
-</li>
 </ul>
 <h3 id="CGLIB动态代理"><a href="#CGLIB动态代理" class="headerlink" title="CGLIB动态代理"></a>CGLIB动态代理</h3><p>利用asm开源包，对代理对象类的class文件加载进来，通过修改其字节码生成子类来处理。</p>
 <ul>
 <li><p><strong>针对类实现代理，对指定的目标类生成一个子类， 并覆盖其中方法实现增强，但因为采用的是继承，所以不能对final修饰的类进行代理</strong></p>
 </li>
 <li><p>example</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//没有实现接口的car</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CarNoInterface</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"car running"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//cglib代理类</span></span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.cglib.proxy.Enhancer;</span><br><span class="line"><span class="keyword">import</span> org.springframework.cglib.proxy.MethodInterceptor;</span><br><span class="line"><span class="keyword">import</span> org.springframework.cglib.proxy.MethodProxy;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CglibProxy</span> <span class="keyword">implements</span> <span class="title">MethodInterceptor</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Object car;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/** </span></span><br><span class="line"><span class="comment">     * 创建代理对象 </span></span><br><span class="line"><span class="comment">     *  </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> target </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> </span></span><br><span class="line"><span class="comment">     */</span>  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">getInstance</span><span class="params">(Object object)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">this</span>.car = object;  </span><br><span class="line">        Enhancer enhancer = <span class="keyword">new</span> Enhancer();  </span><br><span class="line">        enhancer.setSuperclass(<span class="keyword">this</span>.car.getClass());  </span><br><span class="line">        <span class="comment">// 回调方法  </span></span><br><span class="line">        enhancer.setCallback(<span class="keyword">this</span>);  </span><br><span class="line">        <span class="comment">// 创建代理对象  </span></span><br><span class="line">        <span class="keyword">return</span> enhancer.create();  </span><br><span class="line">    &#125;  </span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">intercept</span><span class="params">(Object obj, Method method, Object[] args,MethodProxy proxy)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"事物开始"</span>);  </span><br><span class="line">        proxy.invokeSuper(obj, args);  </span><br><span class="line">        System.out.println(<span class="string">"事物结束"</span>);  </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;  </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//main方法</span></span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Proxy;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">main</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;    </span><br><span class="line">        CglibProxy cglibProxy = <span class="keyword">new</span> CglibProxy();</span><br><span class="line">        CarNoInterface carNoInterface = (CarNoInterface)cglibProxy.getInstance(<span class="keyword">new</span> CarNoInterface());</span><br><span class="line">        carNoInterface.run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//没有实现接口的car</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CarNoInterface</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        start();</span><br><span class="line">        System.out.println(<span class="string">"car running"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">start</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"starting...."</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//cglib代理类</span></span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.cglib.proxy.Enhancer;</span><br><span class="line"><span class="keyword">import</span> org.springframework.cglib.proxy.MethodInterceptor;</span><br><span class="line"><span class="keyword">import</span> org.springframework.cglib.proxy.MethodProxy;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CglibProxy</span> <span class="keyword">implements</span> <span class="title">MethodInterceptor</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Object car;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/** </span></span><br><span class="line"><span class="comment">     * 创建代理对象 </span></span><br><span class="line"><span class="comment">     *  </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> target </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> </span></span><br><span class="line"><span class="comment">     */</span>  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">getInstance</span><span class="params">(Object object)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">this</span>.car = object;  </span><br><span class="line">        Enhancer enhancer = <span class="keyword">new</span> Enhancer();  </span><br><span class="line">        enhancer.setSuperclass(<span class="keyword">this</span>.car.getClass());  </span><br><span class="line">        <span class="comment">// 回调方法  </span></span><br><span class="line">        enhancer.setCallback(<span class="keyword">this</span>);  </span><br><span class="line">        <span class="comment">// 创建代理对象  </span></span><br><span class="line">        <span class="keyword">return</span> enhancer.create();  </span><br><span class="line">    &#125;  </span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">intercept</span><span class="params">(Object obj, Method method, Object[] args,MethodProxy proxy)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"before"</span>);  </span><br><span class="line">        proxy.invokeSuper(obj, args);  </span><br><span class="line">      System.out.println(<span class="string">"after"</span>);  </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;  </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//main方法</span></span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Proxy;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">main</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;    </span><br><span class="line">      CglibProxy cglibProxy = <span class="keyword">new</span> CglibProxy();</span><br><span class="line">        CarNoInterface carNoInterface = (CarNoInterface)cglibProxy.getInstance(<span class="keyword">new</span> CarNoInterface());</span><br><span class="line">      carNoInterface.run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">打印结果：</span><br><span class="line">before</span><br><span class="line">before</span><br><span class="line">starting....</span><br><span class="line">after</span><br><span class="line">car running</span><br><span class="line">after</span><br></pre></td></tr></table></figure>
 <h3 id="Spring中两者使用场景"><a href="#Spring中两者使用场景" class="headerlink" title="Spring中两者使用场景"></a>Spring中两者使用场景</h3><ol>
 <li>如果目标对象实现了<code>接口</code>，默认情况下会采用<code>JDK的动态代理</code>实现AOP</li>
 <li>如果目标对象实现了接口，可以强制使用CGLIB实现AOP<ol>
@@ -1063,8 +1356,6 @@
 </li>
 <li>如果目标对象没有实现了接口，<code>必须采用CGLIB库</code>，spring会自动在JDK动态代理和CGLIB之间转换</li>
 </ol>
-</li>
-</ul>
 
           
         
@@ -1757,6 +2048,37 @@
 <li>避免在索引列上使用NOT</li>
 <li>避免在索引列上使用计算</li>
 </ul>
+<h2 id="varchar-和char的区别"><a href="#varchar-和char的区别" class="headerlink" title="varchar 和char的区别"></a>varchar 和char的区别</h2><table>
+<thead>
+<tr>
+<th>varchar(n)</th>
+<th>char(n)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>可变长度，最多2^16−1个字符，2^16−1个字节</td>
+<td>固定长度，最多2^8−1个字符，2^8−1个字节</td>
+</tr>
+<tr>
+<td>varchar只会占用实际字符应该占用的字节空间L+1(L=0到255)或L+2(L&gt;255)，并且实际字节空间L+1&lt;=255,或者L+2&lt;=65535</td>
+<td>char不管实际value都会占用n个字符的空间</td>
+</tr>
+<tr>
+<td>上限为65535字节，text同</td>
+<td>上限为255字节</td>
+</tr>
+<tr>
+<td>不会截断尾部空格</td>
+<td>在存储的时候会截断尾部的空格</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>char（n）和varchar（n）中括号中<strong>n代表字符的个数，并不代表字节个数</strong>，所以当使用了中文的时候(UTF8)意味着可以插入m个中文，但是实际会占用3m个字节，m∗3&lt;=255，m∗3&lt;=65535。</li>
+<li>超过char和varchar的n设置之后，字符串会被截断</li>
+<li>UTF-8中，中文占3个字符，英文占1个字符</li>
+</ul>
 <h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><ul>
 <li>概念<ul>
 <li>指访问并可能更新数据库中各种数据项的一个程序执行单元</li>
@@ -1825,9 +2147,8 @@
 </ul>
 <ul>
 <li><p>MVCC<strong>解决的问题是读写互相不阻塞的问题</strong>，每次更新都产生一个新的版本，读的话可以读历史版本。</p>
-<ul>
-<li>锁机制可以控制并发操作，但是其系统开销较大，而MVCC可以在大多数情况下<strong>代替行级锁</strong>，使用MVCC能降低其系统开销。</li>
-</ul>
+</li>
+<li><p>锁机制可以控制并发操作，但是其系统开销较大，而MVCC可以在大多数情况下<strong>代替行级锁</strong>，使用MVCC能降低其系统开销。</p>
 </li>
 <li><p>MVCC的实现，是通过保存数据在某一个时间点的快照来实现的。因此每一个事务无论执行多长时间看到的数据，都是一样的。所以MVCC实现可重复读。</p>
 <ul>
@@ -3540,345 +3861,6 @@ public class ChessyCounter{
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/12/数据结构和排序算法/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Cao Shuyue">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Alpaca's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/01/12/数据结构和排序算法/" itemprop="url">数据结构和排序算法</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-01-12T11:15:02+08:00">
-                2019-01-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
-                  </a>
-                </span>
-
-                
-                
-                  , 
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法/数据结构/" itemprop="url" rel="index">
-                    <span itemprop="name">数据结构</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="基本排序算法"><a href="#基本排序算法" class="headerlink" title="基本排序算法"></a>基本排序算法</h1><ul>
-<li><p><strong>稳定性</strong></p>
-<ul>
-<li>排序前后两个相等的数相对位置不变，则算法稳定。</li>
-</ul>
-</li>
-</ul>
-<h2 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h2><ul>
-<li>直接插入排序</li>
-<li>折半插入排序（二分法插入）</li>
-<li>希尔排序：不稳定</li>
-</ul>
-<h3 id="直接插入排序"><a href="#直接插入排序" class="headerlink" title="直接插入排序"></a>直接插入排序</h3><p><strong>稳定，算法复杂度：O(n²)</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">insertionSort</span><span class="params">(<span class="keyword">int</span>[] a)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; a.length; i++) &#123;</span><br><span class="line">        <span class="keyword">int</span> temp = a[i];</span><br><span class="line">        <span class="keyword">int</span> j = i - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (j &gt;= <span class="number">0</span> &amp;&amp; a[j] &gt; temp) &#123;</span><br><span class="line">            a[j + <span class="number">1</span>] = a[j];</span><br><span class="line">            j--;</span><br><span class="line">        &#125;</span><br><span class="line">        a[j + <span class="number">1</span>] = temp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="折半插入排序（此处描述的是二分法查找算法）"><a href="#折半插入排序（此处描述的是二分法查找算法）" class="headerlink" title="折半插入排序（此处描述的是二分法查找算法）"></a>折半插入排序（此处描述的是二分法查找算法）</h3><p><strong>稳定，查找算法复杂度：O(logN)；排序算法复杂度：O(NlogN)</strong></p>
-<p><strong>要求：1.存储在数组中（链表中不适合） 2.有序排列</strong></p>
-<p>在算法中属于<code>分治算法</code></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">//递归实现</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">binarySearchRecursion</span><span class="params">(<span class="keyword">int</span>[] array, <span class="keyword">int</span> low, <span class="keyword">int</span> high, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (low &gt; high)</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> mid = (low + high) / <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">if</span> (target &lt; array[mid])</span><br><span class="line">        <span class="keyword">return</span> binarySearchRecursion(array, low, mid - <span class="number">1</span>, target);</span><br><span class="line">    <span class="keyword">if</span> (target &gt; array[mid])</span><br><span class="line">        <span class="keyword">return</span> binarySearchRecursion(array, mid + <span class="number">1</span>, high, target);</span><br><span class="line">    <span class="keyword">return</span> array[mid];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//非递归实现</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">binarySearch</span><span class="params">(<span class="keyword">int</span>[] array, <span class="keyword">int</span> low, <span class="keyword">int</span> high, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (low &lt;= high) &#123;</span><br><span class="line">        <span class="keyword">int</span> mid = (low + high) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (target &lt; array[mid])</span><br><span class="line">            high = mid - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (target &gt; array[mid])</span><br><span class="line">            low = mid + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">return</span> mid;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//二分法插入</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">binaryInsert</span><span class="params">(<span class="keyword">int</span>[] array,<span class="keyword">int</span> target)</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> low =<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> high = array.length-<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span>[] res = <span class="keyword">new</span> <span class="keyword">int</span>[array.length+<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">while</span> (low&lt;=high)&#123;</span><br><span class="line">            <span class="keyword">int</span> mid = (low+high)/<span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span> (array[mid]&lt; target)</span><br><span class="line">                low = mid+<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                high = mid-<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;low;i++)</span><br><span class="line">            res[i]=array[i];</span><br><span class="line">        res[low] = target;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=low+<span class="number">1</span>;i&lt;res.length;i++)</span><br><span class="line">            res[i]=array[low++];</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-<h2 id="交换排序"><a href="#交换排序" class="headerlink" title="交换排序"></a>交换排序</h2><ul>
-<li>冒泡排序</li>
-<li>快速排序(不稳定)</li>
-</ul>
-<h3 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h3><p><strong>稳定，算法复杂度：O(n²)；最好情况下O(n)</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">bubbleSort</span><span class="params">(<span class="keyword">int</span>[] a)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; a.length; i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; a.length - i; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (a[j] &lt; a[j - <span class="number">1</span>]) &#123;</span><br><span class="line">                <span class="keyword">int</span> temp = a[j];</span><br><span class="line">                a[j] = a[j - <span class="number">1</span>];</span><br><span class="line">                a[j - <span class="number">1</span>] = temp;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//算法还可以改进，从两头向中间逼近，可以加快速度</span></span><br></pre></td></tr></table></figure>
-<h3 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h3><p><strong>不稳定，算法复杂度：O(NlogN)</strong></p>
-<p>在所有同数量级的排序方法中，平均性能最好</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//递归实现</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">quickSortRecursion</span><span class="params">(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> low, <span class="keyword">int</span> high)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (low &lt; high) &#123;</span><br><span class="line">        <span class="keyword">int</span> pivot = partition(arr, low, high);</span><br><span class="line">        quickSortRecursion(arr, low, pivot - <span class="number">1</span>);</span><br><span class="line">        quickSortRecursion(arr, pivot + <span class="number">1</span>, high);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">partition</span><span class="params">(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> low, <span class="keyword">int</span> high)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> pivot = arr[low];</span><br><span class="line">    <span class="keyword">while</span> (low &lt; high) &#123;</span><br><span class="line">        <span class="keyword">while</span> (low &lt; high &amp;&amp; arr[high] &gt; pivot) high--;</span><br><span class="line">        arr[low] = arr[high];</span><br><span class="line">        <span class="keyword">while</span> (low &lt; high &amp;&amp; arr[low] &lt; pivot) low++;</span><br><span class="line">        arr[high] = arr[low];</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    arr[low] = pivot;</span><br><span class="line">    <span class="keyword">return</span> low;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//非递归实现</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">quickSort</span><span class="params">(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> low, <span class="keyword">int</span> high)</span> </span>&#123;</span><br><span class="line">    Stack&lt;Integer&gt; stack = <span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line">    <span class="keyword">if</span> (low &lt; high) &#123;</span><br><span class="line">        stack.push(high);</span><br><span class="line">        stack.push(low);</span><br><span class="line">        <span class="keyword">while</span> (!stack.empty()) &#123;</span><br><span class="line">            <span class="keyword">int</span> l = stack.pop();</span><br><span class="line">            <span class="keyword">int</span> r = stack.pop();</span><br><span class="line">            <span class="keyword">int</span> pivot = partition(arr, l, r);</span><br><span class="line">            <span class="keyword">if</span> (l &lt; pivot - <span class="number">1</span>) &#123;</span><br><span class="line">                stack.push(pivot - <span class="number">1</span>);</span><br><span class="line">                stack.push(l);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (r &gt; pivot + <span class="number">1</span>) &#123;</span><br><span class="line">                stack.push(r);</span><br><span class="line">                stack.push(pivot + <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h2><ul>
-<li>直接选择排序：不稳定<ul>
-<li>直接选择最小(最大)的记录与第一个记录交换位置，再对余下的n-1个进行同样操作</li>
-<li>算法复杂度：O(n²)</li>
-<li>存在重复做比较的情况</li>
-</ul>
-</li>
-<li>锦标赛排序（树形）：稳定<ul>
-<li>N个关键码两两比较，得到 n/2 个比较的优胜者(关键码小者)保留下来, 再对这 n/2个对象再进行关键码的两两比较, ……直至选出一个最小的关键码为止。</li>
-<li>算法复杂度：O(NlogN)</li>
-</ul>
-</li>
-<li>堆排序：不稳定<ul>
-<li>算法复杂度：O(NlogN)</li>
-</ul>
-</li>
-</ul>
-<h3 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//堆排序</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">heapsort</span><span class="params">(<span class="keyword">int</span>[] arr)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = arr.length / <span class="number">2</span>; i &gt;= <span class="number">0</span>; i--)</span><br><span class="line">        adjustHeap(arr, i, arr.length);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = arr.length - <span class="number">1</span>; i &gt; <span class="number">0</span>; i--) &#123;</span><br><span class="line">        swap(arr, <span class="number">0</span>, i);</span><br><span class="line">        adjustHeap(arr, <span class="number">0</span>, i);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** 构建最大堆的过程</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> arr 数组</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> i   需要构建堆的根节点的序号</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> n   数组长度</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">adjustHeap</span><span class="params">(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> i, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> father;</span><br><span class="line">    <span class="keyword">int</span> child;</span><br><span class="line">    <span class="keyword">for</span> (father = arr[i]; leftChild(i) &lt; n; i = child) &#123;</span><br><span class="line">        child = leftChild(i);</span><br><span class="line">        <span class="comment">// 如果左子树小于右子树，则需要比较右子树和父节点</span></span><br><span class="line">        <span class="keyword">if</span> (child != n - <span class="number">1</span> &amp;&amp; arr[child] &lt; arr[child + <span class="number">1</span>])</span><br><span class="line">            child++;<span class="comment">//序号+1，指向右子树</span></span><br><span class="line">        <span class="comment">// 如果父节点小于孩子结点，则需要交换</span></span><br><span class="line">        <span class="keyword">if</span> (father &lt; arr[child]) &#123;</span><br><span class="line">            arr[i] = arr[child];</span><br><span class="line">        &#125; <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">break</span>;<span class="comment">//是最大堆，无需破坏</span></span><br><span class="line">    &#125;</span><br><span class="line">    arr[i] = father;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">leftChild</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">2</span> * i + <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> index1, <span class="keyword">int</span> index2)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> tmp = arr[index1];</span><br><span class="line">    arr[index1] = arr[index2];</span><br><span class="line">    arr[index2] = tmp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h2><p><strong>稳定，算法复杂度：O(NlogN)</strong></p>
-<p>在算法中属于<code>分治算法</code></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//递归</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">MergeSort</span><span class="params">(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> left, <span class="keyword">int</span> right)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> mid = (left + right) / <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">if</span> (left &lt; right)&#123;</span><br><span class="line">        MergeSort(arr, left, mid);</span><br><span class="line">        MergeSort(arr, mid + <span class="number">1</span>, right);</span><br><span class="line">        merge(arr, left, mid, right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//merge函数实际上是将两个有序数组合并成一个有序数组</span></span><br><span class="line"><span class="comment">//因为数组有序，合并很简单，只要维护几个指针就可以了</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">merge</span><span class="params">(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> left, <span class="keyword">int</span> mid, <span class="keyword">int</span> right)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//temp数组用于暂存合并的结果</span></span><br><span class="line">    <span class="keyword">int</span>[] temp = <span class="keyword">new</span> <span class="keyword">int</span>[right - left + <span class="number">1</span>];</span><br><span class="line">    <span class="comment">//左半边的指针</span></span><br><span class="line">    <span class="keyword">int</span> head1 = left;</span><br><span class="line">    <span class="comment">//右半边的指针</span></span><br><span class="line">    <span class="keyword">int</span> head2 = mid+<span class="number">1</span>;</span><br><span class="line">    <span class="comment">//合并后数组的指针</span></span><br><span class="line">    <span class="keyword">int</span> index = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//将记录由小到大地放进temp数组</span></span><br><span class="line">    <span class="keyword">for</span>(; head1 &lt;= mid &amp;&amp; head2 &lt;= right; index++) &#123;</span><br><span class="line">        <span class="keyword">if</span>(arr[head1] &lt; arr[head2])</span><br><span class="line">            temp[index] = arr[head1++];</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            temp[index] = arr[head2++];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//接下来两个while循环是为了将剩余的（比另一边多出来的个数）放到temp数组中</span></span><br><span class="line">    <span class="keyword">while</span>(head1 &lt;= mid)</span><br><span class="line">        temp[index++] = arr[head1++];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(head2 &lt;= right)</span><br><span class="line">        temp[index++] = arr[head2++];</span><br><span class="line"></span><br><span class="line">    <span class="comment">//将temp数组中的元素写入到待排数组中</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; temp.length; i++)</span><br><span class="line">        arr[left + i] = temp[i];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//非递归</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">MergeSort</span><span class="params">(<span class="keyword">int</span>[] arr)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> len = arr.length;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> step = <span class="number">1</span>; <span class="comment">//每一个区间的长度，1,2,4,8...</span></span><br><span class="line">    <span class="keyword">while</span> (step &lt;= len) &#123;</span><br><span class="line">        <span class="keyword">int</span> offset = <span class="number">2</span> * step;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; len; i += offset)</span><br><span class="line">            merge(arr, i, Math.min(i + step - <span class="number">1</span>, len - <span class="number">1</span>), Math.min(i + offset - <span class="number">1</span>, len - <span class="number">1</span>));</span><br><span class="line">        step = offset;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="基数排序"><a href="#基数排序" class="headerlink" title="基数排序"></a>基数排序</h2><ul>
-<li>桶排序：不稳定<ul>
-<li>算法复杂度：O(n+radix)</li>
-<li>空间复杂度：O(n+2radix)</li>
-</ul>
-</li>
-</ul>
-<h1 id="解决Hash冲突"><a href="#解决Hash冲突" class="headerlink" title="解决Hash冲突"></a>解决Hash冲突</h1><ul>
-<li>线性探测</li>
-<li>二次探测</li>
-<li>双散列<ul>
-<li>d = hash1(k) = k % len(tableSize)</li>
-<li>c = hash2(k) = R - (k % R) ;R为&lt;tableSize的质数</li>
-<li>d+c,d+2c,d+3c…..</li>
-</ul>
-</li>
-<li>再散列<ul>
-<li>当表项数 &gt; 表的70% 时,可再散列.  即, 取比(2*原表长=14)大的质数17再散列</li>
-</ul>
-</li>
-</ul>
-<h1 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h1><h2 id="红黑树"><a href="#红黑树" class="headerlink" title="红黑树"></a>红黑树</h2><ul>
-<li>在平衡二叉搜索树的基础上增加了着色相关的性质，这些性质保证了红黑树<strong>始终是logN的高度</strong>，从而保证了红黑树的查找、插入、删除的时间复杂度<strong>最坏为O(logN)</strong></li>
-<li><strong>性质</strong><ul>
-<li>每个结点要么是红的要么是黑的</li>
-<li>根节点是黑的</li>
-<li>每个叶结点(叶结点即指树尾端NIL指针或NULL结点NIL指针)都是黑的</li>
-<li>如果一个结点是红的，那么它的两个儿子都是黑的</li>
-<li>对于任意结点而言，其到叶结点NIL指针的每条路径都包含相同数目的黑结点<br><img src="https://upload.wikimedia.org/wikipedia/commons/6/66/Red-black_tree_example.svg" alt="icon"></li>
-</ul>
-</li>
-<li>多用在内部排序，即全放在内存中的</li>
-<li><strong>TreeMap 就是采用红黑树存储的</strong></li>
-</ul>
-<h2 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h2><h3 id="HashMap"><a href="#HashMap" class="headerlink" title="HashMap"></a>HashMap</h3><ul>
-<li>使用<strong>数组+链表</strong>方式实现</li>
-<li>无序</li>
-</ul>
-<h4 id="put方法"><a href="#put方法" class="headerlink" title="put方法"></a>put方法</h4><ol>
-<li>根据当前 key 的 <code>hashcode</code> 定位到具体的桶中，然后再计算index</li>
-<li>如果没有冲突就直接存</li>
-<li>如果有冲突，以链表的形式存在后面</li>
-<li>如果冲突导致链表过长，就把链表转为红黑树</li>
-<li>如果节点已经存在就替换old value(保证key的唯一性)</li>
-<li>如果桶满了，就要resize()</li>
-</ol>
-<h4 id="get方法"><a href="#get方法" class="headerlink" title="get方法"></a>get方法</h4><ol>
-<li>如果是桶中的第一个节点，则直接返回value</li>
-<li>如果有冲突，则通过key.equals(k)去查找对应的entry<ul>
-<li>若为树，O(logN)</li>
-<li>若为链表，O(n)</li>
-</ul>
-</li>
-</ol>
-<h4 id="1-7与1-8的区别"><a href="#1-7与1-8的区别" class="headerlink" title="1.7与1.8的区别"></a>1.7与1.8的区别</h4><table>
-<thead>
-<tr>
-<th></th>
-<th style="text-align:center">1.7</th>
-<th style="text-align:center">1.8</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>存储结构</td>
-<td style="text-align:center">数组+链表</td>
-<td style="text-align:center">数组+链表+红黑树</td>
-</tr>
-<tr>
-<td>扩容后存储位置的计算方式</td>
-<td style="text-align:center">按照原方法(hashCode–&gt;扰动处理)</td>
-<td style="text-align:center">扩容后的位置=原位置or原位置+扩容量</td>
-</tr>
-<tr>
-<td>转移数据方式</td>
-<td style="text-align:center">头插法(将原位置的数据后移1位再插入：逆序&amp;环形链表死循环问题)</td>
-<td style="text-align:center">尾插法</td>
-</tr>
-<tr>
-<td>插入数据时机&amp;位置重计算时机</td>
-<td style="text-align:center">扩容前插入、转移数据时统一计算</td>
-<td style="text-align:center">扩容后插入、单独计算(即转移数据时无统一计算)</td>
-</tr>
-</tbody>
-</table>
-<h4 id="LinkedHashMap"><a href="#LinkedHashMap" class="headerlink" title="LinkedHashMap"></a>LinkedHashMap</h4><ul>
-<li>保存了记录的插入顺序</li>
-</ul>
-<h4 id="HashSet"><a href="#HashSet" class="headerlink" title="HashSet"></a>HashSet</h4><ul>
-<li>基于HashMap实现</li>
-<li>同样无法保证顺序</li>
-</ul>
-<h3 id="HashMap与Hashtable的区别"><a href="#HashMap与Hashtable的区别" class="headerlink" title="HashMap与Hashtable的区别"></a>HashMap与Hashtable的区别</h3><ul>
-<li>HashMap允许将null作为一个entry的key或者value，而Hashtable不允许</li>
-<li>HashMap不是线程安全的，而Hashtable是线程安全的</li>
-<li>HashTable 的方法是 Synchronize 的，而 HashMap 不是，在多个线程访问 Hashtable 时，不需要自己为它的方法实现同步，而 HashMap 就必须为之提供外同步</li>
-</ul>
-<h3 id="ConcurrentHashMap"><a href="#ConcurrentHashMap" class="headerlink" title="ConcurrentHashMap"></a>ConcurrentHashMap</h3><ul>
-<li>jdk7中ConcurrentHashMap就是通过分段锁来实现高效的并发操作<ul>
-<li>ConcurrentHashMap中的分段锁称为<code>Segment</code>，它即类似于<code>HashMap</code>的结构，即内部拥有一个<code>Entry</code>数组，数组中的每个元素又是一个<strong>链表</strong>；同时又是一个<code>ReentrantLock</code><strong>（Segment继承了ReentrantLock)</strong>。</li>
-<li>需要put元素的时候，并不是对整个hashmap进行加锁，而是先通过<code>hashcode</code>来知道放在哪个分段中，然后对这个<strong>分段进行加锁</strong>，所以当多线程put的时候，只要不是放在一个分段中，就实现了真正的并行的插入</li>
-<li><strong>统计size的时候，即获取hashmap全局信息的时候，需要获取所有的分段锁才能统计</strong></li>
-</ul>
-</li>
-<li>jdk8中改为CAS+synchronized操作，底层使用数组+链表+红黑树<ul>
-<li>并不是直接改为红黑树，而是将treeNode封装到treeBin对象中</li>
-</ul>
-</li>
-</ul>
-<h4 id="核心方法"><a href="#核心方法" class="headerlink" title="核心方法"></a>核心方法</h4><ul>
-<li>initTable():在插入元素时发生，只能由一个线程完成<ul>
-<li>sizeCtl:CAS算法进行判断</li>
-</ul>
-</li>
-<li>扩容transfer():<ul>
-<li>step1:单线程进行，构建一个nextTable，容量为原来的两倍。</li>
-<li>step2:允许多线程，将原来的table中的数据复制到nextTable中</li>
-</ul>
-</li>
-</ul>
-<h4 id="Hashtable与ConcurrentHashMap的区别"><a href="#Hashtable与ConcurrentHashMap的区别" class="headerlink" title="Hashtable与ConcurrentHashMap的区别"></a>Hashtable与ConcurrentHashMap的区别</h4><ul>
-<li>Hashtable的synchronized是针对整张Hash表的，即每次锁住整张表让线程独占，ConcurrentHashMap允许多个修改操作并发进行，其关键在于使用了分段锁技术</li>
-</ul>
-<h2 id="List"><a href="#List" class="headerlink" title="List"></a>List</h2><h3 id="ArrayList"><a href="#ArrayList" class="headerlink" title="ArrayList"></a>ArrayList</h3><ul>
-<li>内部通过数组实现<ul>
-<li>当插入或删除元素时，需要对数组进行复制、移动，代价较高</li>
-<li>适合查找和遍历</li>
-</ul>
-</li>
-</ul>
-<h3 id="Vector"><a href="#Vector" class="headerlink" title="Vector"></a>Vector</h3><ul>
-<li>线程安全的ArrayList<ul>
-<li>访问比ArrayList慢</li>
-</ul>
-</li>
-<li>如果集合中的元素的数目大于目前集合数组的长度时，<strong>vector增长率为目前数组长度的100%,而arraylist增长率为目前数组长度的50%.</strong>如在集合中使用数据量比较大的数据，用vector有一定的优势。</li>
-</ul>
-<h3 id="LinkedList"><a href="#LinkedList" class="headerlink" title="LinkedList"></a>LinkedList</h3>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -3929,7 +3911,7 @@ public class ChessyCounter{
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

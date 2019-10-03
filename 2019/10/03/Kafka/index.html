@@ -79,18 +79,23 @@
 
 
 
-<meta name="description" content="DevOps工具链DevOps 通过高度自动化工具与流程来使得软件构建、测试、发布更加快捷、频繁和可靠 将开发、运维一体化  可以把 DevOps 看作开发（软件工程）、技术运营和质量保障（QA）三者的交集。 传统的软件组织将开发、IT 运营和质量保障设为各自分离的部门， 按照从前的工作方式，开发和部署，不需要 IT 支持或者 QA 深入的跨部门的支持；而现在却需要极其紧密的多部门协作。 而 De">
+<meta name="description" content="Kafka架构和原理简介Kafka是一种高性能跨语言的，分布式的，基于发布/订阅的消息系统。主要设计目标如下：  以时间复杂度为O(1)的方式提供消息持久化能力，并保证即使对TB级以上数据也能保证常数时间的访问性能 高吞吐率。即使在非常廉价的商用机器上也能做到单机支持每秒100K条消息的传输 支持Kafka Server间的消息分区，及分布式消息消费，同时保证每个partition内的消息顺序传输">
 <meta name="keywords" content="面试">
 <meta property="og:type" content="article">
-<meta property="og:title" content="项目">
-<meta property="og:url" content="http://yoursite.com/2019/03/06/项目/index.html">
+<meta property="og:title" content="Kafka">
+<meta property="og:url" content="http://yoursite.com/2019/10/03/Kafka/index.html">
 <meta property="og:site_name" content="Alpaca&#39;s Blog">
-<meta property="og:description" content="DevOps工具链DevOps 通过高度自动化工具与流程来使得软件构建、测试、发布更加快捷、频繁和可靠 将开发、运维一体化  可以把 DevOps 看作开发（软件工程）、技术运营和质量保障（QA）三者的交集。 传统的软件组织将开发、IT 运营和质量保障设为各自分离的部门， 按照从前的工作方式，开发和部署，不需要 IT 支持或者 QA 深入的跨部门的支持；而现在却需要极其紧密的多部门协作。 而 De">
+<meta property="og:description" content="Kafka架构和原理简介Kafka是一种高性能跨语言的，分布式的，基于发布/订阅的消息系统。主要设计目标如下：  以时间复杂度为O(1)的方式提供消息持久化能力，并保证即使对TB级以上数据也能保证常数时间的访问性能 高吞吐率。即使在非常廉价的商用机器上也能做到单机支持每秒100K条消息的传输 支持Kafka Server间的消息分区，及分布式消息消费，同时保证每个partition内的消息顺序传输">
 <meta property="og:locale" content="Java">
-<meta property="og:updated_time" content="2019-09-14T10:08:29.302Z">
+<meta property="og:image" content="http://www.jasongj.com/img/kafka/KafkaColumn1/KafkaArchitecture.png">
+<meta property="og:image" content="http://xstarcd.github.io/wiki/img/kafka/anatomy_of_a_topic.png">
+<meta property="og:image" content="https://img-blog.csdn.net/20170107212450867?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMzU3MzEzMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="https://img-blog.csdn.net/20160620014329074">
+<meta property="og:updated_time" content="2019-10-03T14:42:58.723Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="项目">
-<meta name="twitter:description" content="DevOps工具链DevOps 通过高度自动化工具与流程来使得软件构建、测试、发布更加快捷、频繁和可靠 将开发、运维一体化  可以把 DevOps 看作开发（软件工程）、技术运营和质量保障（QA）三者的交集。 传统的软件组织将开发、IT 运营和质量保障设为各自分离的部门， 按照从前的工作方式，开发和部署，不需要 IT 支持或者 QA 深入的跨部门的支持；而现在却需要极其紧密的多部门协作。 而 De">
+<meta name="twitter:title" content="Kafka">
+<meta name="twitter:description" content="Kafka架构和原理简介Kafka是一种高性能跨语言的，分布式的，基于发布/订阅的消息系统。主要设计目标如下：  以时间复杂度为O(1)的方式提供消息持久化能力，并保证即使对TB级以上数据也能保证常数时间的访问性能 高吞吐率。即使在非常廉价的商用机器上也能做到单机支持每秒100K条消息的传输 支持Kafka Server间的消息分区，及分布式消息消费，同时保证每个partition内的消息顺序传输">
+<meta name="twitter:image" content="http://www.jasongj.com/img/kafka/KafkaColumn1/KafkaArchitecture.png">
 
 
 
@@ -120,13 +125,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/03/06/项目/">
+  <link rel="canonical" href="http://yoursite.com/2019/10/03/Kafka/">
 
 
 
 
 
-  <title>项目 | Alpaca's Blog</title>
+  <title>Kafka | Alpaca's Blog</title>
   
 
 
@@ -265,7 +270,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/06/项目/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/03/Kafka/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Cao Shuyue">
@@ -282,7 +287,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">项目</h1>
+          <h1 class="post-title" itemprop="name headline">Kafka</h1>
         
 
         <div class="post-meta">
@@ -294,8 +299,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-06T14:38:27+08:00">
-                2019-03-06
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-10-03T21:15:12+08:00">
+                2019-10-03
               </time>
             
 
@@ -332,88 +337,129 @@
       
 
       
-        <h1 id="DevOps工具链"><a href="#DevOps工具链" class="headerlink" title="DevOps工具链"></a>DevOps工具链</h1><h2 id="DevOps"><a href="#DevOps" class="headerlink" title="DevOps"></a>DevOps</h2><ul>
-<li>通过高度自动化工具与流程来使得软件构建、测试、发布更加快捷、频繁和可靠</li>
-<li>将开发、运维一体化</li>
+        <h1 id="Kafka架构和原理"><a href="#Kafka架构和原理" class="headerlink" title="Kafka架构和原理"></a>Kafka架构和原理</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Kafka是一种高性能跨语言的，分布式的，基于发布/订阅的消息系统。主要设计目标如下：</p>
+<ol>
+<li>以<code>时间复杂度为O(1)</code>的方式提供<code>消息持久化能力</code>，并保证即使对TB级以上数据也能保证常数时间的访问性能</li>
+<li><code>高吞吐率</code>。即使在非常廉价的商用机器上也能做到单机支持每秒100K条消息的传输</li>
+<li>支持Kafka Server间的<code>消息分区</code>，及<code>分布式消息消费</code>，同时保证每个partition内的消息<code>顺序传输</code></li>
+<li>同时支持<code>离线数据处理</code>和<code>实时数据处理</code></li>
+</ol>
+<h2 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h2><ol>
+<li><strong>高吞吐量、低延迟</strong></li>
+<li><strong>可扩展</strong>：kafka集群支持热扩展</li>
+<li><strong>持久性、可靠性</strong>：消息被持久化到本地磁盘，并且支持数据备份防止数据丢失</li>
+<li><strong>容错性</strong>：允许集群中节点失败（若副本数量为n,则允许n-1个节点失败）</li>
+<li><strong>高并发</strong></li>
+</ol>
+<h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><ol>
+<li><strong>日志收集</strong></li>
+<li><strong>消息系统</strong>：解耦生产者和消费者、缓存消息等</li>
+<li><strong>用户活动跟踪</strong>：将用户行为收集，并通过订阅者进行实时监控</li>
+<li><strong>运营指标</strong>：记录运营监控数据</li>
+<li><strong>流式处理</strong>：spark streaming</li>
+</ol>
+<h2 id="相关术语"><a href="#相关术语" class="headerlink" title="相关术语"></a>相关术语</h2><ol>
+<li><strong>Broker</strong>：Kafka集群包含一个或多个服务器，这种服务器被称为broker</li>
+<li><strong>Topic</strong>：每条发布到Kafka集群的消息都有一个类别，这个类别被称为topic。<ul>
+<li>物理上不同topic的消息分开存储</li>
+<li>逻辑上一个topic的消息虽然保存于一个或多个broker上，但用户只需指定消息的topic即可生产或消费数据而不必关心数据存于何处</li>
 </ul>
-<p><code>可以把 DevOps 看作开发（软件工程）、技术运营和质量保障（QA）三者的交集。
-传统的软件组织将开发、IT 运营和质量保障设为各自分离的部门，
-按照从前的工作方式，开发和部署，不需要 IT 支持或者 QA 深入的跨部门的支持；而现在却需要极其紧密的多部门协作。
-而 DevOps 考虑的还不止是软件部署，它是一套针对这几个部门间沟通与协作问题的流程和方法。</code></p>
+</li>
+<li><strong>Partition</strong>：parition是物理上的概念，每个topic包含一个或多个partition<ul>
+<li>创建topic时可指定parition数量。</li>
+<li>每个partition对应于一个文件夹，该文件夹下存储该partition的数据和索引文件</li>
+</ul>
+</li>
+<li><strong>Producer</strong>：负责发布消息到Kafka broker</li>
+<li><strong>Consumer</strong>：消费消息。<ul>
+<li>每个consumer属于一个特定的consuer group（可为每个consumer指定group name，若不指定group name则属于默认的group）</li>
+<li>使用consumer high level API时，同一topic的一条消息只能被同一个consumer group内的一个consumer消费，但多个consumer group可同时消费这一消息。</li>
+</ul>
+</li>
+</ol>
+<h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><p><img src="http://www.jasongj.com/img/kafka/KafkaColumn1/KafkaArchitecture.png" alt="icon"></p>
+<p>如上图所示，一个典型的kafka集群中包含若干producer（可以是web前端产生的page view，或者是服务器日志，系统CPU、memory等），若干broker（Kafka支持<code>水平扩展</code>，一般broker数量越多，集群吞吐率越高）， 若干consumer group，以及一个<code>Zookeeper集群</code>。</p>
+<p>Kafka通过Zookeeper管理集群配置，选举leader，以及在consumer group发生变化时进行rebalance。</p>
+<h3 id="Consumer-Group"><a href="#Consumer-Group" class="headerlink" title="Consumer Group"></a>Consumer Group</h3><ul>
+<li>consumer group下可以有一个或多个consumer instance，consumer instance可以是一个进程，也可以是一个线程</li>
+<li>允许consumer group对一个topic进行消费，不同的consumer group之间独立消费。</li>
+<li>partition为最小的并行消费单位，即一个group内的consumer只能消费不同的partition</li>
+</ul>
+<h3 id="push-pull"><a href="#push-pull" class="headerlink" title="push/pull"></a>push/pull</h3><ul>
+<li>producer使用<code>push模式</code>将消息发布到broker</li>
+<li>consumer使用<code>pull模式</code>从 broker订阅并消费消息。</li>
+<li><strong>好处</strong>：<ul>
+<li>消息消费的速率由 Consumer自己决定<ul>
+<li>push模式的目标是尽可能以最快速度传递消息，但是这样很容易造成consumer来不及处理消息，典型的表现就是<code>拒绝服务</code>以及<code>网络拥塞</code></li>
+</ul>
+</li>
+<li>Consumer可以自己控制消费方式——<code>既可批量消费也可逐条消费</code>，同时还能<code>选择不同的提交方式</code>从而实现不同的传输语义。 </li>
+</ul>
+</li>
+</ul>
+<h3 id="Topic-Partition"><a href="#Topic-Partition" class="headerlink" title="Topic/Partition"></a>Topic/Partition</h3><ul>
+<li><p><strong>kafka为什么要在topic里加入分区的概念？</strong></p>
 <ul>
-<li><strong>好处</strong><ul>
-<li>代码的提交直接触发：消除等待时间，快速反馈</li>
-<li>每个变化对应一个交付管道：使问题定位和调试变得简单</li>
-<li>全开发流程高效自动化：稳定，快速，交付结果可预测</li>
-<li>持续进行自动化回归测试：提升交付质量</li>
+<li>topic是逻辑概念，partition是物理概念，consumer并不关心消息处在集群哪个broker，而只关心在哪个topic</li>
+<li>如果topic内的消息只存放在一个broker，那么这个broker会成为瓶颈，无法做到水平扩展</li>
 </ul>
 </li>
-<li><strong>持续集成</strong><ul>
-<li>频繁地（一天多次）将代码集成到主干</li>
-<li>让产品可以快速迭代，同时还能保持高质量</li>
-</ul>
-</li>
-<li><strong>持续交付</strong><ul>
-<li>频繁地将软件的新版本，交付给质量团队或者用户，以供评审。</li>
-</ul>
-</li>
-<li><strong>持续部署</strong><ul>
-<li>持续交付的下一步，指的是代码通过评审以后，自动部署到生产环境。</li>
+<li><p><strong>物理上把Topic分成一个或多个Partition</strong>，每个partition可以被认为是一个无限长度的数组，新数据会<strong>顺序追加（顺序写磁盘因此效率很高）</strong>进这个数组（<code>通过offset定位</code>）。每个Partition在物理上对应一个文件夹，该文件夹下存储这个Partition的所有消息和索引文件。</p>
+<ul>
+<li>问题：Topic有多个Partition，那么消息分配到某个Partition的依据是什么？<ul>
+<li>key hash 或者round Robin</li>
 </ul>
 </li>
 </ul>
-<h2 id="工具链"><a href="#工具链" class="headerlink" title="工具链"></a>工具链</h2><ul>
-<li>代码托管：gitlab<ul>
-<li>为什么不使用github？<ul>
-<li>gitlab对仓库有更多的控制，可以设置仓库权限是公用的还是私有的</li>
-</ul>
+<p><img src="http://xstarcd.github.io/wiki/img/kafka/anatomy_of_a_topic.png" alt="icon"></p>
 </li>
-<li>每一次的提交或者 Merge Request 的合并都可以触发pipeline</li>
-</ul>
+<li><p>一个broker可以存放多个partition</p>
+<p><img src="https://img-blog.csdn.net/20170107212450867?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMzU3MzEzMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="icon"></p>
 </li>
-<li>持续集成<ul>
-<li>gitlabCI：集成较好， 界面美观优雅， 使用简单<ul>
-<li>gitlab runner进行构建任务，gitlabCI负责管理各个项目的构建状态</li>
-<li>runner需要注册到CI中，可以安装到不同的机器上，因此构建任务期间不会影响gitlab的性能</li>
-<li>pipeline：相当于一次构建任务，里面可以包含多个流程，比如自动构建、自动进行单元测试、自动进行代码检查等流程<ul>
-<li>stages： build, test, deploy</li>
-<li>jobs</li>
 </ul>
-</li>
-<li>包含实时构建日志，容易追踪</li>
-</ul>
-</li>
-<li>Jenkins<ul>
-<li>通过gitlab的webhook设置，自动触发构建工作，就不需要人工干预了</li>
-<li>jenkins在项目配置时可以配置远程构建触发器，设置好jenkins的回调url后就可以让jenkins进行自动构建。</li>
-<li>jenkins将代码打成docker镜像，push到docker-registry</li>
+<h3 id="分区多副本（副本机制）"><a href="#分区多副本（副本机制）" class="headerlink" title="分区多副本（副本机制）"></a>分区多副本（副本机制）</h3><p><img src="https://img-blog.csdn.net/20160620014329074" alt="icon"></p>
+<ul>
+<li>通过副本机制实现故障自动转移，当Kafka集群中一个Broker失效情况下仍然保证服务可用</li>
+<li>N个replicas中。其中一个replica为leader，其他都为follower，leader处理partition的所有读写请求，与此同时，follower会被动定期地去复制leader上的数据。<ul>
+<li>问题：kafka 如何确认一个 Follower 是活的？<ul>
+<li>和 zookeeper 保持联系。</li>
+<li>Follower 复制 Leader 上的消息，且落后的不多（可配置）。</li>
 </ul>
 </li>
 </ul>
 </li>
-<li>静态代码检查：sonarqube<ul>
-<li>Sonar GitLab Plugin 插件</li>
-<li>该插件会针对每次提交修改的文件，<strong>添加注释行，同时添加本次提交的代码检测结果的评论</strong></li>
-<li>配合 gitlab-ci 完成每次 commit 时，添加的代码检测 Pipelines stage 流程，来控制代码检测流程是否通过</li>
-<li>检查范围：<ul>
-<li>不遵循代码标准</li>
-<li>重复</li>
-<li>潜在的缺陷</li>
-<li>质量糟糕的复杂度分布</li>
-<li>注释不足或过多</li>
-<li>缺乏单元测试</li>
-<li>糟糕的设计</li>
+<li>消息同步到所有的 Follower 才认为是提交成功，提交成功才能被消费。所以 Leader 宕机不会造成消息丢失</li>
+<li>如果leader发生故障或挂掉，一个新leader被选举并接收客户端的消息成功写入。<ul>
+<li>Kafak动态维护一个同步备份集合（ISR）。这个集合中的 Follower 都能成为 Leader。 </li>
+<li>一个写入要同步到所有的 ISR 中才能算做 Commit 成功</li>
+<li>同时 ISR 会被持久化到 ZK 中。</li>
 </ul>
 </li>
-<li>PMD,checkstyle，findbugs等代码规则检测工具规范代码编写/检测出潜在的缺陷</li>
-<li>可以很方便地统计并展示单元测试覆盖率</li>
+</ul>
+<h3 id="消息可靠性"><a href="#消息可靠性" class="headerlink" title="消息可靠性"></a>消息可靠性</h3><ul>
+<li><p>在实际消息传递过程中，可能会出现如下情况：</p>
+<ul>
+<li>一个消息发送失败</li>
+<li>一个消息被发送多次</li>
 </ul>
 </li>
-<li>项目部署：docker<ul>
-<li>使用GitLab runner 来 build docker image上传到仓库中</li>
-<li><strong>为了要让 runner 可以调用 docker 命令, 需要把 gitlab-runner 这个用户加入 docker 所在组.</strong></li>
+<li><p>kafka如何保证消息可靠性？</p>
+<ul>
+<li><strong>从Producer端看</strong>：当一个消息被发送后，Producer会等待broker成功接收到<code>消息的反馈</code>（可通过参数控制等待时间），如果消息在途中丢失或是其中一个broker挂掉，Producer会<code>重新发送</code>（我们知道Kafka有备份机制，可以通过参数控制是否等待所有备份节点都收到消息）。</li>
+<li><strong>从Consumer端看</strong>：broker端记录了partition中的一个offset值，这个值指向Consumer下一个即将消费的message。当Consumer收到了消息，但却在处理过程中挂掉，此时Consumer可以通过这个offset值重新找到上一个消息再进行处理。<ul>
+<li>Consumer还有权限控制这个offset值，对持久化到broker端的消息做任意处理。</li>
 </ul>
 </li>
+</ul>
+</li>
+</ul>
+<h2 id="Zookeeper在kafka集群中的作用"><a href="#Zookeeper在kafka集群中的作用" class="headerlink" title="Zookeeper在kafka集群中的作用"></a>Zookeeper在kafka集群中的作用</h2><ul>
+<li><strong>数据发布与订阅中心</strong>：即所谓的配置中心，实现配置的集中式管理和动态更新。例如，全局的配置信息，服务服务框架的地址列表</li>
+<li><strong>负载均衡</strong></li>
+<li><strong>命名服务</strong></li>
+<li><strong>分布式通知/协调</strong>：这个利用的是zookeeper的<code>watcher注册</code>和<code>异步通知机制</code>，能够很好的实现分布式环境中不同系统间的通知与协调，实现对数据变更的实时处理。</li>
+<li><strong>集群管理与master选举</strong></li>
+<li><strong>分布式锁</strong>：这个主要得益于zookeeper数据的强一致性，利用的是临时节点。</li>
 </ul>
 
       
@@ -445,8 +491,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/03/03/数据库/" rel="next" title="数据库">
-                <i class="fa fa-chevron-left"></i> 数据库
+              <a href="/2019/09/24/海量数据处理/" rel="next" title="海量数据处理">
+                <i class="fa fa-chevron-left"></i> 海量数据处理
               </a>
             
           </div>
@@ -454,10 +500,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/03/26/java基础/" rel="prev" title="java基础">
-                java基础 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -589,7 +631,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#DevOps工具链"><span class="nav-number">1.</span> <span class="nav-text">DevOps工具链</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#DevOps"><span class="nav-number">1.1.</span> <span class="nav-text">DevOps</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#工具链"><span class="nav-number">1.2.</span> <span class="nav-text">工具链</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Kafka架构和原理"><span class="nav-number">1.</span> <span class="nav-text">Kafka架构和原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特性"><span class="nav-number">1.2.</span> <span class="nav-text">特性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用场景"><span class="nav-number">1.3.</span> <span class="nav-text">使用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相关术语"><span class="nav-number">1.4.</span> <span class="nav-text">相关术语</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#架构"><span class="nav-number">1.5.</span> <span class="nav-text">架构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Consumer-Group"><span class="nav-number">1.5.1.</span> <span class="nav-text">Consumer Group</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#push-pull"><span class="nav-number">1.5.2.</span> <span class="nav-text">push/pull</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Topic-Partition"><span class="nav-number">1.5.3.</span> <span class="nav-text">Topic/Partition</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分区多副本（副本机制）"><span class="nav-number">1.5.4.</span> <span class="nav-text">分区多副本（副本机制）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#消息可靠性"><span class="nav-number">1.5.5.</span> <span class="nav-text">消息可靠性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Zookeeper在kafka集群中的作用"><span class="nav-number">1.6.</span> <span class="nav-text">Zookeeper在kafka集群中的作用</span></a></li></ol></li></ol></div>
             
 
           </div>

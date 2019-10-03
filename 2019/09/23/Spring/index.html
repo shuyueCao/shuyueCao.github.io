@@ -88,7 +88,7 @@
 <meta property="og:description" content="Spring 优点 轻量 控制反转 AOP 容器：Spring 包含并管理应用中对象的生命周期和配置 MVC框架 事务管理：Spring 提供一个持续的事务管理接口，可以扩展到上至本地事务下至全局事务 异常处理： 提供方便的API把具体技术相关的异常（比如由JDBC，Hibernate or JDO抛出的）转化为一致的unchecked 异常  缺点 jsp中要写很多代码、控制器过于灵活，缺少一个">
 <meta property="og:locale" content="Java">
 <meta property="og:image" content="http://p3.pstatp.com/large/f750008ad20260cf3f2">
-<meta property="og:updated_time" content="2019-09-22T16:17:01.206Z">
+<meta property="og:updated_time" content="2019-10-03T01:38:27.945Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring">
 <meta name="twitter:description" content="Spring 优点 轻量 控制反转 AOP 容器：Spring 包含并管理应用中对象的生命周期和配置 MVC框架 事务管理：Spring 提供一个持续的事务管理接口，可以扩展到上至本地事务下至全局事务 异常处理： 提供方便的API把具体技术相关的异常（比如由JDBC，Hibernate or JDO抛出的）转化为一致的unchecked 异常  缺点 jsp中要写很多代码、控制器过于灵活，缺少一个">
@@ -435,6 +435,12 @@
 </li>
 </ul>
 </li>
+<li><strong>IOC中的继承和java继承的区别</strong><ul>
+<li>前者是实例与实例之间参数值的延续，后者则是从一般到特殊的细化。Spring 中的子bean 和父bean 可以是不同类型，但在Java 中的，子类是对父类的加强，是一种特殊的父类</li>
+<li>前者是对象与对象之间的关系，后者是类与类之间的关系。spring 中bean 的继承是实例之间的关系，主要表现为参数值的延续:而Java 中的继承是类与类之间的关系，主要表现为方法及属性的延续。</li>
+<li>Spring 中子bean 不可作父bean 使用，不具备多态性；而Java 中的子类实例完全可当成父类实例使用。</li>
+</ul>
+</li>
 </ul>
 <h3 id="bean的生命周期"><a href="#bean的生命周期" class="headerlink" title="bean的生命周期"></a>bean的生命周期</h3><ul>
 <li>容器启动后，会对scope为singleton且非懒加载的bean进行实例化</li>
@@ -450,8 +456,19 @@
 <li>容器关闭后，如果Bean实现了DisposableBean接口，则会回调该接口的destroy()方法</li>
 <li>如果Bean配置了destroy-method方法，则会执行destroy-method配置的方法，至此，整个Bean的生命周期结束</li>
 </ul>
+<h3 id="bean的scope"><a href="#bean的scope" class="headerlink" title="bean的scope"></a>bean的scope</h3><ul>
+<li>singleton：一个容器中只存在一个实例</li>
+<li>prototype：每次收到请求都生成一个新的实例</li>
+<li>request</li>
+<li>session</li>
+<li>globalSession</li>
+</ul>
 <h2 id="AOP"><a href="#AOP" class="headerlink" title="AOP"></a>AOP</h2><ul>
-<li>spring AOP的底层实现是<strong>动态代理</strong><ul>
+<li>运用场景：事务管理(数据库事务、编程事务、声明事务Spring AOP)，日志处理，安全验证</li>
+<li>AOP有三种织入切面的方法：<ul>
+<li>其一是编译期织入，这要求使用特殊的Java编译器，AspectJ是其中的代表者；</li>
+<li>其二是类装载期织入，而这要求使用特殊的类装载器，AspectJ和AspectWerkz是其中的代表者；</li>
+<li>其三为动态代理织入，在运行期为目标类添加增强生成子类的方式，Spring AOP采用<strong>动态代理</strong>织入切面。<ul>
 <li>提供了对JDK动态代理的支持以及CGLib的支持。<ul>
 <li>JDK动态代理只能为接口创建动态代理实例，而不能对类创建动态代理</li>
 <li>CGLib动态代理需要依赖asm包，把被代理对象类的class文件加载进来，修改其字节码生成子类。</li>
@@ -459,9 +476,24 @@
 </li>
 </ul>
 </li>
-<li>AspectJ的底层技术是<strong>静态代理</strong><ul>
-<li>通过一个命令来编译，生成一个新的代理类</li>
-<li>在<strong>编译</strong>时增强</li>
+</ul>
+</li>
+<li><strong>相关概念</strong><ul>
+<li>关注点concern： 一个关注点可以是一个特定的问题，概念、或者应用程序的兴趣点。总而言之，应用程序必须达到一个目标<ul>
+<li>安全验证、日志记录、事务管理都是一个关注点</li>
+<li>在oo应用程序中，关注点可能已经被代码模块化了还可能散落在整个对象模型中</li>
+</ul>
+</li>
+<li>连接点join point：程序执行的某个特定位置：如类开始初始化前，类初始化后，类某个方法调用前。一个类或一段代码拥有一些边界性质的特定点，这些代码中的特定点就被称为“连接点”。</li>
+<li>切点pointcut：AOP通过“切点”定位特定的连接点，即连接点相当于数据库中的记录，而切点相当于查询条件<ul>
+<li>一个类中可能有多个方法，每个都是连接点，通过切点定位某一个感兴趣的连接点</li>
+<li>一个切点可以匹配多个连接点</li>
+</ul>
+</li>
+<li>增强advice：织入到目标类连接点上的一段程序代码</li>
+<li>目标对象target：增强逻辑的织入目标类</li>
+<li>引介introduction：引介是一种特殊的增强，它为类添加一些属性和方法。这样，即使一个业务类原本没有实现某个接口，通过AOP的引介功能，我们可以动态的为该事务添加接口的实现逻辑，让业务类成为这个接口的实现类。</li>
+<li>切面aspect：切面由切点和增强（引介）组成，它既包括了横切逻辑的定义，也包括了连接点的定义，Spring AOP就是负责实施切面的框架，它将切面所定义的横切逻辑织入到切面所指定的链接点中。</li>
 </ul>
 </li>
 </ul>
@@ -485,6 +517,17 @@
 <li>dispatcherServlet借助ViewResoler完成逻辑视图到真实视图对象的解析</li>
 <li>dispatcherServlet使用这个view对ModelAndView中的模型数据进行视图渲染，返回给用户</li>
 </ol>
+<h2 id="核心组件"><a href="#核心组件" class="headerlink" title="核心组件"></a>核心组件</h2><ul>
+<li>DispatcherServlet：前置控制器，负责分发请求</li>
+<li>HandlerMapping：映射处理器，负责根据请求找到对应的控制器</li>
+<li>Controller：处理请求的控制器</li>
+<li>ModelAndView：封装数据信息和视图信息</li>
+<li>ViewReslover：视图处理器，通过处理找到对应的页面</li>
+</ul>
+<h2 id="怎样实现重定向和转发？"><a href="#怎样实现重定向和转发？" class="headerlink" title="怎样实现重定向和转发？"></a>怎样实现重定向和转发？</h2><ul>
+<li>在返回值的前面加”forword”，就可以实现让结果转发</li>
+<li>在返回值的前面加上”redirect”，就可以让返回值重定向。</li>
+</ul>
 <h1 id="Spring-Boot"><a href="#Spring-Boot" class="headerlink" title="Spring Boot"></a>Spring Boot</h1><ul>
 <li>主要是简化了spring的难度，简省了繁重的配置，提供了各种容器，开发者能快速上手</li>
 <li><strong>优点</strong><ul>
@@ -685,7 +728,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -740,7 +783,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Spring"><span class="nav-number">1.</span> <span class="nav-text">Spring</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#优点"><span class="nav-number">1.0.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺点"><span class="nav-number">1.0.2.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IoC"><span class="nav-number">1.1.</span> <span class="nav-text">IoC</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#bean的生命周期"><span class="nav-number">1.1.1.</span> <span class="nav-text">bean的生命周期</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AOP"><span class="nav-number">1.2.</span> <span class="nav-text">AOP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事务管理"><span class="nav-number">1.3.</span> <span class="nav-text">事务管理</span></a></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#Spring-MVC工作原理"><span class="nav-number">2.</span> <span class="nav-text">Spring MVC工作原理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Spring-Boot"><span class="nav-number">3.</span> <span class="nav-text">Spring Boot</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SSH-SSM"><span class="nav-number">4.</span> <span class="nav-text">SSH/SSM</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Structs2工作原理"><span class="nav-number">4.1.</span> <span class="nav-text">Structs2工作原理</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Servlet"><span class="nav-number">5.</span> <span class="nav-text">Servlet</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#生命周期"><span class="nav-number">5.1.</span> <span class="nav-text">生命周期</span></a></li></ol></li></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Spring"><span class="nav-number">1.</span> <span class="nav-text">Spring</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#优点"><span class="nav-number">1.0.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺点"><span class="nav-number">1.0.2.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IoC"><span class="nav-number">1.1.</span> <span class="nav-text">IoC</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#bean的生命周期"><span class="nav-number">1.1.1.</span> <span class="nav-text">bean的生命周期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bean的scope"><span class="nav-number">1.1.2.</span> <span class="nav-text">bean的scope</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AOP"><span class="nav-number">1.2.</span> <span class="nav-text">AOP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事务管理"><span class="nav-number">1.3.</span> <span class="nav-text">事务管理</span></a></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#Spring-MVC工作原理"><span class="nav-number">2.</span> <span class="nav-text">Spring MVC工作原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#核心组件"><span class="nav-number">2.1.</span> <span class="nav-text">核心组件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#怎样实现重定向和转发？"><span class="nav-number">2.2.</span> <span class="nav-text">怎样实现重定向和转发？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Spring-Boot"><span class="nav-number">3.</span> <span class="nav-text">Spring Boot</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SSH-SSM"><span class="nav-number">4.</span> <span class="nav-text">SSH/SSM</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Structs2工作原理"><span class="nav-number">4.1.</span> <span class="nav-text">Structs2工作原理</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Servlet"><span class="nav-number">5.</span> <span class="nav-text">Servlet</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#生命周期"><span class="nav-number">5.1.</span> <span class="nav-text">生命周期</span></a></li></ol></li></div>
             
 
           </div>

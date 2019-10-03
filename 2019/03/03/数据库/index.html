@@ -94,7 +94,7 @@
 <meta property="og:image" content="http://www.jasongj.com/img/kafka/KafkaColumn1/KafkaArchitecture.png">
 <meta property="og:image" content="https://img-blog.csdn.net/20150427151555111?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaml1cWl5dWxpYW5n/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
 <meta property="og:image" content="https://img-blog.csdn.net/20141120210203542?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaml1cWl5dWxpYW5n/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
-<meta property="og:updated_time" content="2019-09-26T15:54:01.059Z">
+<meta property="og:updated_time" content="2019-09-28T02:35:44.755Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据库">
 <meta name="twitter:description" content="Redis key-value类型的内存(缓存)数据库 整个数据库加载到内存中操作，定期flush到硬盘上进行保存 单线程 CPU不是瓶颈，单线程容易实现   集群是master/slave模式 为了使在部分节点失败或者大部分节点无法通信的情况下集群仍然可用，所以集群使用了主从复制模型,每个节点都会有N-1个复制品 异步复制 Redis并不能保证数据的强一致性，这意味这在实际中集群在特定的条件下可">
@@ -711,6 +711,37 @@
 <li>避免在索引列上使用NOT</li>
 <li>避免在索引列上使用计算</li>
 </ul>
+<h2 id="varchar-和char的区别"><a href="#varchar-和char的区别" class="headerlink" title="varchar 和char的区别"></a>varchar 和char的区别</h2><table>
+<thead>
+<tr>
+<th>varchar(n)</th>
+<th>char(n)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>可变长度，最多2^16−1个字符，2^16−1个字节</td>
+<td>固定长度，最多2^8−1个字符，2^8−1个字节</td>
+</tr>
+<tr>
+<td>varchar只会占用实际字符应该占用的字节空间L+1(L=0到255)或L+2(L&gt;255)，并且实际字节空间L+1&lt;=255,或者L+2&lt;=65535</td>
+<td>char不管实际value都会占用n个字符的空间</td>
+</tr>
+<tr>
+<td>上限为65535字节，text同</td>
+<td>上限为255字节</td>
+</tr>
+<tr>
+<td>不会截断尾部空格</td>
+<td>在存储的时候会截断尾部的空格</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>char（n）和varchar（n）中括号中<strong>n代表字符的个数，并不代表字节个数</strong>，所以当使用了中文的时候(UTF8)意味着可以插入m个中文，但是实际会占用3m个字节，m∗3&lt;=255，m∗3&lt;=65535。</li>
+<li>超过char和varchar的n设置之后，字符串会被截断</li>
+<li>UTF-8中，中文占3个字符，英文占1个字符</li>
+</ul>
 <h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><ul>
 <li>概念<ul>
 <li>指访问并可能更新数据库中各种数据项的一个程序执行单元</li>
@@ -779,9 +810,8 @@
 </ul>
 <ul>
 <li><p>MVCC<strong>解决的问题是读写互相不阻塞的问题</strong>，每次更新都产生一个新的版本，读的话可以读历史版本。</p>
-<ul>
-<li>锁机制可以控制并发操作，但是其系统开销较大，而MVCC可以在大多数情况下<strong>代替行级锁</strong>，使用MVCC能降低其系统开销。</li>
-</ul>
+</li>
+<li><p>锁机制可以控制并发操作，但是其系统开销较大，而MVCC可以在大多数情况下<strong>代替行级锁</strong>，使用MVCC能降低其系统开销。</p>
 </li>
 <li><p>MVCC的实现，是通过保存数据在某一个时间点的快照来实现的。因此每一个事务无论执行多长时间看到的数据，都是一样的。所以MVCC实现可重复读。</p>
 <ul>
@@ -1157,7 +1187,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1212,7 +1242,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis"><span class="nav-number">1.</span> <span class="nav-text">Redis</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存"><span class="nav-number">1.1.</span> <span class="nav-text">缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#如何解决缓存一致性问题"><span class="nav-number">1.1.1.</span> <span class="nav-text">如何解决缓存一致性问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MySQL存储引擎"><span class="nav-number">2.</span> <span class="nav-text">MySQL存储引擎</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#InnoDB"><span class="nav-number">2.1.</span> <span class="nav-text">InnoDB</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#InnoDB与MYlSAM区别"><span class="nav-number">2.1.0.1.</span> <span class="nav-text">InnoDB与MYlSAM区别</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL主从同步"><span class="nav-number">2.2.</span> <span class="nav-text">MySQL主从同步</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#优点"><span class="nav-number">2.2.0.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法"><span class="nav-number">2.2.0.2.</span> <span class="nav-text">方法</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#索引"><span class="nav-number">2.3.</span> <span class="nav-text">索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL索引"><span class="nav-number">2.3.1.</span> <span class="nav-text">MySQL索引</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SQL优化"><span class="nav-number">2.4.</span> <span class="nav-text">SQL优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事务"><span class="nav-number">2.5.</span> <span class="nav-text">事务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#事务隔离级别"><span class="nav-number">2.5.1.</span> <span class="nav-text">事务隔离级别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MVCC-多版本并发控制"><span class="nav-number">2.6.</span> <span class="nav-text">MVCC(多版本并发控制)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#乐观锁与MVCC的区别？"><span class="nav-number">2.6.1.</span> <span class="nav-text">乐观锁与MVCC的区别？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#锁-InnoDB"><span class="nav-number">2.7.</span> <span class="nav-text">锁(InnoDB)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分布式事务"><span class="nav-number">2.8.</span> <span class="nav-text">分布式事务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#消息队列"><span class="nav-number">2.8.0.1.</span> <span class="nav-text">消息队列</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SQL注入"><span class="nav-number">2.9.</span> <span class="nav-text">SQL注入</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#框架"><span class="nav-number">3.</span> <span class="nav-text">框架</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MyBatis"><span class="nav-number">3.1.</span> <span class="nav-text">MyBatis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hibernate"><span class="nav-number">3.2.</span> <span class="nav-text">hibernate</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#hibernate与mybatis的对比"><span class="nav-number">3.2.1.</span> <span class="nav-text">hibernate与mybatis的对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JPA"><span class="nav-number">3.2.2.</span> <span class="nav-text">JPA</span></a></li></ol></li></ol></li></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis"><span class="nav-number">1.</span> <span class="nav-text">Redis</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存"><span class="nav-number">1.1.</span> <span class="nav-text">缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#如何解决缓存一致性问题"><span class="nav-number">1.1.1.</span> <span class="nav-text">如何解决缓存一致性问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MySQL存储引擎"><span class="nav-number">2.</span> <span class="nav-text">MySQL存储引擎</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#InnoDB"><span class="nav-number">2.1.</span> <span class="nav-text">InnoDB</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#InnoDB与MYlSAM区别"><span class="nav-number">2.1.0.1.</span> <span class="nav-text">InnoDB与MYlSAM区别</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL主从同步"><span class="nav-number">2.2.</span> <span class="nav-text">MySQL主从同步</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#优点"><span class="nav-number">2.2.0.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法"><span class="nav-number">2.2.0.2.</span> <span class="nav-text">方法</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#索引"><span class="nav-number">2.3.</span> <span class="nav-text">索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL索引"><span class="nav-number">2.3.1.</span> <span class="nav-text">MySQL索引</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SQL优化"><span class="nav-number">2.4.</span> <span class="nav-text">SQL优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#varchar-和char的区别"><span class="nav-number">2.5.</span> <span class="nav-text">varchar 和char的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事务"><span class="nav-number">2.6.</span> <span class="nav-text">事务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#事务隔离级别"><span class="nav-number">2.6.1.</span> <span class="nav-text">事务隔离级别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MVCC-多版本并发控制"><span class="nav-number">2.7.</span> <span class="nav-text">MVCC(多版本并发控制)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#乐观锁与MVCC的区别？"><span class="nav-number">2.7.1.</span> <span class="nav-text">乐观锁与MVCC的区别？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#锁-InnoDB"><span class="nav-number">2.8.</span> <span class="nav-text">锁(InnoDB)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分布式事务"><span class="nav-number">2.9.</span> <span class="nav-text">分布式事务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#消息队列"><span class="nav-number">2.9.0.1.</span> <span class="nav-text">消息队列</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SQL注入"><span class="nav-number">2.10.</span> <span class="nav-text">SQL注入</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#框架"><span class="nav-number">3.</span> <span class="nav-text">框架</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MyBatis"><span class="nav-number">3.1.</span> <span class="nav-text">MyBatis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hibernate"><span class="nav-number">3.2.</span> <span class="nav-text">hibernate</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#hibernate与mybatis的对比"><span class="nav-number">3.2.1.</span> <span class="nav-text">hibernate与mybatis的对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JPA"><span class="nav-number">3.2.2.</span> <span class="nav-text">JPA</span></a></li></ol></li></ol></li></div>
             
 
           </div>
