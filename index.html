@@ -459,6 +459,27 @@
 <li><strong>集群管理与master选举</strong></li>
 <li><strong>分布式锁</strong>：这个主要得益于zookeeper数据的强一致性，利用的是临时节点。</li>
 </ul>
+<h2 id="KafkaListener注解"><a href="#KafkaListener注解" class="headerlink" title="@KafkaListener注解"></a><code>@KafkaListener</code>注解</h2><p><code>spring-kafka</code> 使用基于<code>@KafkaListener</code>注解，<code>@KafkaListener</code>使用方式如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@KafkaListener</span>(topics = <span class="string">"xxx"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">process</span><span class="params">(List&lt;ConsumerRecord&lt;xxx, xxx&gt;&gt; records)</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在注解内指定topic名称，当对应的topic内有新的消息时，process方法会被调用，参数就是topic内新的消息。这个过程是<code>异步</code>进行的。</p>
+<h3 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h3><ol>
+<li>解析<code>@KafkaListener</code>注解<ul>
+<li><code>@KafkaListener</code>注解由<code>KafkaListenerAnnotationBeanPostProcessor</code>类解析，后者实现了<code>BeanPostProcessor</code>接口</li>
+<li>接口内部有<code>2</code>个方法，分别在<code>bean</code>初始化前后被调用。<ul>
+<li><code>KafkaListenerAnnotationBeanPostProcessor</code></li>
+<li><code></code>postProcessAfterInitialization`</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>注册<ul>
+<li>解析步骤里，我们可以获取到所有含有<code>@KafkaListener</code>注解的类，之后这些类的相关信息会被注册到 <code>KafkaListenerEndpointRegistry</code>内，包括注解所在的方法，当前的<code>bean</code>等</li>
+<li><code>KafkaListenerEndpointRegistry</code>这个类内部会维护多个<code>Listener Container</code>，每一个<code>@KafkaListener</code>都会对应一个<code>Listener Container</code>。并且每个<code>Container</code>对应一个线程。</li>
+</ul>
+</li>
+<li>监听：注册完成之后，每个<code>Listener Container</code>会开始工作，会新启一个新的线程，初始化<code>KafkaConsumer</code>，监听<code>topic</code>变更等</li>
+<li>调用：监听到数据之后，<code>container</code>会组织消息的格式，随后调用解析得到的<code>@KafkaListener</code>注解标识的方法，将组织后的消息作为参数传入方法，执行用户逻辑。</li>
+</ol>
 
           
         
@@ -3922,7 +3943,7 @@ public class ChessyCounter{
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
