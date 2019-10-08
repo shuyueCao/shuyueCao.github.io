@@ -264,6 +264,424 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/23/网络/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Cao Shuyue">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Alpaca's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/02/23/网络/" itemprop="url">网络</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-23T11:54:52+08:00">
+                2019-02-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="HTTP-无状态的协议-HTTPS"><a href="#HTTP-无状态的协议-HTTPS" class="headerlink" title="HTTP(无状态的协议)/HTTPS"></a>HTTP(无状态的协议)/HTTPS</h3><p><strong>1. 两者区别？</strong></p>
+<ol>
+<li>HTTP是不安全的，HTTPS是安全的</li>
+<li>OSI模型中，HTTP在应用层，HTTPS的安全传输机制在传输层</li>
+<li>HTTP无法加密，HTTPS对传输的数据进行加密</li>
+<li>HTTP不用证书，而HTTPS需要CA机构颁发的SSL证书</li>
+</ol>
+<p>HTTPS就是HTTP加上加密处理（一般是SSL安全通信线路）+认证+消息完整性保护</p>
+<p><strong>2. HTTPS工作原理</strong></p>
+<p><em>双向认证 SSL 协议的具体通讯过程，服务器和用户双方必须都有证书</em></p>
+<ol>
+<li>客户端发起HTTPS请求，服务器返回自己的证书、对称加密算法种类等信息</li>
+<li>客户端判断服务器的CA证书是否由信任的CA中心签发，是则验证证书中的信息，不是则询问是否继续访问</li>
+<li>客户端发送客户端证书，服务器进行相同的身份认证</li>
+<li>服务器选择一种加密方案，使用<strong>客户端公钥</strong>加密后通知客户端</li>
+<li>客户端通过<strong>私钥</strong>解密后得知服务器选择的加密方案，选择一个<strong>通话秘钥key</strong>，用<strong>服务器公钥</strong>加密后发给服务器</li>
+<li>服务器收到后用<strong>私钥</strong>解密，获得通话秘钥key</li>
+<li>接下来的数据传输都用该<strong>对称秘钥key</strong>进行加密</li>
+</ol>
+<p><em>通过非对称秘钥机制保证双方身份认证，完成建立连接，在实际数据通信中通过对称秘钥机制保障数据安全性</em></p>
+<ul>
+<li>双向认证<ul>
+<li>有两个或两个以上的证书，一个是服务端证书，另一个或多个是客户端证书。</li>
+<li>一般用于企业应用对接</li>
+</ul>
+</li>
+<li>单向认证<ul>
+<li>客户端保存着服务端的证书并信任该证书即可</li>
+<li>https一般是单向认证，这样可以让绝大部分人都可以访问你的站点。</li>
+</ul>
+</li>
+</ul>
+<p><strong>3. GET与POST方法的区别？</strong></p>
+<ol>
+<li>GET重点在从服务器获取资源，POST重点在向服务器发送数据</li>
+<li>get传输数据是通过URL请求，以field（字段）= value的形式，置于URL后，并用”?”连接，多个请求数据间用”&amp;”连接，如<a href="http://127.0.0.1/Test/login.action?name=admin&amp;password=admin" target="_blank" rel="noopener">http://127.0.0.1/Test/login.action?name=admin&amp;password=admin</a> 这个过程用户是可见的；<br>post传输数据通过Http的post机制，将字段与对应值封存在请求实体中发送给服务器，这个过程对用户是不可见的；</li>
+<li>POST比GET更安全</li>
+<li>GET产生一个TCP数据包，浏览器会把http header和data一并发送出去，服务器响应200（返回数据）；而POST产生两个，浏览器先发送header，服务器响应100 continue，浏览器再发送data，服务器响应200 ok（返回数据）。</li>
+</ol>
+<p><strong>4. forward和redirect的区别</strong></p>
+<ul>
+<li><strong>转发forward：</strong> 是服务器请求资源,服务器直接访问目标地址的URL,把那个URL的响应内容读取过来,然后把这些内容再发给浏览器<ul>
+<li>浏览器不知道服务器发送的内容从哪里来,因为这个跳转过程在服务器实现，所以客户端并不知道这个跳转动作，它的地址栏还是原来的地址</li>
+</ul>
+</li>
+<li><p><strong>重定向：</strong> 服务端根据逻辑,发送一个状态码,告诉浏览器重新去请求那个地址.所以地址栏显示的是新的URL</p>
+</li>
+<li><p><strong>转发是服务器行为，重定向是客户端行为。</strong></p>
+</li>
+</ul>
+<p><strong>5. HTTP常见状态码</strong></p>
+<ul>
+<li>1xx:表示服务器已接收了客户端请求，客户端可继续发送请求<ul>
+<li>100：继续，允许客户端继续发送</li>
+<li>101：转换协议</li>
+</ul>
+</li>
+<li>2xx:成功状态码<ul>
+<li>200：OK</li>
+<li>202：接受，请求还未处理完</li>
+</ul>
+</li>
+<li>3xx:要完成请求，需要进一步操作。 通常，这些状态代码用来<strong>重定向</strong><ul>
+<li>300：多重选择，表示被请求的文件可以在多个地方得到</li>
+</ul>
+</li>
+<li>4xx：用户指定客户端的错误<ul>
+<li>400：错误请求，语法错误</li>
+<li>401：未授权</li>
+<li>403：禁止，表示除非拥有授权，否则服务器拒绝提供所请求的资源</li>
+<li>404：无法找到资源</li>
+</ul>
+</li>
+<li>5xx:用户指定服务器错误<ul>
+<li>500：服务器内部错误</li>
+<li>502：错误的网关</li>
+<li>504：网关超时</li>
+</ul>
+</li>
+</ul>
+<h4 id="RESTful架构"><a href="#RESTful架构" class="headerlink" title="RESTful架构"></a>RESTful架构</h4><ul>
+<li><strong>特点</strong><ul>
+<li>用URL描述资源</li>
+<li>使用HTTP方法描述行为。使用HTTP状态码来表示不同的结果</li>
+<li>使用json交互数据</li>
+<li>是一种风格</li>
+<li>面向资源</li>
+</ul>
+</li>
+</ul>
+<h3 id="WebSocket"><a href="#WebSocket" class="headerlink" title="WebSocket"></a>WebSocket</h3><ul>
+<li>只需要服务器和浏览器通过HTTP协议进行一个握手的动作，然后单独建立一条TCP的通信通道进行数据的传送</li>
+<li>长连接</li>
+<li>WebSocket API是 HTML5 标准的一部分</li>
+</ul>
+<h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><ul>
+<li>浏览器、服务器建立TCP连接，三次握手。这是通信的基础，传输控制层，若失败后续都不执行。</li>
+<li>TCP连接成功后，浏览器通过<strong>HTTP协议</strong>向服务器传送WebSocket支持的版本号等信息。<strong>（开始前的HTTP握手）</strong></li>
+<li>服务器收到客户端的握手请求后，<strong>同样采用HTTP协议</strong> 回馈数据。</li>
+<li>当收到了连接成功的消息后，<strong>通过TCP通道进行传输通信</strong></li>
+</ul>
+<h4 id="与Http的联系"><a href="#与Http的联系" class="headerlink" title="与Http的联系"></a>与Http的联系</h4><ul>
+<li><strong>相同点：</strong><ul>
+<li>都基于TCP，都是可靠性传输协议</li>
+<li>都是应用层协议</li>
+</ul>
+</li>
+<li><strong>不同点：</strong><ul>
+<li>WebSocket是<strong>双向通信协议(全双工)</strong> ，模拟Socket协议，可以双向发送或接受信息。HTTP是单向的。</li>
+<li>WebSocket是需要握手进行建立连接的</li>
+</ul>
+</li>
+<li>WebSocket在建立握手时，数据是通过HTTP传输的。但是建立之后，在真正传输时候是不需要HTTP协议的。</li>
+</ul>
+<h4 id="与socket的联系"><a href="#与socket的联系" class="headerlink" title="与socket的联系"></a>与socket的联系</h4><ul>
+<li><strong>socket</strong><ul>
+<li>是位于应用层和传输控制层之间(会话层)的一组接口，是为了方便使用TCP或UDP而抽象出来的一层</li>
+<li>门面模式，把复杂的TCP/IP协议族隐藏在Socket接口后面</li>
+</ul>
+</li>
+<li>当两台主机通信时，必须通过Socket连接</li>
+<li>Socket是传输控制层协议，WebSocket是应用层协议</li>
+</ul>
+<h3 id="TCP-UDP（传输层）"><a href="#TCP-UDP（传输层）" class="headerlink" title="TCP / UDP（传输层）"></a>TCP / UDP（传输层）</h3><p><strong>1. TCP三次握手过程</strong></p>
+<ol>
+<li>主机A发送SYN包(同步序列号)到服务器 <em>(SYN_SENT)</em>，等待B确认</li>
+<li>B收到后确认A的SYN <em>(SYN_RCVD)</em>，同时自己也发送一个SYN+ACK包 <em>(ESTABLISHED)</em></li>
+<li>A收到SYN+ACK包后，向B发送ACK包 <em>(ESTABLISHED)</em>。完成三次握手，开始传输数据</li>
+</ol>
+<ol start="4">
+<li>三次握手特点：没有应用层的数据</li>
+<li>三次握手漏洞：<ul>
+<li>SYN FLOOD攻击：DDoS攻击，数据报特征是大量syn包，并且缺少最后一步的ACK回复。<ul>
+<li>解决办法：<ul>
+<li>无效连接监控：半开连接数和不活动连接数到达一定值时候，就释放系统资源</li>
+<li>延缓TCB方法</li>
+<li>Syn Cookie：用一种特殊的算法生成sequence number，算法考虑到对方的信息和己方信息，收到对方的ACK报文后，验证之后才决定是否生成TCB</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p><strong>2. TCP关闭：四次握手</strong></p>
+<ol>
+<li>A将FIN控制位置为1 <em>(FIN_WAIT_1)</em>，提出停止TCP的请求 <em>(CLOSE_WAIT)</em></li>
+<li>B收到后对其作出响应，将ACK置为1</li>
+<li>B将FIN置为1 <em>(FIN_WAIT_2)</em>，提出反方向的关闭请求  <em>(LAST_ACK)</em></li>
+<li>A对B的请求进行确认 <em>(TIME_WAIT)</em>，将ACK置为1  <em>(CLOSED)</em></li>
+</ol>
+<p><strong><code>TIME_WAIT 状态是在服务端发送FIN，客户回复ACK后,为什么需要2MSL时间(报文最大生存时间)？</code></strong></p>
+<ul>
+<li>为了保证最后一个ACK因丢失，而等待重发的时间</li>
+<li>保证残留网络报不会被新连接接收而产生数据错乱。保证所有残留的网络报在自己关闭前都已经超时</li>
+</ul>
+<p><strong>3. TCP头部</strong></p>
+<ol>
+<li>16位 源端口</li>
+<li>16位 目标端口</li>
+<li>32位 序列号</li>
+<li>32位 确认号</li>
+<li>4位 头部长度：指示何处数据开始</li>
+<li>16位 窗口大小</li>
+<li>16位 校验和</li>
+<li>16位 紧急指针</li>
+</ol>
+<p><strong>4. TCP如何保证可靠性传输</strong></p>
+<ol>
+<li>将数据截成合理长度</li>
+<li>超时重发</li>
+<li>推迟验证(对于收到的请求会给出确认响应，响应前会进行完整校验)<ul>
+<li>如果收到的检验和有差错，TCP将丢弃这个报文，并且不确认收到此报文段。然后发送数据端会超时重发</li>
+</ul>
+</li>
+<li>对失序数据进行重排序</li>
+<li>丢弃重复数据</li>
+<li>流量控制<ul>
+<li>TCP连接的每一方都有固定大小的缓冲空间。TCP的接收端只允许另一端发送接收端缓冲区所能接纳的数据。</li>
+</ul>
+</li>
+</ol>
+<p><strong>5.TCP粘包问题</strong></p>
+<ol>
+<li>粘包问题：发送方发送的若干包数据到接收方接收时粘成一包，从缓冲区来看，后一包的头紧接着前一包数据的尾<ul>
+<li>可能发生的场景：需要在连接后一段时间内发送不同结构数据</li>
+<li>出现原因<ul>
+<li>发送端需要等缓冲区满才发送出去，造成粘包</li>
+<li>接收方不及时接收缓冲区的包，造成多个包接收</li>
+</ul>
+</li>
+<li><strong>不是所有的粘包现象都需要处理，若传输的数据为不带结构的连续流数据（如文件传输），则不必把粘连的包分开（简称分包）。</strong></li>
+</ul>
+</li>
+<li>解决措施：<ul>
+<li>对于发送方引起的粘包：编程设置，使用TCP强制数据立即传送的指令（但是关闭了优化算法）</li>
+<li>对于接收方引起的粘包：优化程序设计，提高接收进程优先级等（但是无法完全避免粘包现象）</li>
+<li>由接收方控制，将一包数据按结构字段，人为控制分多次接收然后合并（效率极低）</li>
+</ul>
+</li>
+<li><strong>nagle算法</strong><ul>
+<li>为了尽可能发送大块数据,避免网络中充斥着许多小数据块。</li>
+<li>将多次间隔较小、数据量小的数据，合并成一个大的数据块，然后进行封包</li>
+</ul>
+</li>
+</ol>
+<p><strong>6. TCP流量控制/拥塞控制</strong></p>
+<ul>
+<li>流量控制：滑动窗口<ul>
+<li>让发送方的发送速率不要太快，要让接收方来得及接收</li>
+</ul>
+</li>
+<li>拥塞控制：防止过多的数据注入到网络中，这样可以使网络中的路由器或链路不致过载<ul>
+<li>拥塞：对资源的需求超过了可用资源，造成网络性能降低</li>
+<li>慢开始：由小到大逐渐增大拥塞窗口数值(发送方的发送窗口=拥塞窗口)</li>
+<li>拥塞避免算法：比慢开始算法的拥塞窗口增长速率缓慢<ul>
+<li>一旦出现拥塞，将窗口大小立即置为1，执行慢开始算法</li>
+</ul>
+</li>
+<li>快重传和快恢复<ul>
+<li>接收方每收到一个失序的报文段后就立即发出重复确认</li>
+<li>发送方只要一连收到三个重复确认就应当立即重传对方尚未收到的报文段，而不必等重传计时器到期</li>
+<li>当发送方连续收到三个重复确认，就执行“乘法减小”算法，把慢开始门限减半，把拥塞窗口设置为慢开始门限减半后的数值，并执行拥塞避免算法</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>7. TCP和UDP区别</strong></p>
+<ol>
+<li>面向连接与无连接</li>
+<li>对系统资源的要求(TCP较多，UDP少)</li>
+<li>面向字节流和面向报文</li>
+<li>TCP提供流量控制/拥塞控制，UDP无拥塞控制</li>
+<li>TCP仅支持一对一</li>
+<li>TCP保证数据正确性，UDP可能丢包，TCP保证数据顺序，UDP不保证</li>
+</ol>
+<p><code>UDP适应于对实时要求较高、不允许有较大时延的情况，如航空信息应用。</code></p>
+<h4 id="TCP-IP的四个层次"><a href="#TCP-IP的四个层次" class="headerlink" title="TCP/IP的四个层次"></a>TCP/IP的四个层次</h4><ul>
+<li><strong>网络接口层：</strong> 最底层，负责接收IP数据报并通过网络发送之，或者从网络上接收物理帧，抽出IP数据报，交给IP层。</li>
+<li><strong>网络层：</strong> 负责相邻计算机之间的通信<ul>
+<li>处理来自传输层的<em>分组发送请求</em>，收到请求后，将分组装入IP数据报，填充报头，选择去往信宿机的路径，然后将数据报发往适当的网络接口</li>
+<li>处理输入数据报：首先检查其合法性，然后进行寻径——假如该数据报已到达信宿机，则去掉报头，将剩下部分交给适当的传输协议；假如该数据报尚未到达信宿，则转发该数据报</li>
+<li>处理路径、流控、拥塞问题</li>
+</ul>
+</li>
+<li><strong>传输层：</strong> 提供应用程序间的通信<ul>
+<li>格式化信息流</li>
+<li>提供可靠传输：必须确认，丢失重发</li>
+</ul>
+</li>
+<li><strong>应用层：</strong> 向用户提供一组常用的应用程序，比如电子邮件、文件传输访问、远程登录</li>
+<li>eg:<ul>
+<li>应用层将一串应用数据流传送给传输层</li>
+<li>传输层将应用层的数据流截成分组，并加上TCP报头形成TCP段，送交网络层</li>
+<li>网络层给TCP段加上包括源、目的主机IP地址的IP报头，生成一个IP数据包，并将IP数据包送交给链路层</li>
+<li>链路层在其MAC帧的数据部分装上IP数据包，再加上源、目的主机的MAC地址和帧头，并根据其目的MAC地址，将MAC帧发往目的主机或IP路由器</li>
+<li>在目的主机，链路层将MAC帧的帧头去掉，并将IP数据包送交给网络层</li>
+<li>网络层检查IP报头，如果报头中校验和与计算结果不一致，则丢弃该IP数据包；若校验和与计算结果一致，则去掉IP报头，将TCP段送交传输层</li>
+<li>传输层检查顺序号，判断是否是正确的TCP分组，然后检查TCP报头数据。如正确，则向源主机发确认信息；若不正确或丢包，则向源主机要求重发信息</li>
+<li>在目的主机，传输层去掉TCP报头，将排好顺序的分组组成应用数据流送给应用程序</li>
+</ul>
+</li>
+</ul>
+<h4 id="RPC框架"><a href="#RPC框架" class="headerlink" title="RPC框架"></a>RPC框架</h4><ul>
+<li>像调用本地的函数一样去调远程函数，基于TCP</li>
+<li>SOA 面向服务的架构</li>
+</ul>
+<p><img src="https://image.qinjiangbo.com/blog/image/rpc-architecture.jpg" alt="icon"></p>
+<h3 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h3><p><strong>1. 从输入URL到页面加载发生了什么？</strong></p>
+<ol>
+<li>DNS解析：<ul>
+<li>浏览器缓存 → 操作系统缓存 → 本地hosts文件 → 本地DNS服务器 → 递归搜索UDP协议( . -&gt; .com -&gt; google.com. -&gt; <a href="http://www.google.com.。" target="_blank" rel="noopener">www.google.com.。</a>)</li>
+</ul>
+</li>
+<li>TCP连接</li>
+<li>发送http请求，服务器返回一个重定向地址</li>
+<li>浏览器跟踪重定向地址</li>
+<li>服务器处理http请求并返回http报文</li>
+<li>浏览器解析、渲染页面</li>
+</ol>
+<h3 id="Session-Cookie"><a href="#Session-Cookie" class="headerlink" title="Session / Cookie"></a>Session / Cookie</h3><ul>
+<li>Session是在服务端保存的一个数据结构，用来跟踪用户的状态，这个数据可以保存在集群、数据库、文件中<ul>
+<li>服务器在创建了Session的同时，会为该Session生成唯一的Session id，而这个Session id在随后的请求中会被用来重新获得已经创建的Session；在Session被创建之后，就可以调用Session相关的方法往Session中增加内容了，而这些内容只会保存在服务器中，发到客户端的只有Session id；当客户端再次发送请求的时候，会将这个Session id带上，服务器接受到请求之后就会依据Session id找到相应的Session，从而再次使用之。正式这样一个过程，用户的状态也就得以保持了。</li>
+</ul>
+</li>
+<li>Cookie是客户端保存用户信息的一种机制，用来记录用户的一些信息，也是实现Session的一种方式<ul>
+<li>第一次创建Session的时候，服务端会在HTTP协议中告诉客户端，需要在 Cookie 里面记录一个Session ID，以后每次请求把这个会话ID发送到服务器</li>
+<li>常见应用场景：自动登录</li>
+<li>安全性较低，以明文形式存放在浏览器中</li>
+</ul>
+</li>
+<li>cookie增多会增加网络带宽，session增多会占用服务器性能</li>
+<li><strong>cookie被禁用？</strong><ul>
+<li>URL重写</li>
+<li>每次HTTP交互，URL后面都会被附加上一个诸如 sid=xxxxx 这样的参数</li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/19/JVM整理/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -877,13 +1295,43 @@
 </tbody>
 </table>
 <h4 id="LinkedHashMap"><a href="#LinkedHashMap" class="headerlink" title="LinkedHashMap"></a>LinkedHashMap</h4><ul>
-<li>保存了记录的插入顺序</li>
+<li><p>底层使用哈希表与双向链表来保存所有元素</p>
+<ul>
+<li>重新定义了数组中保存的元素 <code>Entry</code>，该 <code>Entry</code> 除了保存当前对象的引用外，还保存了其上一个元素 <code>before</code> 和下一个元素 <code>after</code> 的引用</li>
 </ul>
+</li>
+<li><p>此链表定义了迭代顺序，该迭代顺序可以是插入顺序或者是访问顺序。</p>
+<ul>
+<li><p>可以按照插入顺序访问</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    Map&lt;String, String&gt; map = <span class="keyword">new</span> HashMap&lt;String, String&gt;();</span><br><span class="line">    map.put(<span class="string">"apple"</span>, <span class="string">"苹果"</span>);</span><br><span class="line">    map.put(<span class="string">"watermelon"</span>, <span class="string">"西瓜"</span>);</span><br><span class="line">    map.put(<span class="string">"banana"</span>, <span class="string">"香蕉"</span>);</span><br><span class="line">    map.put(<span class="string">"peach"</span>, <span class="string">"桃子"</span>);</span><br><span class="line"></span><br><span class="line">    Iterator iter = map.entrySet().iterator();</span><br><span class="line">    <span class="keyword">while</span> (iter.hasNext()) &#123;</span><br><span class="line">        Map.Entry entry = (Map.Entry) iter.next();</span><br><span class="line">        System.out.println(entry.getKey() + <span class="string">"="</span> + entry.getValue());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">apple=苹果</span><br><span class="line">watermelon=西瓜</span><br><span class="line">banana=香蕉</span><br><span class="line">peach=桃子</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>按照访问顺序访问：调用get方法后，会将这次访问的元素移至链表头部，不断访问可以形成按访问顺序排序的链表。</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    Map&lt;String, String&gt; map = <span class="keyword">new</span> LinkedHashMap&lt;String, String&gt;(<span class="number">16</span>,<span class="number">0.75f</span>,<span class="keyword">true</span>);</span><br><span class="line">    map.put(<span class="string">"apple"</span>, <span class="string">"苹果"</span>);</span><br><span class="line">    map.put(<span class="string">"watermelon"</span>, <span class="string">"西瓜"</span>);</span><br><span class="line">    map.put(<span class="string">"banana"</span>, <span class="string">"香蕉"</span>);</span><br><span class="line">    map.put(<span class="string">"peach"</span>, <span class="string">"桃子"</span>);</span><br><span class="line"></span><br><span class="line">    map.get(<span class="string">"banana"</span>);</span><br><span class="line">    map.get(<span class="string">"apple"</span>);</span><br><span class="line"></span><br><span class="line">    Iterator iter = map.entrySet().iterator();</span><br><span class="line">    <span class="keyword">while</span> (iter.hasNext()) &#123;</span><br><span class="line">        Map.Entry entry = (Map.Entry) iter.next();</span><br><span class="line">        System.out.println(entry.getKey() + <span class="string">"="</span> + entry.getValue());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">watermelon=西瓜</span><br><span class="line">peach=桃子</span><br><span class="line">banana=香蕉</span><br><span class="line">apple=苹果</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>允许使用 null 值和 null 键</p>
+</li>
+<li><p><strong>注意</strong>，此实现不是同步的。如果多个线程同时访问链接的哈希映射，而其中至少一个线程从结构上修改了该映射，则它必须保持外部同步。</p>
+</li>
+</ul>
+<h5 id="实现LRU-cache"><a href="#实现LRU-cache" class="headerlink" title="实现LRU cache"></a>实现LRU cache</h5><ul>
+<li>使用LinkedHashMap类有两个好处<ul>
+<li>一是它本身已经实现了按照访问顺序的存储，也就是说，最近读取的会放在最前面，最最不常读取的会放在最后（当然，它也可以实现按照插入顺序存储）</li>
+<li>第二，LinkedHashMap 本身有一个方法用于判断是否需要移除最不常读取的数，但是，原始方法默认不需要移除（这时LinkedHashMap 相当于一个linkedlist），所以，我们需要 override 这样一个方法，使得当缓存里存放的数据个数超过规定个数后，就把最不常用的移除掉。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.LinkedHashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.Collection;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * An LRU cache, based on &lt;code&gt;LinkedHashMap&lt;/code&gt;.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;</span></span><br><span class="line"><span class="comment"> * This cache has a fixed maximum number of elements (&lt;code&gt;cacheSize&lt;/code&gt;).</span></span><br><span class="line"><span class="comment"> * If the cache is full and another entry is added, the LRU (least recently</span></span><br><span class="line"><span class="comment"> * used) entry is dropped.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;</span></span><br><span class="line"><span class="comment"> * This class is thread-safe. All methods of this class are synchronized.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;</span></span><br><span class="line"><span class="comment"> * Author: Christian d'Heureuse, Inventec Informatik AG, Zurich, Switzerland&lt;br&gt;</span></span><br><span class="line"><span class="comment"> * Multi-licensed: EPL / LGPL / GPL / AL / BSD.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LRUCache</span>&lt;<span class="title">K</span>, <span class="title">V</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">float</span> hashTableLoadFactor = <span class="number">0.75f</span>;</span><br><span class="line">    <span class="keyword">private</span> LinkedHashMap&lt;K, V&gt; map;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> cacheSize;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Creates a new LRU cache. 在该方法中，new LinkedHashMap&lt;K,V&gt;(hashTableCapacity,</span></span><br><span class="line"><span class="comment">     * hashTableLoadFactor, true)中，true代表使用访问顺序</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> cacheSize</span></span><br><span class="line"><span class="comment">     *            the maximum number of entries that will be kept in this cache.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LRUCache</span><span class="params">(<span class="keyword">int</span> cacheSize)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.cacheSize = cacheSize;</span><br><span class="line">        <span class="keyword">int</span> hashTableCapacity = (<span class="keyword">int</span>) Math</span><br><span class="line">                .ceil(cacheSize / hashTableLoadFactor) + <span class="number">1</span>;</span><br><span class="line">        map = <span class="keyword">new</span> LinkedHashMap&lt;K, V&gt;(hashTableCapacity, hashTableLoadFactor,</span><br><span class="line">                <span class="keyword">true</span>) &#123;</span><br><span class="line">            <span class="comment">// (an anonymous inner class)</span></span><br><span class="line">            <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">removeEldestEntry</span><span class="params">(Map.Entry&lt;K, V&gt; eldest)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> size() &gt; LRUCache.<span class="keyword">this</span>.cacheSize;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Retrieves an entry from the cache.&lt;br&gt;</span></span><br><span class="line"><span class="comment">     * The retrieved entry becomes the MRU (most recently used) entry.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> key</span></span><br><span class="line"><span class="comment">     *            the key whose associated value is to be returned.</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> the value associated to this key, or null if no value with this</span></span><br><span class="line"><span class="comment">     *         key exists in the cache.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> V <span class="title">get</span><span class="params">(K key)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> map.get(key);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Adds an entry to this cache. The new entry becomes the MRU (most recently</span></span><br><span class="line"><span class="comment">     * used) entry. If an entry with the specified key already exists in the</span></span><br><span class="line"><span class="comment">     * cache, it is replaced by the new entry. If the cache is full, the LRU</span></span><br><span class="line"><span class="comment">     * (least recently used) entry is removed from the cache.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> key</span></span><br><span class="line"><span class="comment">     *            the key with which the specified value is to be associated.</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> value</span></span><br><span class="line"><span class="comment">     *            a value to be associated with the specified key.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">put</span><span class="params">(K key, V value)</span> </span>&#123;</span><br><span class="line">        map.put(key, value);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Clears the cache.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">clear</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        map.clear();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Returns the number of used entries in the cache.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> the number of entries currently in the cache.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">int</span> <span class="title">usedEntries</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> map.size();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Returns a &lt;code&gt;Collection&lt;/code&gt; that contains a copy of all cache</span></span><br><span class="line"><span class="comment">     * entries.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> a &lt;code&gt;Collection&lt;/code&gt; with a copy of the cache content.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">synchronized</span> Collection&lt;Map.Entry&lt;K, V&gt;&gt; getAll() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ArrayList&lt;Map.Entry&lt;K, V&gt;&gt;(map.entrySet());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Test routine for the LRUCache class.</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        LRUCache&lt;String, String&gt; c = <span class="keyword">new</span> LRUCache&lt;String, String&gt;(<span class="number">3</span>);</span><br><span class="line">        c.put(<span class="string">"1"</span>, <span class="string">"one"</span>); <span class="comment">// 1</span></span><br><span class="line">        c.put(<span class="string">"2"</span>, <span class="string">"two"</span>); <span class="comment">// 1 2</span></span><br><span class="line">        c.put(<span class="string">"3"</span>, <span class="string">"three"</span>); <span class="comment">// 1 2 3</span></span><br><span class="line">        c.put(<span class="string">"4"</span>, <span class="string">"four"</span>); <span class="comment">// 2 3 4</span></span><br><span class="line">        <span class="keyword">if</span> (c.get(<span class="string">"2"</span>) == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> Error(); <span class="comment">// 3 4 2</span></span><br><span class="line">        c.put(<span class="string">"5"</span>, <span class="string">"five"</span>); <span class="comment">// 4 2 5</span></span><br><span class="line">        c.put(<span class="string">"4"</span>, <span class="string">"second four"</span>); <span class="comment">// 2 5 4</span></span><br><span class="line">        <span class="comment">// Verify cache content.</span></span><br><span class="line">        <span class="keyword">if</span> (c.usedEntries() != <span class="number">3</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> Error();</span><br><span class="line">        <span class="keyword">if</span> (!c.get(<span class="string">"4"</span>).equals(<span class="string">"second four"</span>))<span class="comment">// 2 5 4</span></span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> Error();</span><br><span class="line">        <span class="keyword">if</span> (!c.get(<span class="string">"5"</span>).equals(<span class="string">"five"</span>))<span class="comment">// 2 4 5</span></span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> Error();</span><br><span class="line">        <span class="keyword">if</span> (!c.get(<span class="string">"2"</span>).equals(<span class="string">"two"</span>))<span class="comment">//4 5 2</span></span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> Error();</span><br><span class="line">        <span class="comment">// List cache content.</span></span><br><span class="line">        <span class="keyword">for</span> (Map.Entry&lt;String, String&gt; e : c.getAll())</span><br><span class="line">            System.out.println(e.getKey() + <span class="string">" : "</span> + e.getValue());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="HashSet"><a href="#HashSet" class="headerlink" title="HashSet"></a>HashSet</h4><ul>
 <li>基于HashMap实现</li>
 <li>同样无法保证顺序</li>
+<li>使用成员对象来计算hashcode值，对于两个对象来说hashcode可能相同，所以equals()方法用来判断对象的相等性，如果两个对象不同的话，那么返回false</li>
+<li>比hashmap来说比较慢</li>
 </ul>
-<h3 id="HashMap与Hashtable的区别"><a href="#HashMap与Hashtable的区别" class="headerlink" title="HashMap与Hashtable的区别"></a>HashMap与Hashtable的区别</h3><ul>
+<h4 id="LinkedHashSet"><a href="#LinkedHashSet" class="headerlink" title="LinkedHashSet"></a>LinkedHashSet</h4><h3 id="HashMap与Hashtable的区别"><a href="#HashMap与Hashtable的区别" class="headerlink" title="HashMap与Hashtable的区别"></a>HashMap与Hashtable的区别</h3><ul>
 <li>HashMap允许将null作为一个entry的key或者value，而Hashtable不允许</li>
 <li>HashMap不是线程安全的，而Hashtable是线程安全的</li>
 <li>HashTable 的方法是 Synchronize 的，而 HashMap 不是，在多个线程访问 Hashtable 时，不需要自己为它的方法实现同步，而 HashMap 就必须为之提供外同步</li>
@@ -899,6 +1347,7 @@
 <li>并不是直接改为红黑树，而是将treeNode封装到treeBin对象中</li>
 </ul>
 </li>
+<li>ConcurrentHashMap 不允许空值</li>
 </ul>
 <h4 id="核心方法"><a href="#核心方法" class="headerlink" title="核心方法"></a>核心方法</h4><ul>
 <li>initTable():在插入元素时发生，只能由一个线程完成<ul>
@@ -915,7 +1364,7 @@
 <li>Hashtable的synchronized是针对整张Hash表的，即每次锁住整张表让线程独占，ConcurrentHashMap允许多个修改操作并发进行，其关键在于使用了分段锁技术</li>
 </ul>
 <h2 id="List"><a href="#List" class="headerlink" title="List"></a>List</h2><h3 id="ArrayList"><a href="#ArrayList" class="headerlink" title="ArrayList"></a>ArrayList</h3><ul>
-<li>内部通过数组实现<ul>
+<li>内部通过<strong>动态数组</strong>实现<ul>
 <li>当插入或删除元素时，需要对数组进行复制、移动，代价较高</li>
 <li>适合查找和遍历</li>
 </ul>
@@ -1683,7 +2132,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

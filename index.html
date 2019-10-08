@@ -264,6 +264,369 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/06/Netty/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Cao Shuyue">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Alpaca's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/10/06/Netty/" itemprop="url">Netty</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-10-06T12:06:28+08:00">
+                2019-10-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Netty架构"><a href="#Netty架构" class="headerlink" title="Netty架构"></a>Netty架构</h1><p>Netty 是一个<code>异步事件驱动</code>的网络应用程序框架，用于快速开发可维护的高性能协议服务器和客户端。</p>
+<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><h3 id="JDK原生NIO程序的问题"><a href="#JDK原生NIO程序的问题" class="headerlink" title="JDK原生NIO程序的问题"></a>JDK原生NIO程序的问题</h3><ul>
+<li><strong>NIO 的类库和 API 繁杂，使用麻烦</strong>：需要熟练掌握 Selector、ServerSocketChannel、SocketChannel、ByteBuffer 等。</li>
+<li><strong>需要具备其他的额外技能做铺垫</strong>：例如熟悉 Java 多线程编程，因为 NIO 编程涉及到 Reactor 模式，你必须对多线程和网路编程非常熟悉，才能编写出高质量的 NIO 程序。</li>
+<li><strong>可靠性能力补齐，开发工作量和难度都非常大</strong>：例如客户端面临断连重连、网络闪断、半包读写、失败缓存、网络拥塞和异常码流的处理等等。</li>
+<li><strong>JDK NIO 的 Bug</strong>：臭名昭著的 Epoll Bug，它会导致 Selector 空轮询，最终导致 CPU 100%。</li>
+</ul>
+<h3 id="Netty的特点"><a href="#Netty的特点" class="headerlink" title="Netty的特点"></a>Netty的特点</h3><ul>
+<li><strong>设计优雅</strong><ul>
+<li>适用于各种传输类型的统一 API 阻塞和非阻塞 Socket</li>
+<li>基于灵活且可扩展的事件模型，可以清晰地分离关注点</li>
+<li>高度可定制的线程模型 - 单线程，一个或多个线程池</li>
+<li>真正的无连接数据报套接字支持（自 3.1 起）。</li>
+<li>灵活的TCP参数配置能力</li>
+</ul>
+</li>
+<li><strong>使用方便</strong></li>
+<li><strong>高性能，吞吐量更高</strong>：延迟更低；减少资源消耗；最小化不必要的内存复制(零拷贝)。<ul>
+<li><strong>零拷贝</strong>：不需要将数据 buffer 从一个内存区域拷贝到另一个内存区域<ul>
+<li>ByteBuf使用直接(堆外)内存，不需要进行字节缓冲区的二次拷贝</li>
+<li>CompositeByteBuf 类可以将多个 ByteBuf 合并为一个逻辑上的 ByteBuf, 避免了传统通过内存拷贝的方式将几个小Buffer合并成一个大的Buffer。</li>
+<li>通过 FileRegion 包装的FileChannel.tranferTo方法 实现文件传输, 可以直接将文件缓冲区的数据发送到目标 Channel，避免了传统通过循环write方式导致的内存拷贝问题。</li>
+<li>通过 wrap 操作, 我们可以将 byte[] 数组、ByteBuf、ByteBuffer等包装成一个 Netty ByteBuf 对象, 进而避免了拷贝操作</li>
+</ul>
+</li>
+<li><strong>无锁化的串行设计理念</strong></li>
+<li><strong>高性能的序列化框架</strong></li>
+<li><strong>高效的并发编程</strong>：采用大量的CAS操作</li>
+</ul>
+</li>
+<li><strong>安全，</strong>完整的 SSL/TLS 和 StartTLS 支持。</li>
+<li><strong>社区活跃，不断更新</strong></li>
+</ul>
+<h2 id="I-O模型"><a href="#I-O模型" class="headerlink" title="I/O模型"></a>I/O模型</h2><h3 id="阻塞I-O（BIO）"><a href="#阻塞I-O（BIO）" class="headerlink" title="阻塞I/O（BIO）"></a>阻塞I/O（BIO）</h3><p><img src="https://user-gold-cdn.xitu.io/2018/11/5/166e31cd4e7cd6fb?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="icon"></p>
+<ul>
+<li>每个请求都需要独立的线程完成数据 Read，业务处理，数据 Write 的完整操作问题。</li>
+<li>当并发数较大时，需要创建大量线程来处理连接，系统资源占用较大。</li>
+<li>连接建立后，如果当前线程暂时没有数据可读，则线程就阻塞在 Read 操作上，造成线程资源浪费。</li>
+</ul>
+<h3 id="I-O复用（NIO）"><a href="#I-O复用（NIO）" class="headerlink" title="I/O复用（NIO）"></a>I/O复用（NIO）</h3><p>在 I/O 复用模型中，会用到 Select，这个函数也会使进程阻塞，但是和阻塞 I/O 所不同的是这两个函数可以同时阻塞多个 I/O 操作。</p>
+<p>而且可以同时对多个读操作，多个写操作的 I/O 函数进行检测，直到有数据可读或可写时，才真正调用 I/O 操作函数。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/11/5/166e31ccf0341632?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="icon"></p>
+<ul>
+<li>Netty 的 IO 线程 NioEventLoop 由于聚合了多路复用器 Selector，可以同时并发处理成百上千个客户端连接。</li>
+<li>当线程从某客户端 Socket 通道进行读写数据时，若没有数据可用时，该线程可以进行其他任务</li>
+<li>线程通常将非阻塞 IO 的空闲时间用于在其他通道上执行 IO 操作，所以单独的线程可以管理多个输入和输出通道。</li>
+<li>由于读写操作都是非阻塞的，这就可以充分提升 IO 线程的运行效率，避免由于频繁 I/O 阻塞导致的线程挂起。</li>
+<li>一个 I/O 线程可以并发处理 N 个客户端连接和读写操作，这从根本上解决了传统同步阻塞 I/O 一连接一线程模型，架构的性能、弹性伸缩能力和可靠性都得到了极大的提升。</li>
+<li><strong>基于buffer</strong><ul>
+<li>传统的 I/O 是<code>面向字节流或字符流</code>的，以流式的方式顺序地从一个 Stream 中读取一个或多个字节, 因此也就<code>不能随意改变读取指针的位置</code>。</li>
+<li>在 NIO 中，抛弃了传统的 I/O 流，而是引入了 Channel 和 Buffer 的概念。在 NIO 中，只能从 Channel 中读取数据到 Buffer 中或将数据从 Buffer 中写入到 Channel。<ul>
+<li>基于 Buffer 操作不像传统 IO 的顺序操作，<code>NIO 中可以随意地读取任意位置的数据</code>。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="线程模型"><a href="#线程模型" class="headerlink" title="线程模型"></a>线程模型</h2><h3 id="事件驱动模型"><a href="#事件驱动模型" class="headerlink" title="事件驱动模型"></a>事件驱动模型</h3><p>通常，事件处理模型有两种：</p>
+<ol>
+<li><strong>轮询方式</strong>，线程不断轮询访问相关事件发生源有没有发生事件，有发生事件就调用事件处理逻辑。</li>
+<li><strong>事件驱动方式，</strong>发生事件，主线程把事件放入事件队列，在另外线程不断循环消费事件列表中的事件，调用事件对应的处理逻辑处理事件。事件驱动方式也被称为<code>消息通知方式</code>，其实是设计模式中<code>观察者模式</code>的思路。<ul>
+<li>相对轮询方式的好处<ul>
+<li><strong>可扩展性好，</strong>分布式的异步架构，事件处理器之间高度解耦，可以方便扩展事件处理逻辑</li>
+<li><strong>高性能，</strong>基于队列暂存事件，能方便并行异步处理事件。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p><img src="https://user-gold-cdn.xitu.io/2018/11/5/166e31ccf1fc47d9?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="icon"></p>
+<h3 id="Reactor线程模型"><a href="#Reactor线程模型" class="headerlink" title="Reactor线程模型"></a>Reactor线程模型</h3><p>Reactor 模型是指通过一个或多个输入同时传递给服务处理器的服务请求的事件驱动处理模式。</p>
+<p>服务端程序处理传入多路请求，并将它们同步分派给请求对应的处理线程，Reactor 模式也叫 Dispatcher 模式，即 I/O 多路复用统一监听事件，收到事件后分发(Dispatch 给某进程)，是编写高性能网络服务器的必备技术之一。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/11/5/166e31ccf0289b09?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="icon"></p>
+<ul>
+<li>2个关键组成<ul>
+<li><strong>Reactor，</strong>Reactor 在一个单独的线程中运行，负责<code>监听和分发事件</code>，分发给适当的处理程序来对 IO 事件做出反应。它就像公司的电话接线员，它接听来自客户的电话并将线路转移到适当的联系人。</li>
+<li><strong>Handlers，</strong>处理程序执行 I/O 事件要完成的实际事件，类似于客户想要与之交谈的公司中的实际官员。Reactor 通过调度适当的处理程序来响应 I/O 事件，处理程序执行非阻塞操作。</li>
+</ul>
+</li>
+<li>3个变种<ul>
+<li><strong>单 Reactor 单线程</strong></li>
+<li><strong>单 Reactor 多线程</strong></li>
+<li><strong>主从 Reactor 多线程</strong></li>
+<li>可以这样理解，Reactor 就是一个执行 while (true) { selector.select(); …} 循环的线程</li>
+</ul>
+</li>
+</ul>
+<h3 id="Netty线程模型"><a href="#Netty线程模型" class="headerlink" title="Netty线程模型"></a>Netty线程模型</h3><p>Netty 主要基于主从 Reactors 多线程模型（如下图）做了一定的修改，其中主从 Reactor 多线程模型有多个 Reactor：</p>
+<ul>
+<li>MainReactor 负责客户端的连接请求，并将请求转交给 SubReactor。</li>
+<li>SubReactor 负责相应通道的 IO 读写请求。(与worker threads在同一线程池中)</li>
+<li>非 IO 请求（具体逻辑处理）的任务则会直接写入队列，等待 worker threads 进行处理。</li>
+</ul>
+<p><img src="https://user-gold-cdn.xitu.io/2018/11/5/166e31ccfc6fd6b1?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="icon"></p>
+<h2 id="异步处理"><a href="#异步处理" class="headerlink" title="异步处理"></a>异步处理</h2><ul>
+<li><p>Netty 中的 I/O 操作是异步的，包括 Bind、Write、Connect 等操作会简单的返回一个 <code>ChannelFuture</code>。</p>
+</li>
+<li><p>调用者并不能立刻获得结果，而是通过 <code>Future-Listener</code> 机制，用户可以方便的主动获取或者通过通知机制获得 IO 操作结果。</p>
+</li>
+<li><p>当 Future 对象刚刚创建时，处于非完成状态，调用者可以通过返回的 ChannelFuture 来获取操作执行的状态，注册监听函数来执行完成后的操作。</p>
+</li>
+<li><p>常见操作</p>
+<ul>
+<li><p>通过 isDone 方法来判断当前操作是否完成。</p>
+</li>
+<li><p>通过 isSuccess 方法来判断已完成的当前操作是否成功。</p>
+</li>
+<li><p>通过 getCause 方法来获取已完成的当前操作失败的原因。</p>
+</li>
+<li><p>通过 isCancelled 方法来判断已完成的当前操作是否被取消。</p>
+</li>
+<li><p>通过 addListener 方法来注册监听器，当操作已完成(isDone 方法返回完成)，将会通知指定的监听器；如果 Future 对象已完成，则立即通知指定的监听器。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">serverBootstrap.bind(port).addListener(future -&gt; &#123;</span><br><span class="line">       <span class="keyword">if</span> (future.isSuccess()) &#123;</span><br><span class="line">           System.out.println(<span class="keyword">new</span> Date() + <span class="string">": 端口["</span> + port + <span class="string">"]绑定成功!"</span>);</span><br><span class="line">       &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">           System.err.println(<span class="string">"端口["</span> + port + <span class="string">"]绑定失败!"</span>);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>相比传统阻塞 I/O，执行 I/O 操作后线程会被阻塞住, 直到操作完成；异步处理的好处是不会造成线程阻塞，线程在 I/O 操作期间可以执行别的程序，在高并发情形下会更稳定和更高的吞吐量。</p>
+</li>
+</ul>
+<h2 id="功能特性"><a href="#功能特性" class="headerlink" title="功能特性"></a>功能特性</h2><p><img src="https://user-gold-cdn.xitu.io/2018/11/5/166e31cd2154b3f0?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="icon"></p>
+<ul>
+<li><strong>传输服务，</strong>支持 BIO 和 NIO。</li>
+<li><strong>容器集成，</strong>支持 OSGI、JBossMC、Spring、Guice 容器。</li>
+<li><strong>协议支持，</strong>HTTP、Protobuf、二进制、文本、WebSocket 等一系列常见协议都支持。还支持通过实行编码解码逻辑来实现自定义协议。<ul>
+<li>Protobuf：结构化的数据序列化、反序列化，常用于RPC 系统（Remote Procedure Call Protocol System）和持续数据存储系统。<ul>
+<li>序列化后体积相比 Json 和 XML 很小，适合网络传输</li>
+<li>支持跨平台多语言</li>
+<li>消息格式升级和兼容性不错，“向后” 兼容性好</li>
+<li>序列化反序列化速度很快，快于 Json 的处理速速</li>
+<li>Protobuf 语义更清晰，无需类似 XML 解析器的东西</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Core 核心，</strong>可扩展事件模型、通用通信 API、支持零拷贝的 ByteBuf 缓冲对象。</li>
+</ul>
+<h2 id="模块组件"><a href="#模块组件" class="headerlink" title="模块组件"></a>模块组件</h2><ul>
+<li><p><strong>bootstrap，serverBootstrap</strong>：一个 Netty 应用通常由一个 Bootstrap 开始，主要作用是配置整个 Netty 程序，串联各个组件，Netty 中 Bootstrap 类是客户端程序的启动引导类，ServerBootstrap 是服务端启动引导类。</p>
+</li>
+<li><p><strong>future，channelFuture</strong>：他们可以注册一个监听，当操作执行成功或失败时监听会自动触发注册的监听事件。</p>
+</li>
+<li><p><strong>channel</strong>：Netty 网络通信的组件，能够用于执行网络 I/O 操作</p>
+<ul>
+<li>NioSocketChannel，异步的客户端 TCP Socket 连接。</li>
+<li>NioServerSocketChannel，异步的服务器端 TCP Socket 连接。</li>
+<li>NioDatagramChannel，异步的 UDP 连接。</li>
+<li>NioSctpChannel，异步的客户端 Sctp 连接。</li>
+<li>NioSctpServerChannel，异步的 Sctp 服务器端连接，这些通道涵盖了 UDP 和 TCP 网络 IO 以及文件 IO。</li>
+</ul>
+</li>
+<li><p><strong>selector</strong>：Netty 基于 Selector 对象实现 I/O 多路复用，通过 Selector 一个线程可以监听多个连接的 Channel 事件。</p>
+<ul>
+<li>当向一个 Selector 中注册 Channel 后，Selector 内部的机制就可以自动不断地查询(Select) 这些注册的 Channel 是否有已就绪的 I/O 事件（例如可读，可写，网络连接完成等），这样程序就可以很简单地使用一个线程高效地管理多个 Channel 。</li>
+</ul>
+</li>
+<li><p><strong>NioEventLoop</strong>：维护了一个线程和任务队列，支持异步提交执行任务，线程启动时会调用 NioEventLoop 的 run 方法，执行 I/O 任务和非 I/O 任务：</p>
+<ul>
+<li><strong>I/O 任务，</strong>即 selectionKey 中 ready 的事件，如 accept、connect、read、write 等，由 processSelectedKeys 方法触发。</li>
+<li><strong>非 IO 任务，</strong>添加到 taskQueue 中的任务，如 register0、bind0 等任务，由 runAllTasks 方法触发。</li>
+</ul>
+</li>
+<li><p><strong>NioEventLoopGroup</strong>：要管理 eventLoop 的生命周期，可以理解为一个线程池，内部维护了一组线程，每个线程(NioEventLoop)负责处理多个 Channel 上的事件，而一个 Channel 只对应于一个线程。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2017/11/3/cc34433060fd090ffbfc09a101920ddd?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="icon"></p>
+</li>
+<li><p><strong>ChannelHandler</strong>：是一个接口，处理 I/O 事件或拦截 I/O 操作，并将其转发到其 ChannelPipeline(业务处理链)中的下一个处理程序。</p>
+<ul>
+<li>ChannelInboundHandler 用于处理入站 I/O 事件。</li>
+<li>ChannelOutboundHandler 用于处理出站 I/O 操作。</li>
+<li>ChannelInboundHandlerAdapter 用于处理入站 I/O 事件。</li>
+<li>ChannelOutboundHandlerAdapter 用于处理出站 I/O 操作。</li>
+<li>ChannelDuplexHandler 用于处理入站和出站事件。</li>
+</ul>
+</li>
+<li><p><strong>ChannelHandlerContext</strong>：保存 Channel 相关的所有上下文信息，同时关联一个 ChannelHandler 对象。</p>
+</li>
+<li><p><strong>ChannelPipeline</strong>：保存 ChannelHandler 的 List，用于处理或拦截 Channel 的入站事件和出站操作。</p>
+<ul>
+<li><p>ChannelPipeline 实现了一种高级形式的拦截过滤器模式，使用户可以完全控制事件的处理方式，以及 Channel 中各个的 ChannelHandler 如何相互交互。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/11/5/166e31cd231e80d9?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="icon"></p>
+</li>
+<li><p>每个channel有且仅有一个channelPipeline与之对应</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/11/5/166e31cd41342c12?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="icon"></p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="Netty工作架构图"><a href="#Netty工作架构图" class="headerlink" title="Netty工作架构图"></a>Netty工作架构图</h3><p><img src="https://user-gold-cdn.xitu.io/2018/11/5/166e31cd44075dd8?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="icon"></p>
+<h3 id="Handler的执行顺序"><a href="#Handler的执行顺序" class="headerlink" title="Handler的执行顺序"></a>Handler的执行顺序</h3><p>一个ChannelPipeline可以把两种Handler（ChannelInboundHandler和ChannelOutboundHandler）混合在一起，当一个数据流进入ChannelPipeline时，它会从ChannelPipeline头部开始传给第一个ChannelInboundHandler，当第一个处理完后再传给下一个，一直传递到管道的尾部。</p>
+<p>与之相对应的是，当数据被写出时，它会从管道的尾部开始，先经过管道尾部的“最后”一个ChannelOutboundHandler，当它处理完成后会传递给前一个ChannelOutboundHandler。</p>
+<p><strong>对于inbound event，Netty会自动跳过OutboundHandler,相反若是outbound event，ChannelInboundHandler会被忽略掉。</strong></p>
+<ul>
+<li>两种方式发送数据：<ul>
+<li>把数据直接写入Channel，那么数据流会从Channel的头开始传递</li>
+<li>把数据写入ChannelHandlerContext，数据流会流入管道中的下一个Handler</li>
+</ul>
+</li>
+</ul>
+<h2 id="WriteAndFlush"><a href="#WriteAndFlush" class="headerlink" title="WriteAndFlush"></a>WriteAndFlush</h2><ul>
+<li>标准的pipeline链式结构<ul>
+<li>数据从head节点流入，先拆包，然后解码成业务对象，最后经过业务Handler处理，调用write，将结果对象写出去。</li>
+<li>写的过程先通过tail节点，然后通过encoder节点将对象编码成ByteBuf，最后将该ByteBuf对象传递到head节点，调用底层的Unsafe写到jdk底层管道</li>
+</ul>
+</li>
+</ul>
+<h3 id="Encoder"><a href="#Encoder" class="headerlink" title="Encoder"></a>Encoder</h3><ol>
+<li>判断当前Handler是否能处理写入的消息，如果能处理，进入下面的流程，否则，直接扔给下一个节点处理</li>
+<li>将对象强制转换成<code>Encoder</code>可以处理的 <code>Response</code>对象</li>
+<li>分配一个ByteBuf</li>
+<li>调用encoder，即进入到 <code>Encoder</code> 的 <code>encode</code>方法，该方法是用户代码，用户将数据写入ByteBuf</li>
+<li>既然自定义java对象转换成ByteBuf了，那么这个对象就已经无用了，释放掉，(当传入的msg类型是ByteBuf的时候，就不需要自己手动释放了)</li>
+<li>如果buf中写入了数据，就把buf传到下一个节点，否则，释放buf，将空数据传到下一个节点</li>
+<li>最后，当buf在pipeline中处理完之后，释放节点</li>
+</ol>
+<p>总结：<code>Encoder</code>节点分配一个ByteBuf，调用<code>encode</code>方法，将java对象根据自定义协议写入到ByteBuf，然后再把ByteBuf传入到下一个节点(可能到head节点)</p>
+<h3 id="write写队列"><a href="#write写队列" class="headerlink" title="write写队列"></a>write写队列</h3><ol>
+<li>调用 <code>assertEventLoop</code> 确保该方法的调用是在reactor线程中</li>
+<li>调用 <code>filterOutboundMessage()</code> 方法，将待写入的对象过滤，把非<code>ByteBuf</code>对象和<code>FileRegion</code>过滤，把所有的非直接内存转换成直接内存<code>DirectBuffer</code></li>
+<li>估算出需要写入的ByteBuf的size</li>
+<li>调用 <code>ChannelOutboundBuffer</code> 的<code>addMessage(msg, size, promise)</code> 方法<ul>
+<li>ChannelOutboundBuffer 里面的数据结构是一个单链表结构，每个节点是一个 <code>Entry</code>，<code>Entry</code> 里面包含了待写出<code>ByteBuf</code> 以及消息回调 <code>promise</code></li>
+<li>三个指针<ul>
+<li><code>flushedEntry</code> 指针表示第一个被写到操作系统Socket缓冲区中的节点</li>
+<li><code>unFlushedEntry</code> 指针表示第一个未被写入到操作系统Socket缓冲区中的节点</li>
+<li><code>tailEntry</code>指针表示<code>ChannelOutboundBuffer</code>缓冲区的最后一个节点</li>
+</ul>
+</li>
+<li>在调用N次<code>addMessage</code>之后，<code>flushedEntry</code>指针一直指向NULL，而<code>unFushedEntry</code>之后有n个节点，说明<strong>write并没有写出到socket缓冲区</strong></li>
+</ul>
+</li>
+</ol>
+<h3 id="flush刷新写队列"><a href="#flush刷新写队列" class="headerlink" title="flush刷新写队列"></a>flush刷新写队列</h3><p>不管调用<code>channel.flush()</code>，还是<code>ctx.flush()</code>，最终都会落地到pipeline中的head节点</p>
+<ol>
+<li>调用<code>current()</code>先拿到第一个需要flush的节点的数据</li>
+<li>拿到自旋锁的迭代次数</li>
+<li>自旋的方式将ByteBuf写出到JDK NIO的Channel</li>
+<li>节点的数据已经写入完毕，接下来就需要删除该节点（逻辑上的删除，只是将flushedEntry指针移到下个节点）</li>
+<li>最后调用 <code>recycle</code>方法，将当前节点回收</li>
+</ol>
+<h3 id="WriteAndFlush总结"><a href="#WriteAndFlush总结" class="headerlink" title="WriteAndFlush总结"></a>WriteAndFlush总结</h3><ul>
+<li>pipeline中的编码器原理是创建一个ByteBuf,将java对象转换为ByteBuf，然后再把ByteBuf继续向前传递</li>
+<li>调用write方法并没有将数据写到Socket缓冲区中，而是写到了一个单向链表的数据结构中，flush才是真正的写出</li>
+<li>writeAndFlush等价于先将数据写到netty的缓冲区，再将netty缓冲区中的数据写到Socket缓冲区中，写的过程与并发编程类似，用自旋锁保证写成功</li>
+<li>netty中的缓冲区中的ByteBuf为DirectByteBuf</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/05/kubernetes容器编排系统/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -3314,424 +3677,6 @@ public class ChessyCounter{
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/23/网络/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Cao Shuyue">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Alpaca's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/02/23/网络/" itemprop="url">网络</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-23T11:54:52+08:00">
-                2019-02-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="HTTP-无状态的协议-HTTPS"><a href="#HTTP-无状态的协议-HTTPS" class="headerlink" title="HTTP(无状态的协议)/HTTPS"></a>HTTP(无状态的协议)/HTTPS</h3><p><strong>1. 两者区别？</strong></p>
-<ol>
-<li>HTTP是不安全的，HTTPS是安全的</li>
-<li>OSI模型中，HTTP在应用层，HTTPS的安全传输机制在传输层</li>
-<li>HTTP无法加密，HTTPS对传输的数据进行加密</li>
-<li>HTTP不用证书，而HTTPS需要CA机构颁发的SSL证书</li>
-</ol>
-<p>HTTPS就是HTTP加上加密处理（一般是SSL安全通信线路）+认证+消息完整性保护</p>
-<p><strong>2. HTTPS工作原理</strong></p>
-<p><em>双向认证 SSL 协议的具体通讯过程，服务器和用户双方必须都有证书</em></p>
-<ol>
-<li>客户端发起HTTPS请求，服务器返回自己的证书、对称加密算法种类等信息</li>
-<li>客户端判断服务器的CA证书是否由信任的CA中心签发，是则验证证书中的信息，不是则询问是否继续访问</li>
-<li>客户端发送客户端证书，服务器进行相同的身份认证</li>
-<li>服务器选择一种加密方案，使用<strong>客户端公钥</strong>加密后通知客户端</li>
-<li>客户端通过<strong>私钥</strong>解密后得知服务器选择的加密方案，选择一个<strong>通话秘钥key</strong>，用<strong>服务器公钥</strong>加密后发给服务器</li>
-<li>服务器收到后用<strong>私钥</strong>解密，获得通话秘钥key</li>
-<li>接下来的数据传输都用该<strong>对称秘钥key</strong>进行加密</li>
-</ol>
-<p><em>通过非对称秘钥机制保证双方身份认证，完成建立连接，在实际数据通信中通过对称秘钥机制保障数据安全性</em></p>
-<ul>
-<li>双向认证<ul>
-<li>有两个或两个以上的证书，一个是服务端证书，另一个或多个是客户端证书。</li>
-<li>一般用于企业应用对接</li>
-</ul>
-</li>
-<li>单向认证<ul>
-<li>客户端保存着服务端的证书并信任该证书即可</li>
-<li>https一般是单向认证，这样可以让绝大部分人都可以访问你的站点。</li>
-</ul>
-</li>
-</ul>
-<p><strong>3. GET与POST方法的区别？</strong></p>
-<ol>
-<li>GET重点在从服务器获取资源，POST重点在向服务器发送数据</li>
-<li>get传输数据是通过URL请求，以field（字段）= value的形式，置于URL后，并用”?”连接，多个请求数据间用”&amp;”连接，如<a href="http://127.0.0.1/Test/login.action?name=admin&amp;password=admin" target="_blank" rel="noopener">http://127.0.0.1/Test/login.action?name=admin&amp;password=admin</a> 这个过程用户是可见的；<br>post传输数据通过Http的post机制，将字段与对应值封存在请求实体中发送给服务器，这个过程对用户是不可见的；</li>
-<li>POST比GET更安全</li>
-<li>GET产生一个TCP数据包，浏览器会把http header和data一并发送出去，服务器响应200（返回数据）；而POST产生两个，浏览器先发送header，服务器响应100 continue，浏览器再发送data，服务器响应200 ok（返回数据）。</li>
-</ol>
-<p><strong>4. forward和redirect的区别</strong></p>
-<ul>
-<li><strong>转发forward：</strong> 是服务器请求资源,服务器直接访问目标地址的URL,把那个URL的响应内容读取过来,然后把这些内容再发给浏览器<ul>
-<li>浏览器不知道服务器发送的内容从哪里来,因为这个跳转过程在服务器实现，所以客户端并不知道这个跳转动作，它的地址栏还是原来的地址</li>
-</ul>
-</li>
-<li><p><strong>重定向：</strong> 服务端根据逻辑,发送一个状态码,告诉浏览器重新去请求那个地址.所以地址栏显示的是新的URL</p>
-</li>
-<li><p><strong>转发是服务器行为，重定向是客户端行为。</strong></p>
-</li>
-</ul>
-<p><strong>5. HTTP常见状态码</strong></p>
-<ul>
-<li>1xx:表示服务器已接收了客户端请求，客户端可继续发送请求<ul>
-<li>100：继续，允许客户端继续发送</li>
-<li>101：转换协议</li>
-</ul>
-</li>
-<li>2xx:成功状态码<ul>
-<li>200：OK</li>
-<li>202：接受，请求还未处理完</li>
-</ul>
-</li>
-<li>3xx:要完成请求，需要进一步操作。 通常，这些状态代码用来<strong>重定向</strong><ul>
-<li>300：多重选择，表示被请求的文件可以在多个地方得到</li>
-</ul>
-</li>
-<li>4xx：用户指定客户端的错误<ul>
-<li>400：错误请求，语法错误</li>
-<li>401：未授权</li>
-<li>403：禁止，表示除非拥有授权，否则服务器拒绝提供所请求的资源</li>
-<li>404：无法找到资源</li>
-</ul>
-</li>
-<li>5xx:用户指定服务器错误<ul>
-<li>500：服务器内部错误</li>
-<li>502：错误的网关</li>
-<li>504：网关超时</li>
-</ul>
-</li>
-</ul>
-<h4 id="RESTful架构"><a href="#RESTful架构" class="headerlink" title="RESTful架构"></a>RESTful架构</h4><ul>
-<li><strong>特点</strong><ul>
-<li>用URL描述资源</li>
-<li>使用HTTP方法描述行为。使用HTTP状态码来表示不同的结果</li>
-<li>使用json交互数据</li>
-<li>是一种风格</li>
-<li>面向资源</li>
-</ul>
-</li>
-</ul>
-<h3 id="WebSocket"><a href="#WebSocket" class="headerlink" title="WebSocket"></a>WebSocket</h3><ul>
-<li>只需要服务器和浏览器通过HTTP协议进行一个握手的动作，然后单独建立一条TCP的通信通道进行数据的传送</li>
-<li>长连接</li>
-<li>WebSocket API是 HTML5 标准的一部分</li>
-</ul>
-<h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><ul>
-<li>浏览器、服务器建立TCP连接，三次握手。这是通信的基础，传输控制层，若失败后续都不执行。</li>
-<li>TCP连接成功后，浏览器通过<strong>HTTP协议</strong>向服务器传送WebSocket支持的版本号等信息。<strong>（开始前的HTTP握手）</strong></li>
-<li>服务器收到客户端的握手请求后，<strong>同样采用HTTP协议</strong> 回馈数据。</li>
-<li>当收到了连接成功的消息后，<strong>通过TCP通道进行传输通信</strong></li>
-</ul>
-<h4 id="与Http的联系"><a href="#与Http的联系" class="headerlink" title="与Http的联系"></a>与Http的联系</h4><ul>
-<li><strong>相同点：</strong><ul>
-<li>都基于TCP，都是可靠性传输协议</li>
-<li>都是应用层协议</li>
-</ul>
-</li>
-<li><strong>不同点：</strong><ul>
-<li>WebSocket是<strong>双向通信协议(全双工)</strong> ，模拟Socket协议，可以双向发送或接受信息。HTTP是单向的。</li>
-<li>WebSocket是需要握手进行建立连接的</li>
-</ul>
-</li>
-<li>WebSocket在建立握手时，数据是通过HTTP传输的。但是建立之后，在真正传输时候是不需要HTTP协议的。</li>
-</ul>
-<h4 id="与socket的联系"><a href="#与socket的联系" class="headerlink" title="与socket的联系"></a>与socket的联系</h4><ul>
-<li><strong>socket</strong><ul>
-<li>是位于应用层和传输控制层之间(会话层)的一组接口，是为了方便使用TCP或UDP而抽象出来的一层</li>
-<li>门面模式，把复杂的TCP/IP协议族隐藏在Socket接口后面</li>
-</ul>
-</li>
-<li>当两台主机通信时，必须通过Socket连接</li>
-<li>Socket是传输控制层协议，WebSocket是应用层协议</li>
-</ul>
-<h3 id="TCP-UDP（传输层）"><a href="#TCP-UDP（传输层）" class="headerlink" title="TCP / UDP（传输层）"></a>TCP / UDP（传输层）</h3><p><strong>1. TCP三次握手过程</strong></p>
-<ol>
-<li>主机A发送SYN包(同步序列号)到服务器 <em>(SYN_SENT)</em>，等待B确认</li>
-<li>B收到后确认A的SYN <em>(SYN_RCVD)</em>，同时自己也发送一个SYN+ACK包 <em>(ESTABLISHED)</em></li>
-<li>A收到SYN+ACK包后，向B发送ACK包 <em>(ESTABLISHED)</em>。完成三次握手，开始传输数据</li>
-</ol>
-<ol start="4">
-<li>三次握手特点：没有应用层的数据</li>
-<li>三次握手漏洞：<ul>
-<li>SYN FLOOD攻击：DDoS攻击，数据报特征是大量syn包，并且缺少最后一步的ACK回复。<ul>
-<li>解决办法：<ul>
-<li>无效连接监控：半开连接数和不活动连接数到达一定值时候，就释放系统资源</li>
-<li>延缓TCB方法</li>
-<li>Syn Cookie：用一种特殊的算法生成sequence number，算法考虑到对方的信息和己方信息，收到对方的ACK报文后，验证之后才决定是否生成TCB</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-<p><strong>2. TCP关闭：四次握手</strong></p>
-<ol>
-<li>A将FIN控制位置为1 <em>(FIN_WAIT_1)</em>，提出停止TCP的请求 <em>(CLOSE_WAIT)</em></li>
-<li>B收到后对其作出响应，将ACK置为1</li>
-<li>B将FIN置为1 <em>(FIN_WAIT_2)</em>，提出反方向的关闭请求  <em>(LAST_ACK)</em></li>
-<li>A对B的请求进行确认 <em>(TIME_WAIT)</em>，将ACK置为1  <em>(CLOSED)</em></li>
-</ol>
-<p><strong><code>TIME_WAIT 状态是在服务端发送FIN，客户回复ACK后,为什么需要2MSL时间(报文最大生存时间)？</code></strong></p>
-<ul>
-<li>为了保证最后一个ACK因丢失，而等待重发的时间</li>
-<li>保证残留网络报不会被新连接接收而产生数据错乱。保证所有残留的网络报在自己关闭前都已经超时</li>
-</ul>
-<p><strong>3. TCP头部</strong></p>
-<ol>
-<li>16位 源端口</li>
-<li>16位 目标端口</li>
-<li>32位 序列号</li>
-<li>32位 确认号</li>
-<li>4位 头部长度：指示何处数据开始</li>
-<li>16位 窗口大小</li>
-<li>16位 校验和</li>
-<li>16位 紧急指针</li>
-</ol>
-<p><strong>4. TCP如何保证可靠性传输</strong></p>
-<ol>
-<li>将数据截成合理长度</li>
-<li>超时重发</li>
-<li>推迟验证(对于收到的请求会给出确认响应，响应前会进行完整校验)<ul>
-<li>如果收到的检验和有差错，TCP将丢弃这个报文，并且不确认收到此报文段。然后发送数据端会超时重发</li>
-</ul>
-</li>
-<li>对失序数据进行重排序</li>
-<li>丢弃重复数据</li>
-<li>流量控制<ul>
-<li>TCP连接的每一方都有固定大小的缓冲空间。TCP的接收端只允许另一端发送接收端缓冲区所能接纳的数据。</li>
-</ul>
-</li>
-</ol>
-<p><strong>5.TCP粘包问题</strong></p>
-<ol>
-<li>粘包问题：发送方发送的若干包数据到接收方接收时粘成一包，从缓冲区来看，后一包的头紧接着前一包数据的尾<ul>
-<li>可能发生的场景：需要在连接后一段时间内发送不同结构数据</li>
-<li>出现原因<ul>
-<li>发送端需要等缓冲区满才发送出去，造成粘包</li>
-<li>接收方不及时接收缓冲区的包，造成多个包接收</li>
-</ul>
-</li>
-<li><strong>不是所有的粘包现象都需要处理，若传输的数据为不带结构的连续流数据（如文件传输），则不必把粘连的包分开（简称分包）。</strong></li>
-</ul>
-</li>
-<li>解决措施：<ul>
-<li>对于发送方引起的粘包：编程设置，使用TCP强制数据立即传送的指令（但是关闭了优化算法）</li>
-<li>对于接收方引起的粘包：优化程序设计，提高接收进程优先级等（但是无法完全避免粘包现象）</li>
-<li>由接收方控制，将一包数据按结构字段，人为控制分多次接收然后合并（效率极低）</li>
-</ul>
-</li>
-<li><strong>nagle算法</strong><ul>
-<li>为了尽可能发送大块数据,避免网络中充斥着许多小数据块。</li>
-<li>将多次间隔较小、数据量小的数据，合并成一个大的数据块，然后进行封包</li>
-</ul>
-</li>
-</ol>
-<p><strong>6. TCP流量控制/拥塞控制</strong></p>
-<ul>
-<li>流量控制：滑动窗口<ul>
-<li>让发送方的发送速率不要太快，要让接收方来得及接收</li>
-</ul>
-</li>
-<li>拥塞控制：防止过多的数据注入到网络中，这样可以使网络中的路由器或链路不致过载<ul>
-<li>拥塞：对资源的需求超过了可用资源，造成网络性能降低</li>
-<li>慢开始：由小到大逐渐增大拥塞窗口数值(发送方的发送窗口=拥塞窗口)</li>
-<li>拥塞避免算法：比慢开始算法的拥塞窗口增长速率缓慢<ul>
-<li>一旦出现拥塞，将窗口大小立即置为1，执行慢开始算法</li>
-</ul>
-</li>
-<li>快重传和快恢复<ul>
-<li>接收方每收到一个失序的报文段后就立即发出重复确认</li>
-<li>发送方只要一连收到三个重复确认就应当立即重传对方尚未收到的报文段，而不必等重传计时器到期</li>
-<li>当发送方连续收到三个重复确认，就执行“乘法减小”算法，把慢开始门限减半，把拥塞窗口设置为慢开始门限减半后的数值，并执行拥塞避免算法</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<p><strong>7. TCP和UDP区别</strong></p>
-<ol>
-<li>面向连接与无连接</li>
-<li>对系统资源的要求(TCP较多，UDP少)</li>
-<li>面向字节流和面向报文</li>
-<li>TCP提供流量控制/拥塞控制，UDP无拥塞控制</li>
-<li>TCP仅支持一对一</li>
-<li>TCP保证数据正确性，UDP可能丢包，TCP保证数据顺序，UDP不保证</li>
-</ol>
-<p><code>UDP适应于对实时要求较高、不允许有较大时延的情况，如航空信息应用。</code></p>
-<h4 id="TCP-IP的四个层次"><a href="#TCP-IP的四个层次" class="headerlink" title="TCP/IP的四个层次"></a>TCP/IP的四个层次</h4><ul>
-<li><strong>网络接口层：</strong> 最底层，负责接收IP数据报并通过网络发送之，或者从网络上接收物理帧，抽出IP数据报，交给IP层。</li>
-<li><strong>网络层：</strong> 负责相邻计算机之间的通信<ul>
-<li>处理来自传输层的<em>分组发送请求</em>，收到请求后，将分组装入IP数据报，填充报头，选择去往信宿机的路径，然后将数据报发往适当的网络接口</li>
-<li>处理输入数据报：首先检查其合法性，然后进行寻径——假如该数据报已到达信宿机，则去掉报头，将剩下部分交给适当的传输协议；假如该数据报尚未到达信宿，则转发该数据报</li>
-<li>处理路径、流控、拥塞问题</li>
-</ul>
-</li>
-<li><strong>传输层：</strong> 提供应用程序间的通信<ul>
-<li>格式化信息流</li>
-<li>提供可靠传输：必须确认，丢失重发</li>
-</ul>
-</li>
-<li><strong>应用层：</strong> 向用户提供一组常用的应用程序，比如电子邮件、文件传输访问、远程登录</li>
-<li>eg:<ul>
-<li>应用层将一串应用数据流传送给传输层</li>
-<li>传输层将应用层的数据流截成分组，并加上TCP报头形成TCP段，送交网络层</li>
-<li>网络层给TCP段加上包括源、目的主机IP地址的IP报头，生成一个IP数据包，并将IP数据包送交给链路层</li>
-<li>链路层在其MAC帧的数据部分装上IP数据包，再加上源、目的主机的MAC地址和帧头，并根据其目的MAC地址，将MAC帧发往目的主机或IP路由器</li>
-<li>在目的主机，链路层将MAC帧的帧头去掉，并将IP数据包送交给网络层</li>
-<li>网络层检查IP报头，如果报头中校验和与计算结果不一致，则丢弃该IP数据包；若校验和与计算结果一致，则去掉IP报头，将TCP段送交传输层</li>
-<li>传输层检查顺序号，判断是否是正确的TCP分组，然后检查TCP报头数据。如正确，则向源主机发确认信息；若不正确或丢包，则向源主机要求重发信息</li>
-<li>在目的主机，传输层去掉TCP报头，将排好顺序的分组组成应用数据流送给应用程序</li>
-</ul>
-</li>
-</ul>
-<h4 id="RPC框架"><a href="#RPC框架" class="headerlink" title="RPC框架"></a>RPC框架</h4><ul>
-<li>像调用本地的函数一样去调远程函数，基于TCP</li>
-<li>SOA 面向服务的架构</li>
-</ul>
-<p><img src="https://image.qinjiangbo.com/blog/image/rpc-architecture.jpg" alt="icon"></p>
-<h3 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h3><p><strong>1. 从输入URL到页面加载发生了什么？</strong></p>
-<ol>
-<li>DNS解析：<ul>
-<li>浏览器缓存 → 操作系统缓存 → 本地hosts文件 → 本地DNS服务器 → 递归搜索UDP协议( . -&gt; .com -&gt; google.com. -&gt; <a href="http://www.google.com.。" target="_blank" rel="noopener">www.google.com.。</a>)</li>
-</ul>
-</li>
-<li>TCP连接</li>
-<li>发送http请求，服务器返回一个重定向地址</li>
-<li>浏览器跟踪重定向地址</li>
-<li>服务器处理http请求并返回http报文</li>
-<li>浏览器解析、渲染页面</li>
-</ol>
-<h3 id="Session-Cookie"><a href="#Session-Cookie" class="headerlink" title="Session / Cookie"></a>Session / Cookie</h3><ul>
-<li>Session是在服务端保存的一个数据结构，用来跟踪用户的状态，这个数据可以保存在集群、数据库、文件中<ul>
-<li>服务器在创建了Session的同时，会为该Session生成唯一的Session id，而这个Session id在随后的请求中会被用来重新获得已经创建的Session；在Session被创建之后，就可以调用Session相关的方法往Session中增加内容了，而这些内容只会保存在服务器中，发到客户端的只有Session id；当客户端再次发送请求的时候，会将这个Session id带上，服务器接受到请求之后就会依据Session id找到相应的Session，从而再次使用之。正式这样一个过程，用户的状态也就得以保持了。</li>
-</ul>
-</li>
-<li>Cookie是客户端保存用户信息的一种机制，用来记录用户的一些信息，也是实现Session的一种方式<ul>
-<li>第一次创建Session的时候，服务端会在HTTP协议中告诉客户端，需要在 Cookie 里面记录一个Session ID，以后每次请求把这个会话ID发送到服务器</li>
-<li>常见应用场景：自动登录</li>
-<li>安全性较低，以明文形式存放在浏览器中</li>
-</ul>
-</li>
-<li>cookie增多会增加网络带宽，session增多会占用服务器性能</li>
-<li><strong>cookie被禁用？</strong><ul>
-<li>URL重写</li>
-<li>每次HTTP交互，URL后面都会被附加上一个诸如 sid=xxxxx 这样的参数</li>
-</ul>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -3782,7 +3727,7 @@ public class ChessyCounter{
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
