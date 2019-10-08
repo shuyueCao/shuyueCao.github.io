@@ -737,7 +737,7 @@
 </li>
 <li><strong>controller manager</strong>：负责执行各种控制器，目前有两类<ul>
 <li>Endpoint Controller：定期关联service和pod(关联信息由endpoint对象维护)，保证service到pod的映射总是最新的。</li>
-<li>eplication Controller：定期关联replicationController和pod，保证replicationController定义的副本数量与实际运行pod的数量总是一致的。</li>
+<li>Replication Controller：定期关联replicationController和pod，保证replicationController定义的副本数量与实际运行pod的数量总是一致的。</li>
 </ul>
 </li>
 </ul>
@@ -789,7 +789,7 @@
 <p>kubernetes的service就是用来解决这个问题的核心概念。一个service可以看作一组<strong>提供相同服务的pod</strong>的对外访问接口。Service作用于哪些pod是通过label selector 来定义的。</p>
 <ul>
 <li>pod的IP地址是docker daemon根据docker0网桥的IP地址段进行分配的，但service的Cluster IP地址是kubernetes系统中的<strong>虚拟IP地址</strong>，由系统<strong>动态分配</strong>。</li>
-<li>ervice的ClusterIP地址相对于pod的IP地址来说相对稳定，service被创建时即被分配IP地址，在销毁该service之前，这个IP地址都不会再变化。</li>
+<li>service的ClusterIP地址相对于pod的IP地址来说相对稳定，service被创建时即被分配IP地址，在销毁该service之前，这个IP地址都不会再变化。</li>
 <li>由于service对象在Cluster IP Range池中分配到的IP只能在内部访问，所以其他pod都可以无障碍地访问到它。但如果这个service作为前端服务，准备为集群外的客户端提供服务，我们就需要给这个服务提供公共IP了。 </li>
 </ul>
 <h4 id="Volume-存储卷"><a href="#Volume-存储卷" class="headerlink" title="Volume(存储卷)"></a>Volume(存储卷)</h4><ul>
@@ -1053,7 +1053,7 @@
 <li><code>@KafkaListener</code>注解由<code>KafkaListenerAnnotationBeanPostProcessor</code>类解析，后者实现了<code>BeanPostProcessor</code>接口</li>
 <li>接口内部有<code>2</code>个方法，分别在<code>bean</code>初始化前后被调用。<ul>
 <li><code>KafkaListenerAnnotationBeanPostProcessor</code></li>
-<li><code></code>postProcessAfterInitialization`</li>
+<li><code>postProcessAfterInitialization</code></li>
 </ul>
 </li>
 </ul>
@@ -2719,6 +2719,7 @@
 </ul>
 </li>
 <li>Repeatable read (可重复读)：可避免脏读、不可重复读的发生。<ul>
+<li><strong>MySQL默认隔离级别</strong></li>
 <li>三级封锁协议：一级封锁协议加上事务T在读取数据R之前必须先对其加S锁，直到事务结束才释放</li>
 </ul>
 </li>

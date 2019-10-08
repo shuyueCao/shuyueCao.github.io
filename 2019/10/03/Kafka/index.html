@@ -91,7 +91,7 @@
 <meta property="og:image" content="http://xstarcd.github.io/wiki/img/kafka/anatomy_of_a_topic.png">
 <meta property="og:image" content="https://img-blog.csdn.net/20170107212450867?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMzU3MzEzMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
 <meta property="og:image" content="https://img-blog.csdn.net/20160620014329074">
-<meta property="og:updated_time" content="2019-10-04T14:09:36.276Z">
+<meta property="og:updated_time" content="2019-10-08T10:45:04.744Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Kafka">
 <meta name="twitter:description" content="Kafka架构和原理简介Kafka是一种高性能跨语言的，分布式的，基于发布/订阅的消息系统。主要设计目标如下：  以时间复杂度为O(1)的方式提供消息持久化能力，并保证即使对TB级以上数据也能保证常数时间的访问性能 高吞吐率。即使在非常廉价的商用机器上也能做到单机支持每秒100K条消息的传输 支持Kafka Server间的消息分区，及分布式消息消费，同时保证每个partition内的消息顺序传输">
@@ -469,7 +469,7 @@
 <li><code>@KafkaListener</code>注解由<code>KafkaListenerAnnotationBeanPostProcessor</code>类解析，后者实现了<code>BeanPostProcessor</code>接口</li>
 <li>接口内部有<code>2</code>个方法，分别在<code>bean</code>初始化前后被调用。<ul>
 <li><code>KafkaListenerAnnotationBeanPostProcessor</code></li>
-<li><code></code>postProcessAfterInitialization`</li>
+<li><code>postProcessAfterInitialization</code></li>
 </ul>
 </li>
 </ul>
