@@ -579,6 +579,7 @@
 <li>writeAndFlush等价于先将数据写到netty的缓冲区，再将netty缓冲区中的数据写到Socket缓冲区中，写的过程与并发编程类似，用自旋锁保证写成功</li>
 <li>netty中的缓冲区中的ByteBuf为DirectByteBuf</li>
 </ul>
+<h2 id="Netty-UDP丢包问题思考（Linux下）"><a href="#Netty-UDP丢包问题思考（Linux下）" class="headerlink" title="Netty UDP丢包问题思考（Linux下）"></a>Netty UDP丢包问题思考（Linux下）</h2><p><a href="https://www.jianshu.com/p/22b0f89937ef" target="_blank" rel="noopener">https://www.jianshu.com/p/22b0f89937ef</a></p>
 
           
         
@@ -1963,6 +1964,30 @@
 </li>
 <li>如果目标对象没有实现了接口，<code>必须采用CGLIB库</code>，spring会自动在JDK动态代理和CGLIB之间转换</li>
 </ol>
+<h1 id="异常"><a href="#异常" class="headerlink" title="异常"></a>异常</h1><p><img src="https://upload-images.jianshu.io/upload_images/8100269-16e3cde22155e7b9.png?imageMogr2/auto-orient/strip|imageView2/2/w/600/format/webp" alt="icon"></p>
+<h2 id="Exception"><a href="#Exception" class="headerlink" title="Exception"></a>Exception</h2><p>有两个分支，一个是运行时异常RuntimeException，一个是检查异常CheckedException</p>
+<h3 id="RuntimeException"><a href="#RuntimeException" class="headerlink" title="RuntimeException"></a>RuntimeException</h3><ul>
+<li>是那些可能在 Java 虚拟机正常运行期间抛出的异常的超类。</li>
+<li>一般包含以下几个方面<ul>
+<li>错误的类型转换</li>
+<li>数组访问越界</li>
+<li>访问空指针</li>
+</ul>
+</li>
+<li>如果出现RuntimeException，那么一定是程序员的错误</li>
+<li>在定义方法时不需要声明会抛出RuntimeException， 在调用这个方法时不需要捕获这个RuntimeException</li>
+</ul>
+<h3 id="CheckedException"><a href="#CheckedException" class="headerlink" title="CheckedException"></a>CheckedException</h3><ul>
+<li>一般是<strong>外部错误</strong>，这种异常都发生在编译阶段，Java编译器会强制程序去捕获此类异常，即会出现要求你把这段可能出现异常的程序进行try catch</li>
+<li>一般包含以下几个方面<ul>
+<li>试图在文件尾部读取数据</li>
+<li>试图打开一个错误格式的URL</li>
+<li>试图根据给定的字符串查找class对象，而这个字符串表示的类并不存在</li>
+</ul>
+</li>
+<li>定义方法时必须声明所有可能会抛出的exception； 在调用这个方法时，必须捕获它的checked exception，不然就得把它的exception传递下去</li>
+</ul>
+<p><strong>一个方法必须声明所有的可能抛出的受检异常；未检查异常要么不可控制（Error），要么应该避免（RuntimeException）。如果方法没有声明所有的可能发生的受检异常，编译器就会给出错误信息。</strong></p>
 
           
         
@@ -3181,15 +3206,36 @@
 <li><strong>threadFactory：线程工厂，用来创建线程</strong></li>
 </ul>
 </li>
-<li><strong>相关类</strong><ul>
-<li>ThreadPoolExecutor</li>
-<li>ScheduledThreadPoolExecutor</li>
+<li><strong>拒绝策略</strong><ul>
+<li>ThreadPoolExecutor.AbortPolicy：丢弃任务并抛出RejectedExecutionException异常。</li>
+<li>ThreadPoolExecutor.DiscardPolicy：也是丢弃任务，但是不抛出异常。</li>
+<li>ThreadPoolExecutor.DiscardOldestPolicy：丢弃队列最前面的任务，然后重新尝试执行任务（重复此过程）</li>
+<li>ThreadPoolExecutor.CallerRunsPolicy：由调用线程处理该任务</li>
+</ul>
+</li>
+<li><strong>ThreadPoolExecutor</strong><ul>
+<li><strong>FixedThreadPool</strong>：维持固定nThreads个线程的线程池<ul>
+<li>使用无界的异步阻塞队列LinkedBlockingQueue作为任务队列。</li>
+</ul>
+</li>
+<li><strong>CachedThreadPool</strong>：维持最少0、最多<code>Integer.MAX_VALUE</code>个线程的线程池<ul>
+<li>限制线程可缓存60s，超时销毁</li>
+<li>使用无界的同步队列SynchronousQueue作为任务队列。</li>
+</ul>
+</li>
+<li><strong>SingleThreadExecutor</strong>：维持固定1个线程的FixedThreadPool。</li>
+<li><strong>ScheduledThreadPoolExecutor</strong>：维持固定corePoolSize个线程的线程池<ul>
+<li>使用无界的延迟队列DelayedWorkQueue作为任务队列。</li>
+</ul>
+</li>
+<li><strong>SingleThreadScheduledExecutor</strong>：维持固定1个线程的ScheduledThreadPool。</li>
 </ul>
 </li>
 </ul>
 <h2 id="ThreadLocal"><a href="#ThreadLocal" class="headerlink" title="ThreadLocal"></a>ThreadLocal</h2><ul>
 <li>用于线程间的数据隔离</li>
 <li>使用ThreadLocal维护变量时，ThreadLocal为每个使用该变量的线程提供独立的变量副本，所以每一个线程都可以独立地改变自己的副本，而不会影响其它线程所对应的副本</li>
+<li>内部使用ThreadLocalMap实现</li>
 </ul>
 <h2 id="Wait-Notify-NotifyAll"><a href="#Wait-Notify-NotifyAll" class="headerlink" title="Wait/Notify/NotifyAll"></a>Wait/Notify/NotifyAll</h2><ul>
 <li>wait( )，notify( )，notifyAll( )都不属于Thread类，而是属于Object基础类<ul>
