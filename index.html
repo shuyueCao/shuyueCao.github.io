@@ -353,8 +353,8 @@
 </li>
 <li><strong>使用方便</strong></li>
 <li><strong>高性能，吞吐量更高</strong>：延迟更低；减少资源消耗；最小化不必要的内存复制(零拷贝)。<ul>
-<li><strong>零拷贝</strong>：不需要将数据 buffer 从一个内存区域拷贝到另一个内存区域<ul>
-<li>ByteBuf使用直接(堆外)内存，不需要进行字节缓冲区的二次拷贝</li>
+<li><strong>零拷贝</strong>：不需要将数据 buffer 从用户空间拷贝到内存区域<ul>
+<li>ByteBuf使用直接(堆外)内存，不需要从堆内存拷贝到直接内存</li>
 <li>CompositeByteBuf 类可以将多个 ByteBuf 合并为一个逻辑上的 ByteBuf, 避免了传统通过内存拷贝的方式将几个小Buffer合并成一个大的Buffer。</li>
 <li>通过 FileRegion 包装的FileChannel.tranferTo方法 实现文件传输, 可以直接将文件缓冲区的数据发送到目标 Channel，避免了传统通过循环write方式导致的内存拷贝问题。</li>
 <li>通过 wrap 操作, 我们可以将 byte[] 数组、ByteBuf、ByteBuffer等包装成一个 Netty ByteBuf 对象, 进而避免了拷贝操作</li>
@@ -529,6 +529,16 @@
 <li>两种方式发送数据：<ul>
 <li>把数据直接写入Channel，那么数据流会从Channel的头开始传递</li>
 <li>把数据写入ChannelHandlerContext，数据流会流入管道中的下一个Handler</li>
+</ul>
+</li>
+</ul>
+<h2 id="SimpleChannelInboundHandler"><a href="#SimpleChannelInboundHandler" class="headerlink" title="SimpleChannelInboundHandler"></a>SimpleChannelInboundHandler</h2><ul>
+<li><p>channelRead0()方法，此方法接收到的可能是一些数据片段，比如服务器发送了5个字节数据，Client端不能保证一次全部收到，比如第一次收到3个字节，第二次收到2个字节。</p>
+</li>
+<li><p><strong>为什么客户端使用SimpleChannelInboundHandler而服务端使用ChannelInboundHandlerAdapter？</strong></p>
+<ul>
+<li>SimpleChannelInboundHandler在接收到数据后会自动release掉数据占用的Bytebuffer资源(自动调用Bytebuffer.release())</li>
+<li>何服务器端不能用是因为我们想让服务器把客户端请求的数据发送回去，而服务器端有可能在channelRead方法返回前还没有写完数据，因此不能让它自动release。</li>
 </ul>
 </li>
 </ul>
