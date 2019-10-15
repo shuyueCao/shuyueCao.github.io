@@ -79,20 +79,21 @@
 
 
 
-<meta name="description" content="线程创建线程 继Thread类 实现Runnable接口 实现Callable接口(比runnable多一个返回值)  Java不支持多继承，但可以实现多个接口。  start()方法会启动一个新线程，并包含run()方法。而run()只会执行run方法，不会启动新线程  线程池 为什么要用线程池？ 降低消耗。降低创建和销毁线程造成的消耗 提高响应速度。任务到达时，任务可以不需要等到线程创建就能立">
+<meta name="description" content="线程创建线程 继Thread类 实现Runnable接口 实现Callable接口(比runnable多一个返回值)  Java不支持多继承，但可以实现多个接口。  start()方法会启动一个新线程，并包含run()方法。而run()只会执行run方法，不会启动新线程  线程的状态  初始态new：创建一个Thread对象，但还未调用start()启动线程时，线程处于初始态。 运行态runnab">
 <meta name="keywords" content="面试">
 <meta property="og:type" content="article">
 <meta property="og:title" content="java多线程">
 <meta property="og:url" content="http://yoursite.com/2019/02/28/java多线程/index.html">
 <meta property="og:site_name" content="Alpaca&#39;s Blog">
-<meta property="og:description" content="线程创建线程 继Thread类 实现Runnable接口 实现Callable接口(比runnable多一个返回值)  Java不支持多继承，但可以实现多个接口。  start()方法会启动一个新线程，并包含run()方法。而run()只会执行run方法，不会启动新线程  线程池 为什么要用线程池？ 降低消耗。降低创建和销毁线程造成的消耗 提高响应速度。任务到达时，任务可以不需要等到线程创建就能立">
+<meta property="og:description" content="线程创建线程 继Thread类 实现Runnable接口 实现Callable接口(比runnable多一个返回值)  Java不支持多继承，但可以实现多个接口。  start()方法会启动一个新线程，并包含run()方法。而run()只会执行run方法，不会启动新线程  线程的状态  初始态new：创建一个Thread对象，但还未调用start()启动线程时，线程处于初始态。 运行态runnab">
 <meta property="og:locale" content="Java">
+<meta property="og:image" content="https://pic1.zhimg.com/80/v2-6fdc939e35ec801c31ea515e80a88367_hd.jpg">
 <meta property="og:image" content="https://img-blog.csdn.net/2018031320183899?watermark/2/text/Ly9ibG9nLmNzZG4ubmV0L3JlbndlaTI4OTQ0Mw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
-<meta property="og:updated_time" content="2019-10-13T03:18:01.202Z">
+<meta property="og:updated_time" content="2019-10-15T05:02:59.788Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java多线程">
-<meta name="twitter:description" content="线程创建线程 继Thread类 实现Runnable接口 实现Callable接口(比runnable多一个返回值)  Java不支持多继承，但可以实现多个接口。  start()方法会启动一个新线程，并包含run()方法。而run()只会执行run方法，不会启动新线程  线程池 为什么要用线程池？ 降低消耗。降低创建和销毁线程造成的消耗 提高响应速度。任务到达时，任务可以不需要等到线程创建就能立">
-<meta name="twitter:image" content="https://img-blog.csdn.net/2018031320183899?watermark/2/text/Ly9ibG9nLmNzZG4ubmV0L3JlbndlaTI4OTQ0Mw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+<meta name="twitter:description" content="线程创建线程 继Thread类 实现Runnable接口 实现Callable接口(比runnable多一个返回值)  Java不支持多继承，但可以实现多个接口。  start()方法会启动一个新线程，并包含run()方法。而run()只会执行run方法，不会启动新线程  线程的状态  初始态new：创建一个Thread对象，但还未调用start()启动线程时，线程处于初始态。 运行态runnab">
+<meta name="twitter:image" content="https://pic1.zhimg.com/80/v2-6fdc939e35ec801c31ea515e80a88367_hd.jpg">
 
 
 
@@ -342,6 +343,96 @@
 <p>Java不支持多继承，但可以实现多个接口。</p>
 <ul>
 <li>start()方法会启动一个新线程，并包含run()方法。而run()只会执行run方法，不会启动新线程</li>
+</ul>
+<h2 id="线程的状态"><a href="#线程的状态" class="headerlink" title="线程的状态"></a>线程的状态</h2><p><img src="https://pic1.zhimg.com/80/v2-6fdc939e35ec801c31ea515e80a88367_hd.jpg" alt="icon"></p>
+<ul>
+<li><strong>初始态new</strong>：创建一个Thread对象，但还未调用start()启动线程时，线程处于初始态。</li>
+<li><strong>运行态runnable</strong><ul>
+<li><strong>就绪态</strong>：线程已经获得执行所需要的资源，只需要分配CPU。<ul>
+<li>就绪态的线程都放在就绪队列中</li>
+</ul>
+</li>
+<li><strong>运行态</strong>：获得CPU执行权，正在执行。<ul>
+<li>每个CPU每个时刻只能有一条运行态的线程</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>阻塞态</strong><ul>
+<li>running状态的线程请求某一资源失败时进入阻塞态</li>
+<li>在java中专指请求锁失败的时候进入的状态</li>
+<li>由一个阻塞队列存放所有阻塞态的线程</li>
+<li>一旦请求成功，进入runnable就绪队列等待执行</li>
+</ul>
+</li>
+<li><strong>等待态</strong><ul>
+<li>线程调用wait、join、park函数时进入</li>
+<li>等待队列存放</li>
+<li>需要等待其他线程的通知才能继续运行</li>
+<li>进入等待态的线程会释放CPU执行权，并释放资源（如：锁）</li>
+</ul>
+</li>
+<li><strong>超时等待态</strong><ul>
+<li>运行中的线程调用sleep(time)、wait、join、parkNanos、parkUntil时进入</li>
+<li>和等待态一样是<code>主动进入</code>，进入后需要其他线程唤醒</li>
+<li><strong>与等待态区别</strong>：到了超时时间后自动进入阻塞队列开始竞争锁</li>
+</ul>
+</li>
+<li><p><strong>终止态</strong>：线程执行结束</p>
+</li>
+<li><p>waiting和blocked的区别</p>
+<ul>
+<li>waiting是指线程正在等待其他线程发来的通知（notify），收到通知后可能变为runnable，也可能会再次获取锁，进而被阻塞住</li>
+<li>blocked是指线程正在等待获取锁</li>
+</ul>
+</li>
+<li>synchronized会导致线程进入Blocked状态，Object.wait()导致线程进入Waiting状态，Waiting线程被其他线程调用Object.notify()唤醒之后，重新获取对象上的锁的时候也会进入Blocked状态</li>
+</ul>
+<h3 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h3><ul>
+<li>wait方法会释放<code>CPU执行权</code>和<code>占有的锁</code></li>
+<li>wait和notify必须配套使用，即必须使用同一把锁调用</li>
+<li>wait和notify必须放在一个同步块中</li>
+<li>调用wait和notify的对象必须是他们所处同步块的锁对象</li>
+<li>sleep(time)方法<code>仅释放CPU使用权，锁仍然占用</code>；线程被放入超时等待队列，与yield相比它会使线程较长时间得不到运行</li>
+<li>yield方法<code>仅释放CPU使用权，锁仍然占用</code>，线程会被放入就绪队列，会在短时间内再次执行<ul>
+<li>一个线程执行yield()方法暂停后，CPU决定接下来有哪一个线程执行，可以是其他线程，也可以是原来的那个线程。</li>
+</ul>
+</li>
+<li>join方法：等待调用join()方法的线程执行结束，程序才会继续执行下去<ul>
+<li>这个方法适用于：一个执行程序必须等待另一个线程的执行结果才能够继续运行的情况。</li>
+<li><strong>join()方法只有在start()方法之后才可以生效</strong></li>
+</ul>
+</li>
+</ul>
+<h2 id="线程的interrupt"><a href="#线程的interrupt" class="headerlink" title="线程的interrupt"></a>线程的interrupt</h2><ul>
+<li>在java的线程Thread类中有三个方法<ul>
+<li><strong>interrupt</strong>：置线程的中断状态<ul>
+<li>作用是中断此线程（此线程不一定是当前线程，而是指调用该方法的Thread实例所代表的线程），但实际上只是给线程设置一个<code>中断标志</code>，<strong>线程仍会继续运行</strong>。</li>
+</ul>
+</li>
+<li><strong>isInterrupt</strong>：线程是否中断<ul>
+<li>作用是只测试此线程是否被中断 ，不清除中断状态</li>
+</ul>
+</li>
+<li><strong>interrupted</strong>：返回线程的上次的中断状态，并清除中断状态<ul>
+<li>作用是测试当前线程是否被中断（检查中断标志），返回一个boolean并清除中断状态，第二次再调用时中断状态已经被清除，将返回一个false。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>一般来说，阻塞函数，如：Thread.sleep、Thread.join、Object.wait等在检查到线程的中断状态时，会抛出InterruptedException，同时会清除线程的中断状态<ul>
+<li>对于InterruptedException的处理，可以有两种情况：<ul>
+<li>外层代码可以处理这个异常，直接抛出这个异常即可</li>
+<li>如果不能抛出这个异常，比如在run()方法内，因为在得到这个异常的同时，线程的中断状态已经被清除了，需要保留线程的中断状态，则需要调用Thread.currentThread().interrupt()</li>
+</ul>
+</li>
+<li>Thread.interrupted()在jdk库的源代码中比较常用，因为它既可以得到上一次线程的中断标志值，又可以同时清除线程的中断标志，一举两得，但同时也有坏处，就是这个函数有清除中断状态的副作用，不容易理解。</li>
+</ul>
+</li>
+<li><strong>可以这么理解，通过中断机制也可以实现线程的终止</strong><ul>
+<li>中断机制就是来结束那些阻塞的线程的，因为阻塞线程回去检查中断标志位，又中断就抛异常来结束线程的运行</li>
+</ul>
+</li>
 </ul>
 <h2 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h2><ul>
 <li>为什么要用线程池？<ul>
@@ -835,7 +926,7 @@ public class ChessyCounter{
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#线程"><span class="nav-number">1.</span> <span class="nav-text">线程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建线程"><span class="nav-number">1.1.</span> <span class="nav-text">创建线程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程池"><span class="nav-number">1.2.</span> <span class="nav-text">线程池</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ThreadLocal"><span class="nav-number">1.3.</span> <span class="nav-text">ThreadLocal</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Wait-Notify-NotifyAll"><span class="nav-number">1.4.</span> <span class="nav-text">Wait/Notify/NotifyAll</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#锁的类型"><span class="nav-number">2.</span> <span class="nav-text">锁的类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#乐观锁-悲观锁"><span class="nav-number">2.1.</span> <span class="nav-text">乐观锁/悲观锁</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CAS-CompareAndSwap-算法"><span class="nav-number">2.1.1.</span> <span class="nav-text">CAS(CompareAndSwap)算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#公平锁-非公平锁"><span class="nav-number">2.2.</span> <span class="nav-text">公平锁/非公平锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可重入锁-不可重入锁"><span class="nav-number">2.3.</span> <span class="nav-text">可重入锁/不可重入锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分段锁"><span class="nav-number">2.4.</span> <span class="nav-text">分段锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自旋锁"><span class="nav-number">2.5.</span> <span class="nav-text">自旋锁</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#锁优化"><span class="nav-number">3.</span> <span class="nav-text">锁优化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#synchronized关键字"><span class="nav-number">4.</span> <span class="nav-text">synchronized关键字</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用方式"><span class="nav-number">4.1.</span> <span class="nav-text">使用方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM对synchronized关键字的优化（状态）"><span class="nav-number">4.2.</span> <span class="nav-text">JVM对synchronized关键字的优化（状态）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#与LOCK的区别"><span class="nav-number">4.3.</span> <span class="nav-text">与LOCK的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ReenTrantLock"><span class="nav-number">4.4.</span> <span class="nav-text">ReenTrantLock</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#volatile"><span class="nav-number">4.5.</span> <span class="nav-text">volatile</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#作用"><span class="nav-number">4.5.1.</span> <span class="nav-text">作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#与synchronized区别"><span class="nav-number">4.5.2.</span> <span class="nav-text">与synchronized区别</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#BIO-NIO-AIO"><span class="nav-number">5.</span> <span class="nav-text">BIO/NIO/AIO</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基础概念"><span class="nav-number">5.1.</span> <span class="nav-text">基础概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三者区别"><span class="nav-number">5.2.</span> <span class="nav-text">三者区别</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#线程"><span class="nav-number">1.</span> <span class="nav-text">线程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建线程"><span class="nav-number">1.1.</span> <span class="nav-text">创建线程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程的状态"><span class="nav-number">1.2.</span> <span class="nav-text">线程的状态</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#tips"><span class="nav-number">1.2.1.</span> <span class="nav-text">tips</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程的interrupt"><span class="nav-number">1.3.</span> <span class="nav-text">线程的interrupt</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程池"><span class="nav-number">1.4.</span> <span class="nav-text">线程池</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ThreadLocal"><span class="nav-number">1.5.</span> <span class="nav-text">ThreadLocal</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Wait-Notify-NotifyAll"><span class="nav-number">1.6.</span> <span class="nav-text">Wait/Notify/NotifyAll</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#锁的类型"><span class="nav-number">2.</span> <span class="nav-text">锁的类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#乐观锁-悲观锁"><span class="nav-number">2.1.</span> <span class="nav-text">乐观锁/悲观锁</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CAS-CompareAndSwap-算法"><span class="nav-number">2.1.1.</span> <span class="nav-text">CAS(CompareAndSwap)算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#公平锁-非公平锁"><span class="nav-number">2.2.</span> <span class="nav-text">公平锁/非公平锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可重入锁-不可重入锁"><span class="nav-number">2.3.</span> <span class="nav-text">可重入锁/不可重入锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分段锁"><span class="nav-number">2.4.</span> <span class="nav-text">分段锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自旋锁"><span class="nav-number">2.5.</span> <span class="nav-text">自旋锁</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#锁优化"><span class="nav-number">3.</span> <span class="nav-text">锁优化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#synchronized关键字"><span class="nav-number">4.</span> <span class="nav-text">synchronized关键字</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用方式"><span class="nav-number">4.1.</span> <span class="nav-text">使用方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM对synchronized关键字的优化（状态）"><span class="nav-number">4.2.</span> <span class="nav-text">JVM对synchronized关键字的优化（状态）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#与LOCK的区别"><span class="nav-number">4.3.</span> <span class="nav-text">与LOCK的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ReenTrantLock"><span class="nav-number">4.4.</span> <span class="nav-text">ReenTrantLock</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#volatile"><span class="nav-number">4.5.</span> <span class="nav-text">volatile</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#作用"><span class="nav-number">4.5.1.</span> <span class="nav-text">作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#与synchronized区别"><span class="nav-number">4.5.2.</span> <span class="nav-text">与synchronized区别</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#BIO-NIO-AIO"><span class="nav-number">5.</span> <span class="nav-text">BIO/NIO/AIO</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基础概念"><span class="nav-number">5.1.</span> <span class="nav-text">基础概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三者区别"><span class="nav-number">5.2.</span> <span class="nav-text">三者区别</span></a></li></ol></li></ol></div>
             
 
           </div>

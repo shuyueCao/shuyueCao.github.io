@@ -88,7 +88,7 @@
 <meta property="og:description" content="Java反射机制 What?  动态加载对象，并对对象进行剖析 在运行状态中，对于任意一个类，都能知道它的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法 动态获取信息以及动态调用对象方法的功能称为Java反射机制   example 123Class c1 = Code.class;//这说明任何一个类都有一个隐含的静态成员变量class，这种方式是通过获取类的静态成员变量class">
 <meta property="og:locale" content="Java">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/8100269-16e3cde22155e7b9.png?imageMogr2/auto-orient/strip|imageView2/2/w/600/format/webp">
-<meta property="og:updated_time" content="2019-10-11T14:37:10.324Z">
+<meta property="og:updated_time" content="2019-10-15T02:26:49.514Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java基础">
 <meta name="twitter:description" content="Java反射机制 What?  动态加载对象，并对对象进行剖析 在运行状态中，对于任意一个类，都能知道它的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法 动态获取信息以及动态调用对象方法的功能称为Java反射机制   example 123Class c1 = Code.class;//这说明任何一个类都有一个隐含的静态成员变量class，这种方式是通过获取类的静态成员变量class">
@@ -446,6 +446,68 @@
 <li>定义方法时必须声明所有可能会抛出的exception； 在调用这个方法时，必须捕获它的checked exception，不然就得把它的exception传递下去</li>
 </ul>
 <p><strong>一个方法必须声明所有的可能抛出的受检异常；未检查异常要么不可控制（Error），要么应该避免（RuntimeException）。如果方法没有声明所有的可能发生的受检异常，编译器就会给出错误信息。</strong></p>
+<h2 id="Throwable类常用方法"><a href="#Throwable类常用方法" class="headerlink" title="Throwable类常用方法"></a>Throwable类常用方法</h2><ul>
+<li><strong>public string getMessage()</strong>：返回异常发生时的详细信息</li>
+<li><strong>public string toString()</strong>：返回异常发生时的简要描述</li>
+<li><strong>public string getLocalizedMessage()</strong>：返回异常对象的本地化信息。<ul>
+<li>使用Throwable的子类覆盖这个方法，可以声称本地化信息。</li>
+<li>如果子类没有覆盖该方法，则该方法返回的信息与getMessage（）返回的结果相同</li>
+</ul>
+</li>
+<li><strong>public void printStackTrace()</strong>：在控制台上打印Throwable对象封装的异常信息</li>
+</ul>
+<h1 id="、equal和hashcode"><a href="#、equal和hashcode" class="headerlink" title="==、equal和hashcode"></a>==、equal和hashcode</h1><h2 id=""><a href="#" class="headerlink" title="=="></a>==</h2><p>它的作用是判断两个对象的地址是不是相等。即，判断两个对象是不是同一个对象。<strong>(基本数据类型==比较的是值，引用数据类型==比较的是内存地址)</strong></p>
+<h2 id="equal"><a href="#equal" class="headerlink" title="equal"></a>equal</h2><p>它的作用也是判断两个对象是否相等。但它一般有两种使用情况：</p>
+<ul>
+<li>类没有覆盖 equals() 方法。则通过 equals() 比较该类的两个对象时，等价于通过“==”比较这两个对象。</li>
+<li>类覆盖了 equals() 方法。一般，我们都覆盖 equals() 方法来两个对象的内容相等；若它们的内容相等，则返回 true (即，认为这两个对象相等)。</li>
+</ul>
+<h2 id="hashcode"><a href="#hashcode" class="headerlink" title="hashcode"></a>hashcode</h2><p>hashCode() 的作用是获取哈希码，也称为散列码；它实际上是返回一个int整数。这个哈希码的作用是确定该对象在哈希表中的索引位置。hashCode() 定义在JDK的Object.java中，这就意味着Java中的任何类都包含hashCode() 函数。</p>
+<ul>
+<li><strong>为什么要有hashcode？</strong><ul>
+<li>以hashSet为例<ul>
+<li>当你把对象加入 HashSet 时，HashSet 会先计算对象的 hashcode 值来判断对象加入的位置，同时也会与其他已经加入的对象的 hashcode 值作比较，如果没有相符的hashcode，HashSet会假设对象没有重复出现。</li>
+<li>但是如果发现有相同 hashcode 值的对象，这时会调用 equals（）方法来检查 hashcode 相等的对象是否真的相同。如果两者相同，HashSet 就不会让其加入操作成功。如果不同的话，就会重新散列到其他位置。</li>
+</ul>
+</li>
+<li>大大减少了 equals 的次数，相应就大大提高了执行速度。</li>
+</ul>
+</li>
+<li><strong>与equals的区别</strong><ul>
+<li>如果两个对象equals相等，那么他们的hashcode一定相等</li>
+<li>如果两个对象的hashcode相等，它们的equals不一定相等</li>
+<li>如果两个对象的hashcode不相等，他们的equals一定不相等</li>
+<li><strong>因此，equals 方法被覆盖过，则 hashCode 方法也必须被覆盖</strong></li>
+</ul>
+</li>
+</ul>
+<h1 id="final关键字"><a href="#final关键字" class="headerlink" title="final关键字"></a>final关键字</h1><p>final关键字主要用在三个地方：变量、方法、类。</p>
+<ul>
+<li><strong>final变量</strong><ul>
+<li>基本数据类型的变量，则其数值一旦在初始化之后便不能更改</li>
+<li>引用类型的变量，则在对其初始化之后便不能再让其指向另一个对象</li>
+</ul>
+</li>
+<li><strong>final修饰类</strong><ul>
+<li>表明这个类不能被继承</li>
+<li>final类中的所有成员方法都会被隐式地指定为final方法</li>
+</ul>
+</li>
+<li><strong>final方法</strong><ul>
+<li>使用final方法的原因<ul>
+<li>是把方法锁定，以防任何继承类修改它的含义</li>
+<li>效率</li>
+</ul>
+</li>
+<li>类中所有的private方法都隐式地指定为final</li>
+</ul>
+</li>
+</ul>
+<h1 id="Transient关键字"><a href="#Transient关键字" class="headerlink" title="Transient关键字"></a>Transient关键字</h1><ul>
+<li>transient关键字的作用是：阻止实例中那些用此关键字修饰的变量序列化</li>
+<li>当对象被反序列化时，被transient修饰的变量值不会被持久化和恢复</li>
+<li>transient只能修饰变量，不能修饰类和方法</li>
+</ul>
 
       
     </div>
@@ -620,7 +682,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java反射机制"><span class="nav-number">1.</span> <span class="nav-text">Java反射机制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#优缺点"><span class="nav-number">1.1.</span> <span class="nav-text">优缺点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用场景"><span class="nav-number">1.2.</span> <span class="nav-text">使用场景</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Java代理机制"><span class="nav-number">2.</span> <span class="nav-text">Java代理机制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#动态代理"><span class="nav-number">2.1.</span> <span class="nav-text">动态代理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#JDK代理"><span class="nav-number">2.1.1.</span> <span class="nav-text">JDK代理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CGLIB动态代理"><span class="nav-number">2.1.2.</span> <span class="nav-text">CGLIB动态代理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring中两者使用场景"><span class="nav-number">2.1.3.</span> <span class="nav-text">Spring中两者使用场景</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#异常"><span class="nav-number">3.</span> <span class="nav-text">异常</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Exception"><span class="nav-number">3.1.</span> <span class="nav-text">Exception</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RuntimeException"><span class="nav-number">3.1.1.</span> <span class="nav-text">RuntimeException</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CheckedException"><span class="nav-number">3.1.2.</span> <span class="nav-text">CheckedException</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java反射机制"><span class="nav-number">1.</span> <span class="nav-text">Java反射机制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#优缺点"><span class="nav-number">1.1.</span> <span class="nav-text">优缺点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用场景"><span class="nav-number">1.2.</span> <span class="nav-text">使用场景</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Java代理机制"><span class="nav-number">2.</span> <span class="nav-text">Java代理机制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#动态代理"><span class="nav-number">2.1.</span> <span class="nav-text">动态代理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#JDK代理"><span class="nav-number">2.1.1.</span> <span class="nav-text">JDK代理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CGLIB动态代理"><span class="nav-number">2.1.2.</span> <span class="nav-text">CGLIB动态代理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring中两者使用场景"><span class="nav-number">2.1.3.</span> <span class="nav-text">Spring中两者使用场景</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#异常"><span class="nav-number">3.</span> <span class="nav-text">异常</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Exception"><span class="nav-number">3.1.</span> <span class="nav-text">Exception</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RuntimeException"><span class="nav-number">3.1.1.</span> <span class="nav-text">RuntimeException</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CheckedException"><span class="nav-number">3.1.2.</span> <span class="nav-text">CheckedException</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Throwable类常用方法"><span class="nav-number">3.2.</span> <span class="nav-text">Throwable类常用方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#、equal和hashcode"><span class="nav-number">4.</span> <span class="nav-text">==、equal和hashcode</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#"><span class="nav-number">4.1.</span> <span class="nav-text">==</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#equal"><span class="nav-number">4.2.</span> <span class="nav-text">equal</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hashcode"><span class="nav-number">4.3.</span> <span class="nav-text">hashcode</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#final关键字"><span class="nav-number">5.</span> <span class="nav-text">final关键字</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Transient关键字"><span class="nav-number">6.</span> <span class="nav-text">Transient关键字</span></a></li></ol></div>
             
 
           </div>
